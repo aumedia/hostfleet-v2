@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-const { title = "HostFleet — Ship AI Apps. Everywhere.", description = "Independent benchmarks and reviews of AI infrastructure. Where to host inference, edge apps, and AI-generated sites in 2026.", canonical } = Astro.props;
+const { title = "HostFleet — Ship AI Apps. Everywhere.", description = "Independent benchmarks and reviews of AI infrastructure. Where to host inference, edge apps, and AI-generated sites in 2026.", canonical, image } = Astro.props;
 const url = canonical ?? new URL(Astro.url.pathname, Astro.site ?? "https://hostfleet.net").toString();
 ---
 <!doctype html>
@@ -13,14 +13,15 @@ const url = canonical ?? new URL(Astro.url.pathname, Astro.site ?? "https://host
     <link rel="canonical" href={url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image ?? new URL("/og-default.png", Astro.site).toString()}>
+  <meta property="og:url" content={url} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://rsms.me" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     <!-- GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
-    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-PLACEHOLDER",{anonymize_ip:true});</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2SWWQV9BJ"></script>
+    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-W2SWWQV9BJ",{anonymize_ip:true});</script>
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-[var(--color-border)] bg-[var(--color-bg)]/80 backdrop-blur sticky top-0 z-10">

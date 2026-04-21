@@ -1,32 +1,52 @@
 ---
-import Layout from "../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
 export async function getStaticPaths() {
-  let posts = [];
-  try { posts = await getCollection("posts"); } catch {}
-  return posts.map(p => ({ params: { slug: p.id }, props: { post: p } }));
+  const posts = await getCollection("posts");
+  return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
 }
+
 const { post } = Astro.props;
 const { Content } = await render(post);
-const ld = {
-  "@context":"https://schema.org",
-  "@type":"Article",
-  "headline": post.data.title,
-  "description": post.data.description,
-  "datePublished": post.data.pubDate,
-  "author": { "@type":"Person", "name": post.data.author ?? "Alex Harmon", "jobTitle":"Senior Infrastructure Analyst" },
-  "publisher": { "@type":"Organization", "name":"HostFleet" }
+const { title, description, pubDate, updatedDate, author, category } = post.data;
+
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImage = new URL("/og-default.png", Astro.site).toString();
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: {
+    "@type": "Person",
+    name: author,
+    jobTitle: "Senior Infrastructure Analyst",
+    url: new URL("/about/", Astro.site).toString(),
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "HostFleet",
+    url: Astro.site?.toString(),
+  },
+  mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  image: ogImage,
+  articleSection: category,
 };
 ---
-<Layout title={`${post.data.title} — HostFleet`} description={post.data.description}>
-  <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose prose-invert">
-    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] not-prose">{post.data.category ?? "guide"} · {new Date(post.data.pubDate).toISOString().slice(0,10)}</div>
-    <h1>{post.data.title}</h1>
-    <p class="text-[var(--color-text-dim)] text-lg !mt-2">{post.data.description}</p>
-    <hr class="border-[var(--color-border)]" />
-    <Content />
-    <hr class="border-[var(--color-border)] mt-12" />
-    <p class="text-sm text-[var(--color-text-dim)]">By {post.data.author ?? "Alex Harmon"}, Senior Infrastructure Analyst. Reviewed against live deployment data on {new Date(post.data.pubDate).toISOString().slice(0,10)}.</p>
-    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+<Layout title={`${title} — HostFleet`} description={description} image={ogImage}>
+  <article class="max-w-3xl mx-auto px-6 py-16">
+    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] mb-4">{category}</div>
+    <h1 class="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">{title}</h1>
+    <div class="mt-4 font-mono text-sm text-[var(--color-text-dim)]">
+      By {author} · <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</time>
+    </div>
+    <div class="mt-10 prose-invert text-[var(--color-text)] leading-relaxed [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:my-5 [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_a]:text-[var(--color-accent)] [&_a:hover]:underline [&_code]:font-mono [&_code]:text-sm [&_code]:bg-[var(--color-surface)] [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_pre]:bg-[var(--color-surface)] [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_table]:w-full [&_table]:my-6 [&_table]:border-collapse [&_th]:border [&_th]:border-[var(--color-border)] [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:bg-[var(--color-surface)] [&_td]:border [&_td]:border-[var(--color-border)] [&_td]:px-3 [&_td]:py-2 [&_hr]:my-10 [&_hr]:border-[var(--color-border)] [&_strong]:font-semibold [&_strong]:text-white [&_em]:text-[var(--color-text-dim)]">
+      <Content />
+    </div>
   </article>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 </Layout>
