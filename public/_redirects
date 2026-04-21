@@ -1,1 +1,7 @@
-# 301s for deindexed legacy paths populated post-migration
+# Deleted fabricated benchmark articles (2026-04-21) — redirect to honest replacements
+/lovable-app-5-hosts/ /where-to-deploy-lovable-bolt-v0-apps/ 301
+/lovable-app-5-hosts /where-to-deploy-lovable-bolt-v0-apps/ 301
+/runpod-modal-fal-llama-inference/ /serverless-gpu-pricing-matrix-2026/ 301
+/runpod-modal-fal-llama-inference /serverless-gpu-pricing-matrix-2026/ 301
+/cold-start-latency-showdown/ /serverless-gpu-pricing-matrix-2026/ 301
+/cold-start-latency-showdown /serverless-gpu-pricing-matrix-2026/ 301
