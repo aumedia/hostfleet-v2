@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 let posts = [];
 try { posts = await getCollection("posts"); } catch {}
-posts = posts.filter(p => !p.data.draft).sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
+posts = posts.filter(p => !p.data.draft && !p.data.legacy).sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
 const featured = posts.slice(0, 3);
 const rest = posts.slice(3, 12);
 ---
