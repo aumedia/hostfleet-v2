@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hostfleet.net/sitemap-index.xml

@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0a0b;
+  --color-surface: #111114;
+  --color-surface-2: #17171c;
+  --color-border: #232329;
+  --color-text: #e6e6ea;
+  --color-text-dim: #9b9ba3;
+  --color-accent: #7cf48a;
+  --color-accent-2: #5aa8ff;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+html { background: var(--color-bg); color: var(--color-text); font-family: var(--font-sans); }
+body { background: var(--color-bg); }
+::selection { background: var(--color-accent); color: #000; }
+a { color: var(--color-accent-2); }
+a:hover { color: var(--color-accent); }
+code, pre, .mono { font-family: var(--font-mono); }
+.prose { color: var(--color-text); }
+.prose h1,.prose h2,.prose h3 { color:#fff; letter-spacing:-0.01em; }
+.prose h2 { border-bottom: 1px solid var(--color-border); padding-bottom:.4rem; margin-top:2.4rem; }
+.prose a { color: var(--color-accent-2); text-decoration: underline; text-underline-offset: 3px; }
+.prose pre { background:#08080a; border:1px solid var(--color-border); border-radius:6px; padding:1rem; overflow:auto; }
+.prose code { background:#08080a; padding:0.1rem 0.35rem; border-radius:4px; font-size:.92em; }
+.prose blockquote { border-left:3px solid var(--color-accent); padding-left:1rem; color: var(--color-text-dim); }

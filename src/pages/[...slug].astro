@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+export async function getStaticPaths() {
+  let posts = [];
+  try { posts = await getCollection("posts"); } catch {}
+  return posts.map(p => ({ params: { slug: p.id }, props: { post: p } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const ld = {
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "datePublished": post.data.pubDate,
+  "author": { "@type":"Person", "name": post.data.author ?? "Alex Harmon", "jobTitle":"Senior Infrastructure Analyst" },
+  "publisher": { "@type":"Organization", "name":"HostFleet" }
+};
+---
+<Layout title={`${post.data.title} — HostFleet`} description={post.data.description}>
+  <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose prose-invert">
+    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] not-prose">{post.data.category ?? "guide"} · {new Date(post.data.pubDate).toISOString().slice(0,10)}</div>
+    <h1>{post.data.title}</h1>
+    <p class="text-[var(--color-text-dim)] text-lg !mt-2">{post.data.description}</p>
+    <hr class="border-[var(--color-border)]" />
+    <Content />
+    <hr class="border-[var(--color-border)] mt-12" />
+    <p class="text-sm text-[var(--color-text-dim)]">By {post.data.author ?? "Alex Harmon"}, Senior Infrastructure Analyst. Reviewed against live deployment data on {new Date(post.data.pubDate).toISOString().slice(0,10)}.</p>
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </article>
+</Layout>
