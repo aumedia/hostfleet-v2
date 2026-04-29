@@ -1,3 +1,7 @@
+# Caller stub — defers to the shared reusable Claude workflow.
+# Canonical source: Develguru/.github/.github/workflows/claude.yml
+# (mirrored to aumedia/.github automatically).
+
 name: Claude Code
 
 on:
@@ -16,47 +20,8 @@ jobs:
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
-      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
-    runs-on: [self-hosted, claude]
-    permissions:
-      contents: write
-      pull-requests: write
-      issues: write
-      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Run Claude Code
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          claude_args: --model ${{ vars.CLAUDE_MODEL }}
-          base_branch: main
-      - name: Open PR if Claude created a branch
-        if: ${{ success() && (github.event_name == 'issues' || github.event_name == 'issue_comment') && !github.event.issue.pull_request }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-        run: |
-          set -eo pipefail
-          # Look for a branch Claude just pushed for this event.
-          branch=$(git ls-remote --heads origin 'claude/issue-'"$ISSUE_NUMBER"'-*' | awk '{print $2}' | sed 's|refs/heads/||' | sort | tail -1)
-          if [ -z "$branch" ]; then
-            echo "No claude/issue-$ISSUE_NUMBER-* branch found; Claude likely made no changes."
-            exit 0
-          fi
-          echo "Found branch: $branch"
-          # Skip if a PR for this branch already exists.
-          if gh pr list --repo "$GITHUB_REPOSITORY" --head "$branch" --state open --json number --jq 'length' | grep -q '^[1-9]'; then
-            echo "PR already exists for $branch"
-            exit 0
-          fi
-          gh pr create             --repo "$GITHUB_REPOSITORY"             --base "$DEFAULT_BRANCH"             --head "$branch"             --title "$ISSUE_TITLE"             --body $'Opened automatically from issue #'"$ISSUE_NUMBER"$'.
-
-Closes #'"$ISSUE_NUMBER"$'.'
-
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude') || (github.event.action == 'assigned' && github.event.assignee.login == 'claude')))
+    uses: aumedia/.github/.github/workflows/claude.yml@main
+    with:
+      model: ${{ vars.CLAUDE_MODEL }}
+    secrets: inherit
