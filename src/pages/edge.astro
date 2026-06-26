@@ -7,10 +7,22 @@ posts = posts.filter(p => !p.data.draft && p.data.category === 'edge');
 posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
 ---
 <Layout title="Edge & modern deployment — HostFleet" description="Vercel, Cloudflare, Netlify, Fly — edge runtimes for AI-driven web apps.">
-  <section class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+  <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
     <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">edge</div>
     <h1 class="text-4xl font-semibold tracking-tight mt-2">Edge & modern deployment</h1>
-    <p class="mt-3 text-[var(--color-text-dim)] text-lg">Vercel, Cloudflare, Netlify, Fly — edge runtimes for AI-driven web apps.</p>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Where the web shell around an AI app lives: frontend hosting, edge runtimes, bandwidth limits, runtime traps, and the platform tradeoffs that appear after the demo works.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-2">
+      <a href="/cf-pages-vs-vercel-vs-netlify-2026/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">start here</div>
+        <div class="mt-2 text-lg font-semibold">Cloudflare Pages vs Vercel vs Netlify</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">The best first read if your real problem is which frontend host to trust with an AI product.</div>
+      </a>
+      <a href="/where-to-deploy-lovable-bolt-v0-apps/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">builder handoff</div>
+        <div class="mt-2 text-lg font-semibold">Where Lovable, Bolt, and v0 apps actually land</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Use this when the app started in an AI builder and now needs a real deployment path.</div>
+      </a>
+    </div>
     <ul class="mt-10 divide-y divide-[var(--color-border)]">
       {posts.map(p => (
         <li class="py-5">
@@ -23,5 +35,10 @@ posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
       ))}
       {posts.length === 0 && (<li class="py-5 text-[var(--color-text-dim)] font-mono text-sm">No posts yet — first benchmarks publishing this week.</li>)}
     </ul>
+    <div class="mt-12 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Next path</div>
+      <div class="mt-2 text-xl font-semibold">Need to harden the app, not just place it?</div>
+      <p class="mt-3 text-sm text-[var(--color-text-dim)]">Move into <a href="/deploy-ai-apps/">Deploy AI Apps</a> for production footguns, or back to <a href="/ai-hosting/">AI Hosting</a> if the bigger question is the backend or model infrastructure.</p>
+    </div>
   </section>
 </Layout>

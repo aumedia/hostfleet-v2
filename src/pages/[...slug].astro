@@ -3,13 +3,33 @@ import { getCollection, render } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
+  const posts = (await getCollection("posts")).filter((p) => !p.data.draft);
   return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const { title, description, pubDate, updatedDate, author, category } = post.data;
+const { title, description, pubDate, updatedDate, author, category, legacy } = post.data;
+const relatedPosts = (await getCollection("posts"))
+  .filter((p) => !p.data.draft && p.id !== post.id && p.data.category === category)
+  .sort((a, b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate))
+  .slice(0, 3);
+const categoryHubs = {
+  "ai-hosting": "/ai-hosting/",
+  edge: "/edge/",
+  "deploy-ai-apps": "/deploy-ai-apps/",
+  "legacy-wp": "/legacy-hosting/",
+  guide: "/",
+};
+const categoryNames = {
+  "ai-hosting": "AI Hosting",
+  edge: "Edge",
+  "deploy-ai-apps": "Deploy AI Apps",
+  "legacy-wp": "Legacy Hosting",
+  guide: "HostFleet",
+};
+const categoryHref = categoryHubs[category] ?? "/";
+const categoryName = categoryNames[category] ?? "HostFleet";
 
 const url = new URL(Astro.url.pathname, Astro.site).toString();
 const ogImage = new URL("/og-default.png", Astro.site).toString();
@@ -38,6 +58,7 @@ const articleSchema = {
 };
 ---
 <Layout title={`${title} — HostFleet`} description={description} image={ogImage}>
+  {legacy && <Fragment slot="head"><meta name="robots" content="noindex,follow" /></Fragment>}
   <article class="max-w-3xl mx-auto px-6 py-16">
     <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] mb-4">{category}</div>
     <h1 class="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">{title}</h1>
@@ -48,5 +69,25 @@ const articleSchema = {
       <Content />
     </div>
   </article>
+  <section class="max-w-3xl mx-auto px-6 pb-20">
+    <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Continue reading</div>
+      <div class="mt-2 text-xl font-semibold">More from {categoryName}</div>
+      <p class="mt-3 text-sm text-[var(--color-text-dim)]">Use the category hub if you want the fuller cluster, or jump into the closest related reads below.</p>
+      <div class="mt-4">
+        <a href={categoryHref} class="font-mono text-sm text-[var(--color-accent)] hover:underline">Browse {categoryName} →</a>
+      </div>
+      {relatedPosts.length > 0 && (
+        <div class="mt-6 grid gap-4 md:grid-cols-3">
+          {relatedPosts.map((related) => (
+            <a href={`/${related.id}/`} class="block rounded-lg border border-[var(--color-border)] p-4 hover:border-[var(--color-accent)] transition">
+              <div class="font-semibold leading-tight">{related.data.title}</div>
+              <div class="mt-2 text-sm text-[var(--color-text-dim)]">{related.data.description}</div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 </Layout>

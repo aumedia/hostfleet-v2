@@ -4,15 +4,29 @@ import Layout from "../layouts/Layout.astro";
 <Layout title="About HostFleet — methodology">
   <article class="max-w-3xl mx-auto px-6 pt-16 pb-24 prose">
     <h1>About</h1>
-    <p>HostFleet is an independent review site focused on the platforms developers and AI builders actually deploy to in 2026 — GPU inference hosts (Runpod, Modal, Fal, Replicate, Baseten), edge runtimes (Vercel, Cloudflare, Netlify, Fly), and the destinations where AI-generated sites from Lovable, Bolt, and v0 land in production.</p>
+    <p>HostFleet is an independent review site focused on the platforms developers and AI builders actually deploy to in 2026: GPU inference hosts, edge runtimes, AI-builder deployment paths, vector infrastructure, and the lower-level hosting choices behind small AI products.</p>
     <h2>Editor</h2>
     <p><strong>Alex Harmon</strong> — Senior Infrastructure Analyst. Alex is an AI-assisted byline backed by a research and benchmarking pipeline that runs continuous deploys against the platforms we cover.</p>
-    <h2>How we test</h2>
+    <h2>What we publish</h2>
     <ul>
-      <li>Real deploys, not vendor docs. Cold-start, latency, and cost numbers come from live workloads.</li>
-      <li>Identical workload across competitors. We publish the workload definition with each comparison.</li>
-      <li>Re-run on a schedule. Numbers carry the date they were captured.</li>
-      <li>Affiliate disclosure on every page. Some outbound links pay a commission. Methodology and conclusions are not for sale.</li>
+      <li><strong>Measured benchmarks</strong> when HostFleet has a reproducible workload and date-bounded results.</li>
+      <li><strong>Source-backed buying guides</strong> when the honest answer comes from pricing pages, product docs, and published limits rather than from pretending we tested what we did not test.</li>
+      <li><strong>Deployment decision guides</strong> for the messy handoff from AI builders into production hosting.</li>
+    </ul>
+    <h2>How we separate evidence types</h2>
+    <ul>
+      <li>Measured pages say what workload was used, when the data was captured, and what was not measured.</li>
+      <li>Source-backed pages say exactly which vendor docs or pricing pages they rely on, and they do not masquerade as benchmark results.</li>
+      <li>When a conclusion includes estimation or operator judgment, we say so instead of laundering it as telemetry.</li>
+      <li>Affiliate disclosure appears where relevant. Methodology and conclusions are not for sale.</li>
+    </ul>
+    <h2>What we retired</h2>
+    <p>HostFleet no longer operates as a generic shared-hosting or WordPress-affiliate site. Legacy hosting pages are being retired or quarantined because they weaken the AI hosting and deployment mission.</p>
+    <h2>Start with</h2>
+    <ul>
+      <li><a href="/ai-hosting/">AI Hosting</a> for model, GPU, vector, and agent infrastructure.</li>
+      <li><a href="/deploy-ai-apps/">Deploy AI Apps</a> for the Lovable, Bolt, and v0 handoff into production.</li>
+      <li><a href="/edge/">Edge</a> for Cloudflare, Vercel, Netlify, and runtime tradeoffs.</li>
     </ul>
     <h2>Contact</h2>
     <p><a href="mailto:hostfleet@aumedia.sk">hostfleet@aumedia.sk</a></p>

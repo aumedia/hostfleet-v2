@@ -7,10 +7,27 @@ posts = posts.filter(p => !p.data.draft && p.data.category === 'deploy-ai-apps')
 posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
 ---
 <Layout title="Deploy AI-generated sites — HostFleet" description="Where Lovable, Bolt, and v0 outputs actually land in production.">
-  <section class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+  <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
     <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">deploy-ai-apps</div>
     <h1 class="text-4xl font-semibold tracking-tight mt-2">Deploy AI-generated sites</h1>
-    <p class="mt-3 text-[var(--color-text-dim)] text-lg">Where Lovable, Bolt, and v0 outputs actually land in production.</p>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Deployment paths, production traps, and handoff decisions for apps that started in Lovable, Bolt, v0, Cursor, or a similar AI-first workflow.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-3">
+      <a href="/where-to-deploy-lovable-bolt-v0-apps/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">decision guide</div>
+        <div class="mt-2 text-lg font-semibold">Choose the deployment lane first</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Lovable Cloud, Bolt Cloud, Vercel, Cloudflare, Netlify, or GitHub export.</div>
+      </a>
+      <a href="/ai-generated-app-production-footguns/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">production checklist</div>
+        <div class="mt-2 text-lg font-semibold">Catch the failures that show up after launch</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Security, runtime, timeouts, and generated-code failure modes.</div>
+      </a>
+      <a href="/cf-pages-vs-vercel-vs-netlify-2026/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">host choice</div>
+        <div class="mt-2 text-lg font-semibold">Compare the frontend hosts that usually get the code</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Useful when deployment friction is really a platform-pricing or limits problem.</div>
+      </a>
+    </div>
     <ul class="mt-10 divide-y divide-[var(--color-border)]">
       {posts.map(p => (
         <li class="py-5">
@@ -23,5 +40,10 @@ posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
       ))}
       {posts.length === 0 && (<li class="py-5 text-[var(--color-text-dim)] font-mono text-sm">No posts yet — first benchmarks publishing this week.</li>)}
     </ul>
+    <div class="mt-12 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Next path</div>
+      <div class="mt-2 text-xl font-semibold">Need the backend stack behind the app?</div>
+      <p class="mt-3 text-sm text-[var(--color-text-dim)]">Go deeper into <a href="/ai-hosting/">AI Hosting</a> for model, GPU, vector, and agent infrastructure, or into <a href="/edge/">Edge</a> if the real bottleneck is the web runtime.</p>
+    </div>
   </section>
 </Layout>

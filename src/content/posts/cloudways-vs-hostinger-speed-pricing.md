@@ -5,7 +5,7 @@ pubDate: 2026-04-06
 updatedDate: 2026-04-21
 category: legacy-wp
 author: Alex Harmon
-draft: false
+draft: true
 legacy: true
 canonicalUrl: "https://hostfleet.net/cloudways-vs-hostinger-speed-pricing/"
 ---

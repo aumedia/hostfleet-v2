@@ -7,10 +7,32 @@ posts = posts.filter(p => !p.data.draft && p.data.category === 'ai-hosting');
 posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
 ---
 <Layout title="AI model hosting — HostFleet" description="GPU inference, serverless model hosts, cost and latency benchmarks.">
-  <section class="max-w-3xl mx-auto px-6 pt-16 pb-24">
+  <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
     <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">ai-hosting</div>
     <h1 class="text-4xl font-semibold tracking-tight mt-2">AI model hosting</h1>
-    <p class="mt-3 text-[var(--color-text-dim)] text-lg">GPU inference, serverless model hosts, cost and latency benchmarks.</p>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Benchmarks, pricing matrices, and buyer guides for model gateways, serverless GPU hosts, vector infrastructure, and the cheapest sane ways to run small AI backends.</p>
+    <div class="mt-8 grid gap-4 md:grid-cols-2">
+      <a href="/serverless-gpu-pricing-matrix-2026/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">start here</div>
+        <div class="mt-2 text-lg font-semibold">Need GPUs without owning GPUs?</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Compare Runpod, Modal, Fal, Baseten, and Replicate first.</div>
+      </a>
+      <a href="/best-hosting-for-ai-agents-on-a-budget/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">budget agents</div>
+        <div class="mt-2 text-lg font-semibold">Hosting workers, cron jobs, and small agent stacks cheaply</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Use this when “AI hosting” really means orchestration, not local inference.</div>
+      </a>
+      <a href="/openrouter-vs-together-vs-groq-vs-fireworks/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">model gateways</div>
+        <div class="mt-2 text-lg font-semibold">Comparing OpenRouter, Together, Groq, Fireworks, and Cerebras</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Start here if you are choosing per-token APIs instead of renting raw compute.</div>
+      </a>
+      <a href="/vector-database-hosting-small-ai-apps/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
+        <div class="font-mono text-xs text-[var(--color-accent)]">vector infra</div>
+        <div class="mt-2 text-lg font-semibold">When pgvector wins, when Qdrant wins, and when managed vector DB is worth it</div>
+        <div class="mt-2 text-sm text-[var(--color-text-dim)]">A practical path for small RAG apps that do not need enterprise retrieval theater.</div>
+      </a>
+    </div>
     <ul class="mt-10 divide-y divide-[var(--color-border)]">
       {posts.map(p => (
         <li class="py-5">
@@ -23,5 +45,10 @@ posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
       ))}
       {posts.length === 0 && (<li class="py-5 text-[var(--color-text-dim)] font-mono text-sm">No posts yet — first benchmarks publishing this week.</li>)}
     </ul>
+    <div class="mt-12 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Next path</div>
+      <div class="mt-2 text-xl font-semibold">Past infrastructure choice, into deployment shape</div>
+      <p class="mt-3 text-sm text-[var(--color-text-dim)]">If the model or database choice is done and the open question is where the app should actually live, move into <a href="/deploy-ai-apps/">Deploy AI Apps</a> or compare frontend hosts in <a href="/edge/">Edge</a>.</p>
+    </div>
   </section>
 </Layout>
