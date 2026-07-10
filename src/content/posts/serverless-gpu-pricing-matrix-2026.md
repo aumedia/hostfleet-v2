@@ -7,6 +7,8 @@ author: Alex Harmon
 draft: false
 ---
 
+> **This article is a dated snapshot (April 2026).** For current numbers, verified twice weekly, use the [live GPU pricing table](/gpu-pricing/).
+
 If you want to run an LLM, a diffusion model, or any custom inference workload and *not* own the GPU, you are picking between five real options in 2026: Runpod, Modal, Fal.ai, Baseten, and Replicate. This article is a pricing matrix, not a benchmark shootout. Every number comes from the vendor's public pricing page, dated April 2026.
 
 If your real choice is not "which GPU host?" but "should I rent inference at all or keep the backend cheap and CPU-first?", pair this with [Best hosting for AI agents on a budget](https://hostfleet.net/best-hosting-for-ai-agents-on-a-budget/). If you expect to serve models behind an app backend rather than a raw endpoint, the closer follow-up is [RunPod vs Modal vs Replicate for shipping a small inference API](https://hostfleet.net/runpod-vs-modal-vs-replicate-small-inference-api/). And if the frontend is going to live on an edge host while inference stays remote, the runtime companion is [Cloudflare Workers AI vs self-hosted GPU](https://hostfleet.net/cloudflare-workers-ai-vs-self-hosted-gpu/).

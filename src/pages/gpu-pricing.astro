@@ -1,0 +1,127 @@
+---
+import Layout from "../layouts/Layout.astro";
+import pricing from "../data/gpu-pricing.json";
+
+const providers = pricing.providers;
+const gpus = pricing.gpus;
+const updated = pricing.updated;
+
+function cheapest(gpu) {
+  let min = Infinity;
+  for (const pid of Object.keys(gpu.prices)) {
+    const p = gpu.prices[pid];
+    if (p && typeof p.hr === "number" && p.hr < min) min = p.hr;
+  }
+  return min;
+}
+---
+<Layout
+  title={`GPU cloud pricing — live table (updated ${updated}) — HostFleet`}
+  description={`Serverless and dedicated GPU pricing across RunPod, Modal, Fal.ai, Baseten, and Replicate. Every number verified against the vendor's pricing page. Last verified ${updated}.`}
+>
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-24">
+    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">data / live table</div>
+    <h1 class="text-4xl font-semibold tracking-tight mt-2">GPU cloud pricing</h1>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">
+      Hourly rates for renting GPUs across serverless and dedicated providers.
+      Every number is taken from the vendor's public pricing page — no averages, no estimates.
+      Per-second and per-minute rates are converted to hourly equivalents.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-4 items-center font-mono text-xs">
+      <span class="rounded border border-[var(--color-accent)] text-[var(--color-accent)] px-2 py-1">last verified: {updated}</span>
+      <span class="text-[var(--color-text-dim)]">refresh cadence: Mon + Thu</span>
+      <a href="/gpu-pricing.json" class="underline text-[var(--color-text-dim)] hover:text-[var(--color-accent)]">download raw JSON</a>
+    </div>
+
+    <div class="mt-10 overflow-x-auto">
+      <table id="gpu-table" class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-[var(--color-border)] font-mono text-xs text-left">
+            <th class="py-3 pr-4 cursor-pointer select-none" data-sort="name">GPU ↕</th>
+            <th class="py-3 pr-4">VRAM</th>
+            {providers.map((p) => (
+              <th class="py-3 pr-4 cursor-pointer select-none whitespace-nowrap" data-sort={p.id}>
+                <a href={p.source} rel="nofollow noopener" class="hover:text-[var(--color-accent)]">{p.name}</a> ↕
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {gpus.map((g) => {
+            const min = cheapest(g);
+            return (
+              <tr class="border-b border-[var(--color-border)]" data-name={g.name} {...Object.fromEntries(providers.map(p => [`data-${p.id}`, g.prices[p.id]?.hr ?? ""]))}>
+                <td class="py-3 pr-4 font-mono">{g.name}</td>
+                <td class="py-3 pr-4 text-[var(--color-text-dim)]">{g.vram}</td>
+                {providers.map((p) => {
+                  const cell = g.prices[p.id];
+                  if (!cell) return <td class="py-3 pr-4 text-[var(--color-text-dim)]">—</td>;
+                  const isMin = cell.hr === min;
+                  return (
+                    <td class={`py-3 pr-4 whitespace-nowrap ${isMin ? "text-[var(--color-accent)] font-semibold" : ""}`} title={[cell.raw, cell.note].filter(Boolean).join(" · ")}>
+                      ${cell.hr.toFixed(2)}/hr{(cell.raw || cell.note) && <span class="text-[var(--color-text-dim)]">*</span>}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 font-mono text-xs text-[var(--color-text-dim)]">
+      Green = cheapest listed rate for that GPU. * = hover for the vendor's raw per-second/per-minute rate or a caveat. — = the vendor does not list that GPU publicly.
+    </p>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+        <h2 class="font-mono text-sm text-[var(--color-accent)]">// billing models differ — read this before comparing</h2>
+        <ul class="mt-3 space-y-2 text-sm text-[var(--color-text-dim)]">
+          {providers.map((p) => (
+            <li><span class="text-[var(--color-text)] font-mono">{p.name}</span> — {p.billing}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+        <h2 class="font-mono text-sm text-[var(--color-accent)]">// methodology</h2>
+        <p class="mt-3 text-sm text-[var(--color-text-dim)]">
+          Prices are read from each vendor's public pricing page and converted to hourly equivalents
+          (per-second × 3600, per-minute × 60), rounded to cents. "As low as" and committed-use rates are
+          noted but never used in the comparison cells. We verify the whole table twice a week and stamp
+          the date above; the raw JSON with source URLs is downloadable. If a number is wrong, the fix is
+          one verification away — <a href="/about/" class="underline">tell us</a>.
+        </p>
+        <p class="mt-3 text-sm text-[var(--color-text-dim)]">
+          Want cost per workload instead of cost per hour? Use the
+          <a href="/calculators/llm-hosting-cost/" class="underline text-[var(--color-text)]">LLM hosting cost calculator</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function () {
+      const table = document.getElementById("gpu-table");
+      if (!table) return;
+      const tbody = table.querySelector("tbody");
+      let asc = true, lastKey = null;
+      table.querySelectorAll("th[data-sort]").forEach((th) => {
+        th.addEventListener("click", () => {
+          const key = th.dataset.sort;
+          asc = lastKey === key ? !asc : true;
+          lastKey = key;
+          const rows = Array.from(tbody.querySelectorAll("tr"));
+          rows.sort((a, b) => {
+            if (key === "name") {
+              return asc ? a.dataset.name.localeCompare(b.dataset.name) : b.dataset.name.localeCompare(a.dataset.name);
+            }
+            const av = parseFloat(a.dataset[key]) || Infinity;
+            const bv = parseFloat(b.dataset[key]) || Infinity;
+            return asc ? av - bv : bv - av;
+          });
+          rows.forEach((r) => tbody.appendChild(r));
+        });
+      });
+    })();
+  </script>
+</Layout>
