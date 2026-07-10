@@ -207,3 +207,7 @@ That is a better buyer rule than treating every vector database decision like a 
 - Hetzner cloud pricing data - https://www.hetzner.com/_resources/app/data/bench/cloud_data.json
 - HostFleet provider notes - /opt/hostbot/data/ai-hosting/providers.csv
 - HostFleet content calendar - /opt/hostbot/data/content_calendar.csv
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

@@ -228,3 +228,7 @@ The practical order is:
 3. Choose **DigitalOcean 2 GiB or higher** if you are willing to pay more for the easiest mainstream cloud ergonomics.
 
 That is the most defensible way to compare **DigitalOcean vs Hetzner vs Hostinger** for AI side projects without pretending the smallest landing-page number is the same thing as an honest operating floor.
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

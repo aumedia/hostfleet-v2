@@ -279,3 +279,7 @@ That is the honest July 8, 2026 answer to **Modal for AI hosting** without confu
 - HostFleet RunPod vs Modal vs Replicate comparison - /opt/hostbot-v2/src/content/posts/runpod-vs-modal-vs-replicate-small-inference-api.md
 - HostFleet long-running workers guide - /opt/hostbot-v2/src/content/posts/best-hosts-for-long-running-agent-workers.md
 - HostFleet budget AI agents guide - /opt/hostbot-v2/src/content/posts/best-hosting-for-ai-agents-on-a-budget.md
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*

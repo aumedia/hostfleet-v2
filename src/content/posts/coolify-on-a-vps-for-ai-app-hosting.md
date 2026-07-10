@@ -281,3 +281,7 @@ That is the most honest answer I can give to **Coolify AI app hosting** in June 
 - HostFleet provider list - /opt/hostbot/data/ai-hosting/providers.csv
 - HostFleet experiment backlog - /opt/hostbot/data/ai-hosting/experiment-backlog.md
 - HostFleet content calendar - /opt/hostbot/data/content_calendar.csv
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

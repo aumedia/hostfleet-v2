@@ -22,6 +22,7 @@ const url = canonical ?? new URL(Astro.url.pathname, Astro.site ?? "https://host
     <!-- GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2SWWQV9BJ"></script>
     <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-W2SWWQV9BJ",{anonymize_ip:true});</script>
+      <script is:inline>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest('a[href^="/go/"]'):null;if(a&&window.gtag){gtag("event","affiliate_click",{link_slug:a.getAttribute("href"),page:location.pathname});}},true);</script>
   </head>
   <body class="min-h-screen flex flex-col">
     <header class="border-b border-[var(--color-border)] bg-[var(--color-bg)]/80 backdrop-blur sticky top-0 z-10">

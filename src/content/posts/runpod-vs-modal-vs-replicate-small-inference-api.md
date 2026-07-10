@@ -224,3 +224,7 @@ That is the real answer to **RunPod vs Modal vs Replicate** for a small inferenc
 - HostFleet RunPod source note - /opt/hostbot/data/ai-hosting/notes/2026-06-15-runpod-pricing-limits.md
 - HostFleet Modal source note - /opt/hostbot/data/ai-hosting/notes/2026-06-11-modal-pricing-limits.md
 - HostFleet Replicate source note - /opt/hostbot/data/ai-hosting/notes/2026-06-22-replicate-pricing-limits.md
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*

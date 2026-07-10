@@ -82,3 +82,7 @@ If your conclusion is "I do not need raw GPUs yet," move sideways into [OpenRout
 - Fal.ai pricing — https://fal.ai/pricing
 - Baseten pricing — https://www.baseten.co/pricing/
 - Replicate pricing — https://replicate.com/pricing
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*

@@ -256,3 +256,7 @@ If you want the maximum amount of small-stack infrastructure per dollar and you 
 - HostFleet post baseline: Where to deploy your Lovable, Bolt, or v0 app - /opt/hostbot-v2/src/content/posts/where-to-deploy-lovable-bolt-v0-apps.md
 - HostFleet post baseline: What breaks when AI-generated apps hit production - /opt/hostbot-v2/src/content/posts/ai-generated-app-production-footguns.md
 - HostFleet post baseline: Every serverless GPU host compared - /opt/hostbot-v2/src/content/posts/serverless-gpu-pricing-matrix-2026.md
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

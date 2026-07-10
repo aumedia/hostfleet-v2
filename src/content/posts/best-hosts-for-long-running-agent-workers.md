@@ -223,3 +223,7 @@ That is the most defensible answer I can give to best hosts for long running age
 - HostFleet provider matrix - /opt/hostbot/data/ai-hosting/providers.csv
 - HostFleet Railway source note - /opt/hostbot/data/ai-hosting/notes/2026-05-28-railway-pricing-limits.md
 - HostFleet Fly.io source note - /opt/hostbot/data/ai-hosting/notes/2026-06-01-flyio-pricing-limits.md
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

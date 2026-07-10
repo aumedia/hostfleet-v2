@@ -238,3 +238,7 @@ The practical buying order is:
 4. Skip Hetzner first if what you actually want is a managed app platform or a backup story you do not have to think about.
 
 That is the honest July 2026 answer to **Hetzner Cloud for AI side projects** without flattening cheap cloud infrastructure into something it is not.
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

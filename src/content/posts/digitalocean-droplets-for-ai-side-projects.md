@@ -331,3 +331,7 @@ The practical buying order is:
 4. Move to **General Purpose** when you want a more balanced dedicated-CPU production baseline and are willing to pay for it.
 
 That is the most honest way to recommend **DigitalOcean Droplets for AI side projects** without pretending the smallest plan or the cheapest rival is the whole story.
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

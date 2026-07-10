@@ -230,3 +230,7 @@ That is the real buyer answer for June 2026.
 - HostFleet post baseline: Best hosting for AI agents on a budget - /opt/hostbot-v2/src/content/posts/best-hosting-for-ai-agents-on-a-budget.md
 - HostFleet post baseline: What breaks when AI-generated apps hit production - /opt/hostbot-v2/src/content/posts/ai-generated-app-production-footguns.md
 - HostFleet post baseline: Where to deploy your Lovable, Bolt, or v0 app - /opt/hostbot-v2/src/content/posts/where-to-deploy-lovable-bolt-v0-apps.md
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

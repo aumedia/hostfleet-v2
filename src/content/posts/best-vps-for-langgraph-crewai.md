@@ -215,3 +215,7 @@ That is the most defensible answer I can give to **best VPS for LangGraph CrewAI
 - DigitalOcean Droplet pricing - https://www.digitalocean.com/pricing/droplets
 - DigitalOcean choosing a plan - https://docs.digitalocean.com/products/droplets/concepts/choosing-a-plan/
 - HostFleet provider list - /opt/hostbot/data/ai-hosting/providers.csv
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

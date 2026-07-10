@@ -146,3 +146,7 @@ There is no fourth option in this comparison that is meaningfully cheaper withou
 - HostFleet post baseline: Best hosting for AI agents on a budget — /opt/hostbot-v2/src/content/posts/best-hosting-for-ai-agents-on-a-budget.md
 - HostFleet post baseline: Vector database hosting for small AI apps — /opt/hostbot-v2/src/content/posts/vector-database-hosting-small-ai-apps.md
 - HostFleet post baseline: Cheapest place to host n8n, Open WebUI, and Qdrant together — /opt/hostbot-v2/src/content/posts/cheapest-place-to-host-n8n-open-webui-qdrant.md
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](/go/runpod) · [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*

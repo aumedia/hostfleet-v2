@@ -259,3 +259,7 @@ That is the useful way to think about VPS cost for AI side projects on June 24, 
 - HostFleet post baseline: What breaks when AI-generated apps hit production - /opt/hostbot-v2/src/content/posts/ai-generated-app-production-footguns.md
 - HostFleet post baseline: Every serverless GPU host compared - /opt/hostbot-v2/src/content/posts/serverless-gpu-pricing-matrix-2026.md
 
+
+---
+
+*Signing up for something covered here? Using our affiliate links supports HostFleet's testing budget at no extra cost to you: [DigitalOcean](/go/digitalocean). Links are labeled, and source citations in this article are never affiliate links.*
