@@ -43,3 +43,7 @@
 /vps-hosting-for-beginners-2026 /legacy-hosting/ 301
 /web-hosting-speed-comparison-2026/ /legacy-hosting/ 301
 /web-hosting-speed-comparison-2026 /legacy-hosting/ 301
+
+# Affiliate redirects (2026-07-10). vultr = give-$300 variant (better conversion), vultr-std = plain $10 referral.
+/go/vultr https://www.vultr.com/?ref=9908653-9J 302
+/go/vultr-std https://www.vultr.com/?ref=9908652 302
