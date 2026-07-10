@@ -9,6 +9,8 @@ draft: false
 
 If you deploy Astro, Next.js, SvelteKit, or a Vite app in 2026, you almost certainly land on Cloudflare Pages, Vercel, or Netlify. All three have free tiers. None of the free tiers mean the same thing. This article is a side-by-side of what each vendor *actually publishes* on their pricing pages as of April 2026, with links.
 
+If you arrived here because an app started in Lovable, Bolt, or v0, read this together with [Where to deploy your Lovable, Bolt, or v0 app](https://hostfleet.net/where-to-deploy-lovable-bolt-v0-apps/). If the deployment target is already chosen and the bigger risk is the generated code falling over in production, the operational companion is [What breaks when AI-generated apps hit production](https://hostfleet.net/ai-generated-app-production-footguns/). And if you are deciding whether edge inference can replace a dedicated backend, the adjacent workload read is [Cloudflare Workers AI vs self-hosted GPU](https://hostfleet.net/cloudflare-workers-ai-vs-self-hosted-gpu/).
+
 > **Methodology note.** Every number here is sourced from the vendor's own pricing or docs page. I have not re-benchmarked anything — you can click through every figure. Where a vendor uses fuzzy language ("generous limits", "fair use"), I say so.
 
 ## The cheat sheet
@@ -50,6 +52,8 @@ For a team that wants to self-host eventually: **Netlify** remains the most port
 ## What this article deliberately doesn't do
 
 This is a pricing comparison, not a performance one. I have not re-run Lighthouse scores, Core Web Vitals, or cold-start benchmarks across the three, because (a) those results are heavily workload-dependent and (b) every other blog on the internet is already publishing made-up numbers on this. If you want to benchmark for your workload, use [WebPageTest](https://www.webpagetest.org/) on your own deployed URLs and share the public result links — that's the only honest way to do it.
+
+If the answer here is "Cloudflare Pages unless the framework shape forces Vercel," the next question is usually whether the app should stay builder-managed or move into your own stack. That handoff is covered in [How to move an AI-generated app off the builder and into your own stack](https://hostfleet.net/migrate-ai-generated-app-to-own-hosting/) and [Coolify on a VPS for AI app hosting](https://hostfleet.net/coolify-on-a-vps-for-ai-app-hosting/).
 
 ## Sources
 

@@ -6,11 +6,11 @@ try { posts = await getCollection("posts"); } catch {}
 posts = posts.filter(p => !p.data.draft && p.data.category === 'ai-hosting');
 posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
 ---
-<Layout title="AI model hosting — HostFleet" description="GPU inference, serverless model hosts, cost and latency benchmarks.">
+<Layout title="AI hosting & inference — HostFleet" description="GPU inference, model gateways, vector infrastructure, and small AI backend hosting.">
   <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
     <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">ai-hosting</div>
-    <h1 class="text-4xl font-semibold tracking-tight mt-2">AI model hosting</h1>
-    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Benchmarks, pricing matrices, and buyer guides for model gateways, serverless GPU hosts, vector infrastructure, and the cheapest sane ways to run small AI backends.</p>
+    <h1 class="text-4xl font-semibold tracking-tight mt-2">AI hosting & inference</h1>
+    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Benchmarks, pricing matrices, and buyer guides for model gateways, serverless GPU hosts, vector infrastructure, storage, and the cheapest sane ways to run small AI backends.</p>
     <div class="mt-8 grid gap-4 md:grid-cols-2">
       <a href="/serverless-gpu-pricing-matrix-2026/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
         <div class="font-mono text-xs text-[var(--color-accent)]">start here</div>

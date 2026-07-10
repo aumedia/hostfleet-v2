@@ -9,6 +9,8 @@ draft: false
 
 If you want to run an LLM, a diffusion model, or any custom inference workload and *not* own the GPU, you are picking between five real options in 2026: Runpod, Modal, Fal.ai, Baseten, and Replicate. This article is a pricing matrix, not a benchmark shootout. Every number comes from the vendor's public pricing page, dated April 2026.
 
+If your real choice is not "which GPU host?" but "should I rent inference at all or keep the backend cheap and CPU-first?", pair this with [Best hosting for AI agents on a budget](https://hostfleet.net/best-hosting-for-ai-agents-on-a-budget/). If you expect to serve models behind an app backend rather than a raw endpoint, the closer follow-up is [RunPod vs Modal vs Replicate for shipping a small inference API](https://hostfleet.net/runpod-vs-modal-vs-replicate-small-inference-api/). And if the frontend is going to live on an edge host while inference stays remote, the runtime companion is [Cloudflare Workers AI vs self-hosted GPU](https://hostfleet.net/cloudflare-workers-ai-vs-self-hosted-gpu/).
+
 > **Why this matters.** Every AI-infra review on the internet right now is full of hand-wavy "lightning fast!" and "2x cheaper than the competition!" claims. Most are unverifiable. I'd rather give you numbers you can verify yourself in 90 seconds than pretend I ran a 500-hour benchmark I didn't.
 
 ## The matrix — published hourly rates
@@ -66,6 +68,8 @@ None of the below are numbers I measured. They are the numbers each vendor publi
 - No "I ran Llama 3 70B on all 5 providers" table. Those numbers would be dependent on quantization, batch size, tokenizer, and the specific container I built. I'd rather you run the benchmark on your own model.
 - No claim that one vendor is "fastest". They're all fast in some dimension and slow in another.
 - No hidden affiliate links in the body — the vendor links above all go to the official pricing pages, not referral URLs.
+
+If your conclusion is "I do not need raw GPUs yet," move sideways into [OpenRouter vs Together vs Groq vs Fireworks vs Cerebras](https://hostfleet.net/openrouter-vs-together-vs-groq-vs-fireworks/) for per-token APIs, or down into [Vector database hosting for small AI apps](https://hostfleet.net/vector-database-hosting-small-ai-apps/) if the real infrastructure bottleneck is retrieval rather than inference.
 
 ## Sources
 

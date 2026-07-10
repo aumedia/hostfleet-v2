@@ -9,6 +9,8 @@ draft: false
 
 AI app builders exploded in 2024–2025 and have become real productivity tools in 2026. But once you've used Lovable, Bolt, or v0 to ship the first working version of your app, you hit the same question: **where does it actually run?** This guide is a decision tree drawn strictly from what each platform publishes on its website and docs.
 
+If your real blocker is the frontend host rather than the builder itself, keep [Cloudflare Pages vs Vercel vs Netlify](https://hostfleet.net/cf-pages-vs-vercel-vs-netlify-2026/) open beside this. If the code is already live and behaving strangely, the pre-handoff checklist is [What breaks when AI-generated apps hit production](https://hostfleet.net/ai-generated-app-production-footguns/). And if you already know you want to leave the builder entirely, skip ahead to [How to move an AI-generated app off the builder and into your own stack](https://hostfleet.net/migrate-ai-generated-app-to-own-hosting/).
+
 > **No benchmarks here — this is a capabilities matrix.** I'm not claiming "Lovable apps are 40% faster on Vercel than on Cloudflare". Nobody could honestly claim that without publishing a methodology. This is what each platform *supports*, straight from their docs.
 
 ## The three builders at a glance
@@ -83,6 +85,8 @@ This is the part most "AI app builder" reviews skip:
 
 - No speed comparison across the three — that depends on what your app does, not who generated it.
 - No claim that one builder "produces better code". Code quality varies more by prompt than by tool.
+
+The useful sequence is usually: choose the deployment lane here, pressure-test the failure modes in [What breaks when AI-generated apps hit production](https://hostfleet.net/ai-generated-app-production-footguns/), then decide whether the app stays on managed platforms or moves into [Coolify on a VPS for AI app hosting](https://hostfleet.net/coolify-on-a-vps-for-ai-app-hosting/) or another self-managed path.
 
 ## Sources
 

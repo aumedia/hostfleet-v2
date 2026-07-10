@@ -9,6 +9,8 @@ draft: false
 
 AI code generators are good enough in 2026 that thousands of real apps now run code no human wrote from scratch. The question most "is AI coding ready?" posts dodge is the one that actually matters: *what breaks after you ship it?* This article is a catalogue of documented, publicly-discussed failure modes — with links to the issues, threads, and docs where they were reported.
 
+If you are still deciding where the app should run, start with [Where to deploy your Lovable, Bolt, or v0 app](https://hostfleet.net/where-to-deploy-lovable-bolt-v0-apps/). If the code is leaving the builder and entering your own stack, the migration companion is [How to move an AI-generated app off the builder and into your own stack](https://hostfleet.net/migrate-ai-generated-app-to-own-hosting/). And if the hidden problem is not code quality but the host or runtime shape, compare [Cloudflare Pages vs Vercel vs Netlify](https://hostfleet.net/cf-pages-vs-vercel-vs-netlify-2026/) and [Best hosting for AI agents on a budget](https://hostfleet.net/best-hosting-for-ai-agents-on-a-budget/).
+
 > **How I built this list.** I searched GitHub issues in the public Lovable, Bolt, and shadcn/ui repos, the Vercel and Cloudflare Pages community forums, and Reddit's r/webdev and r/nextjs. Every category below links to the thread or issue where the specific problem is documented. I have not reproduced them.
 
 ## 1. Row-level security is almost always wrong on first ship
@@ -97,6 +99,8 @@ Generated apps often just hit Supabase/Neon/Turso directly via the service SDK. 
 AI code generators are excellent at "make the happy path work." They are mediocre at edge cases and bad at security defaults. A 2-hour pre-launch checklist pass on the ten items above will catch 80% of what goes wrong in the first month of real users.
 
 If you want to automate that pass, there are now tools like Snyk, Semgrep Cloud, and Sentry Pre-Release that will flag a lot of the above. None are included in what Lovable / Bolt / v0 ship by default.
+
+Once those basics are covered, the next decision is whether the app should stay on managed platforms or grow into its own backend shape. That is where [Railway vs Fly.io vs Render for AI workflow backends](https://hostfleet.net/railway-vs-fly-io-vs-render-for-ai-workflow-backends/) and [Coolify on a VPS for AI app hosting](https://hostfleet.net/coolify-on-a-vps-for-ai-app-hosting/) become the right follow-on reads.
 
 ## Sources
 
