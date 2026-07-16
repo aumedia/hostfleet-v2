@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-10",
+  "updated": "2026-07-16",
   "refresh_policy": "Verified against vendor pricing pages by the HostFleet data agent. Target cadence: Monday and Thursday.",
   "providers": [
     { "id": "runpod_pods", "name": "RunPod Pods", "billing": "per-second, always-on container (Secure Cloud)", "source": "https://www.runpod.io/pricing" },
