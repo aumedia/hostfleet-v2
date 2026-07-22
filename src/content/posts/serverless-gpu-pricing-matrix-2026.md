@@ -1,6 +1,6 @@
 ---
-title: "Every serverless GPU host compared: pricing, GPUs, and what they claim (April 2026)"
-description: "Runpod, Modal, Fal.ai, Baseten, Replicate — published hourly rates, supported GPUs, and what each vendor says about cold starts. No secret benchmarks, just a clean pricing matrix with citations."
+title: "Serverless GPU pricing 2026: RunPod vs Modal vs Fal vs Baseten vs Replicate"
+description: "Compare serverless GPU prices across RunPod, Modal, Fal.ai, Baseten and Replicate — hourly rates per GPU, cold-start billing, and a live table updated twice a week."
 pubDate: 2026-04-21
 category: ai-hosting
 author: Alex Harmon
