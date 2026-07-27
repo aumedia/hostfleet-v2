@@ -7,7 +7,8 @@
     { "id": "modal", "name": "Modal", "billing": "per-second, scale-to-zero ($30/mo free credit)", "source": "https://modal.com/pricing" },
     { "id": "fal", "name": "Fal.ai", "billing": "per-hour list price for custom deployments; committed-use discounts advertised", "source": "https://fal.ai/pricing" },
     { "id": "baseten", "name": "Baseten", "billing": "per-minute, dedicated deployments, scale-to-zero", "source": "https://www.baseten.co/pricing/" },
-    { "id": "replicate", "name": "Replicate", "billing": "per-second, private model deployments", "source": "https://replicate.com/pricing" }
+    { "id": "replicate", "name": "Replicate", "billing": "per-second, private model deployments", "source": "https://replicate.com/pricing" },
+    { "id": "lambda_cloud", "name": "Lambda Cloud", "billing": "per-hour on-demand GPU instances; prices vary by instance GPU count", "source": "https://lambda.ai/instances" }
   ],
   "gpus": [
     { "id": "t4", "name": "T4", "vram": "16 GB",
@@ -26,7 +27,8 @@
     { "id": "a10", "name": "A10 / A10G", "vram": "24 GB",
       "prices": {
         "modal": { "hr": 1.10, "raw": "$0.000306/sec", "note": "A10" },
-        "baseten": { "hr": 1.21, "raw": "$0.02012/min", "note": "A10G" }
+        "baseten": { "hr": 1.21, "raw": "$0.02012/min", "note": "A10G" },
+        "lambda_cloud": { "hr": 1.29, "raw": "$1.29/GPU/hr", "note": "1x A10 instance" }
       } },
     { "id": "rtx4090", "name": "RTX 4090", "vram": "24 GB",
       "prices": {
@@ -41,7 +43,8 @@
     { "id": "a6000", "name": "RTX A6000 / A40", "vram": "48 GB",
       "prices": {
         "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.53" },
-        "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier" }
+        "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier" },
+        "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" }
       } },
     { "id": "l40s", "name": "L40S", "vram": "48 GB",
       "prices": {
@@ -59,7 +62,8 @@
       } },
     { "id": "a100_40", "name": "A100 40 GB", "vram": "40 GB",
       "prices": {
-        "modal": { "hr": 2.10, "raw": "$0.000583/sec" }
+        "modal": { "hr": 2.10, "raw": "$0.000583/sec" },
+        "lambda_cloud": { "hr": 1.99, "raw": "$1.99/GPU/hr", "note": "1x A100 PCIe or A100 SXM; 40 GB" }
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
@@ -76,7 +80,8 @@
         "modal": { "hr": 3.95, "raw": "$0.001097/sec" },
         "fal": { "hr": 3.99, "note": "as low as $1.89 committed" },
         "baseten": { "hr": 6.50, "raw": "$0.10833/min" },
-        "replicate": { "hr": 5.49, "raw": "$0.001525/sec" }
+        "replicate": { "hr": 5.49, "raw": "$0.001525/sec" },
+        "lambda_cloud": { "hr": 3.29, "raw": "$3.29/GPU/hr", "note": "1x H100 PCIe; H100 SXM is $4.29/GPU/hr" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
@@ -91,7 +96,8 @@
         "runpod_sls": { "hr": 8.64 },
         "modal": { "hr": 6.25, "raw": "$0.001736/sec" },
         "fal": { "hr": 6.25, "note": "as low as $3.49 committed" },
-        "baseten": { "hr": 9.98, "raw": "$0.16633/min" }
+        "baseten": { "hr": 9.98, "raw": "$0.16633/min" },
+        "lambda_cloud": { "hr": 6.99, "raw": "$6.99/GPU/hr", "note": "1x B200 SXM6 instance" }
       } },
     { "id": "b300", "name": "B300", "vram": "288 GB",
       "prices": {
