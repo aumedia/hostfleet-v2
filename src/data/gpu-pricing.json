@@ -42,7 +42,7 @@
       } },
     { "id": "a6000", "name": "RTX A6000 / A40", "vram": "48 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.53" },
+        "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.49" },
         "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier" },
         "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" }
       } },
