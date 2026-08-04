@@ -1,104 +1,120 @@
 ---
-title: "A100 rental price per hour in 2026: 40 GB and 80 GB cloud rates"
-description: "A100 rental price per hour: compare current 40 GB and 80 GB cloud rates, product scopes, and warm-capacity costs before you rent."
+title: "A100 rental price per hour: August 2026 source check for 40 GB and 80 GB GPUs"
+description: "A source-checked August 2026 comparison of A100 rental prices, separating 40 GB and 80 GB cards, product scope, and the cost of keeping capacity warm."
 pubDate: 2026-07-31
+updatedDate: 2026-08-04
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context. This is a source-backed price guide: every listed rate comes from a public provider page checked on July 31, 2026. It is not a benchmark, availability report, or inventory guarantee.*
+*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Rates checked:** July 31, 2026  
-**Billing basis:** published USD listed-product rates; included resources and separately billed add-ons vary by provider
+**Source check:** August 3, 2026
+**What this is:** a source-backed rate comparison, not a benchmark, capacity report, or inventory guarantee
 
-# A100 rental price per hour in 2026: 40 GB and 80 GB cloud rates
+# A100 rental price per hour: August 2026 source check for 40 GB and 80 GB GPUs
 
-An A100 rental currently starts at **$1.39 per GPU-hour for an 80 GB RunPod Secure Cloud Pod** in this comparison. That is not a universal cheapest-A100 answer, because the same name covers two memory sizes and several products: a conventional GPU VM, an always-on Pod, a serverless worker, or a managed deployment.
+An A100 rental can start at **$1.39 per GPU-hour** in HostFleet's currently verified 80 GB comparison, but that number is only useful if the workload needs an 80 GB card and the buyer can operate a dedicated Pod. A 40 GB A100 is a different capacity class, while serverless and managed rows are different products even when the GPU name matches.
 
-The important split is **40 GB versus 80 GB**. Modal and Lambda expose a 40 GB A100 rate; the RunPod, Baseten, and Replicate rows below are 80 GB. An 80 GB card has twice the VRAM, so putting it in a single price ranking with a 40 GB card would hide the thing a buyer is actually paying for.
+This update uses the public-rate evidence rechecked on August 3 for RunPod, Modal, Baseten, Replicate, and Lambda Cloud. The table deliberately excludes Fal: its public pricing page returned a security checkpoint during that check, so there is no newly verified A100 Fal rate to present. For the full cross-GPU reference, see [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/).
 
-For the wider market snapshot, use [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). If the decision is really between a continuously allocated Pod and workers that can return to zero, read [RunPod Pods vs Serverless pricing](https://hostfleet.net/runpod-pricing-guide-2026/) first.
+## The A100 rates that can be compared honestly
 
-## A100 price per hour: current public rates
+All amounts are published USD listed-product rates per GPU-hour. Per-second and per-minute rates are converted exactly by multiplying by 3,600 or 60. A rate is not an availability promise, and it does not make the surrounding CPU, RAM, storage, networking, support, or deployment controls identical.
 
-All values below are published rates converted to USD per GPU-hour where necessary. The scope column deliberately names the product; no row promises capacity in a chosen region.
-
-| Provider and product shape | A100 configuration in this comparison | Published rate | Source and as-of date |
+| Provider and product shape | A100 configuration | Published rate | Why the scope matters |
 |---|---|---:|---|
-| **RunPod Pods** | A100 PCIe, 80 GB, Secure Cloud, dedicated Pod | **$1.39/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked July 31, 2026 |
-| **Lambda Cloud** | 1x A100 PCIe, 40 GB VM | **$1.99/GPU-hr** | [Lambda GPU instances](https://lambda.ai/instances), checked July 31, 2026 |
-| **Modal** | A100, 40 GB, serverless container; $0.000583/sec | **$2.0988/hr** | [Modal pricing](https://modal.com/pricing), checked July 31, 2026 |
-| **Modal** | A100, 80 GB, serverless container; $0.000694/sec | **$2.4984/hr** | [Modal pricing](https://modal.com/pricing), checked July 31, 2026 |
-| **RunPod Serverless** | A100, 80 GB worker tier | **$2.72/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked July 31, 2026 |
-| **Baseten** | A100, 80 GiB, managed dedicated deployment; $0.06667/min | **$4.00/hr** | [Baseten pricing](https://www.baseten.co/pricing/), checked July 31, 2026 |
-| **Replicate** | A100, 80 GB, private model deployment; $0.001400/sec | **$5.04/hr** | [Replicate pricing](https://replicate.com/pricing), checked July 31, 2026 |
+| **RunPod Pods** | A100 PCIe, 80 GB, Secure Cloud dedicated Pod | **$1.39/hr** | Always-on, self-managed container-shaped machine |
+| **Lambda Cloud** | 1x A100 PCIe or SXM VM, 40 GB | **$1.99/GPU-hr** | Conventional GPU VM; published 1x-instance rate |
+| **Modal** | A100, 40 GB serverless container | **$2.0988/hr** ($0.000583/sec) | Billed per second; can scale down if the app actually becomes idle |
+| **Modal** | A100, 80 GB serverless container | **$2.4984/hr** ($0.000694/sec) | Same billing model, but double the VRAM of the 40 GB row |
+| **RunPod Serverless** | A100, 80 GB worker tier | **$2.72/hr** | Worker-capacity tier rather than a named dedicated card reservation |
+| **Baseten** | A100, 80 GiB managed dedicated deployment | **$4.00/hr** ($0.06667/min) | Managed model-serving product, not a raw VM |
+| **Replicate** | A100, 80 GB private model deployment | **$5.04/hr** ($0.001400/sec) | Managed private deployment with platform-specific controls |
 
-**Why the RunPod row uses $1.39:** RunPod also publishes a $1.19/hour Community Cloud rate for the A100 PCIe. This page uses the $1.39/hour **Secure Cloud** rate for the dedicated-Pod comparison, since Community and Secure Cloud are separate product choices. Treating the Community rate as a universal market floor would make the comparison look cleaner than it is.
+The lowest row is **not** a universal A100 market floor. RunPod also lists a $1.19/hour Community Cloud A100 PCIe rate, but the table uses its $1.39/hour Secure Cloud rate. Community Cloud and Secure Cloud have different operating and availability tradeoffs, so calling the lower Community number the default price would collapse two products into one.
 
-**Why there is no Fal row:** Fal's current public pricing page returned HTTP 429 on this check and its published custom-deployment list does not establish a current A100 rate. A missing verifiable rate is more useful than a stale one.
+## First decision: is 40 GB enough?
 
-## What a warm A100 costs per month
+The A100 label hides the biggest pricing trap in this category: **40 GB and 80 GB are not substitute capacity choices**. Lambda's 1x A100 VM and Modal's 40 GB A100 are valid options when the model, batch size, and runtime headroom fit within 40 GB. They are not a cheaper way to satisfy an 80 GB requirement.
 
-The following are **720-hour estimates derived from each product's published rate**, not provider quotes. Each assumes one listed product shape stays allocated for 720 hours (30 days). An estimate includes whatever resources the provider bundles in that listed shape. It excludes separately billed add-ons, taxes, storage or networking not included in the rate, support, scaling effects, and additional replicas.
+For example, HostFleet's [Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains why an 80 GB-class GPU is the first normal single-card capacity point for 8-bit Llama 70B weights, while BF16/FP16 requires substantially more memory or multiple GPUs. That is a memory-capacity statement, not a throughput claim. Quantization, context length, KV cache, concurrency, and framework overhead still decide whether a deployment fits.
+
+Once 80 GB is required, the relevant low-rate comparison begins with the **$1.39/hour RunPod Secure Cloud A100 PCIe Pod**, not with the 40 GB rows. If 40 GB really is sufficient, Lambda's $1.99/GPU-hour VM and Modal's $2.0988/hour serverless container are different operating-model choices rather than merely a $0.11/hour spread.
+
+## Second decision: do you need capacity warm?
+
+The rate card becomes a budget only after the allocation pattern is clear. These figures are **estimates**, derived from the sourced rates, for one listed product held for 720 hours (30 days):
 
 ```text
-monthly listed-product-rate estimate = published rate × 720 hours
+monthly listed-product estimate = published hourly rate × 720 hours
 ```
 
-| Product shape | Published rate used | 720-hour estimate from listed rate |
+| Product shape | Rate used | 720-hour estimate |
 |---|---:|---:|
 | RunPod Secure Cloud A100 PCIe, 80 GB | $1.39/hr | about **$1,001** |
-| Lambda 1x A100 PCIe, 40 GB | $1.99/hr | about **$1,433** |
+| Lambda 1x A100, 40 GB | $1.99/hr | about **$1,433** |
 | Modal A100, 40 GB | $0.000583/sec | about **$1,511** |
 | Modal A100, 80 GB | $0.000694/sec | about **$1,799** |
 | RunPod Serverless A100 tier | $2.72/hr | about **$1,958** |
-| Baseten A100 deployment, 80 GiB | $4.00/hr | about **$2,880** |
-| Replicate private A100 deployment, 80 GB | $5.04/hr | about **$3,629** |
+| Baseten A100, 80 GiB | $4.00/hr | about **$2,880** |
+| Replicate private A100, 80 GB | $5.04/hr | about **$3,629** |
 
-The Modal figures use its unrounded published per-second rates: `$0.000583 × 3,600 × 720 = $1,511.14` for 40 GB and `$0.000694 × 3,600 × 720 = $1,798.85` for 80 GB. A workload that actually scales to zero should be budgeted from billable GPU-seconds, not by applying this always-warm example.
+The two Modal calculations use the unrounded public rates: `$0.000583 × 3,600 × 720 = $1,511.14` and `$0.000694 × 3,600 × 720 = $1,798.85`. Every other row uses the displayed hourly rate multiplied by 720 and rounded to the nearest dollar. These are listed-product estimates, not quotes. They exclude separately billed add-ons, taxes, extra replicas, and the effect of scaling.
 
-## Start with VRAM, then pick the operating model
+A workload that truly returns to zero should not be budgeted with 720-hour math. Model it from expected billable GPU-seconds, cold-start behavior, and the time a minimum replica remains allocated. [RunPod Pods versus Serverless pricing](https://hostfleet.net/runpod-pricing-guide-2026/) explains why a lower dedicated hourly rate can still be the wrong purchase for a bursty workload.
 
-### 40 GB A100: a lower price tier with a hard memory boundary
+## What each price buys
 
-Lambda's 1x A100 PCIe VM and Modal's A100 40 GB container are not interchangeable, but they make the same capacity point visible: **40 GB is a different deployment constraint from 80 GB**. It can fit many vision, embedding, batch, and smaller-model workloads. It is not the same single-GPU option for a workload that needs an 80 GB weight footprint plus runtime headroom.
+### RunPod: lowest verified dedicated 80 GB rate, with operations attached
 
-For a practical example, [HostFleet's Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains why an 80 GB-class GPU is the first normal single-card capacity point for 8-bit Llama 70B weights, while BF16/FP16 needs considerably more memory or multiple GPUs. That is a capacity statement, not a performance claim.
+RunPod's $1.39/hour Secure Cloud A100 PCIe is the lowest verified **80 GB dedicated** rate in this comparison. It is a useful starting point when a team wants a continuously available GPU and owns the container image, serving process, networking, monitoring, security posture, and shutdown discipline. The bill continues while the Pod runs.
 
-### 80 GB A100: compare the product around the card
+That is a clear trade, not a flaw. It is often cheaper than a managed serving layer precisely because the operator is taking on more of the system. Read [RunPod for inference APIs and jobs](https://hostfleet.net/runpod-for-ai-inference-apis-and-jobs/) for the deployment-shape tradeoff before selecting it only on price.
 
-The low 80 GB dedicated option in this table is RunPod's **$1.39/hour Secure Cloud A100 PCIe Pod**. It is a self-managed container-shaped machine, so the operator owns the image, server process, observability, and shutdown discipline. The bill continues while the Pod is running.
+### Lambda: a conventional 40 GB GPU VM rate
 
-RunPod Serverless and Modal can make more sense for work that truly returns to zero, but their hourly equivalents are not a promise of a smaller bill for a permanently warm endpoint. Modal's 80 GB price is **$2.4984/hour** before surrounding compute; RunPod Serverless lists an A100 tier at **$2.72/hour**. The correct comparison is expected active and idle allocation time, plus cold-start tolerance—not a slogan about serverless.
+Lambda's $1.99/GPU-hour row is the listed rate for a 1x A100 PCIe or SXM 40 GB instance. The number covers an instance-shaped product rather than a bare-card abstraction. That can be a better fit for operators who want VM control, but it means CPU, RAM, local storage, region, instance count, and capacity must be checked alongside the headline GPU rate.
 
-### Managed A100 deployments trade a higher rate for a different surface
+The August source check does not establish a quota, queue-time, or availability guarantee. It only confirms the public 1x A100 listed rate.
 
-Baseten and Replicate are not raw VM rentals. Their published A100 rows cover managed deployment products with their own serving, scaling, and account rules. **Baseten's $4.00/hour** A100 deployment and **Replicate's $5.04/hour** private A100 deployment should therefore be compared against the operational work they replace, not only against a Pod's GPU line item.
+### Modal and RunPod Serverless: the right question is allocated seconds
 
-For those product and billing details, see [Baseten pricing explained](https://hostfleet.net/baseten-pricing-guide-2026/) and [Replicate pricing explained](https://hostfleet.net/replicate-pricing-guide-2026/). The broader [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) is useful context, but its April snapshot is not a substitute for the July 31 provider checks on this page.
+Modal publishes distinct 40 GB and 80 GB A100 rates, while RunPod Serverless publishes an 80 GB A100 worker tier. Both can be sensible for batch jobs or endpoints that really release GPU capacity between work. The practical test is whether the workload can tolerate cold starts and whether its idle period is long enough to avoid paying warm capacity.
 
-## Which A100 option fits the job?
+A permanently warm Modal 80 GB A100 has a GPU-only 720-hour estimate of about $1,799—higher than the RunPod Pod example. The serverless label changes the billing opportunity; it does not erase the cost of an allocated GPU. For a wider billing-model comparison, use [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/).
 
-- **You need the lowest currently verified 80 GB dedicated rate and can operate an endpoint:** start with a RunPod Secure Cloud A100 PCIe Pod, then check the exact region, storage, and availability you need.
-- **You want a conventional GPU VM and 40 GB is sufficient:** compare Lambda's 1x A100 PCIe configuration with the CPU, RAM, storage, and instance count required by the application.
-- **You have bursty Python jobs or inference that can really scale down:** model Modal and RunPod Serverless from billable seconds and cold-start behavior instead of the 720-hour estimate.
-- **You need a managed model-serving surface:** compare Baseten and Replicate after defining minimum replicas, traffic pattern, deployment controls, and support requirements.
+### Baseten and Replicate: higher rate, different serving surface
+
+Baseten's $4.00/hour A100 80 GiB and Replicate's $5.04/hour private A100 80 GB are managed deployment products. Their price should be evaluated against the platform work they remove—model serving, deployment workflow, scaling controls, and operational support—not against a Pod as if the products were equivalent.
+
+For the billing details that change those tradeoffs, see [Baseten pricing explained](https://hostfleet.net/baseten-pricing-guide-2026/) and [Replicate pricing explained](https://hostfleet.net/replicate-pricing-guide-2026/).
+
+## A practical A100 selection sequence
+
+1. **Set the memory floor first.** Establish whether the deployed model, KV cache, batch size, and expected concurrency fit inside 40 GB. If not, remove 40 GB rows before looking at price.
+2. **Decide whether the GPU must stay warm.** A permanently available endpoint is a capacity purchase. A queueable batch job may be a billable-seconds purchase.
+3. **Compare like product shapes.** Compare a self-managed Pod with a VM when both satisfy the operating requirements; compare managed deployment platforms when the serving layer is in scope.
+4. **Check the missing bill components.** Validate storage, network, CPU/RAM, minimum replicas, region, quota, tax, and any committed-use terms before treating the rate as a final budget.
+5. **Run a bounded deployment test.** Record image pull, model-load time, first-ready time, cold-start behavior, allocation failures, and billed duration. Published rates are evidence about price, not proof of workload performance.
 
 ## Verdict
 
-For an **80 GB A100 that stays allocated**, RunPod Secure Cloud's **$1.39/hour A100 PCIe** is the lowest currently verified dedicated rate in this comparison. The honest caveat is that it buys a Pod, not a managed serving platform. A 40 GB A100 can be cheaper in a different product shape, but it is not a substitute for 80 GB when VRAM is the constraint.
+For a continuously allocated **80 GB A100** where the team can operate its own endpoint, RunPod Secure Cloud's **$1.39/hour A100 PCIe** is the lowest currently verified dedicated rate in this comparison. It is not the right choice solely because it is cheap: it transfers operational responsibility to the buyer.
 
-For an always-warm 80 GB A100, the 720-hour estimates from these public listed rates span roughly **$1,001 to $3,629**. That range reflects different product shapes and bundled resources, not comparable bare-GPU charges. Pick the memory class first, then compare the products that deliver it.
+For a 40 GB workload, Lambda and Modal expose lower-capacity options with different control planes. For bursty work, serverless pricing can win only if allocation really drops between jobs. For managed serving, Baseten and Replicate are more expensive per listed GPU-hour because the product includes a different operational surface.
+
+The reliable way to compare an A100 rental is therefore: memory class first, warm-versus-bursty behavior second, provider rate third. A GPU name alone is not enough.
 
 ## Sources
 
-- [RunPod pricing](https://www.runpod.io/pricing) — A100 PCIe Secure and Community Cloud, A100 SXM, and Serverless A100 rates; checked July 31, 2026
-- [Modal pricing](https://modal.com/pricing) — A100 40 GB and 80 GB per-second rates; checked July 31, 2026
-- [Lambda GPU instances](https://lambda.ai/instances) — A100 PCIe and A100 SXM instance tables and per-GPU rates; checked July 31, 2026
-- [Baseten pricing](https://www.baseten.co/pricing/) — dedicated A100 80 GiB per-minute and hourly rate; checked July 31, 2026
-- [Replicate pricing](https://replicate.com/pricing) — private A100 80 GB per-second and hourly rate; checked July 31, 2026
-- [Fal pricing](https://fal.ai/pricing) — checked July 31, 2026; returned HTTP 429 and is not used for an A100 price claim
+- [RunPod pricing](https://www.runpod.io/pricing) — A100 PCIe Secure and Community Cloud, and Serverless A100 rates; source-checked August 3, 2026
+- [Modal pricing](https://modal.com/pricing) — A100 40 GB and 80 GB per-second rates; source-checked August 3, 2026
+- [Lambda GPU instances](https://lambda.ai/instances) — 1x A100 PCIe/SXM 40 GB rate; source-checked August 3, 2026
+- [Baseten pricing](https://www.baseten.co/pricing/) — A100 80 GiB per-minute deployment rate; source-checked August 3, 2026
+- [Replicate pricing](https://replicate.com/pricing) — private A100 80 GB per-second deployment rate; source-checked August 3, 2026
+- [Fal pricing](https://fal.ai/pricing) — access checkpoint observed August 3, 2026; excluded from current A100 rate claims
+- HostFleet GPU pricing data — `/opt/hostbot-v2/src/data/gpu-pricing.json`; table values cross-checked against the August 3 source-check note
 
 *Need a self-managed A100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
-
