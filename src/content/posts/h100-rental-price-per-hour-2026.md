@@ -1,114 +1,95 @@
 ---
-title: "H100 rental price per hour in 2026: cloud GPU rates compared"
-description: "H100 rental price per hour: compare current cloud GPU rates, pricing scopes, and always-on cost estimates before choosing an H100 provider."
+title: "H100 rental price per hour in 2026: six public cloud rates checked"
+description: "H100 rental price per hour: six public cloud rates, what each product shape includes, and the monthly cost of a warm H100."
 pubDate: 2026-07-29
+updatedDate: 2026-08-06
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context. This is a source-backed price guide: every listed rate comes from an official provider page or the dated HostFleet dataset. It is not a benchmark or an inventory guarantee.*
+*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Rates checked:** July 29, 2026  
-**HostFleet comparison data:** July 23, 2026 (Lambda H100 row added July 27)
+**Source-backed price check.** Provider pages in this guide were checked on **August 6, 2026**. These are published rates and conversions, not benchmarks, capacity guarantees, or complete invoices.
 
-# H100 rental price per hour in 2026: cloud GPU rates compared
+# H100 rental price per hour in 2026: six public cloud rates checked
 
-An **H100 costs about $2.89 to $6.50 per GPU-hour** in the current HostFleet comparison for public self-serve and managed deployment options. That range is useful only after you separate the products behind it: a dedicated RunPod Pod, a Lambda VM, and a serverless or managed deployment are not interchangeable purchases.
+A public H100 rate can start at **$2.89 per GPU-hour** for a RunPod Secure Cloud PCIe Pod, but that does not mean every H100 deployment costs $2.89 an hour. The six entries below span a self-managed Pod, a conventional VM, scale-to-zero workers, and managed model-serving deployments. Their hourly figures answer different operational questions.
 
-The lowest comparable entry in this table is **RunPod Secure Cloud H100 PCIe at $2.89/hour**. Lambda's one-GPU H100 PCIe instance is **$3.29/GPU-hour**. Modal's H100 is **$0.001097/second**, or **$3.9492/hour** before rounding. Those are published rates, not a promise that capacity will be available in a particular region or that the final bill contains only GPU time.
+For a raw rate-card comparison across more GPU types, start with [HostFleet's GPU pricing table](https://hostfleet.net/gpu-pricing/). This page narrows the decision to the H100: what the rate buys, which evidence is current, and what always-warm capacity costs.
 
-For the wider GPU market and the live data source behind this page, use [HostFleet's GPU pricing table](https://hostfleet.net/gpu-pricing/). If the real decision is dedicated Pods versus workers that can return to zero, read [RunPod Pods vs Serverless pricing](https://hostfleet.net/runpod-pricing-guide-2026/) before choosing from a rate card.
+## Current H100 price per hour comparison
 
-## H100 price per hour: current comparison
+All figures are USD per GPU-hour. Per-second and per-minute prices are converted using 3,600 seconds or 60 minutes. The scope column matters: a managed deployment is not equivalent to a VM with the same GPU.
 
-The table is a live-data snapshot from `gpu-pricing.json`. Rates are USD **per GPU-hour**. A listed hourly rate is not automatically a like-for-like comparison: the scope column names what is being bought.
-
-| Provider and product shape | H100 scope in this comparison | Published rate | Price source and as-of date |
+| Provider and product shape | H100 scope | Published rate | Evidence and as-of |
 |---|---|---:|---|
-| **RunPod Pods** | H100 PCIe, Secure Cloud, dedicated always-on container | **$2.89/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked July 29, 2026 |
-| **Lambda Cloud** | 1x H100 PCIe instance; rate is per GPU-hour | **$3.29/hr** | [Lambda GPU instances](https://lambda.ai/instances), checked July 29, 2026 |
-| **Modal** | Serverless H100 allocated to a container; $0.001097/sec | **$3.9492/hr** | [Modal pricing](https://modal.com/pricing), checked July 29, 2026 |
-| **Fal** | H100 custom-deployment list rate | **$3.99/hr** | [Fal pricing](https://fal.ai/pricing), HostFleet dataset source checked July 23, 2026; the public page returned an access challenge on July 29 |
-| **RunPod Serverless** | H100 worker capacity tier, not an exact-card reservation | **$4.55/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked July 29, 2026 |
-| **Replicate** | Private model deployment H100; $0.001525/sec | **$5.49/hr** | [Replicate pricing](https://replicate.com/pricing), checked July 29, 2026 |
-| **Baseten** | Managed H100 deployment, 80 GiB VRAM; $0.10833/min | **$6.50/hr** | [Baseten pricing](https://www.baseten.co/pricing/), checked July 29, 2026 |
+| **RunPod Pods** | H100 PCIe, Secure Cloud, dedicated container | **$2.89/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked Aug. 6, 2026 |
+| **Lambda Cloud** | 1x H100 PCIe VM; 80 GB VRAM, 225 GiB RAM, 1 TiB SSD shown with the instance | **$3.29/GPU-hr** | [Lambda GPU instances](https://lambda.ai/instances), checked Aug. 6, 2026 |
+| **Modal** | H100 allocated to a serverless container | **$3.9492/hr** | [Modal pricing](https://modal.com/pricing), $0.001097/sec, checked Aug. 6, 2026 |
+| **RunPod Serverless** | H100 worker tier; not an exact-card reservation | **$4.55/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked Aug. 6, 2026 |
+| **Replicate** | Private H100 model deployment | **$5.49/hr** | [Replicate pricing](https://replicate.com/pricing), $0.001525/sec, checked Aug. 6, 2026 |
+| **Baseten** | Managed H100 deployment; 80 GiB VRAM | **$6.50/hr** | [Baseten pricing](https://www.baseten.co/pricing/), $0.10833/min, checked Aug. 6, 2026 |
 
-**Important scope note:** RunPod's public page also shows a **$1.99/hour Community Cloud** rate for an H100 PCIe. HostFleet uses the **$2.89/hour Secure Cloud** rate in its like-for-like Pods row. Community and Secure Cloud have different availability and operating tradeoffs, so treating $1.99 as a universal market floor would be misleading.
+The comparison range is **$2.89 to $6.50 per listed accelerator-hour**, but it is not a universal market range. It deliberately excludes product shapes that are not publicly priced or cannot be compared with sufficient confidence.
 
-Fal's $3.99 number remains visible as a dated dataset entry rather than a newly verified rate. Its official public pricing page blocked an unauthenticated fetch on July 29. That is a source-access limitation, not evidence that the price changed; still, re-check it in a browser before using Fal in a purchase decision.
+### The useful low-rate caveat
 
-## What a warm H100 costs per month
+RunPod also displays **$1.99/hr** for an H100 PCIe in Community Cloud. This guide uses the **$2.89/hr Secure Cloud** rate for the dedicated-Pod row because Community and Secure Cloud are different supply and operating choices. The $1.99 rate is public list pricing, but treating it as an always-available floor would hide that distinction.
 
-An hourly GPU price becomes a serious commitment when the deployment stays allocated. The following are **GPU-only estimates**, not provider quotes.
+Lambda's $3.29 rate is likewise specific: it is the 1x H100 PCIe instance, not a provider-wide rate for every H100 form factor. The same page lists H100 SXM and larger instance shapes at different prices.
 
-```text
-monthly GPU estimate = published hourly GPU rate × 720 hours
-```
+## What a warm H100 costs for a month
 
-The assumption is one GPU held for 30 days, with no CPU, RAM, storage, network, taxes, or support charges. Under that assumption:
+The budgeting mistake is to apply a serverless label to an endpoint that never releases capacity. For one H100 held for a 30-day month, this rate-card capacity estimate multiplies each provider's listed compute rate by 720 hours. Included resources vary by product; separately billed storage, network, taxes, support, minimums, and other add-ons are excluded. It is an estimate, not a vendor quote.
 
-| Product shape | Hourly rate used | 720-hour GPU-only estimate |
+| Product shape | Rate used | 720-hour listed-rate estimate |
 |---|---:|---:|
-| RunPod Pods Secure Cloud H100 PCIe | $2.89/hr | about **$2,081** |
-| Lambda 1x H100 PCIe | $3.29/hr | about **$2,369** |
-| Modal H100 | $0.001097/sec | about **$2,843** |
-| RunPod Serverless H100 tier | $4.55/hr | about **$3,276** |
-| Replicate private H100 deployment | $5.49/hr | about **$3,953** |
-| Baseten H100 deployment | $6.50/hr | about **$4,680** |
+| RunPod Secure Cloud H100 PCIe Pod | $2.89/hr | **$2,081** |
+| Lambda 1x H100 PCIe VM | $3.29/hr | **$2,369** |
+| Modal H100 | $0.001097/sec | **$2,843** |
+| RunPod Serverless H100 tier | $4.55/hr | **$3,276** |
+| Replicate private H100 deployment | $5.49/hr | **$3,953** |
+| Baseten managed H100 deployment | $6.50/hr | **$4,680** |
 
-The Modal calculation uses its unrounded per-second rate: `$0.001097 × 3,600 × 720 = $2,843.42`. The other rows use the displayed rate multiplied by 720 and rounded to the nearest dollar. These examples explain the cost of keeping capacity allocated; they do **not** predict a workload that genuinely scales down between requests.
+Modal uses its unrounded rate: $0.001097 multiplied by 3,600 multiplied by 720 equals $2,843.42. The other rows use the displayed hourly rate times 720 and round to the nearest dollar. A workload that genuinely returns to zero needs an estimate based on billable accelerator-seconds instead.
 
-## The cheapest number is not always the cheapest deployment
+## What each price buys
 
-### RunPod: the lowest Secure Cloud rate, with more infrastructure to own
+### RunPod Pods: lowest checked dedicated rate, more operations to own
 
-At **$2.89/hour for a Secure Cloud H100 PCIe**, RunPod is the lowest currently verified rate in this table's dedicated, self-serve scope. A Pod is a container-shaped machine: you choose the hardware and remain responsible for the image, server process, networking, observability, and stopping it when work ends.
+At $2.89/hr for an H100 PCIe in Secure Cloud, RunPod is the lowest directly checked rate in this table for a dedicated self-managed shape. A Pod fits a team that can own its image, inference server, authentication, health checks, logging, and stop discipline. The GPU bill continues while the Pod runs.
 
-That makes it a sensible starting point for a team that needs a continuously available H100 and can operate the endpoint. It is not a scale-to-zero default. The current public pricing page distinguishes Pods from Serverless, and it distinguishes Secure Cloud from Community Cloud. Use [RunPod for inference APIs and jobs](https://hostfleet.net/runpod-for-ai-inference-apis-and-jobs/) for the product-shape tradeoff, not just the rate.
+Read [RunPod's pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) before assuming that Pods and Serverless have interchangeable cost behavior. For the deployment tradeoffs beyond the rate card, see [RunPod for inference APIs and jobs](https://hostfleet.net/runpod-for-ai-inference-apis-and-jobs/).
 
-### Lambda: a VM rate with a defined instance shape
+### Lambda: a conventional VM with an explicit instance bundle
 
-Lambda's **$3.29/GPU-hour** figure is for a 1x H100 PCIe instance, not a bare GPU abstraction. Its public table attaches the GPU to an instance with CPU, RAM, and local storage. That can make planning simpler for an operator who wants a conventional VM, but it also means the number should not be compared as if every provider supplies the same surrounding resources.
+Lambda attaches its $3.29/GPU-hour H100 PCIe rate to a published 1x VM configuration rather than selling an abstract accelerator alone. That makes it easier to evaluate when the workload needs a normal machine and persistent surrounding resources. CPU, RAM, storage, region, and available capacity still belong in the decision.
 
-Lambda also lists H100 SXM variants and larger multi-GPU instances at different per-GPU prices. This page deliberately uses its 1x H100 PCIe row because it is the closest match to the other single-GPU H100 entries.
+### Modal and RunPod Serverless: lower total cost only when capacity is released
 
-### Modal, Replicate, Baseten, and Fal: pay for a serving surface, not only a card
+Modal bills the H100 at $0.001097 per second, or $3.9492 for a fully allocated hour. RunPod Serverless lists an H100 worker tier at $4.55/hr in the dated August 3 public-source check. Neither number predicts the bill by itself: the relevant question is whether the job can scale down between bursts without a cold-start or latency problem.
 
-Modal and Replicate publish per-second H100 rates. Baseten publishes a per-minute managed-deployment rate. Those billing units are easy to convert to hourly numbers, but the customer is buying a deployment surface with its own container, scaling, and platform rules—not simply renting a VM.
+For the product-shape differences, use [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). A permanently warm Modal container still produces roughly a $2,843 listed-rate month under the assumptions above.
 
-- **Modal** is the cleanest fit when a Python-native workload can actually scale down. A warm H100 still consumes roughly $2,843 of GPU time in a 30-day month, so its serverless label does not make an always-ready endpoint cheap. See [Modal pricing explained](https://hostfleet.net/modal-pricing-guide-2026/) for the billing model.
-- **Replicate** lists $5.49/hour for a private H100 deployment. Its published rate should be evaluated with the deployment's scaling settings and model-serving constraints, not compared only with a raw VM price.
-- **Baseten** lists $6.50/hour for an 80 GiB H100 deployment. The higher rate can be rational when its managed serving layer removes work that would otherwise be carried by an infrastructure team; it is not the budget choice for an idle endpoint. See [Baseten pricing explained](https://hostfleet.net/baseten-pricing-guide-2026/).
-- **Fal** lists a $3.99/hour H100 rate in the dated HostFleet dataset, plus an advertised committed-use floor of $1.89/hour. Do not rank the committed-use figure against on-demand prices: it has a different commitment requirement, and the current public price page needs a fresh browser check.
+### Replicate and Baseten: higher rates buy a managed serving surface
 
-For a broader explanation of why provider billing model matters as much as GPU hourly rate, see [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/).
+Replicate's private H100 rate is $0.001525 per second, or $5.49/hr. Baseten's public page shows an 80 GiB H100 at $0.10833 per minute, or $6.4998/hr rounded to $6.50. These are managed deployment surfaces, not bare VMs. Compare them against the operational work they remove, not solely against the lowest dedicated rate.
 
-## Which H100 option fits the job?
-
-Choose by operating model first, then compare the correct rate:
-
-- **You want a dedicated H100 and can run the stack:** start by checking a RunPod Secure Cloud Pod. It is the lowest verified dedicated entry in this table, but its GPU bill continues while the Pod runs.
-- **You want a conventional GPU VM:** compare Lambda's 1x H100 PCIe instance with the actual CPU, RAM, storage, region, and capacity you need.
-- **You have bursty GPU jobs:** compare Modal and RunPod Serverless using expected billable GPU-seconds and cold-start tolerance. Do not use 720-hour math for a job that truly returns to zero.
-- **You need a managed model-serving control plane:** compare Baseten, Replicate, and Fal after defining minimum replicas, request patterns, and support needs. Their rate cards describe a different product than a self-managed Pod.
+That can be rational when deployment controls and managed serving are the bottleneck. It is not the budget choice for an idle endpoint. For the billing and warm-capacity tradeoff, read [Baseten pricing explained](https://hostfleet.net/baseten-pricing-guide-2026/).
 
 ## Verdict
 
-For a continuously allocated, self-managed H100, **RunPod Secure Cloud's $2.89/hour H100 PCIe** is the current lowest verified entry in this comparison. **Lambda at $3.29/GPU-hour** is the next clear single-instance alternative. If the workload can genuinely scale down, a serverless provider may cost less overall despite a higher hourly equivalent; if it needs a warm endpoint all month, the GPU-only floor is already roughly **$2,000 to $4,700** before supporting infrastructure.
+For a self-managed H100 that stays allocated, the currently checked rate to beat here is **RunPod Secure Cloud H100 PCIe at $2.89/hr**. **Lambda's $3.29/GPU-hour 1x H100 PCIe VM** is the clearest conventional-VM alternative. For an endpoint held warm all month, the listed-rate range is roughly **$2,081 to $4,680** across the six included product shapes; included resources and separately billed add-ons vary by provider.
 
-Treat that range as a capacity-budget decision, not a benchmark result. Verify exact GPU variant, cloud type, minimum-replica setting, storage, and regional availability before committing.
+That is a capacity budget, not a performance ranking. Before committing, re-check the precise H100 variant, cloud tier, instance shape, minimum-capacity setting, region, and availability.
 
 ## Sources
 
-- [RunPod pricing](https://www.runpod.io/pricing) — Secure Cloud, Community Cloud, and Serverless H100 rates; checked July 29, 2026
-- [Modal pricing](https://modal.com/pricing) — H100 per-second rate; checked July 29, 2026
-- [Lambda GPU instances](https://lambda.ai/instances) — 1x H100 PCIe and H100 SXM instance rates; checked July 29, 2026
-- [Baseten pricing](https://www.baseten.co/pricing/) — H100 80 GiB per-minute and hourly rate; checked July 29, 2026
-- [Replicate pricing](https://replicate.com/pricing) — private H100 per-second and hourly rate; checked July 29, 2026
-- [Fal pricing](https://fal.ai/pricing) — H100 list and committed-use pricing source; HostFleet source check July 23, 2026; unauthenticated access challenge observed July 29, 2026
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, refreshed July 23, 2026, with Lambda H100 data added July 27, 2026
+- [RunPod pricing](https://www.runpod.io/pricing) — H100 PCIe Community and Secure Cloud rates checked Aug. 6, 2026; Serverless table checked Aug. 6, 2026
+- [Lambda GPU instances](https://lambda.ai/instances) — 1x H100 PCIe rate and instance configuration, checked Aug. 6, 2026
+- [Modal pricing](https://modal.com/pricing) — H100 per-second rate, checked Aug. 6, 2026
+- [Replicate pricing](https://replicate.com/pricing) — private H100 per-second and hourly rate, checked Aug. 6, 2026
+- [Baseten pricing](https://www.baseten.co/pricing/) — H100 80 GiB per-minute rate, checked Aug. 6, 2026
 
 *Need a self-managed H100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
-
-
