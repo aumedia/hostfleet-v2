@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-23",
+  "updated": "2026-08-06",
   "refresh_policy": "Verified against vendor pricing pages by the HostFleet data agent. Target cadence: Monday and Thursday.",
   "providers": [
     { "id": "runpod_pods", "name": "RunPod Pods", "billing": "per-second, always-on container (Secure Cloud)", "source": "https://www.runpod.io/pricing" },
@@ -42,7 +42,7 @@
       } },
     { "id": "a6000", "name": "RTX A6000 / A40", "vram": "48 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.49" },
+        "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.53" },
         "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier" },
         "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" }
       } },
@@ -78,7 +78,7 @@
         "runpod_pods": { "hr": 2.89, "note": "PCIe $2.89, SXM $2.99, NVL $3.19" },
         "runpod_sls": { "hr": 4.55 },
         "modal": { "hr": 3.95, "raw": "$0.001097/sec" },
-        "fal": { "hr": 3.99, "note": "as low as $1.89 committed" },
+        "fal": { "hr": 4.50, "note": "as low as $1.89 committed" },
         "baseten": { "hr": 6.50, "raw": "$0.10833/min" },
         "replicate": { "hr": 5.49, "raw": "$0.001525/sec" },
         "lambda_cloud": { "hr": 3.29, "raw": "$3.29/GPU/hr", "note": "1x H100 PCIe; H100 SXM is $4.29/GPU/hr" }
