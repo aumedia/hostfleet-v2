@@ -1,8 +1,8 @@
 ---
-title: "Serverless GPU pricing in 2026: August 6 rates and deployment matrix"
-description: "An August 6, 2026 source-backed GPU deployment price matrix, separating Pods, serverless workers, managed inference, and GPU VMs instead of treating unlike rates as one market."
+title: "Serverless GPU pricing in 2026: August 10 rates and deployment matrix"
+description: "An August 10, 2026 source-backed GPU deployment price matrix that separates Pods, serverless workers, managed inference, and GPU VMs instead of treating unlike rates as one market."
 pubDate: 2026-04-21
-updatedDate: 2026-08-06
+updatedDate: 2026-08-10
 category: ai-hosting
 author: Alex Harmon
 draft: false
@@ -10,20 +10,20 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate check.** All provider rates in this guide were checked against public vendor pricing pages on **August 6, 2026**. The table is a rate-card comparison, not a capacity, throughput, latency, or availability benchmark.
+**Source-backed rate check.** All provider rates and plan limits in this guide were checked against public vendor pricing pages on **August 10, 2026**. This is a rate-card comparison, not a capacity, throughput, latency, queue-time, or availability benchmark.
 
-# Serverless GPU pricing in 2026: August 6 rates and deployment matrix
+# Serverless GPU pricing in 2026: August 10 rates and deployment matrix
 
-The lowest listed GPU rate is useful only after you identify the product wrapped around it. A RunPod Pod is continuously allocated infrastructure. RunPod Serverless and Modal bill workers that can scale down. Fal, Baseten, and Replicate sell managed deployment surfaces. Lambda sells full VM instance shapes.
+A GPU price only becomes useful after you identify the product around it. A RunPod Pod and a Lambda VM are allocated infrastructure that keeps billing while it is on. RunPod Serverless and Modal bill workers that can scale down. Fal, Baseten, and Replicate sell managed deployment surfaces. Those are different operational choices, so this table does not pretend they have one universal winner.
 
-That distinction is why this table does not name an overall winner. It shows what is publicly priced today and what each price shape is for. For the machine-readable reference used to build the matrix, open [HostFleet's GPU pricing table](https://hostfleet.net/gpu-pricing/).
+For the machine-readable reference behind the comparison, see [HostFleet's GPU pricing table](https://hostfleet.net/gpu-pricing/).
 
-> **Verified date:** August 6, 2026<br>
-> **Billing basis:** published USD list rates, normalized to GPU-hours where vendors publish per-second or per-minute rates. Included resources and separately billed extras vary by product.
+> **Verified date:** August 10, 2026<br>
+> **Billing basis:** published USD list rates, normalized to GPU-hours where a vendor publishes per-second or per-minute pricing. Included resources and separately billed extras vary by product.
 
-## August 6 GPU deployment price matrix
+## August 10 GPU deployment price matrix
 
-All figures are rounded to cents per GPU-hour. A dash means this source check has no matching public product row; it does not mean the provider lacks that GPU. Precise per-second or per-minute inputs are listed below the table.
+All figures are rounded to cents per GPU-hour. A dash means this source check has no matching public product row; it does not mean the provider does not offer that GPU. The official rate sources and precise inputs are listed below.
 
 | GPU / VRAM | RunPod Pod | RunPod Serverless | Modal | Fal custom deployment | Baseten deployment | Replicate private deployment | Lambda VM |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -44,39 +44,39 @@ All figures are rounded to cents per GPU-hour. A dash means this source check ha
 
 ### How the conversions work
 
-Modal publishes per-second rates: T4 **$0.000164/sec**, L4 **$0.000222/sec**, A10 **$0.000306/sec**, A100 80 GB **$0.000694/sec**, H100 **$0.001097/sec**, B200 **$0.001736/sec**, and B300 **$0.001972/sec**. The table multiplies those rates by 3,600.
+[Modal's public rate card](https://modal.com/pricing) lists per-second GPU rates. On August 10, the tracked inputs were T4 **$0.000164/sec**, L4 **$0.000222/sec**, A10 **$0.000306/sec**, A100 80 GB **$0.000694/sec**, H100 **$0.001097/sec**, B200 **$0.001736/sec**, and B300 **$0.001972/sec**. The table multiplies each by 3,600.
 
-Baseten publishes per-minute deployment rates: T4 **$0.01052/min**, L4 **$0.01414/min**, A10G **$0.02012/min**, A100 80 GB **$0.06667/min**, H100 **$0.10833/min**, and B200 **$0.16633/min**. The table multiplies those rates by 60.
+[Baseten's public rate card](https://www.baseten.co/pricing/) lists per-minute dedicated-deployment rates: T4 **$0.01052/min**, L4 **$0.01414/min**, A10G **$0.02012/min**, A100 80 GB **$0.06667/min**, H100 **$0.10833/min**, and B200 **$0.16633/min** as of August 10. The table multiplies those figures by 60.
 
-Replicate publishes private-deployment hardware at **$0.000225/sec** for T4, **$0.000975/sec** for L40S, **$0.001400/sec** for A100 80 GB, and **$0.001525/sec** for H100. Lambda's entries are published per-GPU-hour instance prices; the surrounding vCPU, RAM, and local-storage bundle depends on the exact instance.
+[Replicate's public pricing](https://replicate.com/pricing) lists private-deployment hardware at **$0.000225/sec** for T4, **$0.000975/sec** for L40S, **$0.001400/sec** for A100 80 GB, and **$0.001525/sec** for H100 as of August 10. [Lambda's instance page](https://lambda.ai/instances) lists its selected configuration prices per GPU-hour; the surrounding vCPU, RAM, and local-storage bundle depends on the exact VM.
 
-## What changed in this full check
+## What changed in the August 10 check
 
-Fal is back in the current matrix because its public price table was accessible on this check. Its H100 custom-deployment list price is now **$4.50/hr**, up from the prior tracked **$3.99/hr**. The public page separately advertises lower committed-use figures; this guide uses its list price so it does not mix commitment tiers with on-demand-style rates.
+No displayed GPU list rate changed in this full check. That is still useful information: it means the matrix is current rather than silently carrying an old rate card.
 
-RunPod's displayed RTX A6000 comparator is now **$0.53/hr**, while the combined 48 GB row keeps the cheaper public A40 baseline at **$0.44/hr**. That row is not a claim that an A40 and RTX A6000 are interchangeable; it is a compact view of the lowest selected 48 GB Pod rate.
+The one material plan-limit update was at Modal. Its Team plan now publicly lists **5,000 containers**, replacing the prior tracked 1,000-container limit. This is a plan limit, not a GPU price or a promise that 5,000 workers can start at once. Modal's published Team plan also has 50 GPU concurrency; readers should validate their exact account limits and workload behavior before designing around either number.
 
-All other tracked rates in this matrix matched the previous verified dataset. That is evidence about published list prices only. It does not establish capacity, region availability, cold-start time, queue delay, support quality, or performance.
+Fal's custom-deployment list rates remain separate from the lower committed-use figures on its pricing page. The matrix keeps the public list rate so a commitment floor is not presented as a comparable on-demand-style rate.
 
 ## Pick the product shape before reading the price
 
 ### Pods and VMs fit capacity you will actually keep allocated
 
-A RunPod Pod and a Lambda VM keep charging while the instance stays allocated. Their prices can look low next to managed deployment products because the operator owns more work: image choice, server process, authentication, health checks, logs, storage, and shutdown discipline.
+A RunPod Pod and a Lambda VM keep charging while the instance remains allocated. Their rates can look low next to managed deployment products because the operator takes on image selection, server process management, authentication, health checks, observability, storage, and shutdown discipline.
 
-For the exact product split and selected Pod rates, read [RunPod's Pods versus Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/). The [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) and [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) separate card variants and capacity classes before applying a monthly estimate.
+For the split between those RunPod products, read [RunPod's Pods versus Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/). The [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) and [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) keep card variants and capacity classes distinct before applying a monthly estimate.
 
-### Scale-to-zero only changes the bill when work really stops
+### Scale-to-zero changes the bill only when work really stops
 
-RunPod Serverless and Modal can make a bursty workload cheaper than a continuously allocated GPU—but only if workers are actually released between bursts and the cold-start/queue behavior fits the product. A 720-hour calculation is the wrong model for a job that spends most of the month at zero.
+RunPod Serverless and Modal can make a bursty workload cheaper than continuously allocated capacity—but only when workers actually release between requests and their cold-start or queue behavior fits the service. A 720-hour calculation is the wrong model for a job that spends most of the month at zero.
 
-Modal's clean per-second pricing is useful for that workload shape. Its $3.95 H100 hourly equivalent is not an instruction to leave a container warm for a month; it is the rate you use to estimate billable GPU-seconds. See the provider-specific caveats in [Modal's pricing guide](https://hostfleet.net/modal-pricing-guide-2026/).
+Modal's per-second pricing is useful for estimating billable GPU-seconds. Its **$3.95/hour** H100 equivalent as of August 10 is not a recommendation to leave a container warm for a month. For product-specific tradeoffs, see [Modal's pricing guide](https://hostfleet.net/modal-pricing-guide-2026/).
 
 ### Managed deployment rates are not bare-card rental quotes
 
-Fal, Baseten, and Replicate price managed deployment surfaces. Their rate cards may include controls or operating assumptions that a raw Pod does not. Treat the higher number as the price of a different product, then check minimum replicas, scaling controls, billing during startup, and any separately billed services.
+Fal, Baseten, and Replicate price managed deployment surfaces rather than raw GPU rental. A higher public rate may include controls or operating assumptions a Pod does not. Compare their minimum replicas, scaling controls, billing during startup, and separately billed services before treating two hourly equivalents as substitutes.
 
-For those details, use [Fal for inference APIs and jobs](https://hostfleet.net/fal-for-ai-inference-apis-and-jobs/), [Baseten's pricing guide](https://hostfleet.net/baseten-pricing-guide-2026/), and [Replicate's pricing guide](https://hostfleet.net/replicate-pricing-guide-2026/).
+Use [Fal for inference APIs and jobs](https://hostfleet.net/fal-for-ai-inference-apis-and-jobs/), [Baseten's pricing guide](https://hostfleet.net/baseten-pricing-guide-2026/), and [Replicate's pricing guide](https://hostfleet.net/replicate-pricing-guide-2026/) for those caveats.
 
 ## A transparent warm-H100 estimate
 
@@ -86,7 +86,7 @@ This is an estimate, not a vendor quote. It assumes one named H100 product remai
 listed-rate capacity estimate = published hourly equivalent × 720 hours
 ```
 
-| H100 product shape | Rate used | 30-day listed-rate estimate |
+| H100 product shape | Rate used (verified August 10) | 30-day listed-rate estimate |
 |---|---:|---:|
 | RunPod Secure Cloud PCIe Pod | $2.89/hr | about $2,081 |
 | Lambda 1x H100 PCIe VM | $3.29/GPU-hr | about $2,369 |
@@ -95,23 +95,23 @@ listed-rate capacity estimate = published hourly equivalent × 720 hours
 | Replicate private H100 deployment | $5.49/hr | about $3,953 |
 | Baseten H100 deployment | $0.10833/min | about $4,680 |
 
-These figures multiply each provider's listed compute rate by 720. They include what that named product bundles, and exclude separately billed storage, networking, taxes, support, minimums, additional replicas, and workload-specific scaling behavior. They are useful for capacity planning; they do not predict the cost of a job that really returns to zero.
+These estimates multiply the source-listed compute rate by 720. They include whatever the named product bundles, and exclude separately billed storage, networking, taxes, support, minimums, additional replicas, and workload-specific scaling behavior. They help plan continuously allocated capacity; they do not predict the cost of a job that truly returns to zero.
 
 ## Verdict
 
-Use the matrix to narrow a deployment shape, not to declare a universal cheapest GPU. For continuously allocated self-managed capacity, the selected RunPod Pod rates are the lower public starting points in several GPU classes, with corresponding operational responsibility. For bursty jobs, estimate billable seconds on Modal or a Serverless surface. For managed inference, compare Fal, Baseten, and Replicate after defining warm-replica and control requirements.
+Use this matrix to narrow a deployment shape, not to claim a universal cheapest GPU. For continuously allocated, self-managed capacity, the selected RunPod Pod rates are lower public starting points in several GPU classes, with corresponding operational responsibility. For bursty jobs, estimate billable GPU-seconds on Modal or a Serverless surface. For managed inference, compare Fal, Baseten, and Replicate after defining warm-replica and control requirements.
 
 Re-check the exact GPU variant, region, capacity, commitment tier, and add-ons before purchase. A public rate table is a starting point—not an invoice or a production-capacity promise.
 
 ## Sources
 
-- [RunPod pricing](https://www.runpod.io/pricing) — Pods and Serverless public rate tables; accessed August 6, 2026
-- [Modal pricing](https://modal.com/pricing) — published GPU per-second rates; accessed August 6, 2026
-- [Fal pricing](https://fal.ai/pricing) — published custom-deployment list and committed-use rates; accessed August 6, 2026
-- [Baseten pricing](https://www.baseten.co/pricing/) — published deployment per-minute rates; accessed August 6, 2026
-- [Replicate pricing](https://replicate.com/pricing) — published private-deployment hardware per-second rates; accessed August 6, 2026
-- [Lambda GPU instances](https://lambda.ai/instances) — published VM configuration and per-GPU-hour rates; accessed August 6, 2026
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated August 6, 2026
-- HostFleet full-verification note — `/opt/hostbot/data/ai-hosting/notes/2026-08-06-gpu-pricing-full-verification.md`
+- [RunPod pricing](https://www.runpod.io/pricing) — Pods and Serverless public rate tables; accessed August 10, 2026
+- [Modal pricing](https://modal.com/pricing) — GPU per-second rates and public container/concurrency plan limits; accessed August 10, 2026
+- [Fal pricing](https://fal.ai/pricing) — custom-deployment list and committed-use rate tables; accessed August 10, 2026
+- [Baseten pricing](https://www.baseten.co/pricing/) — managed deployment per-minute GPU rates; accessed August 10, 2026
+- [Replicate pricing](https://replicate.com/pricing) — private-deployment hardware per-second rates; accessed August 10, 2026
+- [Lambda GPU instances](https://lambda.ai/instances) — VM configuration and per-GPU-hour rates; accessed August 10, 2026
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated August 10, 2026
+- HostFleet full-verification note — `/opt/hostbot/data/ai-hosting/notes/2026-08-10-gpu-pricing-full-verification.md`
 
 *Need a self-managed GPU endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
