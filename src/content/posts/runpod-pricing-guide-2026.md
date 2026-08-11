@@ -65,7 +65,7 @@ These are **GPU-only estimates**, not quotes. Assumptions: one GPU, **720 hours 
 | A100 80 GB | about $1,001/mo | about $1,958/mo | about $958/mo |
 | H100 80 GB | about $2,081/mo | about $3,276/mo | about $1,195/mo |
 
-This does not mean Pods always win. An L4 Serverless worker that accrues 100 billable worker-hours costs about **$69** in GPU charges, rather than about $497. Calculate active worker-hours before paying to keep capacity warm.
+This does not mean Pods always win. An L4 Serverless worker that accrues 100 billable worker-hours costs about **$69** in GPU charges, rather than about $497. Calculate active worker-hours before paying to keep capacity warm. For a quick sensitivity check before choosing a product shape, use our [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to compare 1%, 10%, and always-warm H100 allocation assumptions.
 
 ```text
 monthly Serverless GPU cost = Serverless hourly rate × billable worker hours
@@ -97,4 +97,3 @@ If your application does not need to host a model itself, a CPU-first backend ca
 - [RunPod billing overview](https://docs.runpod.io/accounts-billing/billing) — checked July 24, 2026
 
 *Signing up for something covered here? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
-

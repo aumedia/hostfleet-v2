@@ -84,7 +84,7 @@ For a simple first pass, use 43,200 minutes for a 30-day always-warm replica. Th
 2. **Does the endpoint need redundancy or predictable latency?** If yes, budget at least two warm replicas before adding traffic-driven scale-out.
 3. **How long should Baseten wait before scaling down?** A longer scale-down delay can avoid flapping after brief quiet periods, but it retains billable capacity longer.
 
-A traffic-shape example makes the difference concrete. An L4 deployment held up for 100 total replica-hours in a month has roughly **$85** in L4 instance charges at the published $0.85/hour equivalent. An L4 kept warm for the full 720 hours is about **$611** before any extra replicas. Both figures can be correct; they describe different operating choices.
+A traffic-shape example makes the difference concrete. An L4 deployment held up for 100 total replica-hours in a month has roughly **$85** in L4 instance charges at the published $0.85/hour equivalent. An L4 kept warm for the full 720 hours is about **$611** before any extra replicas. Both figures can be correct; they describe different operating choices. Use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to pressure-test the same decision at 1%, 10%, and always-warm allocation before committing to a replica minimum.
 
 ## Scale-to-zero saves money, but it changes the request path
 

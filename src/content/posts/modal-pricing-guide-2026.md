@@ -73,7 +73,7 @@ A cold container has to start before it can serve work. Modal's cold-start guide
 
 Those controls improve latency, but Modal is explicit about the trade: a larger warm pool or longer idle window increases resource consumption and cost. A retained GPU is still a billed GPU.
 
-For example, the L4 rate is $0.000222/second. If the deployment only does 100 billable GPU-hours of work in a month, the GPU component is about **$80**. If an L4 remains allocated for all 720 hours, it is about **$575** before CPU, memory, and storage. The same distinction is why a permanently warm H100 is a roughly **$2,843/month GPU-only** decision, not an inexpensive serverless default.
+For example, the L4 rate is $0.000222/second. If the deployment only does 100 billable GPU-hours of work in a month, the GPU component is about **$80**. If an L4 remains allocated for all 720 hours, it is about **$575** before CPU, memory, and storage. The same distinction is why a permanently warm H100 is a roughly **$2,843/month GPU-only** decision, not an inexpensive serverless default. Our [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) makes the same 1%, 10%, and always-warm allocation test explicit across several H100 product shapes.
 
 ## Limits that should change the architecture
 
@@ -119,5 +119,4 @@ For an application that needs a deliberately always-on GPU rather than elasticit
 - HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, refreshed July 23, 2026
 
 *Signing up for something covered here? If your use case calls for a deliberately always-on RunPod Pod, using our affiliate link supports HostFleet's testing budget at no extra cost: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
-
 
