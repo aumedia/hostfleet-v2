@@ -1,44 +1,34 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ResearchLibrary from "../components/ResearchLibrary.astro";
 import { getCollection } from "astro:content";
 let posts = [];
 try { posts = await getCollection("posts"); } catch {}
-posts = posts.filter(p => !p.data.draft && p.data.category === 'edge');
-posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
+posts = posts.filter((post) => !post.data.draft && post.data.category === "edge").sort((a,b) => +new Date(b.data.updatedDate ?? b.data.pubDate) - +new Date(a.data.updatedDate ?? a.data.pubDate));
 ---
-<Layout title="Edge & modern deployment — HostFleet" description="Vercel, Cloudflare, Netlify, Fly — edge runtimes for AI-driven web apps.">
-  <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
-    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">edge</div>
-    <h1 class="text-4xl font-semibold tracking-tight mt-2">Edge & modern deployment</h1>
-    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Where the web shell around an AI app lives: frontend hosting, edge runtimes, bandwidth limits, runtime traps, and the platform tradeoffs that appear after the demo works.</p>
-    <div class="mt-8 grid gap-4 md:grid-cols-2">
-      <a href="/cf-pages-vs-vercel-vs-netlify-2026/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">start here</div>
-        <div class="mt-2 text-lg font-semibold">Cloudflare Pages vs Vercel vs Netlify</div>
-        <div class="mt-2 text-sm text-[var(--color-text-dim)]">The best first read if your real problem is which frontend host to trust with an AI product.</div>
-      </a>
-      <a href="/where-to-deploy-lovable-bolt-v0-apps/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">builder handoff</div>
-        <div class="mt-2 text-lg font-semibold">Where Lovable, Bolt, and v0 apps actually land</div>
-        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Use this when the app started in an AI builder and now needs a real deployment path.</div>
-      </a>
-    </div>
-    <ul class="mt-10 divide-y divide-[var(--color-border)]">
-      {posts.map(p => (
-        <li class="py-5">
-          <a href={`/${p.id}/`} class="block hover:text-[var(--color-accent)]">
-            <div class="font-semibold text-lg">{p.data.title}</div>
-            <div class="text-sm text-[var(--color-text-dim)] mt-1">{p.data.description}</div>
-            <div class="font-mono text-xs text-[var(--color-text-dim)] mt-2">{new Date(p.data.pubDate).toISOString().slice(0,10)}</div>
-          </a>
-        </li>
-      ))}
-      {posts.length === 0 && (<li class="py-5 text-[var(--color-text-dim)] font-mono text-sm">No posts yet — first benchmarks publishing this week.</li>)}
-    </ul>
-    <div class="mt-12 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Next path</div>
-      <div class="mt-2 text-xl font-semibold">Need to harden the app, not just place it?</div>
-      <p class="mt-3 text-sm text-[var(--color-text-dim)]">Move into <a href="/deploy-ai-apps/">Deploy AI Apps</a> for production footguns, or back to <a href="/ai-hosting/">AI Hosting</a> if the bigger question is the backend or model infrastructure.</p>
+
+<Layout title="Frontend and edge hosting for AI apps — visual guide | HostFleet" description="A visual comparison of frontend and edge hosting for AI-generated apps: Cloudflare Pages, Vercel, Netlify, and when slow AI work belongs elsewhere.">
+  <section class="page-shell edge-hero">
+    <div><span class="eyebrow">Frontend and edge hosting</span><h1>Keep the edge fast.<br/><span>Move slow AI work out.</span></h1><p>The edge is excellent for pages, authentication checks, routing, and short requests. It is a poor home for long model calls, durable agents, and heavy background jobs.</p><a href="#split">See the split →</a></div>
+    <div class="edge-visual soft-card"><div class="globe"><i></i><i></i><i></i><span>your users</span></div><div class="edge-line"></div><div class="edge-pop"><small>Edge</small><strong>Web app</strong><em>fast + global</em></div><div class="edge-line edge-line--slow"></div><div class="edge-worker"><small>Region</small><strong>AI worker</strong><em>slow + durable</em></div></div>
+  </section>
+
+  <section class="page-shell split-section" id="split">
+    <div class="section-heading"><div><span class="eyebrow">A clean boundary</span><h2>Put each job where it fits.</h2></div><p>Platform selection gets simpler when request duration and state are visible.</p></div>
+    <div class="split-board soft-card">
+      <div class="split-side split-side--edge"><span>At the edge</span><h3>Fast, stateless work</h3><ul><li><i>✓</i>Pages and static assets</li><li><i>✓</i>Authentication checks</li><li><i>✓</i>Routing and small APIs</li><li><i>✓</i>Streaming a provider response</li></ul></div>
+      <div class="split-divider"><b>HTTP<br/>or queue</b><i>→</i></div>
+      <div class="split-side split-side--worker"><span>In a worker</span><h3>Slow, durable work</h3><ul><li><i>✓</i>Long model jobs</li><li><i>✓</i>Agents and cron</li><li><i>✓</i>Retries and queues</li><li><i>✓</i>Persistent processes</li></ul></div>
     </div>
   </section>
+
+  <section class="platform-section"><div class="page-shell"><div class="section-heading"><div><span class="eyebrow">The common shortlist</span><h2>Frontend hosts at a glance</h2></div><p>These are positioning summaries. Use the sourced comparison for current plan limits and detailed caveats.</p></div><div class="platforms"><article><span class="platform-logo">C</span><h3>Cloudflare Pages</h3><b>Best starting point for</b><p>Low-cost static and edge-first delivery.</p><em>Watch runtime compatibility and product boundaries.</em></article><article><span class="platform-logo">V</span><h3>Vercel</h3><b>Best starting point for</b><p>Next.js and a polished deployment workflow.</p><em>Watch usage-based costs and function constraints.</em></article><article><span class="platform-logo">N</span><h3>Netlify</h3><b>Best starting point for</b><p>Simple frontend teams and familiar workflows.</p><em>Watch plan allowances and backend expectations.</em></article></div><a class="platform-cta" href="/cf-pages-vs-vercel-vs-netlify-2026/"><span class="label-sourced">Sourced</span><strong>Compare current pricing, limits, and gotchas</strong><b>Open the full matrix →</b></a></div></section>
+
+  <div class="page-shell"><ResearchLibrary posts={posts} title="Edge and frontend research" intro="Detailed platform documentation, current limits, and deployment-specific comparisons are available here after the simple architecture choice is clear." limit={6} /></div>
 </Layout>
+
+<style>
+  .edge-hero{display:grid;grid-template-columns:1fr .9fr;gap:clamp(3rem,8vw,8rem);align-items:center;padding-top:6rem}.edge-hero h1{margin-top:1.3rem;font-size:clamp(3.2rem,7vw,6.2rem);line-height:.9;letter-spacing:-.07em}.edge-hero h1 span{color:#1a9bd3}.edge-hero>div>p{max-width:650px;margin-top:1.5rem;color:var(--color-text-dim);font-size:1.1rem;line-height:1.65}.edge-hero>div>a{display:inline-block;margin-top:1.6rem;padding:.85rem 1.2rem;border-radius:999px;background:#162036;color:white;font-weight:800}.edge-visual{display:grid;grid-template-columns:1fr auto 1fr;padding:1.4rem;align-items:center;background:linear-gradient(145deg,#fff,#eef3ec)}.globe{position:relative;display:grid;grid-column:1/-1;width:150px;height:150px;place-items:center;margin:0 auto 1.5rem;border:2px solid #1a9bd3;border-radius:50%;background:#dff5ff;color:#087fae}.globe i{position:absolute;inset:25px 0;border-block:1px solid currentColor;border-radius:50%}.globe i:nth-child(2){inset:0 45px;border:0;border-inline:1px solid currentColor}.globe i:nth-child(3){inset:0 20px;border:0;border-inline:1px solid currentColor;border-radius:50%}.globe span{z-index:1;padding:.3rem;background:#dff5ff;font:700 .62rem var(--font-mono)}.edge-pop,.edge-worker{padding:1rem;border-radius:15px;text-align:center}.edge-pop{background:#e7f9c1}.edge-worker{background:#eee7ff}.edge-pop small,.edge-pop strong,.edge-pop em,.edge-worker small,.edge-worker strong,.edge-worker em{display:block}.edge-pop small,.edge-worker small{font:700 .58rem var(--font-mono);text-transform:uppercase}.edge-pop strong,.edge-worker strong{margin-top:.3rem}.edge-pop em,.edge-worker em{margin-top:.2rem;color:#697486;font-size:.65rem;font-style:normal}.edge-line{width:45px;border-top:2px solid #9ca799}.edge-line--slow{grid-column:1/-1;width:2px;height:40px;margin:auto;border-top:0;border-left:2px dotted #9ca799}.edge-worker{grid-column:2}.split-section{padding-top:7rem}.split-board{display:grid;grid-template-columns:1fr auto 1fr;padding:1rem}.split-side{padding:2rem;border-radius:18px}.split-side--edge{background:#dff5ff}.split-side--worker{background:#eee7ff}.split-side>span{font:700 .62rem var(--font-mono);text-transform:uppercase}.split-side h3{margin-top:.5rem;font-size:1.8rem}.split-side ul{margin:1.5rem 0 0;padding:0;list-style:none}.split-side li{padding:.7rem 0;border-top:1px solid rgba(22,32,54,.12);font-size:.82rem}.split-side li i{margin-right:.6rem;font-style:normal}.split-divider{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;color:#697486}.split-divider b{font:700 .58rem/1.5 var(--font-mono);text-align:center;text-transform:uppercase}.split-divider i{margin-top:.4rem;font-size:1.6rem;font-style:normal}.platform-section{margin-top:7rem;padding:6rem 0;background:#162036;color:white}.platform-section .eyebrow{border-color:#40506d;background:#24314c;color:#d4dce8}.platform-section .section-heading p{color:#aeb8c7}.platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.platforms article{padding:1.4rem;border:1px solid #3b4963;border-radius:20px;background:#202d48}.platform-logo{display:grid;width:3.2rem;height:3.2rem;place-items:center;border-radius:14px;background:#b9f43b;color:#162036;font-size:1.2rem;font-weight:900}.platforms h3{margin:1rem 0 1.3rem;font-size:1.4rem}.platforms b,.platforms p,.platforms em{display:block}.platforms b{color:#dce3ec;font-size:.7rem}.platforms p{margin-top:.35rem;color:#aeb8c7;font-size:.8rem;line-height:1.45}.platforms em{margin-top:1rem;padding-top:1rem;border-top:1px solid #3b4963;color:#9ca8ba;font-size:.7rem;font-style:normal;line-height:1.45}.platform-cta{display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;margin-top:1rem;padding:1rem;border-radius:15px;background:#101a2e}.platform-cta strong{font-size:.82rem}.platform-cta>b{color:#b9f43b;font-size:.75rem}
+  @media(max-width:900px){.edge-hero{grid-template-columns:1fr}.edge-visual{max-width:620px}.platforms{grid-template-columns:1fr}.platform-cta{grid-template-columns:1fr}}
+  @media(max-width:560px){.edge-hero{padding-top:3rem}.split-board{grid-template-columns:1fr}.split-divider i{transform:rotate(90deg)}.edge-line{width:20px}.edge-visual{padding:.8rem}}
+</style>

@@ -59,30 +59,37 @@ const articleSchema = {
 ---
 <Layout title={`${title} — HostFleet`} description={description} image={ogImage}>
   {legacy && <Fragment slot="head"><meta name="robots" content="noindex,follow" /></Fragment>}
-  <article class="max-w-3xl mx-auto px-6 py-16">
-    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)] mb-4">{category}</div>
-    <h1 class="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">{title}</h1>
-    <div class="mt-4 font-mono text-sm text-[var(--color-text-dim)]">
-      By {author} · <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</time>
-    </div>
-    <div class="mt-10 prose-invert text-[var(--color-text)] leading-relaxed [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:mt-12 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:my-5 [&_ul]:my-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_a]:text-[var(--color-accent)] [&_a:hover]:underline [&_code]:font-mono [&_code]:text-sm [&_code]:bg-[var(--color-surface)] [&_code]:px-1 [&_code]:py-0.5 [&_code]:rounded [&_pre]:bg-[var(--color-surface)] [&_pre]:p-4 [&_pre]:rounded-lg [&_pre]:overflow-x-auto [&_table]:w-full [&_table]:my-6 [&_table]:border-collapse [&_th]:border [&_th]:border-[var(--color-border)] [&_th]:px-3 [&_th]:py-2 [&_th]:text-left [&_th]:bg-[var(--color-surface)] [&_td]:border [&_td]:border-[var(--color-border)] [&_td]:px-3 [&_td]:py-2 [&_hr]:my-10 [&_hr]:border-[var(--color-border)] [&_strong]:font-semibold [&_strong]:text-white [&_em]:text-[var(--color-text-dim)]">
-      <Content />
+  <article class="article-shell page-shell">
+    <header class="article-header">
+      <div class="article-header__meta"><a href={categoryHref}>{categoryName}</a><span>Research article</span></div>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      <div class="article-byline">
+        <div class="article-avatar">AH</div>
+        <div><strong>{author}</strong><span>Infrastructure analyst</span></div>
+        <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</time>
+        {updatedDate && <small>Updated {updatedDate.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}</small>}
+      </div>
+    </header>
+    <div class="article-grid">
+      <aside class="article-rail">
+        <span>How to read this</span>
+        <p>Claims should be labeled as sourced, measured, or estimated. Source links go directly to the evidence.</p>
+        <a href="/about/">Methodology →</a>
+      </aside>
+      <div class="article-body"><Content /></div>
     </div>
   </article>
-  <section class="max-w-3xl mx-auto px-6 pb-20">
-    <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Continue reading</div>
-      <div class="mt-2 text-xl font-semibold">More from {categoryName}</div>
-      <p class="mt-3 text-sm text-[var(--color-text-dim)]">Use the category hub if you want the fuller cluster, or jump into the closest related reads below.</p>
-      <div class="mt-4">
-        <a href={categoryHref} class="font-mono text-sm text-[var(--color-accent)] hover:underline">Browse {categoryName} →</a>
-      </div>
+  <section class="related-section page-shell">
+    <div class="related-box">
+      <span class="eyebrow">Continue with context</span>
+      <div class="related-heading"><div><h2>More from {categoryName}</h2><p>Return to the visual guide or open the closest evidence pages.</p></div><a href={categoryHref}>Browse the visual guide →</a></div>
       {relatedPosts.length > 0 && (
-        <div class="mt-6 grid gap-4 md:grid-cols-3">
+        <div class="related-grid">
           {relatedPosts.map((related) => (
-            <a href={`/${related.id}/`} class="block rounded-lg border border-[var(--color-border)] p-4 hover:border-[var(--color-accent)] transition">
-              <div class="font-semibold leading-tight">{related.data.title}</div>
-              <div class="mt-2 text-sm text-[var(--color-text-dim)]">{related.data.description}</div>
+            <a href={`/${related.id}/`}>
+              <strong>{related.data.title}</strong>
+              <span>{related.data.description}</span>
             </a>
           ))}
         </div>
@@ -91,3 +98,9 @@ const articleSchema = {
   </section>
   <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 </Layout>
+
+<style is:global>
+  .article-shell{max-width:1120px;padding-top:5rem}.article-header{max-width:900px;margin:auto}.article-header__meta{display:flex;align-items:center;gap:.7rem;color:#637083;font:700 .65rem var(--font-mono);text-transform:uppercase}.article-header__meta a{padding:.4rem .65rem;border-radius:7px;background:#e5f8bb;color:#426900}.article-header__meta span{padding:.4rem .65rem;border:1px solid var(--color-border);border-radius:7px}.article-header h1{margin-top:1.2rem;font-size:clamp(2.7rem,6vw,5.4rem);line-height:.98;letter-spacing:-.06em}.article-header>p{max-width:780px;margin-top:1.3rem;color:var(--color-text-dim);font-size:1.08rem;line-height:1.6}.article-byline{display:flex;align-items:center;gap:.8rem;margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--color-border)}.article-avatar{display:grid;width:2.6rem;height:2.6rem;place-items:center;border-radius:50%;background:#162036;color:#b9f43b;font:700 .7rem var(--font-mono)}.article-byline strong,.article-byline span{display:block}.article-byline strong{font-size:.78rem}.article-byline span{margin-top:.15rem;color:var(--color-text-dim);font-size:.65rem}.article-byline time,.article-byline small{color:var(--color-text-dim);font:.65rem var(--font-mono)}.article-byline time{margin-left:auto}.article-grid{display:grid;grid-template-columns:180px minmax(0,760px);gap:3.5rem;justify-content:center;margin-top:4rem}.article-rail{position:sticky;top:110px;align-self:start;padding:1rem;border:1px solid var(--color-border);border-radius:15px;background:rgba(255,255,255,.7)}.article-rail span{font:750 .63rem var(--font-mono);text-transform:uppercase}.article-rail p{margin-top:.6rem;color:var(--color-text-dim);font-size:.69rem;line-height:1.5}.article-rail a{display:block;margin-top:.8rem;color:#087fae;font-size:.7rem;font-weight:750}.article-body{min-width:0;color:#243047;font-size:1rem;line-height:1.78}.article-body>:first-child{margin-top:0}.article-body>h1:first-of-type{display:none}.article-body h2{margin:3.6rem 0 1.1rem;padding-top:1rem;border-top:1px solid var(--color-border);color:#162036;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.12;letter-spacing:-.04em}.article-body h3{margin:2.4rem 0 .8rem;color:#162036;font-size:1.3rem;letter-spacing:-.025em}.article-body p{margin:1.15rem 0}.article-body>p:first-child{padding:1rem 1.15rem;border-left:4px solid #1a9bd3;border-radius:0 12px 12px 0;background:#e7f6fc;color:#516075;font-size:.82rem;line-height:1.6}.article-body strong{color:#162036;font-weight:760}.article-body em{color:#5f6d80}.article-body a{color:#087fae;text-decoration:underline;text-underline-offset:3px}.article-body ul,.article-body ol{margin:1.2rem 0;padding-left:1.4rem}.article-body li{margin:.55rem 0;padding-left:.25rem}.article-body pre{margin:1.4rem 0;padding:1.1rem;border-radius:14px;background:#111827;color:white;overflow:auto}.article-body code{padding:.1rem .3rem;border-radius:4px;background:#e9ede7;font: .88em var(--font-mono)}.article-body pre code{padding:0;background:transparent;color:inherit}.article-body table{display:block;width:100%;margin:1.5rem 0;border-collapse:collapse;overflow-x:auto;font-size:.78rem}.article-body th{background:#e9ede7;color:#162036;font-weight:800}.article-body th,.article-body td{min-width:120px;padding:.75rem;border:1px solid #d3d9d0;text-align:left;vertical-align:top}.article-body blockquote{margin:1.5rem 0;padding:1rem 1.2rem;border-left:4px solid #b9f43b;background:#f0f5e8;color:#526072}.article-body hr{margin:3rem 0;border:0;border-top:1px solid var(--color-border)}.related-section{max-width:1120px;padding-top:6rem}.related-box{padding:1.5rem;border:1px solid var(--color-border);border-radius:24px;background:rgba(255,255,255,.75)}.related-heading{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-top:1.2rem}.related-heading h2{font-size:1.8rem;letter-spacing:-.04em}.related-heading p{margin-top:.4rem;color:var(--color-text-dim);font-size:.8rem}.related-heading>a{color:#087fae;font-size:.78rem;font-weight:750}.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1.3rem}.related-grid>a{padding:1rem;border:1px solid var(--color-border);border-radius:14px;background:white}.related-grid strong,.related-grid span{display:block}.related-grid strong{font-size:.82rem;line-height:1.35}.related-grid span{margin-top:.5rem;color:var(--color-text-dim);font-size:.68rem;line-height:1.45}
+  @media(max-width:850px){.article-shell{padding-top:3rem}.article-grid{grid-template-columns:1fr;gap:1rem}.article-rail{position:static;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center}.article-rail p,.article-rail a{margin-top:0}.related-grid{grid-template-columns:1fr}}
+  @media(max-width:560px){.article-byline{align-items:flex-start;flex-wrap:wrap}.article-byline time{width:calc(100% - 3.4rem);margin-left:3.4rem}.article-grid{margin-top:2rem}.article-rail{display:block}.article-rail p,.article-rail a{margin-top:.6rem}.article-body{font-size:.95rem}.related-heading{align-items:flex-start;flex-direction:column}}
+</style>

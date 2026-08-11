@@ -1,0 +1,47 @@
+---
+const {
+  posts = [],
+  title = "Research library",
+  intro = "Source-backed deep dives, comparisons, and deployment notes.",
+  limit = 6,
+} = Astro.props;
+
+const visible = posts.slice(0, limit);
+const remaining = posts.slice(limit);
+const formatDate = (date) => new Date(date).toISOString().slice(0, 10);
+---
+
+<section class="research-library" aria-labelledby="research-library-title">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">Deep research</span>
+      <h2 id="research-library-title">{title}</h2>
+    </div>
+    <p>{intro}</p>
+  </div>
+
+  <div class="research-grid">
+    {visible.map((post) => (
+      <a class="research-card" href={`/${post.id}/`}>
+        <span class="research-card__type">{post.data.category.replaceAll("-", " ")}</span>
+        <strong>{post.data.title}</strong>
+        <span>{post.data.description}</span>
+        <small>{formatDate(post.data.updatedDate ?? post.data.pubDate)} · Read the evidence →</small>
+      </a>
+    ))}
+  </div>
+
+  {remaining.length > 0 && (
+    <details class="research-more">
+      <summary>Show {remaining.length} more research notes</summary>
+      <div class="research-list">
+        {remaining.map((post) => (
+          <a href={`/${post.id}/`}>
+            <strong>{post.data.title}</strong>
+            <span>{formatDate(post.data.updatedDate ?? post.data.pubDate)}</span>
+          </a>
+        ))}
+      </div>
+    </details>
+  )}
+</section>

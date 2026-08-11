@@ -1,49 +1,72 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ResearchLibrary from "../components/ResearchLibrary.astro";
 import { getCollection } from "astro:content";
 let posts = [];
 try { posts = await getCollection("posts"); } catch {}
-posts = posts.filter(p => !p.data.draft && p.data.category === 'deploy-ai-apps');
-posts.sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
+posts = posts.filter((post) => !post.data.draft && post.data.category === "deploy-ai-apps").sort((a,b) => +new Date(b.data.updatedDate ?? b.data.pubDate) - +new Date(a.data.updatedDate ?? a.data.pubDate));
 ---
-<Layout title="Deploy AI-generated sites — HostFleet" description="Where Lovable, Bolt, and v0 outputs actually land in production.">
-  <section class="max-w-4xl mx-auto px-6 pt-16 pb-24">
-    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">deploy-ai-apps</div>
-    <h1 class="text-4xl font-semibold tracking-tight mt-2">Deploy AI-generated sites</h1>
-    <p class="mt-3 max-w-3xl text-[var(--color-text-dim)] text-lg">Deployment paths, production traps, and handoff decisions for apps that started in Lovable, Bolt, v0, Cursor, or a similar AI-first workflow.</p>
-    <div class="mt-8 grid gap-4 md:grid-cols-3">
-      <a href="/where-to-deploy-lovable-bolt-v0-apps/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">decision guide</div>
-        <div class="mt-2 text-lg font-semibold">Choose the deployment lane first</div>
-        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Lovable Cloud, Bolt Cloud, Vercel, Cloudflare, Netlify, or GitHub export.</div>
-      </a>
-      <a href="/ai-generated-app-production-footguns/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">production checklist</div>
-        <div class="mt-2 text-lg font-semibold">Catch the failures that show up after launch</div>
-        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Security, runtime, timeouts, and generated-code failure modes.</div>
-      </a>
-      <a href="/cf-pages-vs-vercel-vs-netlify-2026/" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5 hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">host choice</div>
-        <div class="mt-2 text-lg font-semibold">Compare the frontend hosts that usually get the code</div>
-        <div class="mt-2 text-sm text-[var(--color-text-dim)]">Useful when deployment friction is really a platform-pricing or limits problem.</div>
-      </a>
+
+<Layout title="How to deploy an AI-generated app — visual guide | HostFleet" description="A simple production map for apps built with Lovable, Bolt, v0, Cursor, and other AI tools: frontend, backend workers, data, secrets, and hosting choices.">
+  <section class="page-shell deploy-hero">
+    <div>
+      <span class="eyebrow">From generated code to a real product</span>
+      <h1>Your AI app works.<br/><span>Where should it live?</span></h1>
+      <p>Do not move the whole prototype into one mystery box. Split it into a fast frontend, a backend for secrets and slow work, and persistent data.</p>
+      <a href="#map">Map my app →</a>
     </div>
-    <ul class="mt-10 divide-y divide-[var(--color-border)]">
-      {posts.map(p => (
-        <li class="py-5">
-          <a href={`/${p.id}/`} class="block hover:text-[var(--color-accent)]">
-            <div class="font-semibold text-lg">{p.data.title}</div>
-            <div class="text-sm text-[var(--color-text-dim)] mt-1">{p.data.description}</div>
-            <div class="font-mono text-xs text-[var(--color-text-dim)] mt-2">{new Date(p.data.pubDate).toISOString().slice(0,10)}</div>
-          </a>
-        </li>
-      ))}
-      {posts.length === 0 && (<li class="py-5 text-[var(--color-text-dim)] font-mono text-sm">No posts yet — first benchmarks publishing this week.</li>)}
-    </ul>
-    <div class="mt-12 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-      <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)]">Next path</div>
-      <div class="mt-2 text-xl font-semibold">Need the backend stack behind the app?</div>
-      <p class="mt-3 text-sm text-[var(--color-text-dim)]">Go deeper into <a href="/ai-hosting/">AI Hosting</a> for model, GPU, vector, and agent infrastructure, or into <a href="/edge/">Edge</a> if the real bottleneck is the web runtime.</p>
+    <div class="app-window soft-card" aria-label="Illustration of an AI-generated app moving into production">
+      <div class="window-bar"><i></i><i></i><i></i><span>prototype.app</span></div>
+      <div class="window-body"><div class="window-sidebar"><i></i><i></i><i></i></div><div class="window-content"><span>Built with AI</span><strong>Your working demo</strong><div><i></i><i></i></div><button>Deploy?</button></div></div>
+      <div class="window-warning"><span>!</span><div><strong>A demo is not an architecture</strong><small>Secrets, long jobs, data, domains, and limits still need a home.</small></div></div>
     </div>
   </section>
+
+  <section class="production-map" id="map">
+    <div class="page-shell">
+      <div class="section-heading"><div><span class="eyebrow">The production map</span><h2>Three layers. Three jobs.</h2></div><p>Most generated apps become easier to host once the code is separated by what it actually does.</p></div>
+      <div class="map-grid">
+        <article class="layer layer--front"><div class="layer-icon">◇</div><span>Layer 1</span><h3>Frontend</h3><p>Pages, interface, static assets, and fast request handlers close to users.</p><dl><div><dt>Good homes</dt><dd>Cloudflare Pages · Vercel · Netlify</dd></div><div><dt>Keep out</dt><dd>Secrets · long jobs · state</dd></div></dl><a href="/edge/">Choose a frontend host →</a></article>
+        <div class="map-arrow"><span>API</span>→</div>
+        <article class="layer layer--back"><div class="layer-icon">◎</div><span>Layer 2</span><h3>Backend</h3><p>Authentication, model calls, webhooks, queues, cron, agents, and slow work.</p><dl><div><dt>Good homes</dt><dd>Railway · Render · Fly.io · VPS</dd></div><div><dt>Needs</dt><dd>Logs · retries · secrets · uptime</dd></div></dl><a href="/railway-vs-fly-io-vs-render-for-ai-workflow-backends/">Choose a backend →</a></article>
+        <div class="map-arrow"><span>SQL</span>→</div>
+        <article class="layer layer--data"><div class="layer-icon">▤</div><span>Layer 3</span><h3>Data</h3><p>Users, app state, files, embeddings, queues, and the information that must survive deploys.</p><dl><div><dt>Good homes</dt><dd>Managed Postgres · object storage</dd></div><div><dt>Needs</dt><dd>Backups · migrations · access control</dd></div></dl><a href="/vector-database-hosting-small-ai-apps/">Plan the data layer →</a></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-shell builder-paths">
+    <div class="section-heading"><div><span class="eyebrow">Pick by maturity</span><h2>How far should you move?</h2></div><p>Migration is not a badge of seriousness. Keep the builder when it works; export only when a concrete limit justifies the operational load.</p></div>
+    <div class="maturity-track">
+      <article><span class="track-dot">1</span><small>Fastest</small><h3>Stay in the builder</h3><p>Use the included hosting and database for validation.</p><b>Best while:</b><em>the limits are not hurting you</em></article>
+      <i></i>
+      <article><span class="track-dot">2</span><small>Balanced</small><h3>Export the frontend</h3><p>Own the domain and web deployment; keep managed services.</p><b>Best when:</b><em>you need portability or custom CI</em></article>
+      <i></i>
+      <article><span class="track-dot">3</span><small>Most control</small><h3>Own the full stack</h3><p>Operate web, workers, state, monitoring, and recovery.</p><b>Best when:</b><em>the product can pay for operations</em></article>
+    </div>
+    <div class="maturity-links"><a href="/where-to-deploy-lovable-bolt-v0-apps/">Compare Lovable, Bolt, v0, and export paths →</a><a href="/migrate-ai-generated-app-to-own-hosting/">Follow the migration sequence →</a></div>
+  </section>
+
+  <section class="failure-section">
+    <div class="page-shell">
+      <div class="section-heading"><div><span class="eyebrow">Before launch</span><h2>What usually breaks first?</h2></div><p>Generated code can look complete while the production behavior remains untested.</p></div>
+      <div class="failure-grid">
+        <div><span>01</span><i class="failure-icon">⌁</i><strong>Secrets in the browser</strong><small>API keys and privileged calls belong behind a server boundary.</small></div>
+        <div><span>02</span><i class="failure-icon">◴</i><strong>Long jobs time out</strong><small>Move generation, scraping, and workflows into a durable worker.</small></div>
+        <div><span>03</span><i class="failure-icon">↻</i><strong>No retry path</strong><small>Model and webhook failures need idempotency and recovery.</small></div>
+        <div><span>04</span><i class="failure-icon">▧</i><strong>Data disappears</strong><small>Ephemeral filesystems are not databases or backups.</small></div>
+        <div><span>05</span><i class="failure-icon">◉</i><strong>No useful logs</strong><small>Capture request IDs, job state, failures, and provider latency.</small></div>
+        <div><span>06</span><i class="failure-icon">$</i><strong>Spend has no ceiling</strong><small>Add rate limits, quotas, budgets, and abuse controls.</small></div>
+      </div>
+      <a class="failure-cta" href="/ai-generated-app-production-footguns/"><span>Use the complete production checklist</span><strong>Open 12 failure modes →</strong></a>
+    </div>
+  </section>
+
+  <div class="page-shell"><ResearchLibrary posts={posts} title="Deployment research library" intro="Detailed platform limits, comparisons, migration instructions, and backend patterns live here when you need the evidence behind the map." limit={9} /></div>
 </Layout>
+
+<style>
+  .deploy-hero{display:grid;grid-template-columns:1fr .92fr;gap:clamp(3rem,8vw,8rem);align-items:center;padding-top:6rem}.deploy-hero h1{margin-top:1.3rem;font-size:clamp(3.2rem,7vw,6.2rem);line-height:.9;letter-spacing:-.07em}.deploy-hero h1 span{color:#1a9bd3}.deploy-hero>div>p{max-width:640px;margin-top:1.5rem;color:var(--color-text-dim);font-size:1.15rem;line-height:1.65}.deploy-hero>div>a{display:inline-block;margin-top:1.7rem;padding:.9rem 1.25rem;border-radius:999px;background:#162036;color:white;font-weight:800}.app-window{padding:1rem;background:white}.window-bar{display:flex;align-items:center;gap:.35rem;padding:.5rem;border-radius:10px 10px 0 0;background:#162036}.window-bar i{width:.5rem;height:.5rem;border-radius:50%;background:#6c7890}.window-bar i:first-child{background:#b9f43b}.window-bar span{margin-left:.5rem;color:#aab5c6;font:600 .58rem var(--font-mono)}.window-body{display:grid;grid-template-columns:55px 1fr;min-height:250px;background:#f1f4ef}.window-sidebar{padding:.8rem;background:#e6ebe3}.window-sidebar i{display:block;height:8px;margin-bottom:.7rem;border-radius:5px;background:#c6cec2}.window-content{padding:2.5rem 1.5rem}.window-content>span{color:#087fae;font:700 .58rem var(--font-mono);text-transform:uppercase}.window-content>strong{display:block;margin-top:.4rem;font-size:1.3rem}.window-content>div{display:grid;grid-template-columns:1.4fr 1fr;gap:.6rem;margin-top:1.4rem}.window-content>div i{height:58px;border-radius:10px;background:white}.window-content button{margin-top:1.3rem;padding:.6rem 1rem;border:0;border-radius:8px;background:#b9f43b;font-size:.7rem;font-weight:800}.window-warning{display:flex;gap:.7rem;margin-top:1rem;padding:.9rem;border-radius:12px;background:#fff1df}.window-warning>span{display:grid;width:2rem;height:2rem;place-items:center;border-radius:50%;background:#ffb75f;font-weight:900}.window-warning strong,.window-warning small{display:block}.window-warning strong{font-size:.75rem}.window-warning small{margin-top:.2rem;color:#7a674e;font-size:.65rem}.production-map{margin-top:7rem;padding:6rem 0;background:#162036;color:white}.production-map .eyebrow,.failure-section .eyebrow{border-color:#40506d;background:#24314c;color:#d4dce8}.production-map .section-heading p,.failure-section .section-heading p{color:#aeb8c7}.map-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.7rem;align-items:center}.layer{height:100%;padding:1.4rem;border:1px solid #3c4a64;border-radius:22px;background:#202d48}.layer-icon{display:grid;width:3.5rem;height:3.5rem;place-items:center;margin-bottom:1rem;border-radius:15px;font-size:1.4rem}.layer--front .layer-icon{background:#dff5ff;color:#087fae}.layer--back .layer-icon{background:#e7f9c1;color:#4b7400}.layer--data .layer-icon{background:#eee7ff;color:#6e42b5}.layer>span{color:#9facbd;font:700 .62rem var(--font-mono);text-transform:uppercase}.layer h3{margin-top:.3rem;font-size:1.6rem}.layer>p{min-height:82px;margin-top:.7rem;color:#aeb8c7;font-size:.8rem;line-height:1.55}.layer dl>div{padding:.7rem 0;border-top:1px solid #3c4a64}.layer dt{color:#cbd4df;font-size:.65rem;font-weight:800}.layer dd{margin-top:.2rem;color:#9facbd;font-size:.68rem;line-height:1.4}.layer>a{display:block;margin-top:1rem;color:#b9f43b;font-size:.73rem;font-weight:750}.map-arrow{text-align:center;color:#75829a;font-size:1.2rem}.map-arrow span{display:block;margin-bottom:.3rem;font:700 .52rem var(--font-mono)}.builder-paths{padding-top:7rem}.maturity-track{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:1rem;align-items:center}.maturity-track article{min-height:265px;padding:1.3rem;border:1px solid var(--color-border);border-radius:20px;background:white}.track-dot{display:grid;width:2.2rem;height:2.2rem;place-items:center;border-radius:50%;background:#162036;color:white;font:700 .72rem var(--font-mono)}.maturity-track small{display:block;margin-top:1.3rem;color:#087fae;font:700 .6rem var(--font-mono);text-transform:uppercase}.maturity-track h3{margin-top:.35rem;font-size:1.35rem}.maturity-track p{min-height:60px;margin-top:.55rem;color:var(--color-text-dim);font-size:.8rem;line-height:1.5}.maturity-track b,.maturity-track em{display:block;font-size:.7rem}.maturity-track em{margin-top:.2rem;color:var(--color-text-dim);font-style:normal;line-height:1.4}.maturity-track>i{width:30px;border-top:2px dotted #a6afa2}.maturity-links{display:flex;justify-content:space-between;gap:1rem;margin-top:1rem}.maturity-links a{padding:.9rem 1rem;border:1px solid var(--color-border);border-radius:12px;background:white;color:#087fae;font-size:.78rem;font-weight:750}.failure-section{margin-top:7rem;padding:6rem 0;background:#162036;color:white}.failure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.failure-grid>div{position:relative;min-height:190px;padding:1.2rem;border:1px solid #3b4962;border-radius:18px;background:#202d48}.failure-grid>div>span{color:#718098;font:700 .62rem var(--font-mono)}.failure-icon{position:absolute;right:1rem;top:1rem;color:#b9f43b;font-size:1.5rem;font-style:normal}.failure-grid strong,.failure-grid small{display:block}.failure-grid strong{margin-top:2.7rem}.failure-grid small{margin-top:.5rem;color:#aeb8c7;font-size:.73rem;line-height:1.5}.failure-cta{display:flex;justify-content:space-between;margin-top:1rem;padding:1rem 1.2rem;border-radius:14px;background:#b9f43b;color:#162036}.failure-cta span{font-size:.78rem}.failure-cta strong{font-size:.8rem}
+  @media(max-width:900px){.deploy-hero{grid-template-columns:1fr}.app-window{max-width:620px}.map-grid{grid-template-columns:1fr}.map-arrow{transform:rotate(90deg)}.layer>p{min-height:0}.maturity-track{grid-template-columns:1fr}.maturity-track>i{height:20px;width:0;margin:auto;border-top:0;border-left:2px dotted #a6afa2}.maturity-track article{min-height:0}.maturity-track p{min-height:0}.failure-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.deploy-hero{padding-top:3rem}.window-body{min-height:210px}.window-content{padding:1.5rem 1rem}.maturity-links,.failure-cta{align-items:flex-start;flex-direction:column}.failure-grid{grid-template-columns:1fr}.failure-grid>div{min-height:160px}}
+</style>

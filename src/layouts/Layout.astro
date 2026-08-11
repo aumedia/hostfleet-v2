@@ -1,10 +1,10 @@
 ---
 import "../styles/global.css";
-const { title = "HostFleet — Ship AI Apps. Everywhere.", description = "Benchmarks, pricing matrices, and deployment guides for AI hosting and deployment infrastructure.", canonical, image } = Astro.props;
+const { title = "HostFleet — AI hosting, explained visually", description = "Simple, visual guides to hosting AI models, agents, and AI-generated apps — with real infrastructure prices and honest tradeoffs.", canonical, image } = Astro.props;
 const url = canonical ?? new URL(Astro.url.pathname, Astro.site ?? "https://hostfleet.net").toString();
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" class="antialiased">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -17,40 +17,53 @@ const url = canonical ?? new URL(Astro.url.pathname, Astro.site ?? "https://host
   <meta property="og:url" content={url} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f4f6f1" />
     <link rel="preconnect" href="https://rsms.me" />
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <slot name="head" />
     <!-- GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W2SWWQV9BJ"></script>
     <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-W2SWWQV9BJ",{anonymize_ip:true});</script>
       <script is:inline>document.addEventListener("click",function(e){var a=e.target&&e.target.closest?e.target.closest('a[href^="/go/"]'):null;if(a&&window.gtag){gtag("event","affiliate_click",{link_slug:a.getAttribute("href"),page:location.pathname});}},true);</script>
   </head>
   <body class="min-h-screen flex flex-col">
-    <header class="border-b border-[var(--color-border)] bg-[var(--color-bg)]/80 backdrop-blur sticky top-0 z-10">
-      <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2 font-mono text-sm">
-          <span class="text-[var(--color-accent)]">▲</span>
-          <span class="font-semibold tracking-tight">hostfleet</span>
-          <span class="text-[var(--color-text-dim)]">/v2</span>
+    <header class="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[#f4f6f1]/88 backdrop-blur-xl">
+      <div class="page-shell flex min-h-18 items-center justify-between gap-6">
+        <a href="/" class="flex items-center gap-3" aria-label="HostFleet home">
+          <span class="relative grid h-9 w-9 place-items-center overflow-hidden rounded-xl bg-[#162036]" aria-hidden="true">
+            <span class="absolute h-3 w-3 -translate-x-1 translate-y-1 rounded-sm bg-[var(--color-accent)]"></span>
+            <span class="absolute h-3 w-3 translate-x-1 -translate-y-1 rounded-sm border-2 border-white"></span>
+          </span>
+          <span class="text-lg font-extrabold tracking-[-.04em]">hostfleet</span>
         </a>
-        <nav class="flex items-center gap-6 text-sm font-mono">
-          <a href="/ai-hosting/">AI Hosting</a>
-          <a href="/edge/">Edge</a>
-          <a href="/deploy-ai-apps/">Deploy AI Apps</a>
-          <a href="/gpu-pricing/">GPU Pricing</a>
-          <a href="/about/">About</a>
+        <nav class="hidden items-center gap-7 text-sm font-semibold lg:flex" aria-label="Main navigation">
+          <a class="hover:text-[#087fae]" href="/#start">Start here</a>
+          <a class="hover:text-[#087fae]" href="/ai-hosting/">Models & GPUs</a>
+          <a class="hover:text-[#087fae]" href="/calculators/llm-hosting-cost/">Costs</a>
+          <a class="hover:text-[#087fae]" href="/deploy-ai-apps/">Deploy apps</a>
+          <a class="hover:text-[#087fae]" href="/gpu-pricing/">Live data</a>
         </nav>
+        <a href="/#start" class="header-cta rounded-full bg-[#162036] px-4 py-2.5 text-sm font-bold transition hover:-translate-y-0.5 hover:bg-[#263454]">Find my setup <span aria-hidden="true">→</span></a>
       </div>
+      <nav class="mobile-nav page-shell flex gap-5 overflow-x-auto pb-3 text-xs font-bold lg:hidden" aria-label="Mobile navigation">
+        <a href="/ai-hosting/">Models & GPUs</a><a href="/calculators/llm-hosting-cost/">Costs</a><a href="/deploy-ai-apps/">Deploy apps</a><a href="/gpu-pricing/">Live data</a>
+      </nav>
     </header>
     <main class="flex-1"><slot /></main>
-    <footer class="border-t border-[var(--color-border)] mt-24">
-      <div class="max-w-5xl mx-auto px-6 py-10 text-sm text-[var(--color-text-dim)] flex flex-col md:flex-row md:justify-between gap-4">
-        <div>
-          <div class="font-mono text-[var(--color-text)]">hostfleet.net</div>
-          <div>Benchmarks, pricing matrices, and deployment guides for AI deployment infrastructure.</div>
+    <footer class="mt-24 border-t border-[var(--color-border)] bg-white/55">
+      <div class="page-shell grid gap-10 py-12 text-sm md:grid-cols-3">
+        <div class="max-w-sm">
+          <div class="text-lg font-extrabold tracking-[-.04em]">hostfleet</div>
+          <p class="mt-3 leading-relaxed text-[var(--color-text-dim)]">We turn AI infrastructure choices into diagrams, calculators, and reproducible tests.</p>
         </div>
-        <div class="font-mono">
-          <div>Editor: <span class="text-[var(--color-text)]">Alex Harmon</span> — Senior Infrastructure Analyst</div>
-          <div>Some links may be affiliate. Methodology is open.</div>
+        <div class="grid grid-cols-2 gap-3 font-semibold">
+          <a href="/ai-hosting/">Model hosting</a><a href="/gpu-pricing/">GPU prices</a>
+          <a href="/deploy-ai-apps/">App deployment</a><a href="/edge/">Edge platforms</a>
+          <a href="/about/">Methodology</a><a href="/legacy-hosting/">Archive</a>
+        </div>
+        <div class="text-[var(--color-text-dim)]">
+          <div><span class="font-semibold text-[var(--color-text)]">Alex Harmon</span> · Infrastructure analyst</div>
+          <p class="mt-2 leading-relaxed">Measured, sourced, and estimated claims are labeled. Some signup links are affiliate links; source links never are.</p>
         </div>
       </div>
     </footer>

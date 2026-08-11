@@ -1,165 +1,237 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ResearchLibrary from "../components/ResearchLibrary.astro";
 import { getCollection } from "astro:content";
 import pricing from "../data/gpu-pricing.json";
 
 let posts = [];
 try { posts = await getCollection("posts"); } catch {}
-posts = posts.filter(p => !p.data.draft && !p.data.legacy).sort((a,b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate));
-const recent = posts.slice(0, 6);
+posts = posts
+  .filter((post) => !post.data.draft && !post.data.legacy)
+  .sort((a, b) => +new Date(b.data.updatedDate ?? b.data.pubDate) - +new Date(a.data.updatedDate ?? a.data.pubDate));
 
-// Live snapshot: cheapest listed rate per headline GPU, straight from the data file.
-const spotlightIds = ["h100", "a100_80", "l40s", "h200", "l4"];
-const providerName = (id) => pricing.providers.find(p => p.id === id)?.name ?? id;
-const spotlight = spotlightIds.map(id => {
-  const g = pricing.gpus.find(x => x.id === id);
-  if (!g) return null;
-  let best = null;
-  for (const [pid, cell] of Object.entries(g.prices)) {
-    if (cell?.hr != null && (!best || cell.hr < best.hr)) best = { hr: cell.hr, pid };
-  }
-  return best ? { name: g.name, vram: g.vram, hr: best.hr, provider: providerName(best.pid) } : null;
-}).filter(Boolean);
-const updated = pricing.updated;
+const featuredIds = [
+  "serverless-gpu-pricing-matrix-2026",
+  "what-gpu-to-run-llama-70b",
+  "best-hosting-for-ai-agents-on-a-budget",
+  "where-to-deploy-lovable-bolt-v0-apps",
+  "ai-generated-app-production-footguns",
+  "cost-to-run-ai-side-project-on-vps-30-days",
+];
+const featured = featuredIds.map((id) => posts.find((post) => post.id === id)).filter(Boolean);
+
+const providerName = (id) => pricing.providers.find((provider) => provider.id === id)?.name ?? id;
+function cheapestFor(gpuId) {
+  const gpu = pricing.gpus.find((item) => item.id === gpuId);
+  if (!gpu) return null;
+  const matches = Object.entries(gpu.prices)
+    .filter(([, cell]) => typeof cell?.hr === "number")
+    .map(([provider, cell]) => ({ rate: cell.hr, provider: providerName(provider) }))
+    .sort((a, b) => a.rate - b.rate);
+  return matches[0] ?? null;
+}
+
+const modelGuide = [
+  { model: "Qwen3 8B", params: "8B", target: "16 GB", gpu: "T4", rate: cheapestFor("t4"), width: 18 },
+  { model: "Mistral Small 24B", params: "24B", target: "24 GB", gpu: "L4", rate: cheapestFor("l4"), width: 34 },
+  { model: "Qwen3 32B", params: "32B", target: "32 GB", gpu: "RTX 5090", rate: cheapestFor("rtx5090"), width: 52 },
+  { model: "Llama 3.3 70B", params: "70B", target: "48 GB", gpu: "A40 / A6000", rate: cheapestFor("a6000"), width: 84 },
+];
+
+const cardsTracked = pricing.gpus.length;
+const providersTracked = pricing.providers.length;
 ---
+
 <Layout>
-  <!-- HERO: question + live numbers -->
-  <section class="max-w-5xl mx-auto px-6 pt-20 pb-14">
-    <div class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">The AI Infrastructure Review</div>
-    <div class="mt-3 grid md:grid-cols-5 gap-10 items-start">
-      <div class="md:col-span-3">
-        <h1 class="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05]">Where should<br/>your AI app <span class="text-[var(--color-accent)]">live?</span></h1>
-        <p class="mt-6 text-lg text-[var(--color-text-dim)]">GPU prices, verified twice a week. Cost calculators with honest assumptions. Deployment guides that name real tradeoffs. No "lightning fast!" claims — numbers you can check yourself.</p>
-        <div class="mt-8 flex flex-wrap gap-3 font-mono text-sm">
-          <a href="/calculators/llm-hosting-cost/" class="px-4 py-2 rounded border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-black">Calculate your hosting cost →</a>
-          <a href="/gpu-pricing/" class="px-4 py-2 rounded border border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-text)]">Live GPU pricing →</a>
-        </div>
+  <section class="page-shell hero-grid pb-18 pt-14 md:pt-24">
+    <div class="hero-copy">
+      <span class="eyebrow">AI infrastructure, made visible</span>
+      <h1 class="display-title mt-7">Host AI.<br/><span>Without guessing.</span></h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-[var(--color-text-dim)] md:text-xl">
+        See what runs where, what hardware it needs, and what it can cost — before you deploy anything.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#start" class="hero-primary rounded-full bg-[#162036] px-6 py-3.5 font-bold shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5">Find my hosting path →</a>
+        <a href="/gpu-pricing/" class="rounded-full border border-[#b9c2b5] bg-white/70 px-6 py-3.5 font-bold transition hover:border-[#162036]">Compare live GPU prices</a>
       </div>
-      <div class="md:col-span-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
-        <div class="flex items-baseline justify-between">
-          <h2 class="font-mono text-xs uppercase tracking-widest text-[var(--color-accent)]">// gpu spot check</h2>
-          <span class="font-mono text-[10px] text-[var(--color-text-dim)]">verified {updated}</span>
+      <div class="mt-8 flex flex-wrap items-center gap-3 text-xs text-[var(--color-text-dim)]">
+        <span class="label-sourced">Sourced</span><span>{cardsTracked} GPU types · {providersTracked} providers · verified {pricing.updated}</span>
+      </div>
+    </div>
+
+    <div class="infra-map soft-card" aria-label="The three ways an AI product can access a model">
+      <div class="infra-map__top">
+        <span class="map-icon map-icon--app">✦</span>
+        <div><small>Your product</small><strong>AI app or agent</strong></div>
+      </div>
+      <div class="infra-map__pipe"><span>needs intelligence</span></div>
+      <div class="infra-map__routes">
+        <a href="#paths" class="route-node route-node--api">
+          <span>☁</span><small>Easiest</small><strong>Model API</strong><em>No GPU to manage</em>
+        </a>
+        <a href="#paths" class="route-node route-node--serverless">
+          <span>ϟ</span><small>Flexible</small><strong>Serverless GPU</strong><em>Pay while it runs</em>
+        </a>
+        <a href="#paths" class="route-node route-node--gpu">
+          <span>▦</span><small>More control</small><strong>Your GPU</strong><em>You operate it</em>
+        </a>
+      </div>
+      <div class="infra-map__caption"><span>Simple</span><span>More control →</span></div>
+    </div>
+  </section>
+
+  <section class="page-shell proof-strip" aria-label="What HostFleet tracks">
+    <div><strong>{cardsTracked}</strong><span>GPU types tracked</span></div>
+    <div><strong>{providersTracked}</strong><span>providers compared</span></div>
+    <div><strong>3</strong><span>hosting paths explained</span></div>
+    <div><strong>0</strong><span>fake benchmarks</span></div>
+  </section>
+
+  <section class="page-shell start-section" id="start">
+    <div class="section-heading">
+      <div><span class="eyebrow">Start with the workload</span><h2>What are you trying to run?</h2></div>
+      <p>Pick the closest shape. We will separate the app server, the agent runtime, and the model so you do not buy a GPU for the wrong job.</p>
+    </div>
+
+    <div class="path-picker soft-card">
+      <div class="path-tabs" role="tablist" aria-label="Choose your AI workload">
+        <button class="path-tab is-active" role="tab" aria-selected="true" data-path="model"><span>◉</span> Run an open model</button>
+        <button class="path-tab" role="tab" aria-selected="false" data-path="agent"><span>◎</span> Keep an agent online</button>
+        <button class="path-tab" role="tab" aria-selected="false" data-path="app"><span>◇</span> Ship a generated app</button>
+        <button class="path-tab" role="tab" aria-selected="false" data-path="feature"><span>✦</span> Add AI to a product</button>
+      </div>
+
+      <div class="path-panels">
+        <div class="path-panel" role="tabpanel" data-path="model">
+          <div class="path-answer">
+            <span class="answer-kicker">Your first decision</span>
+            <h3>Do you need to own model serving?</h3>
+            <p>Use an API for the fastest start. Rent serverless GPU for custom weights or bursty jobs. Keep a GPU warm only after the workload proves it needs one.</p>
+            <a class="arrow-link" href="/ai-hosting/">Open the model hosting guide</a>
+          </div>
+          <div class="mini-architecture">
+            <div class="mini-node mini-node--app">Your app</div><span>→</span><div class="mini-node mini-node--gpu">Model endpoint</div>
+            <small>GPU belongs here — not under the web app.</small>
+          </div>
         </div>
-        <table class="mt-3 w-full text-sm">
-          <tbody>
-            {spotlight.map(s => (
-              <tr class="border-b border-[var(--color-border)] last:border-0">
-                <td class="py-2 font-mono">{s.name}</td>
-                <td class="py-2 text-right font-semibold whitespace-nowrap">${s.hr.toFixed(2)}<span class="text-[var(--color-text-dim)] font-normal">/hr</span></td>
-                <td class="py-2 pl-3 text-right text-xs text-[var(--color-text-dim)] whitespace-nowrap">{s.provider}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <a href="/gpu-pricing/" class="mt-3 inline-block font-mono text-xs text-[var(--color-accent)] hover:underline">full table: 14 GPUs × 6 providers →</a>
+        <div class="path-panel hidden" role="tabpanel" data-path="agent">
+          <div class="path-answer">
+            <span class="answer-kicker">The common surprise</span>
+            <h3>Most agents need a CPU server, not a GPU.</h3>
+            <p>The server keeps the worker, schedule, queue, memory, and tools alive. It can call a model API. Add a GPU only if the model itself must run on your infrastructure.</p>
+            <a class="arrow-link" href="/best-hosting-for-ai-agents-on-a-budget/">See agent hosting options</a>
+          </div>
+          <div class="agent-diagram">
+            <div><span>24/7 CPU</span><strong>Agent + tools</strong><em>usually $5–20/mo</em></div>
+            <b>calls</b>
+            <div><span>External</span><strong>Model API</strong><em>usage-based</em></div>
+          </div>
+        </div>
+        <div class="path-panel hidden" role="tabpanel" data-path="app">
+          <div class="path-answer">
+            <span class="answer-kicker">From demo to production</span>
+            <h3>Split the pretty frontend from the slow work.</h3>
+            <p>Deploy the web shell at the edge, keep secrets and jobs in a backend, and put persistent data in a real database. The builder is the starting point, not the architecture.</p>
+            <a class="arrow-link" href="/deploy-ai-apps/">See the 3-part deployment map</a>
+          </div>
+          <div class="stack-diagram"><div>Frontend<small>edge</small></div><span>→</span><div>Backend<small>CPU worker</small></div><span>→</span><div>Data<small>managed DB</small></div></div>
+        </div>
+        <div class="path-panel hidden" role="tabpanel" data-path="feature">
+          <div class="path-answer">
+            <span class="answer-kicker">Default starting point</span>
+            <h3>Call an API before running a GPU.</h3>
+            <p>It removes drivers, model servers, scaling, and idle cost. Revisit self-hosting when usage, privacy, custom weights, or dedicated capacity creates a measurable reason.</p>
+            <a class="arrow-link" href="/openrouter-vs-together-vs-groq-vs-fireworks/">Compare managed model paths</a>
+          </div>
+          <div class="mini-architecture mini-architecture--api"><div class="mini-node mini-node--app">Your product</div><span>→</span><div class="mini-node mini-node--api">Model API</div><small>Start simple. Add infrastructure only when the numbers justify it.</small></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- WORKLOAD PICKER -->
-  <section class="max-w-5xl mx-auto px-6 pb-14">
-    <h2 class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)] mb-4">// what are you shipping?</h2>
-    <div class="flex flex-wrap gap-2 font-mono text-sm" id="wl-tabs">
-      <button data-wl="api" class="wl-tab px-4 py-2 rounded border border-[var(--color-accent)] text-[var(--color-accent)]">An inference API</button>
-      <button data-wl="app" class="wl-tab px-4 py-2 rounded border border-[var(--color-border)]">An AI-generated app</button>
-      <button data-wl="agent" class="wl-tab px-4 py-2 rounded border border-[var(--color-border)]">A 24/7 agent or worker</button>
-      <button data-wl="rag" class="wl-tab px-4 py-2 rounded border border-[var(--color-border)]">RAG / vector search</button>
+  <section class="page-shell paths-section" id="paths">
+    <div class="section-heading">
+      <div><span class="eyebrow">The core choice</span><h2>Three ways to use a model</h2></div>
+      <p>There is no universal winner. Traffic shape, control, and engineering time change the answer.</p>
     </div>
-    <div class="mt-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
-      <div class="wl-panel" data-wl="api">
-        <p class="text-[var(--color-text-dim)]">Serving a model behind an endpoint? The decision is serverless GPU vs always-on vs paying per token — it flips entirely on your traffic shape.</p>
-        <div class="mt-4 flex flex-wrap gap-4 font-mono text-xs">
-          <a class="underline hover:text-[var(--color-accent)]" href="/calculators/llm-hosting-cost/">run your numbers →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/runpod-vs-modal-vs-replicate-small-inference-api/">RunPod vs Modal vs Replicate →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/openrouter-vs-together-vs-groq-vs-fireworks/">or skip GPUs: per-token gateways →</a>
-        </div>
+    <div class="hosting-paths">
+      <article class="hosting-card hosting-card--api">
+        <div class="hosting-card__visual"><span>API</span><i></i><b>↗</b></div>
+        <div class="hosting-card__number">01</div><h3>Use a model API</h3>
+        <p>Best first move for most apps. No GPU setup, scaling, or idle hardware.</p>
+        <ul><li><b>Best for</b> prototypes and variable usage</li><li><b>You manage</b> prompts and product code</li><li><b>Tradeoff</b> less infrastructure control</li></ul>
+        <span class="path-verdict">Start here unless you know why not</span>
+      </article>
+      <article class="hosting-card hosting-card--serverless">
+        <div class="hosting-card__visual"><span>GPU</span><i></i><b>ϟ</b></div>
+        <div class="hosting-card__number">02</div><h3>Rent serverless GPU</h3>
+        <p>Bring custom weights and pay for active compute. Cold starts and minimums still matter.</p>
+        <ul><li><b>Best for</b> bursty jobs and custom models</li><li><b>You manage</b> image and inference code</li><li><b>Tradeoff</b> startup delay and limits</li></ul>
+        <span class="path-verdict">Good bridge to self-hosting</span>
+      </article>
+      <article class="hosting-card hosting-card--dedicated">
+        <div class="hosting-card__visual"><span>24/7</span><i></i><b>▦</b></div>
+        <div class="hosting-card__number">03</div><h3>Keep a GPU running</h3>
+        <p>Predictable capacity and maximum control — with a bill that continues while idle.</p>
+        <ul><li><b>Best for</b> steady, measured workloads</li><li><b>You manage</b> the complete serving stack</li><li><b>Tradeoff</b> cost and operations</li></ul>
+        <span class="path-verdict">Earn this complexity with data</span>
+      </article>
+    </div>
+    <div class="paths-cta"><div><span class="label-estimated">Estimated</span><strong>Put your traffic into the calculator</strong><small>Compare usage-based API, serverless GPU, and always-on GPU monthly cost.</small></div><a href="/calculators/llm-hosting-cost/">Calculate my cost →</a></div>
+  </section>
+
+  <section class="model-section">
+    <div class="page-shell">
+      <div class="section-heading">
+        <div><span class="eyebrow">VRAM, not vibes</span><h2>What GPU fits the model?</h2></div>
+        <p>These are conservative first-test targets for 4-bit weights, short context, and one active sequence — capacity estimates, not performance benchmarks.</p>
       </div>
-      <div class="wl-panel hidden" data-wl="app">
-        <p class="text-[var(--color-text-dim)]">Lovable, Bolt, or v0 built it — now it needs production hosting, a real domain, and hardening before users hit it.</p>
-        <div class="mt-4 flex flex-wrap gap-4 font-mono text-xs">
-          <a class="underline hover:text-[var(--color-accent)]" href="/where-to-deploy-lovable-bolt-v0-apps/">where to deploy builder apps →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/ai-generated-app-production-footguns/">what breaks in production →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/best-edge-runtime-for-ai-generated-marketing-sites/">best edge runtime →</a>
-        </div>
-      </div>
-      <div class="wl-panel hidden" data-wl="agent">
-        <p class="text-[var(--color-text-dim)]">Agents don't fit request/response hosting: they need queues, cron, persistent processes, and hosts that don't kill long-running work.</p>
-        <div class="mt-4 flex flex-wrap gap-4 font-mono text-xs">
-          <a class="underline hover:text-[var(--color-accent)]" href="/best-hosting-for-ai-agents-on-a-budget/">budget agent hosting →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/best-hosts-for-long-running-agent-workers/">long-running workers →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/where-to-host-mcp-servers-for-small-teams/">hosting MCP servers →</a>
-        </div>
-      </div>
-      <div class="wl-panel hidden" data-wl="rag">
-        <p class="text-[var(--color-text-dim)]">Small RAG apps rarely need enterprise vector infrastructure. When pgvector is enough, when Qdrant wins, and when managed is worth the floor price.</p>
-        <div class="mt-4 flex flex-wrap gap-4 font-mono text-xs">
-          <a class="underline hover:text-[var(--color-accent)]" href="/vector-database-hosting-small-ai-apps/">vector DB hosting →</a>
-          <a class="underline hover:text-[var(--color-accent)]" href="/cheapest-place-to-host-n8n-open-webui-qdrant/">cheapest n8n + Qdrant stack →</a>
-        </div>
+      <div class="model-board soft-card">
+        <div class="model-board__scale"><span>Smaller model</span><span>More VRAM →</span></div>
+        {modelGuide.map((item) => (
+          <div class="model-row">
+            <div class="model-row__name"><strong>{item.model}</strong><span>{item.params} parameters</span></div>
+            <div class="model-row__bar"><i style={`width:${item.width}%`}></i><b>{item.target}</b></div>
+            <div class="model-row__gpu"><strong>{item.gpu}</strong><span>{item.rate ? `from $${item.rate.rate.toFixed(2)}/hr` : "rate unavailable"}</span></div>
+          </div>
+        ))}
+        <div class="model-board__note"><span class="label-sourced">Sourced + estimated</span><p>Model sizes come from official model cards. Raw weight math and first GPU targets are estimates with headroom. Context, concurrency, runtime, and quantization can require more.</p><a href="/what-gpu-to-run-llama-70b/">Read the sizing method →</a></div>
       </div>
     </div>
   </section>
 
-  <!-- TOOLS -->
-  <section class="max-w-5xl mx-auto px-6 pb-14">
-    <h2 class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)] mb-6">// tools — live data, not blog posts</h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      <a href="/gpu-pricing/" class="block p-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">data / live table</div>
-        <div class="mt-2 text-xl font-semibold">GPU cloud pricing</div>
-        <div class="mt-3 text-sm text-[var(--color-text-dim)]">Every rate from RunPod, Modal, Fal, Baseten, and Replicate — verified against vendor pages twice a week, sortable, with the raw JSON downloadable.</div>
-      </a>
-      <a href="/calculators/llm-hosting-cost/" class="block p-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">calculator</div>
-        <div class="mt-2 text-xl font-semibold">What does it cost to host an LLM?</div>
-        <div class="mt-3 text-sm text-[var(--color-text-dim)]">Serverless GPU vs always-on vs per-token API for your traffic — every assumption visible and editable.</div>
-      </a>
+  <section class="page-shell data-tools">
+    <div class="section-heading">
+      <div><span class="eyebrow">Useful before you deploy</span><h2>Tools, not another wall of text</h2></div>
+      <p>Every tool exposes its inputs, claim type, source date, and limitations.</p>
+    </div>
+    <div class="tool-grid">
+      <a href="/gpu-pricing/" class="tool-card tool-card--pricing"><div class="tool-card__art"><span>$0.39</span><span>$0.59</span><span>$1.39</span><i></i></div><span class="label-sourced">Sourced</span><h3>Live GPU price board</h3><p>Compare current public list rates across {providersTracked} providers.</p><strong>Open the price board →</strong></a>
+      <a href="/calculators/llm-hosting-cost/" class="tool-card tool-card--calc"><div class="tool-card__art"><span>API</span><span>GPU</span><span>24/7</span><i></i></div><span class="label-estimated">Estimated</span><h3>Hosting cost calculator</h3><p>Change the model, traffic, throughput, and rates. See the crossover.</p><strong>Run your numbers →</strong></a>
+      <a href="/serverless-gpu-pricing-matrix-2026/" class="tool-card tool-card--matrix"><div class="tool-card__art"><span>scale</span><span>cold</span><span>limits</span><i></i></div><span class="label-sourced">Sourced</span><h3>Serverless GPU matrix</h3><p>Price is only one axis. Compare billing, scale-to-zero, and constraints.</p><strong>Compare providers →</strong></a>
     </div>
   </section>
 
-  <!-- PATHS -->
-  <section class="max-w-5xl mx-auto px-6 pb-14">
-    <h2 class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)] mb-6">// guides by path</h2>
-    <div class="grid md:grid-cols-3 gap-6">
-      <a href="/ai-hosting/" class="block p-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">ai-hosting</div>
-        <div class="mt-2 text-lg font-semibold">Inference, GPUs, gateways, vectors</div>
-      </a>
-      <a href="/deploy-ai-apps/" class="block p-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">deploy-ai-apps</div>
-        <div class="mt-2 text-lg font-semibold">Builder output → production</div>
-      </a>
-      <a href="/edge/" class="block p-6 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-accent)] transition">
-        <div class="font-mono text-xs text-[var(--color-accent)]">edge</div>
-        <div class="mt-2 text-lg font-semibold">Cloudflare, Vercel, Netlify tradeoffs</div>
-      </a>
-    </div>
-  </section>
-
-  <!-- RECENT -->
-  <section class="max-w-5xl mx-auto px-6 pb-20">
-    <h2 class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-dim)] mb-6">// recent</h2>
-    <ul class="space-y-4">
-      {recent.map(p => (
-        <li class="flex items-baseline justify-between gap-6 border-b border-[var(--color-border)] pb-4">
-          <a href={`/${p.id}/`} class="hover:text-[var(--color-accent)] transition font-medium">{p.data.title}</a>
-          <span class="font-mono text-xs text-[var(--color-text-dim)] whitespace-nowrap">{new Date(p.data.pubDate).toISOString().slice(0,10)}</span>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <div class="page-shell"><ResearchLibrary posts={featured} title="Go deeper only when you need to" intro="The short visual answer comes first. These longer pages keep the source trail, assumptions, and implementation detail available for search, GEO, and serious buyers." limit={6} /></div>
 
   <script is:inline>
-    (function () {
-      const tabs = document.querySelectorAll(".wl-tab");
-      const panels = document.querySelectorAll(".wl-panel");
-      tabs.forEach(t => t.addEventListener("click", () => {
-        tabs.forEach(x => x.classList.remove("border-[var(--color-accent)]", "text-[var(--color-accent)]"));
-        tabs.forEach(x => x.classList.add("border-[var(--color-border)]"));
-        t.classList.add("border-[var(--color-accent)]", "text-[var(--color-accent)]");
-        t.classList.remove("border-[var(--color-border)]");
-        panels.forEach(p => p.classList.toggle("hidden", p.dataset.wl !== t.dataset.wl));
+    (() => {
+      const tabs = Array.from(document.querySelectorAll(".path-tab"));
+      const panels = Array.from(document.querySelectorAll(".path-panel"));
+      tabs.forEach((tab) => tab.addEventListener("click", () => {
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-selected", String(active));
+        });
+        panels.forEach((panel) => panel.classList.toggle("hidden", panel.dataset.path !== tab.dataset.path));
       }));
     })();
   </script>
 </Layout>
+
+<style>
+  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(3rem,7vw,7rem);align-items:center}.hero-copy h1 span{color:#1a9bd3}.hero-primary{color:#fff!important}.infra-map{position:relative;padding:2rem;overflow:hidden;background:linear-gradient(145deg,#fff 0%,#f2f6ee 100%)}.infra-map::before{content:"";position:absolute;inset:0;background-image:radial-gradient(#b9c3b6 1px,transparent 1px);background-size:18px 18px;opacity:.28}.infra-map>*{position:relative}.infra-map__top{width:max-content;margin:auto;display:flex;align-items:center;gap:.8rem;padding:.8rem 1.15rem;border:1px solid #cfd6cd;border-radius:15px;background:white;box-shadow:0 8px 25px rgba(22,32,54,.08)}.infra-map__top small,.infra-map__top strong{display:block}.infra-map__top small{color:#707b8c;font:700 .62rem var(--font-mono);text-transform:uppercase}.infra-map__top strong{font-size:.95rem}.map-icon{display:grid;width:2.3rem;height:2.3rem;place-items:center;border-radius:10px;background:#162036;color:#b9f43b}.infra-map__pipe{height:88px;display:flex;align-items:center;justify-content:center}.infra-map__pipe::before{content:"";position:absolute;top:0;width:2px;height:88px;background:#adb8aa}.infra-map__pipe span{z-index:1;padding:.3rem .55rem;border-radius:20px;background:#e9ede6;color:#687486;font:650 .58rem var(--font-mono)}.infra-map__routes{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.infra-map__routes::before{content:"";position:absolute;left:16%;right:16%;top:-1rem;border-top:2px solid #adb8aa}.route-node{display:flex;min-width:0;flex-direction:column;align-items:center;padding:1rem .45rem;border:1px solid #cfd6cd;border-radius:16px;background:white;text-align:center;box-shadow:0 8px 18px rgba(22,32,54,.06);transition:.2s}.route-node:hover{transform:translateY(-4px);border-color:#96a38f}.route-node>span{display:grid;width:2.2rem;height:2.2rem;place-items:center;margin-bottom:.6rem;border-radius:10px;font-weight:800}.route-node--api>span{background:#dff5ff;color:#087fae}.route-node--serverless>span{background:#e5f9ba;color:#4b7400}.route-node--gpu>span{background:#eee7ff;color:#6e42b5}.route-node small{color:#7b8493;font:700 .55rem var(--font-mono);text-transform:uppercase}.route-node strong{margin-top:.2rem;font-size:.82rem}.route-node em{margin-top:.25rem;color:#7b8493;font-size:.62rem;font-style:normal}.infra-map__caption{display:flex;justify-content:space-between;margin-top:1.1rem;color:#7b8493;font:700 .58rem var(--font-mono);text-transform:uppercase}.proof-strip{display:grid;grid-template-columns:repeat(4,1fr);border-block:1px solid var(--color-border)}.proof-strip div{display:flex;align-items:center;gap:.8rem;padding:1.35rem;border-right:1px solid var(--color-border)}.proof-strip div:last-child{border-right:0}.proof-strip strong{font-size:1.7rem}.proof-strip span{color:var(--color-text-dim);font-size:.75rem;line-height:1.25}.start-section,.paths-section,.data-tools{padding-top:7.5rem}.path-picker{display:grid;grid-template-columns:280px 1fr;overflow:hidden}.path-tabs{padding:1rem;background:#eef1eb;border-right:1px solid var(--color-border)}.path-tab{display:flex;width:100%;align-items:center;gap:.8rem;padding:1rem;border:0;border-radius:13px;background:transparent;color:#596679;text-align:left;font-weight:700;cursor:pointer}.path-tab span{display:grid;width:2rem;height:2rem;place-items:center;border-radius:9px;background:white}.path-tab.is-active{background:#162036;color:white;box-shadow:0 10px 28px rgba(22,32,54,.15)}.path-tab.is-active span{background:#b9f43b;color:#162036}.path-panels{min-height:380px;padding:2.5rem}.path-panel{display:grid;grid-template-columns:1fr .88fr;gap:3rem;align-items:center}.path-answer .answer-kicker{color:#087fae;font:750 .67rem var(--font-mono);letter-spacing:.06em;text-transform:uppercase}.path-answer h3{max-width:530px;margin-top:.7rem;font-size:clamp(1.8rem,4vw,3rem);line-height:1;letter-spacing:-.045em}.path-answer p{max-width:560px;margin-top:1rem;color:var(--color-text-dim);line-height:1.6}.path-answer a{margin-top:1.4rem;color:#087fae}.mini-architecture,.agent-diagram,.stack-diagram{padding:1.3rem;border:1px solid var(--color-border);border-radius:18px;background:#f7f9f5}.mini-architecture{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.8rem;text-align:center}.mini-node{padding:1.25rem .6rem;border-radius:12px;background:white;border:1px solid var(--color-border);font-weight:800}.mini-node--gpu{background:#eee7ff}.mini-node--api{background:#dff5ff}.mini-architecture small{grid-column:1/-1;color:var(--color-text-dim);line-height:1.4}.agent-diagram{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.6rem;text-align:center}.agent-diagram div{padding:1.1rem .6rem;border-radius:12px;background:white}.agent-diagram span,.agent-diagram strong,.agent-diagram em{display:block}.agent-diagram span{color:#087fae;font:700 .6rem var(--font-mono);text-transform:uppercase}.agent-diagram strong{margin-top:.4rem}.agent-diagram em{margin-top:.3rem;color:var(--color-text-dim);font-size:.65rem;font-style:normal}.agent-diagram b{font-size:.62rem}.stack-diagram{display:flex;align-items:center;gap:.45rem}.stack-diagram div{flex:1;padding:1rem .4rem;border-radius:12px;background:white;text-align:center;font-weight:800}.stack-diagram small{display:block;margin-top:.25rem;color:var(--color-text-dim);font-size:.62rem}.hosting-paths{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.hosting-card{position:relative;padding:1.4rem;border:1px solid var(--color-border);border-radius:24px;background:white;overflow:hidden}.hosting-card__number{margin-top:1.3rem;color:#98a292;font:700 .7rem var(--font-mono)}.hosting-card h3{margin-top:.4rem;font-size:1.6rem;letter-spacing:-.035em}.hosting-card p{min-height:76px;margin-top:.7rem;color:var(--color-text-dim);line-height:1.5}.hosting-card ul{margin-top:1rem;padding:0;list-style:none}.hosting-card li{padding:.62rem 0;border-top:1px solid var(--color-border);font-size:.78rem}.hosting-card li b{display:inline-block;width:6rem;color:#6c7788}.hosting-card__visual{position:relative;height:145px;border-radius:16px;overflow:hidden}.hosting-card__visual span{position:absolute;left:1rem;top:1rem;font:750 .65rem var(--font-mono)}.hosting-card__visual b{position:absolute;right:1rem;bottom:.6rem;font-size:3.6rem}.hosting-card__visual i{position:absolute;width:110px;height:110px;left:50%;top:52%;transform:translate(-50%,-50%) rotate(30deg);border:2px solid currentColor;border-radius:22px}.hosting-card--api .hosting-card__visual{background:#dcf5ff;color:#087fae}.hosting-card--serverless .hosting-card__visual{background:#e7f9c1;color:#4b7400}.hosting-card--dedicated .hosting-card__visual{background:#eee7ff;color:#6e42b5}.path-verdict{display:block;margin-top:1rem;padding:.75rem;border-radius:10px;background:#f0f3ed;text-align:center;font-size:.72rem;font-weight:750}.paths-cta{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1rem;padding:1.1rem 1.3rem;border-radius:18px;background:#162036;color:white}.paths-cta>div{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.2rem .7rem}.paths-cta small{grid-column:2;color:#b8c1d0}.paths-cta a{flex:none;padding:.8rem 1rem;border-radius:999px;background:#b9f43b;color:#162036;font-weight:800}.model-section{margin-top:8rem;padding:6rem 0;background:#162036;color:white}.model-section .eyebrow{border-color:#40506d;background:#24314c;color:#d4dce8}.model-section .section-heading>p{color:#aeb8c7}.model-board{padding:2rem;background:#202d48;border-color:#3b4963;box-shadow:none}.model-board__scale{display:flex;justify-content:space-between;margin-bottom:1rem;color:#aeb8c7;font:700 .62rem var(--font-mono);text-transform:uppercase}.model-row{display:grid;grid-template-columns:210px 1fr 190px;gap:1.5rem;align-items:center;padding:1rem 0;border-top:1px solid #3a4862}.model-row__name strong,.model-row__name span,.model-row__gpu strong,.model-row__gpu span{display:block}.model-row__name span,.model-row__gpu span{margin-top:.2rem;color:#aeb8c7;font-size:.7rem}.model-row__bar{position:relative;height:38px;border-radius:9px;background:#303d57;overflow:hidden}.model-row__bar i{position:absolute;inset:0 auto 0 0;border-radius:9px;background:linear-gradient(90deg,#4dbfee,#b9f43b)}.model-row__bar b{position:absolute;left:1rem;top:.62rem;color:white;font:.8rem var(--font-mono)}.model-row__gpu{text-align:right}.model-board__note{display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center;margin-top:1rem;padding:1rem;border-radius:14px;background:#111b30}.model-board__note p{color:#adb7c6;font-size:.74rem;line-height:1.5}.model-board__note a{color:#b9f43b;font-size:.75rem;font-weight:750}.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}.tool-card{padding:1.35rem;border:1px solid var(--color-border);border-radius:22px;background:white;transition:.2s}.tool-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(22,32,54,.08)}.tool-card__art{position:relative;display:flex;height:155px;align-items:end;gap:.5rem;margin-bottom:1.2rem;padding:1rem;border-radius:15px;overflow:hidden}.tool-card__art span{z-index:1;padding:.45rem;border-radius:7px;background:white;font:700 .64rem var(--font-mono);box-shadow:0 5px 14px rgba(22,32,54,.08)}.tool-card__art i{position:absolute;width:170px;height:170px;right:-45px;top:-70px;border:28px solid currentColor;border-radius:50%;opacity:.2}.tool-card--pricing .tool-card__art{background:#dcf5ff;color:#087fae}.tool-card--calc .tool-card__art{background:#e7f9c1;color:#4b7400}.tool-card--matrix .tool-card__art{background:#eee7ff;color:#6e42b5}.tool-card h3{margin-top:.9rem;font-size:1.25rem}.tool-card p{min-height:52px;margin-top:.55rem;color:var(--color-text-dim);font-size:.86rem;line-height:1.5}.tool-card>strong{display:block;margin-top:1rem;color:#087fae;font-size:.82rem}.hidden{display:none!important}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.infra-map{max-width:650px}.proof-strip{grid-template-columns:repeat(2,1fr)}.proof-strip div:nth-child(2){border-right:0}.proof-strip div:nth-child(-n+2){border-bottom:1px solid var(--color-border)}.path-picker{grid-template-columns:1fr}.path-tabs{display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--color-border)}.path-tab{flex:0 0 auto;width:auto}.path-panels{min-height:0}.path-panel{grid-template-columns:1fr}.hosting-paths,.tool-grid{grid-template-columns:1fr}.hosting-card p{min-height:0}.model-row{grid-template-columns:160px 1fr}.model-row__gpu{grid-column:2;text-align:left}.model-board__note{grid-template-columns:1fr}.paths-cta{align-items:flex-start;flex-direction:column}.paths-cta>div{grid-template-columns:1fr}.paths-cta small{grid-column:1}}
+  @media(max-width:560px){.hero-grid{padding-top:2.5rem}.infra-map{padding:1rem}.route-node em{display:none}.route-node strong{font-size:.7rem}.proof-strip div{padding:1rem .7rem}.proof-strip strong{font-size:1.3rem}.path-tabs{padding:.7rem}.path-tab{padding:.75rem}.path-panels{padding:1.3rem}.path-panel{gap:1.5rem}.agent-diagram,.stack-diagram{font-size:.7rem}.model-section{padding:4rem 0}.model-board{padding:1rem}.model-row{grid-template-columns:1fr;gap:.5rem}.model-row__gpu{grid-column:1;display:flex;justify-content:space-between}.model-board__scale{display:none}.paths-section,.start-section,.data-tools{padding-top:5rem}}
+</style>
