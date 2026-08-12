@@ -8,7 +8,8 @@
     { "id": "fal", "name": "Fal.ai", "billing": "per-hour list price for custom deployments; committed-use discounts advertised", "source": "https://fal.ai/pricing" },
     { "id": "baseten", "name": "Baseten", "billing": "per-minute, dedicated deployments, scale-to-zero", "source": "https://www.baseten.co/pricing/" },
     { "id": "replicate", "name": "Replicate", "billing": "per-second, private model deployments", "source": "https://replicate.com/pricing" },
-    { "id": "lambda_cloud", "name": "Lambda Cloud", "billing": "per-hour on-demand GPU instances; prices vary by instance GPU count", "source": "https://lambda.ai/instances" }
+    { "id": "lambda_cloud", "name": "Lambda Cloud", "billing": "per-hour on-demand GPU instances; prices vary by instance GPU count", "source": "https://lambda.ai/instances" },
+    { "id": "coreweave_inference", "name": "CoreWeave Inference", "billing": "per-hour single-GPU inference rate; inference platform customers only (contact account executive)", "source": "https://www.coreweave.com/pricing" }
   ],
   "gpus": [
     { "id": "t4", "name": "T4", "vram": "16 GB",
@@ -51,14 +52,16 @@
         "runpod_pods": { "hr": 0.99 },
         "runpod_sls": { "hr": 1.75, "note": "48 GB tier (L40 / L40S / 6000 Ada)" },
         "modal": { "hr": 1.95, "raw": "$0.000542/sec" },
-        "replicate": { "hr": 3.51, "raw": "$0.000975/sec" }
+        "replicate": { "hr": 3.51, "raw": "$0.000975/sec" },
+        "coreweave_inference": { "hr": 2.25, "raw": "$2.25/GPU/hr", "note": "Inference platform customers only; public 8x L40S on-demand instance is $18.00/hr" }
       } },
     { "id": "rtxpro6000", "name": "RTX PRO 6000", "vram": "96 GB",
       "prices": {
         "runpod_pods": { "hr": 1.99 },
         "runpod_sls": { "hr": 3.49 },
         "modal": { "hr": 3.03, "raw": "$0.000842/sec" },
-        "fal": { "hr": 2.99, "note": "as low as $1.10 committed" }
+        "fal": { "hr": 2.99, "note": "as low as $1.10 committed" },
+        "coreweave_inference": { "hr": 2.50, "raw": "$2.50/GPU/hr", "note": "RTX PRO 6000 Blackwell Server Edition; inference platform customers only; public 8x on-demand instance is $20.00/hr" }
       } },
     { "id": "a100_40", "name": "A100 40 GB", "vram": "40 GB",
       "prices": {
@@ -71,7 +74,8 @@
         "runpod_sls": { "hr": 2.72 },
         "modal": { "hr": 2.50, "raw": "$0.000694/sec" },
         "baseten": { "hr": 4.00, "raw": "$0.06667/min" },
-        "replicate": { "hr": 5.04, "raw": "$0.001400/sec" }
+        "replicate": { "hr": 5.04, "raw": "$0.001400/sec" },
+        "coreweave_inference": { "hr": 2.70, "raw": "$2.70/GPU/hr", "note": "Inference platform customers only; public 8x A100 80 GB on-demand instance is $21.60/hr" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
@@ -81,14 +85,16 @@
         "fal": { "hr": 4.50, "note": "as low as $1.89 committed" },
         "baseten": { "hr": 6.50, "raw": "$0.10833/min" },
         "replicate": { "hr": 5.49, "raw": "$0.001525/sec" },
-        "lambda_cloud": { "hr": 3.29, "raw": "$3.29/GPU/hr", "note": "1x H100 PCIe; H100 SXM is $4.29/GPU/hr" }
+        "lambda_cloud": { "hr": 3.29, "raw": "$3.29/GPU/hr", "note": "1x H100 PCIe; H100 SXM is $4.29/GPU/hr" },
+        "coreweave_inference": { "hr": 6.16, "raw": "$6.16/GPU/hr", "note": "Inference platform customers only; public 8x HGX H100 on-demand instance is $49.24/hr" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
         "runpod_pods": { "hr": 4.39 },
         "runpod_sls": { "hr": 5.93 },
         "modal": { "hr": 4.54, "raw": "$0.001261/sec" },
-        "fal": { "hr": 4.50, "note": "as low as $2.10 committed" }
+        "fal": { "hr": 4.50, "note": "as low as $2.10 committed" },
+        "coreweave_inference": { "hr": 6.31, "raw": "$6.31/GPU/hr", "note": "Inference platform customers only; public 8x HGX H200 on-demand instance is $50.44/hr" }
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
       "prices": {
@@ -97,7 +103,8 @@
         "modal": { "hr": 6.25, "raw": "$0.001736/sec" },
         "fal": { "hr": 6.25, "note": "as low as $3.49 committed" },
         "baseten": { "hr": 9.98, "raw": "$0.16633/min" },
-        "lambda_cloud": { "hr": 6.99, "raw": "$6.99/GPU/hr", "note": "1x B200 SXM6 instance" }
+        "lambda_cloud": { "hr": 6.99, "raw": "$6.99/GPU/hr", "note": "1x B200 SXM6 instance" },
+        "coreweave_inference": { "hr": 8.60, "raw": "$8.60/GPU/hr", "note": "Inference platform customers only; public 8x HGX B200 on-demand instance is $68.80/hr" }
       } },
     { "id": "b300", "name": "B300", "vram": "288 GB",
       "prices": {
