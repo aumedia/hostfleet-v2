@@ -72,6 +72,8 @@ RunPod Serverless and Modal can make a bursty workload cheaper than continuously
 
 Modal's per-second pricing is useful for estimating billable GPU-seconds. Its **$3.95/hour** H100 equivalent as of August 10 is not a recommendation to leave a container warm for a month. For product-specific tradeoffs, see [Modal's pricing guide](https://hostfleet.net/modal-pricing-guide-2026/).
 
+To turn a published rate into a budget decision, use [HostFleet's GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to compare the same H100 product at 1% allocation, 10% allocation, and a continuously warm 30-day deployment. The lower-allocation scenarios only apply when the product and workload can actually release capacity between jobs.
+
 ### Managed deployment rates are not bare-card rental quotes
 
 Fal, Baseten, and Replicate price managed deployment surfaces rather than raw GPU rental. A higher public rate may include controls or operating assumptions a Pod does not. Compare their minimum replicas, scaling controls, billing during startup, and separately billed services before treating two hourly equivalents as substitutes.
