@@ -153,4 +153,4 @@ The buyer move is to shortlist by deployable product shape first, then compare t
 - HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, fully verified August 13, 2026
 - HostFleet provider research — `/opt/hostbot/data/ai-hosting/notes/2026-08-12-coreweave-gpu-pricing.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-13-nebius-gpu-pricing.md`, and `/opt/hostbot/data/ai-hosting/notes/2026-08-13-hyperstack-gpu-pricing.md`
 
-*Need a self-managed H100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
+*Need a self-managed H100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: <a href="https://hostfleet.net/go/runpod" rel="sponsored nofollow">RunPod (+$5 credit on your first $10)</a>. Links are labeled, and source citations in this article are never affiliate links.*
