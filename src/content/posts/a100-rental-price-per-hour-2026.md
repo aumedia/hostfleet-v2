@@ -135,4 +135,4 @@ The honest buying order is: required memory, deployable shape, live eligibility,
 - HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, provider expansions verified August 12–14, 2026
 - HostFleet verification notes — `/opt/hostbot/data/ai-hosting/notes/2026-08-12-coreweave-gpu-pricing.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-13-hyperstack-gpu-pricing.md`, and `/opt/hostbot/data/ai-hosting/notes/2026-08-14-novita-gpu-pricing.md`
 
-*Need a self-managed A100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
+*Need a self-managed A100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: <a href="/go/runpod" rel="sponsored nofollow">RunPod (+$5 credit on your first $10)</a>. Links are labeled, and source citations in this article are never affiliate links.*
