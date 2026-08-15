@@ -1,8 +1,8 @@
 ---
-title: "A100 rental price per hour in 2026: 10 public rates checked"
-description: "A100 rental prices across 10 public rates, separating 40 GB from 80 GB and catalog prices from deployable capacity."
+title: "A100 rental price per hour in 2026: 12 public rates checked"
+description: "A100 rental prices across 12 public rates, with separate 40 GB and 80 GB comparisons plus the billing catches behind the cheapest offers."
 pubDate: 2026-07-31
-updatedDate: 2026-08-14
+updatedDate: 2026-08-15
 category: ai-hosting
 author: Alex Harmon
 draft: false
@@ -10,129 +10,134 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate check; estimated monthly totals.** This refresh combines HostFleet's August 6 full A100 check with provider expansions verified on **August 12–14, 2026**. The rates are public list prices and the monthly figures are transparent arithmetic—not benchmarks, inventory guarantees, negotiated quotes, or complete invoices.
+**Source-backed rate check; estimated monthly totals.** The A100 prices below come from public provider rate cards and documentation. This bounded refresh adds Verda rates checked on **August 15, 2026** to the August 6 full-table baseline and the August 12–14 provider additions. It is not a benchmark, inventory guarantee, negotiated quote, or complete invoice.
 
-# A100 rental price per hour in 2026: 10 public rates checked
+# A100 rental price per hour in 2026: 12 public rates checked
 
-The lowest selected public rate in this A100 comparison is now **$1.35 per GPU-hour** for a one-GPU Hyperstack A100 80 GB PCIe VM in Canada. RunPod Secure Cloud follows at **$1.39/hour**. Novita AI lists an A100 80 GB SXM product at **$1.60/hour**, but its public inventory reported zero available units when checked on August 14.
+The cheapest public A100 40 GB rate in this check is **Verda at $1.29/hour** for a one-GPU SXM4 instance. The cheapest selected A100 80 GB rate remains **Hyperstack at $1.35/GPU-hour** for a PCIe VM. Those are different memory capacities and different hardware configurations, so neither number is an honest substitute for the other.
 
-That availability result is the useful lesson. A catalog rate can establish what a provider charges without proving that a buyer can launch the product. This source-backed refresh adds **Hyperstack, Novita AI, and CoreWeave Inference** to the existing guide, using the same data structure behind [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/).
+Verda, formerly DataCrunch, is the useful new addition because it publishes two clear one-GPU configurations: **A100 40 GB SXM4 at $1.29/hour** and **A100 80 GB SXM4 at $1.79/hour**. Both include a fixed CPU and RAM allocation. Storage is separate, and shutting down the instance does not stop compute billing; the instance has to be deleted.
 
-> **Latest provider verification:** August 14, 2026<br>
+This guide uses the same provider data behind [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/), but preserves product shape and source-check dates so a low number is not mistaken for a like-for-like deployment offer.
+
+> **Latest provider verification:** August 15, 2026<br>
+> **Full-table baseline:** August 6, 2026, with bounded additions verified August 12–15<br>
 > **Currency:** public USD list rates before tax<br>
 > **Comparison unit:** one listed GPU-hour or its per-second/per-minute equivalent<br>
-> **Boundary:** A100 40 GB and 80 GB, PCIe and SXM, VMs, Pods, workers, and managed deployments are not interchangeable products
+> **Boundary:** public rates do not prove stock, quota, regional access, or equivalent performance
 
-## Current A100 prices: 40 GB and 80 GB kept separate
+## A100 40 GB prices
 
-Each row retains its product shape and source-check date. Per-second rates use 3,600 seconds per hour; per-minute rates use 60 minutes per hour.
+A100 40 GB is its own capacity class. The table should not be combined with 80 GB offers when the deployment needs more than 40 GB for weights, KV cache, batching, and runtime overhead.
 
-| Provider and product | A100 configuration | Public rate | Official evidence and check date |
-|---|---|---:|---|
-| **Hyperstack VM** | 1x A100 80 GB PCIe; Canada | **$1.35/GPU-hr** | [Hyperstack GPU pricing](https://www.hyperstack.cloud/gpu-pricing), checked Aug. 13, 2026 |
-| **RunPod Secure Cloud Pod** | A100 80 GB PCIe | **$1.39/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked Aug. 6, 2026 |
-| **Novita AI instance** | 1x A100 80 GB SXM; zero inventory observed | **$1.60/GPU-hr** | [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products), checked Aug. 14, 2026 |
-| **Lambda Cloud VM** | 1x A100 PCIe or SXM, 40 GB | **$1.99/GPU-hr** | [Lambda GPU instances](https://lambda.ai/instances), checked Aug. 6, 2026 |
-| **Modal container** | A100 40 GB | **$0.000583/sec** (**$2.0988/hr**) | [Modal pricing](https://modal.com/pricing), checked Aug. 6, 2026 |
-| **Modal container** | A100 80 GB | **$0.000694/sec** (**$2.4984/hr**) | [Modal pricing](https://modal.com/pricing), checked Aug. 6, 2026 |
-| **CoreWeave Inference** | A100 80 GB; inference-platform customers | **$2.70/GPU-hr** | [CoreWeave pricing](https://www.coreweave.com/pricing), checked Aug. 12, 2026 |
-| **RunPod Serverless** | A100 80 GB worker tier | **$2.72/hr** | [RunPod pricing](https://www.runpod.io/pricing), checked Aug. 6, 2026 |
-| **Baseten deployment** | A100 80 GiB | **$0.06667/min** (**$4.0002/hr**) | [Baseten pricing](https://www.baseten.co/pricing/), checked Aug. 6, 2026 |
-| **Replicate private deployment** | A100 80 GB | **$0.001400/sec** (**$5.04/hr**) | [Replicate pricing](https://replicate.com/pricing), checked Aug. 6, 2026 |
+| Provider and product | Configuration | Public rate | 720-hour estimate | Official evidence and check date |
+|---|---|---:|---:|---|
+| **Verda GPU instance** | 1x A100 40 GB SXM4; 22 CPU and 120 GB RAM included | **$1.29/hr** | **$928.80** | [Verda pricing](https://verda.com/pricing), checked Aug. 15, 2026 |
+| **Lambda Cloud VM** | 1x A100 PCIe or SXM, 40 GB | **$1.99/GPU-hr** | **$1,432.80** | [Lambda GPU instances](https://lambda.ai/instances), checked Aug. 6, 2026 |
+| **Modal container** | A100 40 GB | **$0.000583/sec** (**$2.0988/hr**) | **$1,511.14** | [Modal pricing](https://modal.com/pricing), checked Aug. 6, 2026 |
 
-This is a comparison of **ten public rates**, not ten interchangeable rental offers. Hyperstack, RunPod Pods, and Lambda expose self-managed capacity. Modal and RunPod Serverless expose allocation-oriented worker or container surfaces. Baseten and Replicate sell managed deployment products. CoreWeave's single-GPU inference rate has an account-eligibility condition. Novita's price was public, but its A100 inventory state was `none` at verification time.
+The monthly figures are estimates calculated as published hourly-equivalent rate × 720 hours. Modal retains its native per-second input before rounding. They exclude storage, networking, taxes, support, extra replicas, and other infrastructure.
 
-## What changed in this refresh
+## A100 80 GB prices
 
-### Hyperstack is the new selected price leader—with a billing-state catch
+A100 80 GB gives a deployment twice the device memory, but the products below still vary substantially: PCIe and SXM hardware, VMs, Pods, containers, serverless workers, and managed deployments are not interchangeable.
 
-Hyperstack publishes **$1.35 per GPU-hour** for A100 80 GB PCIe, checked August 13, 2026 on its [official GPU pricing page](https://www.hyperstack.cloud/gpu-pricing). Its [flavor catalog](https://docs.hyperstack.cloud/docs/hardware/flavors/) shows a one-GPU `CANADA-1` configuration with 28 CPU, 120 GB RAM, a 100 GB root disk, and 750 GB of ephemeral storage. The fixed CPU, RAM, root disk, and ephemeral disk are included in the flavor rate; public IPs and shared storage are separate.
+| Provider and product | Configuration or access boundary | Public rate | 720-hour estimate | Official evidence and check date |
+|---|---|---:|---:|---|
+| **Hyperstack VM** | 1x A100 80 GB PCIe; Canada | **$1.35/GPU-hr** | **$972.00** | [Hyperstack GPU pricing](https://www.hyperstack.cloud/gpu-pricing), checked Aug. 13, 2026 |
+| **RunPod Secure Cloud Pod** | A100 80 GB PCIe | **$1.39/hr** | **$1,000.80** | [RunPod pricing](https://www.runpod.io/pricing), checked Aug. 6, 2026 |
+| **Novita AI instance** | 1x A100 80 GB SXM; zero inventory observed at check time | **$1.60/GPU-hr** | **$1,152.00** | [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products), checked Aug. 14, 2026 |
+| **Verda GPU instance** | 1x A100 80 GB SXM4; 22 CPU and 120 GB RAM included | **$1.79/hr** | **$1,288.80** | [Verda pricing](https://verda.com/pricing), checked Aug. 15, 2026 |
+| **Modal container** | A100 80 GB | **$0.000694/sec** (**$2.4984/hr**) | **$1,798.85** | [Modal pricing](https://modal.com/pricing), checked Aug. 6, 2026 |
+| **CoreWeave Inference** | A100 80 GB; inference-platform customers | **$2.70/GPU-hr** | **$1,944.00** | [CoreWeave pricing](https://www.coreweave.com/pricing), checked Aug. 12, 2026 |
+| **RunPod Serverless** | A100 80 GB worker tier | **$2.72/hr** | **$1,958.40** | [RunPod pricing](https://www.runpod.io/pricing), checked Aug. 6, 2026 |
+| **Baseten deployment** | A100 80 GiB managed deployment | **$0.06667/min** (**$4.0002/hr**) | **$2,880.14** | [Baseten pricing](https://www.baseten.co/pricing/), checked Aug. 6, 2026 |
+| **Replicate private deployment** | A100 80 GB managed deployment | **$0.001400/sec** (**$5.04/hr**) | **$3,628.80** | [Replicate pricing](https://replicate.com/pricing), checked Aug. 6, 2026 |
 
-The catch is lifecycle billing. Hyperstack's [states-and-billing documentation](https://docs.hyperstack.cloud/docs/billing/states-and-billing/), checked August 13, says a stopped VM continues billing because the hardware remains reserved. Deletion ends VM billing. Hibernation deallocates the flavor hardware, but retained root-disk data, public IPs, and attached volumes can continue to incur charges, while ephemeral-disk data is lost.
+This is a comparison of **12 public rates across the two memory tiers**, not 12 equivalent rental offers. Hyperstack, RunPod Pods, Verda, Lambda, and Novita expose self-managed instance or Pod shapes. Modal and RunPod Serverless expose allocation-oriented containers or workers. Baseten and Replicate sell managed deployment products. CoreWeave's single-GPU inference price has an account-eligibility condition.
 
-Hyperstack's rate is four cents per hour below the selected RunPod Secure Cloud rate. That difference is only **$28.80 over 720 allocated hours**, an estimate derived from `$0.04 × 720`. Region fit, stock, image workflow, storage, and shutdown behavior can outweigh it quickly.
+Novita's 720-hour figure remains in the table even though public inventory showed zero units on August 14. It is the arithmetic implied by a catalog price, not a claim that a buyer could actually purchase 720 hours.
 
-### Novita's $1.60 rate was not deployable in the observed inventory
+## What Verda changes
 
-Novita's public marketplace API returned an A100 80 GB SXM one-GPU product with an official fixed-point price value of `160000`. Novita's public client conversion divides that value by 100,000, producing the **$1.60/GPU-hour** rate shown above. The same August 14 API response reported availability `none` and a maximum available count of zero.
+### It creates a new low for 40 GB, not a universal A100 winner
 
-The product bundles 14 vCPU, 240 GB RAM, and a 60 GB free container-disk quota. Novita's [GPU-instance pricing documentation](https://novita.ai/docs/guides/gpu-instance-pricing), checked August 14, says billing is per second and settled hourly; compute billing ends when the instance is stopped. Storage above the free container-disk quota is separate.
+Verda's **$1.29/hour A100 40 GB SXM4** is 70 cents below Lambda's $1.99 one-GPU 40 GB rate in this public check. Over 720 allocated hours, the simple difference is **$504**. That is an estimate derived from `$0.70 × 720`; it is not a promise about the final invoices or relative performance.
 
-HostFleet therefore treats $1.60 as a **catalog rate**, not a launch recommendation. Inventory is volatile and could return after publication, but a later stock change would not make the August 14 observation false. Buyers should recheck the marketplace immediately before budgeting a deployment.
+The more important boundary is memory. A deployment that requires 80 GB cannot save $504 by selecting a 40 GB card that does not fit. For memory-heavy open-weight inference, [HostFleet's Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains how weights, quantization, KV cache, and runtime headroom affect the capacity decision. It is a sizing guide, not a throughput benchmark.
 
-### CoreWeave's $2.70 figure is an inference-platform rate
+At 80 GB, Verda's **$1.79/hour** rate does not beat Hyperstack's $1.35 PCIe rate, RunPod Secure Cloud's $1.39 PCIe rate, or Novita's $1.60 catalog rate. Verda is an SXM4 configuration, however, while Hyperstack and the selected RunPod row are PCIe. Buyers who need an exact interconnect or topology should compare the hardware configuration before the price order.
 
-CoreWeave's North America pricing table publishes **$2.70 per hour** in its explicit single-GPU inference column for A100 80 GB, checked August 12, 2026. The vendor separately lists an eight-GPU on-demand A100 instance at **$21.60/hour**. HostFleet uses the vendor's single-GPU inference number; it does not derive it by dividing the full-node price.
+### The displayed rate includes CPU and RAM
 
-The footnote matters more than the arithmetic: GPU-based pricing applies to CoreWeave inference-platform customers and directs buyers to an account executive. The rate belongs in a public data comparison, but it is not evidence of a self-serve, one-GPU VM that any new account can launch.
+Verda's official pricing table couples each GPU rate to a fixed one-GPU configuration. Both A100 rows include **22 CPU and 120 GB RAM**, so HostFleet does not add separate CPU or RAM charges to the $1.29 and $1.79 compute rates.
 
-## What 720 allocated hours would cost
+Persistent resources are a different line item. Verda lists NVMe block storage, NVMe shared filesystem, and container-registry storage at **$0.20/GiB-month**, checked August 15, 2026. That means 100 GiB retained for a full billing month is a simple **$20 storage estimate**, before any other charges. The official pages checked did not publish a network transfer price or included transfer allowance, so this guide does not assume egress is free.
 
-These totals are **estimates**, not provider quotes. Each assumes one listed product remains allocated for a 30-day, 720-hour month. Per-second and per-minute products retain their native published inputs. The figures exclude storage, network transfer where applicable, public IPs, taxes, support, commitments, extra replicas, and other infrastructure.
+### Shutdown is not the off switch
 
-| Product shape | Rate input and source-check date | 720-hour listed-rate estimate |
-|---|---:|---:|
-| Hyperstack 1x A100 80 GB PCIe VM | $1.35/hr, Aug. 13 | **$972.00** |
-| RunPod Secure Cloud A100 80 GB PCIe Pod | $1.39/hr, Aug. 6 | **$1,000.80** |
-| Novita 1x A100 80 GB SXM catalog product | $1.60/hr, Aug. 14 | **$1,152.00** |
-| Lambda 1x A100 40 GB VM | $1.99/hr, Aug. 6 | **$1,432.80** |
-| Modal A100 40 GB container | $0.000583/sec, Aug. 6 | **$1,511.14** |
-| Modal A100 80 GB container | $0.000694/sec, Aug. 6 | **$1,798.85** |
-| CoreWeave Inference A100 80 GB | $2.70/hr, Aug. 12 | **$1,944.00** |
-| RunPod Serverless A100 80 GB tier | $2.72/hr, Aug. 6 | **$1,958.40** |
-| Baseten A100 80 GiB deployment | $0.06667/min, Aug. 6 | **$2,880.14** |
-| Replicate private A100 80 GB deployment | $0.001400/sec, Aug. 6 | **$3,628.80** |
+Verda's Cloud Console billing is prepaid in 10-minute increments. Its billing documentation says unused time is refunded in the next billing period when a resource is terminated before the billed interval ends. The key lifecycle catch is separate: **shutting down an instance does not stop billing**. Verda says the instance must be deleted to stop the compute charge, and retained storage continues billing.
 
-The math is `rate × 720 hours`; Modal and Replicate first convert their published per-second inputs, while Baseten converts its per-minute input. Novita's $1,152 estimate is deliberately retained even though observed inventory was zero: it shows the cost implied by the catalog rate, not a claim that 720 hours could be purchased.
+For a test deployment, the safe cost-control procedure is therefore to record the exact deletion step, verify that the instance disappears from billable resources, and separately decide which volumes or registry data must remain. Treating an operating-system shutdown as the end of the meter can erase the apparent hourly-price advantage.
 
-A workload that genuinely releases GPU capacity should not use 720-hour math. Estimate billable GPU-seconds, startup and model-load time, retries, idle windows, and minimum warm capacity instead. HostFleet's [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) explains the allocation assumptions behind warm, 10%, and 1% duty-cycle estimates.
+## What 720-hour math can and cannot tell you
 
-## Choose memory and product shape before price
+A 30-day planning month contains **720 hours**. Multiplying a rate by 720 is appropriate when one listed product remains allocated continuously. It gives a useful warm-capacity floor, but it does not predict a complete bill.
 
-The first filter remains memory. A100 40 GB and 80 GB are different capacity classes. If the model, context, KV cache, batch size, and runtime overhead require more than 40 GB, Lambda's $1.99 row and Modal's 40 GB row are not lower-cost substitutes for an 80 GB deployment.
+The estimate assumes:
 
-For open-weight models, [HostFleet's Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) shows why weight format and runtime headroom determine whether a single 80 GB card is plausible. It is a memory-sizing guide, not a throughput benchmark.
+- one GPU product is allocated for all 720 hours;
+- no second replica, failed replacement, or overlapping rollout is billed;
+- the published rate remains unchanged; and
+- all excluded resources are added separately.
 
-Then choose the operating surface:
+It excludes persistent storage, network transfer where charged, public IPs, support, taxes, commitments, regional premiums, and operational overhead. It also does not account for a product being unavailable to the account.
 
-1. **Self-managed, always allocated:** compare Hyperstack, RunPod Pods, and other VM-shaped capacity on stock, region, image support, persistent storage, network, and the exact action that stops billing.
-2. **Bursty worker:** compare Modal and RunPod Serverless on actual allocated time, startup behavior, queueing, and minimum capacity.
-3. **Managed serving:** compare Baseten, Replicate, and eligible CoreWeave offerings on deployment controls and operational work replaced—not only their hourly equivalents.
-4. **Catalog-only or unavailable capacity:** keep the rate for market context, but do not put it in a launch plan until the exact region and shape are available to the account.
+A bursty workload should use actual billable allocation instead. Startup, image pulls, model loading, minimum billing intervals, retries, idle windows, and scale-down behavior all affect that number. [HostFleet's GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) shows the assumptions behind always-warm, 10% allocation, and 1% allocation scenarios.
 
-The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) is the better companion for comparing workers and managed deployments. [RunPod's pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains the lifecycle and storage differences between its Pods and Serverless products.
+## Choose the operating surface after memory
+
+Once the deployment's memory floor is fixed, sort the providers by how much of the serving stack they replace.
+
+1. **Self-managed and continuously allocated:** Verda, Hyperstack, RunPod Pods, and Lambda put more infrastructure responsibility on the buyer. Compare images, root and persistent storage, network scope, stock, regions, quota, and the exact action that stops billing.
+2. **Bursty container or worker:** Modal and RunPod Serverless can align the bill more closely with allocation, but only if the workload releases the GPU. Model-load time and minimum warm capacity can dominate low-duty-cycle estimates.
+3. **Managed serving:** Baseten, Replicate, and eligible CoreWeave offerings charge for a more opinionated deployment surface. Compare autoscaling, rollout controls, observability, and operational work removed rather than treating the hourly equivalent as a bare GPU card.
+4. **Catalog-only capacity:** a visible price is valid market evidence, but it should not enter a launch plan until the exact GPU, region, quota, and stock are available to the account.
+
+The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) is the better companion when the choice is between worker and managed-deployment products. [RunPod's pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains why Pod and Serverless rates need different allocation and storage assumptions.
 
 ## A practical A100 buying checklist
 
-1. **Fix the VRAM floor.** Remove every 40 GB row if the deployment needs 80 GB.
-2. **Confirm the exact variant.** PCIe and SXM are not identical hardware configurations just because both are A100s.
-3. **Prove launch eligibility.** Check account quota, region, smallest deployable shape, and live inventory. A public number is only price evidence.
-4. **Test the off switch.** Document whether stop, scale-to-zero, hibernate, or delete ends compute billing and what storage survives.
-5. **Add excluded resources.** Price persistent storage, public IPs, transfer, CPU/RAM where separate, replicas, taxes, and support.
-6. **Run a bounded deployment test.** Measure time-to-ready, model load, allocation failures, billed duration, and the shutdown path before committing production traffic.
+1. **Set the memory floor.** Remove all 40 GB rows if weights plus runtime headroom require 80 GB.
+2. **Confirm the exact hardware.** Record PCIe versus SXM, topology, region, and smallest deployable GPU count.
+3. **Prove capacity.** Verify account eligibility, quota, and live inventory. A public rate proves price, not availability.
+4. **Test the off switch.** Document whether stop, shutdown, scale-to-zero, hibernate, or delete actually ends compute billing.
+5. **Price retained resources.** Add storage, public IPs, network transfer, support, taxes, and replicas.
+6. **Run a bounded deployment test.** Measure time-to-ready, model loading, allocation failures, billed duration, and deletion behavior before production traffic.
 
 ## Verdict
 
-**Hyperstack's one-GPU A100 80 GB PCIe VM at $1.35/hour is the new selected public-rate low.** The simple 720-hour estimate is **$972**, before separately billed resources. But a stopped VM continues billing, and the public price does not prove stock.
+**For A100 40 GB, Verda is the new public-rate leader in this check at $1.29/hour.** The transparent 720-hour compute estimate is **$928.80**, with 22 CPU and 120 GB RAM included. Storage is separate, shutdown does not stop billing, and public pricing does not guarantee capacity.
 
-**RunPod Secure Cloud at $1.39/hour** is only four cents higher and remains a strong self-managed comparison point with a clearly separated Community, Secure Cloud, and Serverless product structure. **Novita's $1.60/hour A100 80 GB SXM rate is attractive on paper, but it was catalog-only in the August 14 check because the public inventory showed zero units.** CoreWeave's $2.70 rate belongs to inference-platform buyers, not a self-serve VM shortlist.
+**For A100 80 GB, Hyperstack remains the selected public-rate leader at $1.35/GPU-hour**, or **$972 for 720 allocated hours** before excluded resources. RunPod Secure Cloud follows at $1.39/hour. Verda's $1.79/hour offer is not the cheapest 80 GB row, but it adds a clearly specified one-GPU SXM4 option with CPU and RAM included.
 
-The honest buying order is: required memory, deployable shape, live eligibility, billing lifecycle, then hourly price. A low catalog number is useful data; it is not capacity until the account can launch it.
+The honest buying order is required memory, exact hardware, deployable product shape, live eligibility, billing lifecycle, and then hourly price. A $1.29 A100 is only cheaper if 40 GB actually fits and the operator knows how to stop the meter.
 
 ## Sources
 
-- [Hyperstack GPU pricing](https://www.hyperstack.cloud/gpu-pricing) — A100 PCIe rate and on-demand billing unit; checked August 13, 2026
-- [Hyperstack flavor catalog](https://docs.hyperstack.cloud/docs/hardware/flavors/) — one-GPU A100 resources and region; checked August 13, 2026
-- [Hyperstack states and billing](https://docs.hyperstack.cloud/docs/billing/states-and-billing/) — stopped, hibernated, and deleted billing behavior; checked August 13, 2026
+- [Verda GPU instance pricing](https://verda.com/pricing) — A100 40 GB and 80 GB instance rates, fixed CPU/RAM configurations, reserved and spot boundaries, and storage prices; checked August 15, 2026
+- [Verda pricing and billing](https://docs.verda.com/welcome-to-verda/pricing-and-billing/) — pay-as-you-go 10-minute billing increments and unused-time refund behavior; checked August 15, 2026
+- [Verda shutdown, hibernate, and delete documentation](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) — shutdown, deletion, and retained-storage billing behavior; checked August 15, 2026
+- [Verda company page](https://verda.com/company) — DataCrunch-to-Verda identity; checked August 15, 2026
+- [Hyperstack GPU pricing](https://www.hyperstack.cloud/gpu-pricing) — A100 80 GB PCIe rate; checked August 13, 2026
 - [RunPod pricing](https://www.runpod.io/pricing) — Secure Cloud Pod and Serverless A100 rates; checked August 6, 2026
-- [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products) — A100 product price, resources, billing methods, and observed inventory; checked August 14, 2026
-- [Novita GPU-instance pricing](https://novita.ai/docs/guides/gpu-instance-pricing) — billing lifecycle and storage scope; checked August 14, 2026
+- [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products) — A100 price and observed inventory; checked August 14, 2026
 - [Lambda GPU instances](https://lambda.ai/instances) — one-GPU A100 40 GB VM rate; checked August 6, 2026
 - [Modal pricing](https://modal.com/pricing) — A100 40 GB and 80 GB per-second rates; checked August 6, 2026
-- [CoreWeave pricing](https://www.coreweave.com/pricing) — A100 single-GPU inference and eight-GPU on-demand rates plus eligibility footnote; checked August 12, 2026
+- [CoreWeave pricing](https://www.coreweave.com/pricing) — A100 single-GPU inference rate and eligibility boundary; checked August 12, 2026
 - [Baseten pricing](https://www.baseten.co/pricing/) — A100 80 GiB per-minute managed-deployment rate; checked August 6, 2026
 - [Replicate pricing](https://replicate.com/pricing) — private A100 80 GB per-second deployment rate; checked August 6, 2026
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, provider expansions verified August 12–14, 2026
-- HostFleet verification notes — `/opt/hostbot/data/ai-hosting/notes/2026-08-12-coreweave-gpu-pricing.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-13-hyperstack-gpu-pricing.md`, and `/opt/hostbot/data/ai-hosting/notes/2026-08-14-novita-gpu-pricing.md`
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, full-table baseline August 6 with provider additions verified August 12–15, 2026
+- HostFleet verification note — `/opt/hostbot/data/ai-hosting/notes/2026-08-15-verda-datacrunch-gpu-pricing.md`
 
-*Need a self-managed A100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: <a href="/go/runpod" rel="sponsored nofollow">RunPod (+$5 credit on your first $10)</a>. Links are labeled, and source citations in this article are never affiliate links.*
+*Need a self-managed A100 endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: <a href="https://hostfleet.net/go/runpod" rel="sponsored nofollow">RunPod (+$5 credit on your first $10)</a>. Links are labeled, and source citations in this article are never affiliate links.*
