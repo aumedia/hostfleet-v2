@@ -12,7 +12,8 @@
     { "id": "coreweave_inference", "name": "CoreWeave Inference", "billing": "per-hour single-GPU inference rate; inference platform customers only (contact account executive)", "source": "https://www.coreweave.com/pricing" },
     { "id": "nebius", "name": "Nebius AI Cloud", "billing": "per-second VM compute, shown as on-demand GPU-hour; H100/H200/B200/B300/RTX PRO rates include prescribed vCPU and RAM, while L40S is the minimum all-in 1-GPU preset", "source": "https://nebius.com/prices" },
     { "id": "hyperstack", "name": "Hyperstack", "billing": "per-minute on-demand GPU VM, shown per GPU-hour; fixed CPU, RAM, root disk, and ephemeral disk are included, while public IPs and shared storage are separate", "source": "https://www.hyperstack.cloud/gpu-pricing" },
-    { "id": "novita", "name": "Novita AI", "billing": "per-second on-demand GPU instance, settled hourly; listed one-GPU compute prices include the product's fixed vCPU and RAM, with storage above the free container-disk quota billed separately", "source": "https://novita.ai/gpus-console/explore" }
+    { "id": "novita", "name": "Novita AI", "billing": "per-second on-demand GPU instance, settled hourly; listed one-GPU compute prices include the product's fixed vCPU and RAM, with storage above the free container-disk quota billed separately", "source": "https://novita.ai/gpus-console/explore" },
+    { "id": "verda", "name": "Verda (formerly DataCrunch)", "billing": "prepaid pay-as-you-go GPU instances in 10-minute increments, with unused terminated time refunded in the next billing period; listed one-GPU price includes fixed CPU and RAM, while storage is separate", "source": "https://verda.com/pricing" }
   ],
   "gpus": [
     { "id": "t4", "name": "T4", "vram": "16 GB",
@@ -51,7 +52,8 @@
         "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.53" },
         "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier" },
         "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" },
-        "hyperstack": { "hr": 0.50, "raw": "$0.50/GPU/hr", "note": "1x RTX A6000 PCIe flavor; 28 CPU, 58 GB RAM, and local storage included; CANADA-1" }
+        "hyperstack": { "hr": 0.50, "raw": "$0.50/GPU/hr", "note": "1x RTX A6000 PCIe flavor; 28 CPU, 58 GB RAM, and local storage included; CANADA-1" },
+        "verda": { "hr": 0.61, "raw": "$0.6100/hr", "note": "1x RTX A6000 48 GB on-demand instance; 10 CPU and 60 GB RAM included; storage separate" }
       } },
     { "id": "l40s", "name": "L40S", "vram": "48 GB",
       "prices": {
@@ -61,7 +63,8 @@
         "replicate": { "hr": 3.51, "raw": "$0.000975/sec" },
         "coreweave_inference": { "hr": 2.25, "raw": "$2.25/GPU/hr", "note": "Inference platform customers only; public 8x L40S on-demand instance is $18.00/hr" },
         "nebius": { "hr": 1.55, "raw": "$1.35 GPU + 8x$0.012 vCPU + 32x$0.0032 GiB RAM = $1.5484/hr", "note": "Minimum all-in Intel 1gpu-8vcpu-32gb preset, rounded to the vendor's published from-$1.55 rate; eu-north1" },
-        "novita": { "hr": 0.55, "raw": "$0.55/GPU/hr", "note": "1x L40S on-demand product; 22 vCPU, 125 GB RAM, and 60 GB container disk quota" }
+        "novita": { "hr": 0.55, "raw": "$0.55/GPU/hr", "note": "1x L40S on-demand product; 22 vCPU, 125 GB RAM, and 60 GB container disk quota" },
+        "verda": { "hr": 1.37, "raw": "$1.37/hr", "note": "1x L40S 48 GB on-demand instance; 20 CPU and 60 GB RAM included; storage separate" }
       } },
     { "id": "rtxpro6000", "name": "RTX PRO 6000", "vram": "96 GB",
       "prices": {
@@ -71,12 +74,14 @@
         "fal": { "hr": 2.99, "note": "as low as $1.10 committed" },
         "coreweave_inference": { "hr": 2.50, "raw": "$2.50/GPU/hr", "note": "RTX PRO 6000 Blackwell Server Edition; inference platform customers only; public 8x on-demand instance is $20.00/hr" },
         "nebius": { "hr": 1.80, "raw": "$1.80/GPU/hr", "note": "RTX PRO 6000 Server Edition; unified 1gpu-24vcpu-218gb VM rate; us-central1" },
-        "hyperstack": { "hr": 1.85, "raw": "$1.85/GPU/hr", "note": "RTX PRO 6000 Server Edition; 1x flavor has 28 CPU, 225 GB RAM, and local storage included; CANADA-1" }
+        "hyperstack": { "hr": 1.85, "raw": "$1.85/GPU/hr", "note": "RTX PRO 6000 Server Edition; 1x flavor has 28 CPU, 225 GB RAM, and local storage included; CANADA-1" },
+        "verda": { "hr": 1.89, "raw": "$1.89/hr", "note": "1x RTX PRO 6000 96 GB on-demand instance; 30 CPU and 90 GB RAM included; non-confidential-compute flavor; storage separate" }
       } },
     { "id": "a100_40", "name": "A100 40 GB", "vram": "40 GB",
       "prices": {
         "modal": { "hr": 2.10, "raw": "$0.000583/sec" },
-        "lambda_cloud": { "hr": 1.99, "raw": "$1.99/GPU/hr", "note": "1x A100 PCIe or A100 SXM; 40 GB" }
+        "lambda_cloud": { "hr": 1.99, "raw": "$1.99/GPU/hr", "note": "1x A100 PCIe or A100 SXM; 40 GB" },
+        "verda": { "hr": 1.29, "raw": "$1.29/hr", "note": "1x A100 40 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" }
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
@@ -87,7 +92,8 @@
         "replicate": { "hr": 5.04, "raw": "$0.001400/sec" },
         "coreweave_inference": { "hr": 2.70, "raw": "$2.70/GPU/hr", "note": "Inference platform customers only; public 8x A100 80 GB on-demand instance is $21.60/hr" },
         "hyperstack": { "hr": 1.35, "raw": "$1.35/GPU/hr", "note": "1x A100 80 GB PCIe flavor; 28 CPU, 120 GB RAM, and local storage included; CANADA-1" },
-        "novita": { "hr": 1.60, "raw": "$1.60/GPU/hr", "note": "1x A100 80 GB SXM on-demand product; 14 vCPU, 240 GB RAM, and 60 GB container disk quota" }
+        "novita": { "hr": 1.60, "raw": "$1.60/GPU/hr", "note": "1x A100 80 GB SXM on-demand product; 14 vCPU, 240 GB RAM, and 60 GB container disk quota" },
+        "verda": { "hr": 1.79, "raw": "$1.79/hr", "note": "1x A100 80 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
@@ -101,7 +107,8 @@
         "coreweave_inference": { "hr": 6.16, "raw": "$6.16/GPU/hr", "note": "Inference platform customers only; public 8x HGX H100 on-demand instance is $49.24/hr" },
         "nebius": { "hr": 3.85, "raw": "$3.85/GPU/hr", "note": "H100 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; eu-north1" },
         "hyperstack": { "hr": 2.50, "raw": "$2.50/GPU/hr", "note": "1x H100 80 GB PCIe flavor; 28 CPU, 180 GB RAM, and local storage included; CANADA-1" },
-        "novita": { "hr": 3.39, "raw": "$3.39/GPU/hr", "note": "1x H100 80 GB SXM on-demand product; 16 vCPU, 128 GB RAM, and 60 GB container disk quota" }
+        "novita": { "hr": 3.39, "raw": "$3.39/GPU/hr", "note": "1x H100 80 GB SXM on-demand product; 16 vCPU, 128 GB RAM, and 60 GB container disk quota" },
+        "verda": { "hr": 3.25, "raw": "$3.25/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/185 GB RAM configuration has the same price; storage separate" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
@@ -111,7 +118,8 @@
         "fal": { "hr": 4.50, "note": "as low as $2.10 committed" },
         "coreweave_inference": { "hr": 6.31, "raw": "$6.31/GPU/hr", "note": "Inference platform customers only; public 8x HGX H200 on-demand instance is $50.44/hr" },
         "nebius": { "hr": 4.50, "raw": "$4.50/GPU/hr", "note": "H200 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; public regions include eu-north1, eu-west1, and us-central1" },
-        "hyperstack": { "hr": 3.99, "raw": "$3.99/GPU/hr; 8x flavor = $31.92/hr", "note": "H200 SXM5 is cataloged only as an 8x flavor with 176 CPU, 1800 GB RAM, and local storage included; CANADA-1" }
+        "hyperstack": { "hr": 3.99, "raw": "$3.99/GPU/hr; 8x flavor = $31.92/hr", "note": "H200 SXM5 is cataloged only as an 8x flavor with 176 CPU, 1800 GB RAM, and local storage included; CANADA-1" },
+        "verda": { "hr": 4.00, "raw": "$4.00/hr", "note": "1x H200 141 GB SXM5 on-demand instance; 44 CPU and 182 GB RAM included; storage separate" }
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
       "prices": {
@@ -123,7 +131,8 @@
         "lambda_cloud": { "hr": 6.99, "raw": "$6.99/GPU/hr", "note": "1x B200 SXM6 instance" },
         "coreweave_inference": { "hr": 8.60, "raw": "$8.60/GPU/hr", "note": "Inference platform customers only; public 8x HGX B200 on-demand instance is $68.80/hr" },
         "nebius": { "hr": 7.15, "raw": "$7.15/GPU/hr", "note": "B200 SXM/NVLink; unified 1gpu-20vcpu-224gb VM rate; us-central1 or me-west1" },
-        "hyperstack": { "hr": 6.00, "raw": "$6.00/GPU/hr; 8x flavor = $48.00/hr", "note": "B200 SXM6 is cataloged only as an 8x flavor with 252 CPU, 2048 GB RAM, and local storage included; vendor specifies 192 GB VRAM; CANADA-1" }
+        "hyperstack": { "hr": 6.00, "raw": "$6.00/GPU/hr; 8x flavor = $48.00/hr", "note": "B200 SXM6 is cataloged only as an 8x flavor with 252 CPU, 2048 GB RAM, and local storage included; vendor specifies 192 GB VRAM; CANADA-1" },
+        "verda": { "hr": 6.11, "raw": "$6.11/hr", "note": "1x B200 180 GB SXM6 on-demand instance; 30 CPU and 170 GB RAM included; storage separate" }
       } },
     { "id": "b300", "name": "B300", "vram": "288 GB",
       "prices": {
@@ -131,7 +140,8 @@
         "runpod_sls": { "hr": 9.98 },
         "modal": { "hr": 7.10, "raw": "$0.001972/sec" },
         "fal": { "hr": 8.50, "note": "as low as $4.49 committed" },
-        "nebius": { "hr": 7.85, "raw": "$7.85/GPU/hr", "note": "B300 SXM/NVLink; unified 1gpu-24vcpu-346gb VM rate; uk-south1 and private eu-west2" }
+        "nebius": { "hr": 7.85, "raw": "$7.85/GPU/hr", "note": "B300 SXM/NVLink; unified 1gpu-24vcpu-346gb VM rate; uk-south1 and private eu-west2" },
+        "verda": { "hr": 7.50, "raw": "$7.50/hr", "note": "1x B300 268 GB SXM6 on-demand instance; 30 CPU and 255 GB RAM included; vendor lists 268 GB VRAM; storage separate" }
       } }
   ]
 }
