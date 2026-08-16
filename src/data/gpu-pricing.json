@@ -13,7 +13,8 @@
     { "id": "nebius", "name": "Nebius AI Cloud", "billing": "per-second VM compute, shown as on-demand GPU-hour; H100/H200/B200/B300/RTX PRO rates include prescribed vCPU and RAM, while L40S is the minimum all-in 1-GPU preset", "source": "https://nebius.com/prices" },
     { "id": "hyperstack", "name": "Hyperstack", "billing": "per-minute on-demand GPU VM, shown per GPU-hour; fixed CPU, RAM, root disk, and ephemeral disk are included, while public IPs and shared storage are separate", "source": "https://www.hyperstack.cloud/gpu-pricing" },
     { "id": "novita", "name": "Novita AI", "billing": "per-second on-demand GPU instance, settled hourly; listed one-GPU compute prices include the product's fixed vCPU and RAM, with storage above the free container-disk quota billed separately", "source": "https://novita.ai/gpus-console/explore" },
-    { "id": "verda", "name": "Verda (formerly DataCrunch)", "billing": "prepaid pay-as-you-go GPU instances in 10-minute increments, with unused terminated time refunded in the next billing period; listed one-GPU price includes fixed CPU and RAM, while storage is separate", "source": "https://verda.com/pricing" }
+    { "id": "verda", "name": "Verda (formerly DataCrunch)", "billing": "prepaid pay-as-you-go GPU instances in 10-minute increments, with unused terminated time refunded in the next billing period; listed one-GPU price includes fixed CPU and RAM, while storage is separate", "source": "https://verda.com/pricing" },
+    { "id": "salad", "name": "Salad Container Engine", "billing": "per-second managed container instances at Lowest (formerly Batch) priority; GPU rates include selected vCPU and RAM, allocation and image-download time are unbilled, and distributed nodes are interruptible", "source": "https://salad.com/pricing" }
   ],
   "gpus": [
     { "id": "t4", "name": "T4", "vram": "16 GB",
@@ -39,13 +40,15 @@
       "prices": {
         "runpod_pods": { "hr": 0.69 },
         "runpod_sls": { "hr": 1.10 },
-        "novita": { "hr": 0.33, "raw": "$0.33/GPU/hr", "note": "1x RTX 4090 on-demand product; 16 vCPU, 62 GB RAM, and 60 GB container disk quota" }
+        "novita": { "hr": 0.33, "raw": "$0.33/GPU/hr", "note": "1x RTX 4090 on-demand product; 16 vCPU, 62 GB RAM, and 60 GB container disk quota" },
+        "salad": { "hr": 0.204, "raw": "$0.204/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included; interruptible distributed node, not a dedicated VM" }
       } },
     { "id": "rtx5090", "name": "RTX 5090", "vram": "32 GB",
       "prices": {
         "runpod_pods": { "hr": 0.99 },
         "runpod_sls": { "hr": 1.58 },
-        "novita": { "hr": 0.72, "raw": "$0.72/GPU/hr", "note": "1x RTX 5090 high-frequency on-demand product; 24 vCPU, 58 GB RAM, and 60 GB container disk quota" }
+        "novita": { "hr": 0.72, "raw": "$0.72/GPU/hr", "note": "1x RTX 5090 high-frequency on-demand product; 24 vCPU, 58 GB RAM, and 60 GB container disk quota" },
+        "salad": { "hr": 0.294, "raw": "$0.294/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included; interruptible distributed node, not a dedicated VM" }
       } },
     { "id": "a6000", "name": "RTX A6000 / A40", "vram": "48 GB",
       "prices": {
