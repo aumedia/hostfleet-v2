@@ -1,116 +1,132 @@
 ---
-title: "GPU cloud free credits 2026: August check—what can actually run a GPU test?"
-description: "An August 2026 source check of GPU-cloud credits: which public offers can fund a real test, which require an account upgrade, and where quota or capacity can still stop you."
+title: "GPU cloud free credits 2026: what $30-$300 can actually test"
+description: "An August 2026 source check of GPU cloud credits, account restrictions, and the real GPU time Modal's recurring $30 can fund."
 pubDate: 2026-07-27
-updatedDate: 2026-08-02
+updatedDate: 2026-08-16
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context. This is a source-backed guide: credit amounts, expiry windows, and account restrictions come from the providers' published pages checked on August 2, 2026. The GPU-time figures are estimates, not quotes.*
+*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Offers checked:** August 2, 2026
-**What this page answers:** whether a public credit can fund a bounded GPU deployment test—not whether a GPU is in stock or suitable for production
+> **Offers and rates verified:** August 16, 2026
+>
+> **Evidence mode:** Source-backed. Credit amounts, expiry windows, restrictions, and GPU rates come from provider pages. GPU-hour budgets are calculations, not benchmarks or quotes.
 
-# GPU cloud free credits 2026: August check—what can actually run a GPU test?
+# GPU cloud free credits 2026: what $30-$300 can actually test
 
-A cloud credit is not the same thing as GPU access. A provider can offer a real sign-up balance while the account still lacks the required plan, quota, region capacity, or permission to create a GPU machine. That distinction matters more than the headline amount when the job is to prove that a container starts, a model loads, and one request completes.
+A cloud credit answers one narrow question: who pays the bill until the balance or time window runs out? It does **not** guarantee that the account can provision a GPU, that the requested region has capacity, or that the provider will approve the required quota.
 
-This August refresh compares public, self-serve offers only. It excludes sales credits, student or research grants, country-specific promotions, and referral promotions that do not have stable public terms. It is source-backed rather than benchmark-backed. For the current GPU rate reference behind the estimates below, use [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/).
+That is why the biggest headline offer is not automatically the best GPU trial. In the public offers checked on August 16, Modal's recurring $30 is the clearest self-serve GPU test budget because its Starter plan publishes both the credit and GPU rates. Google Cloud advertises ten times that amount, but a non-billable Free Trial account cannot add GPUs to VM instances until it is upgraded. AWS, Azure, and Oracle offer broader cloud credits, yet the GPU path still depends on account access, quota, shape, and region.
+
+This guide compares stable, public offers. It excludes sales-negotiated credits, startup and academic grants, country-specific coupons, and referral promotions. For current rates beyond the offers discussed here, use [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/).
 
 ## The short answer
 
-- **Modal is still the clearest direct GPU test credit.** Its Starter plan lists $30 of free compute credit each month and public per-second GPU rates on the same page.
-- **AWS, Azure, and Oracle offer larger general-cloud credits, but none is a capacity reservation.** You still need to confirm the service, region, plan, quota, and any resulting paid-use exposure.
-- **Google's $300 trial cannot create a VM with a GPU while the billing account remains a non-billable Free Trial account.** Upgrade first, then treat the remaining credit, quota, and capacity as separate checks.
-- **AWS's current account-plan split is easy to miss.** New customers can choose Free or Paid at sign-up and receive up to $200 in credits either way, but the Free plan restricts services that would immediately consume the balance or require hardware purchases.
+- **Best direct GPU test credit: Modal.** Starter includes $30 of free compute credit every month. The same pricing page lists each GPU rate, so a test budget can be calculated before deployment.
+- **Largest public headline credit: Oracle and Google at $300 each.** Neither amount is a hardware reservation. Google's trial account explicitly blocks GPU VMs until upgrade. Oracle says the balance applies to eligible OCI services, but its offer does not promise a particular GPU shape or region.
+- **Best broad-cloud proof-of-concept credit: depends on the stack.** AWS offers up to $200 over a six-month Free-plan window; Azure offers $200 for 30 days. These can make more sense when the test includes networking, storage, identity, and monitoring, not only GPU runtime.
+- **Safest operating rule: prove allocation before porting the workload.** Check the plan, GPU quota, exact machine shape, region, and what happens when the credit ends.
 
-## Public offers, tested against the GPU question
+All dollar amounts in this section were checked on the linked official provider pages on August 16, 2026.
 
-| Provider | Public offer checked | Window | Does the published offer directly fund a GPU test? | The operational catch |
+## Public GPU-cloud credit offers compared
+
+| Provider | Public offer | Window | Can it directly fund a GPU test? | What can stop the test |
 |---|---:|---|---|---|
-| **Modal** | $30 of free compute credit on Starter | Recurs monthly | **Yes.** Modal publishes the credit and GPU task rates together. | CPU, memory, volumes, and a deliberately warm container can consume the credit too. |
-| **AWS** | Up to $200: $100 at sign-up plus up to $100 from eligible exploration activities | Free plan ends at six months; credits expire 12 months after account creation | **Potentially, on a Paid plan.** AWS says remaining credits apply to future eligible bills after upgrade. | The Free plan limits offerings that require hardware purchases; GPU quota and regional EC2 capacity are separate from the credit. |
-| **Microsoft Azure** | $200 credit in the account's billing currency | First 30 days | **Potentially.** Azure says the credit can be used on any service other than third-party Marketplace purchases. | A GPU VM still depends on quota and available capacity in the chosen region. |
-| **Google Cloud** | $300 Welcome credit | 90 days | **Not while the account is a non-billable Free Trial account.** | Google explicitly disallows adding GPUs to VM instances and requesting quota increases at that stage. |
-| **Oracle Cloud Infrastructure** | US$300 credit for eligible OCI services | Up to 30 days | **Possible, but not established by the offer alone.** | Eligible spend is not a GPU allocation; check the exact shape and region before designing the test around it. |
+| **Modal** | $30 of free compute credit on Starter | Recurs monthly | **Yes.** The offer and per-second GPU rates are public on the same page. | CPU, memory, storage, and intentionally warm containers also consume budget. GPU concurrency and availability remain separate controls. |
+| **AWS** | Up to $200: $100 at sign-up plus up to $100 from eligible exploration activities | Free plan ends after six months or when credits run out; credits expire 12 months after account creation | **Potentially after moving to Paid.** AWS says remaining credits apply to future eligible bills after upgrade. | Free limits offerings that require hardware purchases or would immediately consume the balance. Service access, GPU quota, and regional capacity remain separate. |
+| **Microsoft Azure** | $200 in the account's billing currency | First 30 days | **Potentially.** Microsoft says the credit can be used on any service except third-party Marketplace purchases. | The offer does not grant a GPU VM family, quota, or regional capacity. |
+| **Google Cloud** | $300 Welcome credit | 90 days | **No while the billing account remains a non-billable Free Trial account.** Upgrade first. | Google explicitly blocks adding GPUs to VMs and requesting quota increases during the non-billable trial stage. After upgrade, paid-use exposure begins beyond remaining credit. |
+| **Oracle Cloud Infrastructure** | US$300 for eligible OCI services | Up to 30 days | **Possible, but not established by the offer alone.** | Eligible spend is not a GPU allocation. The exact shape, tenancy limits, region, and capacity still need confirmation. |
 
-A yes in this table means the published terms do not themselves block GPU spend. It does not mean a particular H100, region, quota increase, image, or startup time is available. Credits answer a billing question; deployable capacity is an operations question.
+A **yes** or **potentially** means only that the published credit terms do not conclusively prevent GPU spend at the relevant account stage. It is not evidence that an H100 or another named accelerator is in stock. Credits are a billing control; deployable capacity is an operations control.
 
-## What Modal's recurring $30 can buy
+## How much Modal GPU time does $30 buy?
 
-Modal is the only offer in this comparison that pairs a recurring, public credit with published per-second GPU rates. The table uses the active Modal rows in [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/), verified against Modal's pricing page on August 2, 2026.
+Modal is the useful worked example because its pricing page exposes both sides of the calculation. On August 16, 2026, Starter still included $30 per month and the page listed 11 GPU task rates from T4 through B300.
 
-These are GPU-only estimates. The assumption is simple: the full $30 is spent on one named GPU rate, with no CPU, memory, storage, networking, or other charge. The calculation is $30 divided by the published hourly equivalent.
+The calculation is:
 
-| Modal GPU | Published GPU rate | Approximate GPU time from $30 |
-|---|---:|---:|
-| T4 — 16 GB | $0.000164/sec ($0.5904/hr) | about 51 hours |
-| L4 — 24 GB | $0.000222/sec ($0.7992/hr) | about 38 hours |
-| A10 — 24 GB | $0.000306/sec ($1.1016/hr) | about 27 hours |
-| A100 — 80 GB | $0.000694/sec ($2.4984/hr) | about 12 hours |
-| H100 — 80 GB | $0.001097/sec ($3.9492/hr) | about 8 hours |
+`estimated GPU hours = $30 / (published per-second GPU rate x 3,600)`
 
-Those are spend ceilings, not throughput or latency predictions. They are enough to validate a bounded deployment path: build an image, load a model, exercise an endpoint or batch input, capture the result, and scale down. They are not evidence that a production endpoint will have acceptable cold starts, concurrency, or capacity.
+The estimates below assume the entire $30 is available for one GPU and ignore CPU, memory, volume, network, and other charges. They also assume the container is billable only for the stated GPU duration. These are ceilings for planning, not promises about runtime, throughput, cold starts, or capacity. Every rate in the table comes from [Modal's pricing page](https://modal.com/pricing), checked August 16, 2026.
 
-For the billing behavior behind that calculation, read [Modal pricing explained](https://hostfleet.net/modal-pricing-guide-2026/). A scale-to-zero platform helps only when the workload actually returns to zero; holding a GPU warm turns a small credit into an always-on capacity budget.
+| Modal GPU | Published rate | Hourly equivalent | Approximate GPU time from $30 |
+|---|---:|---:|---:|
+| T4 | $0.000164/sec | $0.5904/hr | 50.81 hours |
+| L4 | $0.000222/sec | $0.7992/hr | 37.54 hours |
+| A10 | $0.000306/sec | $1.1016/hr | 27.23 hours |
+| L40S | $0.000542/sec | $1.9512/hr | 15.38 hours |
+| A100 40 GB | $0.000583/sec | $2.0988/hr | 14.29 hours |
+| A100 80 GB | $0.000694/sec | $2.4984/hr | 12.01 hours |
+| RTX PRO 6000 | $0.000842/sec | $3.0312/hr | 9.90 hours |
+| H100 | $0.001097/sec | $3.9492/hr | 7.60 hours |
+| H200 | $0.001261/sec | $4.5396/hr | 6.61 hours |
+| B200 | $0.001736/sec | $6.2496/hr | 4.80 hours |
+| B300 | $0.001972/sec | $7.0992/hr | 4.23 hours |
 
-## The account upgrade changes the risk
+The useful lesson is not that a T4 is always the economical choice or a B300 is wasteful. GPU selection starts with memory, supported precision, model format, and the job's actual bottleneck. The table only shows how much billable GPU time fits inside one recurring credit. [HostFleet's VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains why two cards with very different memory capacities are not interchangeable merely because both fit the dollar budget.
 
-The general cloud trials are useful when the question includes more than GPU runtime: identity, private networking, object storage, monitoring, a queue, or a VM image. They require a slightly different test plan.
+For a quick deployment smoke test, four hours can be enough to prove image build, model load, one request path, logging, and teardown. It is usually not enough for an open-ended tuning session. A lower-cost GPU can buy more iteration time, but only if the workload fits and the software path supports it.
 
-### Google: the credit exists, but the trial account blocks GPUs
+CPU and memory are the easiest costs to forget. Modal lists those resources separately, so the GPU-only ceiling will overstate actual runtime whenever the container also reserves meaningful CPU or RAM. Keeping a worker warm also spends continuously. For a fuller bill worksheet and the difference between warm and scale-to-zero operation, read [Modal pricing explained](https://hostfleet.net/modal-pricing-guide-2026/) and the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/).
 
-Google's documentation says a Free Trial billing account starts with $300 in Welcome credit valid for 90 days. It also explicitly says a non-billable Free Trial account cannot add GPUs to VM instances or request a quota increase. GPUs and TPUs are not part of the separate Free Tier offer.
+## The four gates between a credit and a working GPU
 
-The safe sequence is:
+A useful trial plan checks four gates in order. Skipping ahead is how teams spend engineering time on a credit they cannot use.
 
-1. Create the trial only if the surrounding non-GPU setup work is useful.
-2. Upgrade to a Paid billing account before attempting a GPU VM.
-3. Check GPU quota and regional capacity before committing engineering time.
-4. Set a budget alert and a shutdown plan, because usage beyond remaining credit can be billed.
+### 1. Billing eligibility
 
-Google says unused Welcome credit remains after an upgrade until its original 90-day expiry. That preserves the opportunity, not the safety of the non-billable trial stage.
+Confirm that the credit applies to the product being tested. Azure excludes third-party Marketplace purchases from its $200 first-month credit. Oracle limits its $300 to eligible OCI services. AWS distinguishes between Free and Paid account plans, and says remaining Free Tier credits can apply to eligible bills after an upgrade. None of those statements proves that every GPU-related charge is covered.
 
-### AWS: credit eligibility and plan access are different controls
+### 2. Account access
 
-AWS now describes two choices for new customers at sign-up: Free and Paid. Both can receive up to $200 in Free Tier credits, composed of $100 at sign-up and up to another $100 through eligible exploration activities. The Free plan lasts until the earlier of six months after account opening or exhaustion of the credits. The credits themselves expire 12 months after account creation.
+Google makes this gate explicit. Its Free Trial provides $300 for 90 days, but the non-billable trial account cannot add GPUs to VMs or request quota increases. Upgrading unlocks restricted services and preserves unused Welcome credit until the original 90-day expiry, but billing is then enabled for costs beyond remaining credit or for products outside the trial.
 
-For GPU testing, the important detail is AWS's own restriction: the Free plan limits a subset of offerings that would immediately consume the credits or require hardware purchases. AWS says those limitations can be removed by upgrading to a Paid plan, and that remaining credits then apply to future eligible bills until expiry. That makes a GPU test plausible, but it also moves the account into normal pay-as-you-go exposure once the balance is gone or the service is not credit-eligible.
+AWS has a similar plan distinction with different wording. The Free plan is designed to avoid surprise charges and blocks a subset of offerings that could rapidly consume credits or require hardware purchases. Upgrading removes those plan limitations, but it also creates normal pay-as-you-go exposure once credits no longer cover eligible usage.
 
-### Azure and OCI: broad credits are not a quota promise
+### 3. Quota and capacity
 
-Azure's $200 credit is broad on paper: Microsoft says it can be used on any service except third-party Marketplace purchases during the first 30 days. The page does not convert that policy into a GPU allocation. Confirm the VM family, regional quota, and capacity before building a test around it. If an account is upgraded during the first 30 days, Microsoft says remaining credit can be used through the original 30-day window.
+A balance cannot override a zero quota or an unavailable machine family. Check the exact accelerator, GPU count, VM or container shape, and region before changing application code. If a quota request or account review is required, treat approval as a prerequisite rather than an administrative detail to solve after migration.
 
-Oracle documents US$300 of credit for eligible OCI services for up to 30 days. Its Free Tier material separately documents capacity limitations even for Always Free compute shapes. Treat that as a warning against assuming that a trial balance equals hardware availability. Verify the target shape, region, and account limits before moving any workload.
+### 4. End-of-credit behavior
 
-## A credit test that produces a useful answer
+The failure mode differs by provider. Google's non-upgraded Free Trial account closes when the 90-day window or $300 is exhausted, stopping resources and beginning a recovery window. AWS says its Free plan ends after six months or when credits are exhausted; upgrading retains qualifying unused credits until their separate expiry. Oracle says paid trial resources can be reclaimed after the trial if the account is not upgraded. Azure's unused first-month credit disappears after 30 days.
 
-A credit is most valuable when it answers one decision rather than becoming an unbounded prototype. Use a fixed test definition:
+A production workload should not discover these rules by stopping unexpectedly. Record the credit expiry, set budget alerts where available, and define whether the resource must be stopped, deleted, or scaled to zero to end billing.
 
-1. **Choose the smallest meaningful GPU class.** Start with memory and model format, not the largest headline credit. [HostFleet's Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains why an 80 GB-class card and a 40 GB card are different deployment constraints.
-2. **Write the pass condition before provisioning.** For example: image builds, model reaches ready state, ten requests complete, logs and metrics are captured, then the resource is destroyed.
-3. **Check allocation before porting.** Confirm plan, quota, region, and the exact GPU shape. A credit cannot fix a denied quota request.
-4. **Set a dollar and time boundary.** Enable budget alerts, tag the resource, and schedule shutdown or deletion. Stopped or warm resources can still incur costs depending on product shape.
-5. **Record the observed behavior.** Cold start, queueing, image pull time, model load time, and billed duration are workload-specific results. Do not substitute the published credit table for a measurement.
+## A bounded credit test that produces a decision
 
-If a trial is not the right test vehicle, compare the operating shapes in [RunPod's Pods versus Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) and [HostFleet's serverless GPU price matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). A small explicit budget on the right product can be more useful than a larger credit attached to the wrong account controls.
+A good trial answers one deployment question. Use a fixed runbook:
+
+1. **Choose the smallest valid GPU class.** Start with required VRAM and software support, then compare cost.
+2. **Confirm the four gates.** Record credit eligibility, account plan, quota, region, and capacity before porting.
+3. **Write a pass condition.** For example: the image builds, the model reaches ready state, ten representative requests complete, logs are captured, and the resource is destroyed.
+4. **Set dollar and time boundaries.** Reserve part of the credit for failed image pulls, initialization, CPU, memory, and storage instead of assigning the full balance to GPU runtime.
+5. **Measure workload behavior.** Capture cold start, model-load time, queueing, request latency, errors, and billable duration. Published credit arithmetic is not a benchmark.
+6. **Test teardown.** Confirm that the action you call "stop" actually ends the compute charge and identify any storage or IP resources that remain billable.
+
+If a public credit cannot reach the required hardware without a long quota process, a small paid test on the correct product can be more useful. Compare operating shapes in [RunPod's Pods versus Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) and [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/).
 
 ## Verdict
 
-For a bounded, self-serve GPU prototype, **Modal's recurring $30 Starter credit remains the cleanest public offer in this set** because the credit and GPU rates are published together. Its value is operational clarity, not the largest possible dollar amount.
+For a bounded self-serve GPU deployment test, **Modal's recurring $30 Starter credit remains the most transparent public offer in this comparison**. The amount is smaller than the general-cloud trials, but the provider publishes the GPU rates needed to turn the balance into a realistic time budget. Depending on the accelerator, the GPU-only ceiling runs from about 50.81 T4 hours to 4.23 B300 hours at rates checked August 16, 2026.
 
-AWS, Azure, and OCI can fund broader cloud proof-of-concepts, but the GPU path is conditional on plan access, quota, regional capacity, and cost controls. Google's $300 credit is only relevant to a GPU VM after an account upgrade. In every case, verify allocation before investing in a migration and treat a public credit as a test budget—not a promise of hardware.
+Google's $300 is not a GPU-VM trial until the billing account is upgraded. AWS, Azure, and Oracle can fund broader infrastructure proofs of concept, but the credit alone does not establish GPU access, quota, or capacity. Verify those controls first, then run a deliberately bounded test.
 
 ## Sources
 
-- [Modal pricing](https://modal.com/pricing) — Starter credit and published GPU rates; checked August 2, 2026
-- [Google Cloud Free Program and Free Trial restrictions](https://cloud.google.com/free/docs/free-cloud-features) — $300 credit, 90-day window, GPU and quota restrictions; checked August 2, 2026
-- [AWS Free Tier FAQ](https://aws.amazon.com/free/free-tier-faqs/) — credit structure, account-plan rules, expiry, and restrictions; checked August 2, 2026
-- [Azure free-account credit documentation](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-free-services) — credit amount, window, and upgrade treatment; checked August 2, 2026
-- [Oracle Cloud Free Tier FAQ](https://www.oracle.com/cloud/free/faq.html) — credit amount, eligibility, window, and capacity caveat; checked August 2, 2026
-- [Oracle Cloud Infrastructure Free Tier documentation](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier.htm) — eligible OCI-service scope; checked August 2, 2026
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json; selected Modal rows rechecked August 2, 2026
+All provider pages below were accessed August 16, 2026.
 
-*Need a paid self-managed GPU endpoint after the test? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
+- [Modal pricing](https://modal.com/pricing) — Starter credit, GPU task rates, CPU and memory billing, and plan limits
+- [Google Cloud Free Program](https://cloud.google.com/free/docs/free-cloud-features) — $300 amount, 90-day window, GPU and quota restrictions, upgrade behavior, and end-of-trial handling
+- [AWS Free Tier](https://aws.amazon.com/free/) — up-to-$200 structure and six-month Free-plan window
+- [AWS Free Tier FAQ](https://aws.amazon.com/free/free-tier-faqs/) — Free versus Paid plan restrictions, 12-month credit expiry, upgrade behavior, and resource handling
+- [Azure free-account documentation](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-free-services) — $200 amount, 30-day window, eligible-service scope, and upgrade treatment
+- [Oracle Cloud Free Tier FAQ](https://www.oracle.com/cloud/free/faq.html) — $300 amount, 30-day window, eligible-service wording, capacity warning, and trial-expiry behavior
+- [Oracle Cloud Infrastructure Free Tier documentation](https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier.htm) — eligible OCI-service scope
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`; Modal rows last included in the full-table verification dated August 10, 2026 and rechecked against the live provider page August 16, 2026
+
+*Need a paid self-managed GPU endpoint after the test? Using our labeled affiliate link supports HostFleet's testing budget at no extra cost to you: <a href="https://hostfleet.net/go/runpod" rel="sponsored nofollow">RunPod</a>. Source citations in this article are never affiliate links.*
