@@ -67,7 +67,7 @@ The estimates below assume the entire $30 is available for one GPU and ignore CP
 | B200 | $0.001736/sec | $6.2496/hr | 4.80 hours |
 | B300 | $0.001972/sec | $7.0992/hr | 4.23 hours |
 
-The useful lesson is not that a T4 is always the economical choice or a B300 is wasteful. GPU selection starts with memory, supported precision, model format, and the job's actual bottleneck. The table only shows how much billable GPU time fits inside one recurring credit. [HostFleet's VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains why two cards with very different memory capacities are not interchangeable merely because both fit the dollar budget.
+The useful lesson is not that a T4 is always the economical choice or a B300 is wasteful. GPU selection starts with memory, supported precision, model format, and the job's actual bottleneck. The table only shows how much billable GPU time fits inside one recurring credit. [HostFleet's VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains why two cards with very different memory capacities are not interchangeable merely because both fit the dollar budget. If the test establishes that an A100 is the smallest valid class, use the [A100 rental-price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) to compare 40 GB and 80 GB paid deployment shapes before extending the workload beyond the credit.
 
 For a quick deployment smoke test, four hours can be enough to prove image build, model load, one request path, logging, and teardown. It is usually not enough for an open-ended tuning session. A lower-cost GPU can buy more iteration time, but only if the workload fits and the software path supports it.
 
