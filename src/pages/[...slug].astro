@@ -10,10 +10,24 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const { title, description, pubDate, updatedDate, author, category, legacy } = post.data;
-const relatedPosts = (await getCollection("posts"))
-  .filter((p) => !p.data.draft && p.id !== post.id && p.data.category === category)
-  .sort((a, b) => +new Date(b.data.pubDate) - +new Date(a.data.pubDate))
-  .slice(0, 3);
+const stopWords = new Set([
+  "about", "after", "agents", "and", "app", "apps", "best", "cloud", "compare", "comparison", "deploy", "deployment", "for", "from", "guide", "host", "hosting", "how", "in", "into", "more", "of", "on", "or", "pricing", "small", "the", "to", "vs", "what", "where", "with",
+]);
+const topicTerms = (value: string) => new Set(
+  (value.toLowerCase().match(/[a-z0-9]+/g) ?? []).filter((term) => term.length > 2 && !stopWords.has(term)),
+);
+const topicText = (entry: typeof post) => `${entry.id.replaceAll("-", " ")} ${entry.data.title} ${entry.data.description}`;
+const allPosts = await getCollection("posts");
+const sourceTerms = topicTerms(topicText(post));
+const relatedPosts = allPosts
+  .filter((entry) => !entry.data.draft && entry.id !== post.id && entry.data.category === category)
+  .map((entry) => {
+    const score = [...topicTerms(topicText(entry))].filter((term) => sourceTerms.has(term)).length;
+    return { entry, score };
+  })
+  .sort((a, b) => b.score - a.score || +new Date(b.entry.data.updatedDate ?? b.entry.data.pubDate) - +new Date(a.entry.data.updatedDate ?? a.entry.data.pubDate))
+  .slice(0, 3)
+  .map(({ entry }) => entry);
 const categoryHubs = {
   "ai-hosting": "/ai-hosting/",
   edge: "/edge/",
