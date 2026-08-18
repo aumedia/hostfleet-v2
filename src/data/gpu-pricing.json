@@ -14,7 +14,8 @@
     { "id": "hyperstack", "name": "Hyperstack", "billing": "per-minute on-demand GPU VM, shown per GPU-hour; fixed CPU, RAM, root disk, and ephemeral disk are included, while public IPs and shared storage are separate", "source": "https://www.hyperstack.cloud/gpu-pricing" },
     { "id": "novita", "name": "Novita AI", "billing": "per-second on-demand GPU instance, settled hourly; listed one-GPU compute prices include the product's fixed vCPU and RAM, with storage above the free container-disk quota billed separately", "source": "https://novita.ai/gpus-console/explore" },
     { "id": "verda", "name": "Verda (formerly DataCrunch)", "billing": "prepaid pay-as-you-go GPU instances in 10-minute increments, with unused terminated time refunded in the next billing period; listed one-GPU price includes fixed CPU and RAM, while storage is separate", "source": "https://verda.com/pricing" },
-    { "id": "salad", "name": "Salad Container Engine", "billing": "per-second managed container instances at Lowest (formerly Batch) priority; GPU rates include selected vCPU and RAM, allocation and image-download time are unbilled, and distributed nodes are interruptible", "source": "https://salad.com/pricing" }
+    { "id": "salad", "name": "Salad Container Engine", "billing": "per-second managed container instances at Lowest (formerly Batch) priority; GPU rates include selected vCPU and RAM, allocation and image-download time are unbilled, and distributed nodes are interruptible", "source": "https://salad.com/pricing" },
+    { "id": "vultr", "name": "Vultr Cloud GPU", "billing": "hourly on-demand GPU instances using actual calendar-month hours; listed instance rates include fixed vCPU, RAM, local storage, and outbound bandwidth allocations, and stopped instances continue billing until destroyed", "source": "https://www.vultr.com/pricing/#cloud-gpu" }
   ],
   "gpus": [
     { "id": "t4", "name": "T4", "vram": "16 GB",
@@ -56,7 +57,8 @@
         "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier" },
         "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" },
         "hyperstack": { "hr": 0.50, "raw": "$0.50/GPU/hr", "note": "1x RTX A6000 PCIe flavor; 28 CPU, 58 GB RAM, and local storage included; CANADA-1" },
-        "verda": { "hr": 0.61, "raw": "$0.6100/hr", "note": "1x RTX A6000 48 GB on-demand instance; 10 CPU and 60 GB RAM included; storage separate" }
+        "verda": { "hr": 0.61, "raw": "$0.6100/hr", "note": "1x RTX A6000 48 GB on-demand instance; 10 CPU and 60 GB RAM included; storage separate" },
+        "vultr": { "hr": 1.71, "raw": "$1.712/hr", "note": "1x NVIDIA A40 Cloud GPU instance; 24 vCPU, 120 GB RAM, 1.40 TB local storage, and 15 TB bandwidth included" }
       } },
     { "id": "l40s", "name": "L40S", "vram": "48 GB",
       "prices": {
@@ -67,7 +69,8 @@
         "coreweave_inference": { "hr": 2.25, "raw": "$2.25/GPU/hr", "note": "Inference platform customers only; public 8x L40S on-demand instance is $18.00/hr" },
         "nebius": { "hr": 1.55, "raw": "$1.35 GPU + 8x$0.012 vCPU + 32x$0.0032 GiB RAM = $1.5484/hr", "note": "Minimum all-in Intel 1gpu-8vcpu-32gb preset, rounded to the vendor's published from-$1.55 rate; eu-north1" },
         "novita": { "hr": 0.55, "raw": "$0.55/GPU/hr", "note": "1x L40S on-demand product; 22 vCPU, 125 GB RAM, and 60 GB container disk quota" },
-        "verda": { "hr": 1.37, "raw": "$1.37/hr", "note": "1x L40S 48 GB on-demand instance; 20 CPU and 60 GB RAM included; storage separate" }
+        "verda": { "hr": 1.37, "raw": "$1.37/hr", "note": "1x L40S 48 GB on-demand instance; 20 CPU and 60 GB RAM included; storage separate" },
+        "vultr": { "hr": 1.67, "raw": "$1.671/GPU/hr", "note": "1x NVIDIA L40S Cloud GPU instance; 16 vCPU, 180 GB RAM, 1.20 TB local storage, and 10 TB bandwidth included" }
       } },
     { "id": "rtxpro6000", "name": "RTX PRO 6000", "vram": "96 GB",
       "prices": {
@@ -96,7 +99,8 @@
         "coreweave_inference": { "hr": 2.70, "raw": "$2.70/GPU/hr", "note": "Inference platform customers only; public 8x A100 80 GB on-demand instance is $21.60/hr" },
         "hyperstack": { "hr": 1.35, "raw": "$1.35/GPU/hr", "note": "1x A100 80 GB PCIe flavor; 28 CPU, 120 GB RAM, and local storage included; CANADA-1" },
         "novita": { "hr": 1.60, "raw": "$1.60/GPU/hr", "note": "1x A100 80 GB SXM on-demand product; 14 vCPU, 240 GB RAM, and 60 GB container disk quota" },
-        "verda": { "hr": 1.79, "raw": "$1.79/hr", "note": "1x A100 80 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" }
+        "verda": { "hr": 1.79, "raw": "$1.79/hr", "note": "1x A100 80 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" },
+        "vultr": { "hr": 2.40, "raw": "$2.397/hr", "note": "1x NVIDIA PCIe A100 80 GB Cloud GPU instance; 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth included" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
