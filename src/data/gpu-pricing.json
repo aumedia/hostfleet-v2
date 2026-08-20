@@ -15,7 +15,8 @@
     { "id": "novita", "name": "Novita AI", "billing": "per-second on-demand GPU instance, settled hourly; listed one-GPU compute prices include the product's fixed vCPU and RAM, with storage above the free container-disk quota billed separately", "source": "https://novita.ai/gpus-console/explore" },
     { "id": "verda", "name": "Verda (formerly DataCrunch)", "billing": "prepaid pay-as-you-go GPU instances in 10-minute increments, with unused terminated time refunded in the next billing period; listed one-GPU price includes fixed CPU and RAM, while storage is separate", "source": "https://verda.com/pricing" },
     { "id": "salad", "name": "Salad Container Engine", "billing": "per-second managed container instances at Lowest (formerly Batch) priority; GPU rates include selected vCPU and RAM, allocation and image-download time are unbilled, and distributed nodes are interruptible", "source": "https://salad.com/pricing" },
-    { "id": "vultr", "name": "Vultr Cloud GPU", "billing": "hourly on-demand GPU instances using actual calendar-month hours; listed instance rates include fixed vCPU, RAM, local storage, and outbound bandwidth allocations, and stopped instances continue billing until destroyed", "source": "https://www.vultr.com/pricing/#cloud-gpu" }
+    { "id": "vultr", "name": "Vultr Cloud GPU", "billing": "hourly on-demand GPU instances using actual calendar-month hours; listed instance rates include fixed vCPU, RAM, local storage, and outbound bandwidth allocations, and stopped instances continue billing until destroyed", "source": "https://www.vultr.com/pricing/#cloud-gpu" },
+    { "id": "digitalocean_gpu", "name": "DigitalOcean GPU Droplets", "billing": "per-second on-demand GPU VMs with a 60-second or $0.01 minimum; listed one-GPU rates include fixed vCPU, RAM, boot/scratch storage, and outbound transfer allocations, and powered-off Droplets continue billing until destroyed", "source": "https://www.digitalocean.com/pricing/gpu-droplets" }
   ],
   "gpus": [
     { "id": "t4", "name": "T4", "vram": "16 GB",
@@ -23,6 +24,10 @@
         "modal": { "hr": 0.59, "raw": "$0.000164/sec" },
         "baseten": { "hr": 0.63, "raw": "$0.01052/min" },
         "replicate": { "hr": 0.81, "raw": "$0.000225/sec" }
+      } },
+    { "id": "rtx4000ada", "name": "RTX 4000 Ada", "vram": "20 GB",
+      "prices": {
+        "digitalocean_gpu": { "hr": 0.76, "raw": "$0.76/GPU/hr", "note": "1x on-demand GPU Droplet; 8 vCPU, 32 GiB RAM, 500 GiB NVMe boot disk, and 10,000 GiB transfer included; TOR1 catalog region" }
       } },
     { "id": "l4", "name": "L4", "vram": "24 GB",
       "prices": {
@@ -70,7 +75,12 @@
         "nebius": { "hr": 1.55, "raw": "$1.35 GPU + 8x$0.012 vCPU + 32x$0.0032 GiB RAM = $1.5484/hr", "note": "Minimum all-in Intel 1gpu-8vcpu-32gb preset, rounded to the vendor's published from-$1.55 rate; eu-north1" },
         "novita": { "hr": 0.55, "raw": "$0.55/GPU/hr", "note": "1x L40S on-demand product; 22 vCPU, 125 GB RAM, and 60 GB container disk quota" },
         "verda": { "hr": 1.37, "raw": "$1.37/hr", "note": "1x L40S 48 GB on-demand instance; 20 CPU and 60 GB RAM included; storage separate" },
-        "vultr": { "hr": 1.67, "raw": "$1.671/GPU/hr", "note": "1x NVIDIA L40S Cloud GPU instance; 16 vCPU, 180 GB RAM, 1.20 TB local storage, and 10 TB bandwidth included" }
+        "vultr": { "hr": 1.67, "raw": "$1.671/GPU/hr", "note": "1x NVIDIA L40S Cloud GPU instance; 16 vCPU, 180 GB RAM, 1.20 TB local storage, and 10 TB bandwidth included" },
+        "digitalocean_gpu": { "hr": 1.57, "raw": "$1.57/GPU/hr", "note": "1x on-demand GPU Droplet; 8 vCPU, 64 GiB RAM, 500 GiB NVMe boot disk, and 10,000 GiB transfer included; TOR1 catalog region" }
+      } },
+    { "id": "rtx6000ada", "name": "RTX 6000 Ada", "vram": "48 GB",
+      "prices": {
+        "digitalocean_gpu": { "hr": 1.57, "raw": "$1.57/GPU/hr", "note": "1x on-demand GPU Droplet; 8 vCPU, 64 GiB RAM, 500 GiB NVMe boot disk, and 10,000 GiB transfer included; TOR1 catalog region" }
       } },
     { "id": "rtxpro6000", "name": "RTX PRO 6000", "vram": "96 GB",
       "prices": {
@@ -115,7 +125,8 @@
         "nebius": { "hr": 3.85, "raw": "$3.85/GPU/hr", "note": "H100 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; eu-north1" },
         "hyperstack": { "hr": 2.50, "raw": "$2.50/GPU/hr", "note": "1x H100 80 GB PCIe flavor; 28 CPU, 180 GB RAM, and local storage included; CANADA-1" },
         "novita": { "hr": 3.39, "raw": "$3.39/GPU/hr", "note": "1x H100 80 GB SXM on-demand product; 16 vCPU, 128 GB RAM, and 60 GB container disk quota" },
-        "verda": { "hr": 3.25, "raw": "$3.25/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/185 GB RAM configuration has the same price; storage separate" }
+        "verda": { "hr": 3.25, "raw": "$3.25/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/185 GB RAM configuration has the same price; storage separate" },
+        "digitalocean_gpu": { "hr": 4.41, "raw": "$4.41/GPU/hr", "note": "1x HGX H100 on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2, AMS3, and TOR1 catalog regions" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
@@ -126,7 +137,8 @@
         "coreweave_inference": { "hr": 6.31, "raw": "$6.31/GPU/hr", "note": "Inference platform customers only; public 8x HGX H200 on-demand instance is $50.44/hr" },
         "nebius": { "hr": 4.50, "raw": "$4.50/GPU/hr", "note": "H200 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; public regions include eu-north1, eu-west1, and us-central1" },
         "hyperstack": { "hr": 3.99, "raw": "$3.99/GPU/hr; 8x flavor = $31.92/hr", "note": "H200 SXM5 is cataloged only as an 8x flavor with 176 CPU, 1800 GB RAM, and local storage included; CANADA-1" },
-        "verda": { "hr": 4.00, "raw": "$4.00/hr", "note": "1x H200 141 GB SXM5 on-demand instance; 44 CPU and 182 GB RAM included; storage separate" }
+        "verda": { "hr": 4.00, "raw": "$4.00/hr", "note": "1x H200 141 GB SXM5 on-demand instance; 44 CPU and 182 GB RAM included; storage separate" },
+        "digitalocean_gpu": { "hr": 4.47, "raw": "$4.47/GPU/hr", "note": "1x HGX H200 on-demand GPU Droplet; 24 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2 and ATL1 catalog regions" }
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
       "prices": {
@@ -140,6 +152,14 @@
         "nebius": { "hr": 7.15, "raw": "$7.15/GPU/hr", "note": "B200 SXM/NVLink; unified 1gpu-20vcpu-224gb VM rate; us-central1 or me-west1" },
         "hyperstack": { "hr": 6.00, "raw": "$6.00/GPU/hr; 8x flavor = $48.00/hr", "note": "B200 SXM6 is cataloged only as an 8x flavor with 252 CPU, 2048 GB RAM, and local storage included; vendor specifies 192 GB VRAM; CANADA-1" },
         "verda": { "hr": 6.11, "raw": "$6.11/hr", "note": "1x B200 180 GB SXM6 on-demand instance; 30 CPU and 170 GB RAM included; storage separate" }
+      } },
+    { "id": "mi300x", "name": "AMD Instinct MI300X", "vram": "192 GB",
+      "prices": {
+        "digitalocean_gpu": { "hr": 2.59, "raw": "$2.59/GPU/hr", "note": "1x on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; ATL1 catalog region" }
+      } },
+    { "id": "mi325x", "name": "AMD Instinct MI325X", "vram": "256 GB",
+      "prices": {
+        "digitalocean_gpu": { "hr": 3.80, "raw": "$3.80/GPU/hr", "note": "1x configuration in DigitalOcean's on-demand pricing tables; 20 vCPU, 164 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; the official availability page lists MI325X only under contract plans, so this is not evidence of self-service stock" }
       } },
     { "id": "b300", "name": "B300", "vram": "288 GB",
       "prices": {
