@@ -1,116 +1,188 @@
 ---
-title: "Replicate pricing 2026: public models vs deployments"
-description: "Replicate pricing explained: when hardware seconds apply, why official models use output metrics, and the real monthly floor for a warm deployment."
+title: "Replicate pricing 2026: 17 GPU rates and warm deployment costs"
+description: "Replicate GPU pricing checked August 21, including 17 published hardware rows, committed-spend H200 capacity, and transparent warm deployment estimates."
 pubDate: 2026-07-26
-updatedDate: 2026-07-26
+updatedDate: 2026-08-21
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context. This is a source-backed pricing guide: product billing behavior and published hardware rates come from Replicate's public pricing page and documentation. The monthly figures are estimates, not quotes.*
+*Affiliate disclosure: HostFleet may earn a commission from some links on this site. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Pricing verified:** July 26, 2026
+**Source-backed pricing guide; estimated monthly costs.** Replicate's product rules and hardware rates below come from its official pricing and documentation pages, checked **August 21, 2026**. The monthly figures are arithmetic estimates, not invoices or measured benchmarks.
 
-# Replicate pricing 2026: public models vs deployments
+> **Pricing verified: August 21, 2026**
+>
+> **Currency: public USD rates**
+>
+> **Evidence boundary: a published row does not prove immediate capacity, account eligibility, or equal performance across GPU types**
 
-Replicate does not have one pricing model. It has three hosting shapes with different answers to the question, “Who pays to keep capacity ready?” That distinction matters more than the headline GPU rate.
+# Replicate pricing 2026: 17 GPU rates and warm deployment costs
 
-This is a source-backed infrastructure cost guide, not a model-token pricing roundup. It uses Replicate's live pricing and documentation checked on **July 26, 2026**. For the current cross-provider table, see [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). For the wider market map, see [Every serverless GPU host compared](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For product workflow and operational fit beyond the bill, see [Replicate for AI inference APIs and jobs](https://hostfleet.net/replicate-for-ai-inference-apis-and-jobs/).
+Replicate does not have one universal price. Public models, official models, private models, and deployments put the warm-capacity bill in different places. That product shape matters more than the cheapest number in the hardware table.
+
+The current rate card also has an important boundary that the headline prices hide: Replicate publishes **17 GPU hardware rows**, but 11 sit in an additional-hardware section that explicitly requires committed spend. The H200 looks especially attractive at **$5.49/hour**, the same public rate as the H100, but Replicate labels every H200 configuration as committed-spend capacity. It is a sales-qualified option, not proof of an on-demand H200 you can launch immediately.
+
+For the wider market, use HostFleet's [live GPU pricing table](https://hostfleet.net/gpu-pricing/) and [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For Replicate's workflow, limits, and operational fit beyond the bill, see [Replicate for AI inference APIs and jobs](https://hostfleet.net/replicate-for-ai-inference-apis-and-jobs/).
 
 ## The short answer
 
-| If you need… | Replicate path | What you pay for | Main tradeoff |
+| If you need… | Replicate product shape | What becomes billable | Buying warning |
 |---|---|---|---|
-| A maintained model with a stable API | Official model | Model-specific output metrics, such as output images, video seconds, or input/output tokens | The billing unit is predictable, but it is not a generic GPU-hosting SKU. |
-| An intermittent community-model job | Public model | Active processing time only | Setup and idle time are free, but the hardware pool and queue are shared. |
-| Your own endpoint and scaling controls | Deployment or most private models | All online instance time: setup, idle, and active processing | You gain control, but warm capacity becomes a real bill. |
+| A maintained model with a stable API | Official model | A model-specific metric such as an output image, video second, or input/output token | This is a managed inference product, not a generic GPU-hour SKU. |
+| An intermittent public-model job | Public model | Active processing time for most runtime-priced models | Setup and idle time are free to you, but the hardware pool and queue are shared by default. |
+| A fast-booting fine-tune | Eligible public or private fine-tune | Active processing time | Only versions explicitly labeled fast booting get this exception. |
+| Your own endpoint and scaling controls | Deployment or most private models | All online instance time: setup, idle, and active processing | A nonzero minimum instance count creates a warm-capacity floor. |
+| H200 or larger multi-GPU capacity | Additional hardware under committed spend | Contract-qualified online instance time | A public rate is not self-serve availability. |
 
-The buying rule: **use public models when shared-pool behavior is acceptable; price a deployment as continuously billable capacity whenever you set a nonzero minimum instance count.**
+The practical rule is simple: **choose the billing shape before the GPU**. Public models can hide idle cost. Deployments expose it in exchange for dedicated control.
 
-## Why “per token” and “per second” are not interchangeable
+## Replicate's 17 published GPU hardware rates
 
-Replicate's official-model documentation says official models are always warm, have stable APIs, and use predictable model-specific metrics. Depending on the model, that can mean output images, video seconds, or input and output tokens. This is useful when an official model already fits the product, but it is not a universal model-hosting rate that you can apply to a custom deployment.
+Replicate publishes per-second and hourly equivalents. The table below preserves both rather than converting an hourly figure back into fake precision. The 30-day column is HostFleet's estimate for one configuration kept online for 720 hours.
 
-Other runtime-priced models use Replicate's published hardware rates. That is the per-second path. The price table becomes especially important when you run a private model or create a deployment, because Replicate says those instances are billed for all the time they are online—not just the seconds spent returning predictions.
+### Public rows without a committed-spend note
 
-That is the key decision boundary:
-
-- **Official model:** buy a maintained inference product with a model-specific pricing metric.
-- **Public model:** pay for active work while accepting shared queue and cold-boot exposure.
-- **Deployment:** buy an infrastructure control plane; the rate is now an availability budget as well as an execution budget.
-
-## Replicate's live hardware rates
-
-The table uses rates from Replicate's public pricing page and the corresponding rows in HostFleet's current GPU pricing dataset, checked on **July 26, 2026**. Replicate publishes these rates per second; the hourly and 30-day columns are conversions for comparison. The 30-day column applies only to a single deployment or private-model instance kept online for 720 hours. It is **not** the expected cost of a public model that really scales down between requests.
-
-| Published hardware SKU | Published rate | Equivalent per hour | 30-day, one online deployment estimate |
+| Published hardware SKU | Published rate | Published hourly equivalent | 30-day online estimate |
 |---|---:|---:|---:|
-| Nvidia T4 | $0.000225/sec | $0.81/hr | about $583 |
-| Nvidia L40S | $0.000975/sec | $3.51/hr | about $2,527 |
-| Nvidia A100 (80 GB) | $0.001400/sec | $5.04/hr | about $3,629 |
-| Nvidia H100 | $0.001525/sec | $5.49/hr | about $3,953 |
+| Nvidia T4, 1 GPU | $0.000225/sec | $0.81/hr | $583.20 |
+| Nvidia L40S, 1 GPU | $0.000975/sec | $3.51/hr | $2,527.20 |
+| Nvidia L40S, 2 GPUs | $0.001950/sec | $7.02/hr | $5,054.40 |
+| Nvidia A100 80 GB, 1 GPU | $0.001400/sec | $5.04/hr | $3,628.80 |
+| Nvidia A100 80 GB, 2 GPUs | $0.002800/sec | $10.08/hr | $7,257.60 |
+| Nvidia H100, 1 GPU | $0.001525/sec | $5.49/hr | $3,952.80 |
 
-**Estimate assumptions:** one online instance for **2,592,000 seconds** (720 hours in a 30-day month); published hardware rate only; one instance; no additional replicas, storage, or workload-specific charges. Formula: per-second rate × 3,600 × 720. Re-check [Replicate's pricing page](https://replicate.com/pricing) before committing a production deployment.
+**Source and date for every published rate in this table:** [Replicate pricing](https://replicate.com/pricing), checked **August 21, 2026**. The page does not attach a committed-spend note to these six rows. That does not guarantee stock, quota, region access, or launch permission for a specific account.
 
-## The billing detail that changes the answer
+### Additional rows marked as committed-spend capacity
 
-Replicate's billing documentation separates public models from private models and deployments clearly.
+| Published hardware SKU | Published rate | Published hourly equivalent | 30-day online estimate |
+|---|---:|---:|---:|
+| Nvidia L40S, 4 GPUs | $0.003900/sec | $14.04/hr | $10,108.80 |
+| Nvidia L40S, 8 GPUs | $0.007800/sec | $28.08/hr | $20,217.60 |
+| Nvidia A100 80 GB, 4 GPUs | $0.005600/sec | $20.16/hr | $14,515.20 |
+| Nvidia A100 80 GB, 8 GPUs | $0.011200/sec | $40.32/hr | $29,030.40 |
+| Nvidia H100, 2 GPUs | $0.003050/sec | $10.98/hr | $7,905.60 |
+| Nvidia H100, 4 GPUs | $0.006100/sec | $21.96/hr | $15,811.20 |
+| Nvidia H100, 8 GPUs | $0.012200/sec | $43.92/hr | $31,622.40 |
+| Nvidia H200, 1 GPU | $0.001525/sec | $5.49/hr | $3,952.80 |
+| Nvidia H200, 2 GPUs | $0.003050/sec | $10.98/hr | $7,905.60 |
+| Nvidia H200, 4 GPUs | $0.006100/sec | $21.96/hr | $15,811.20 |
+| Nvidia H200, 8 GPUs | $0.012200/sec | $43.92/hr | $31,622.40 |
 
-| Product state | Is it billed? | What that means in practice |
-|---|---|---|
-| Public model active processing | Yes | You pay while the model runs your request. |
-| Public model setup or idle time | No | Replicate absorbs the warm-pool cost, but you share capacity and can see queueing or cold boots. |
-| Private-model or deployment setup | Yes | Weight download and startup time are part of the bill. |
-| Private-model or deployment idle time | Yes | A warm endpoint is paid capacity even with no traffic. |
-| Private-model or deployment active processing | Yes | Normal serving time is billed too. |
+**Source and date for every published rate and restriction in this table:** [Replicate pricing](https://replicate.com/pricing), checked **August 21, 2026**. Replicate says H200 capacity is available with committed-spend contracts and labels the other additional multi-GPU rows the same way. Treat these as contract anchors, not launchable on-demand quotes.
 
-This is why a low per-second number can be read two ways. For a bursty public model, it is close to a work-only rate. For a deployment held warm for user-facing latency, it becomes the floor of the infrastructure bill.
+### How the monthly column was calculated
 
-## What a warm deployment really costs
+The monthly estimates use one transparent assumption:
 
-Replicate's billing page says models scale down to their configured minimum number of instances—**zero by default**—and its deployment docs expose hardware plus minimum and maximum instance controls. A minimum of zero gives the platform room to scale down. A minimum of one or more means the deployment intentionally retains online capacity.
+    published per-second rate × 3,600 seconds × 720 hours
 
-For a simple first pass, multiply the one-instance estimate by the number of instances you plan to keep warm:
+That is one named hardware configuration online for a 30-day planning month. It assumes the rate stays unchanged and the configuration remains online continuously. It excludes traffic-driven replicas, storage, data transfer, tax, support, contract discounts, failed setup work, and any product-specific charges not present in the public hardware row. It also makes no performance-equivalence claim.
 
-    warm-capacity floor = published per-second rate × warm instances × seconds online
-    traffic-driven capacity = additional online instance-seconds created by load
-    monthly deployment estimate = warm-capacity floor + traffic-driven capacity
+The table intentionally shows the full configuration price. It does not divide an eight-GPU total and pretend a single GPU can be rented separately. For cross-provider H100 variants and product boundaries, use the [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/).
 
-A one-instance H100 deployment held online for a full 30-day month is about **$3,953** at the current published $5.49/hour equivalent. Two intentionally warm H100 instances are about **$7,906** before traffic causes any additional scale-out. This is arithmetic, not a quote: it excludes every input not covered by the published hardware rate and assumes both instances remain online for all 720 hours.
+## Public models and deployments bill different lifecycle phases
 
-The practical question is not whether scaling exists. It does. The question is whether the workload can tolerate returning to zero. If it cannot, budget the chosen minimum replica count before comparing providers on their cheapest single-GPU rate. For adjacent cost shapes, see [RunPod pricing: Pods vs Serverless](https://hostfleet.net/runpod-pricing-guide-2026/) and [Modal pricing: per-second GPU billing](https://hostfleet.net/modal-pricing-guide-2026/).
+Replicate's billing documentation breaks an instance lifecycle into setup, active, idle, and offline states. The customer does not pay the same phases for every product.
 
-## Two operating edges to budget, not just document
+| Product or state | Setup billed? | Idle billed? | Active processing billed? | Operational consequence |
+|---|---:|---:|---:|---|
+| Public model | No | No | Yes | You avoid the warm floor but share a hardware pool and request queue by default. |
+| Most private models | Yes | Yes | Yes | Dedicated capacity exposes startup and idle time in the bill. |
+| Fast-booting fine-tune | No | No | Yes | This exception applies only where Replicate labels the version as fast booting. |
+| Deployment | Yes | Yes | Yes | Hardware and scaling controls make every online instance part of the capacity budget. |
+| Official model | Model-specific | Model-specific | Priced by published input/output metric | Official models are always warm, stable-API products rather than generic runtime-priced hardware. |
 
-### Shared-pool latency is the price of public-model idle savings
+**Source and date:** [Replicate billing](https://replicate.com/docs/topics/billing) and [official-model documentation](https://replicate.com/docs/topics/models/official-models), checked **August 21, 2026**.
 
-The public-model path is attractive precisely because setup and idle time are free to the customer. But the same billing documentation says the hardware pool is shared. A public-model request can therefore encounter a cold boot or queueing when capacity has to come online. That is often a sensible trade for asynchronous jobs, experiments, and low-duty-cycle tools. It is not the same thing as a dedicated low-latency service.
+This is why the same per-second hardware number can imply two very different budgets. A public-model request can be close to work-only billing. A private model or deployment held warm turns the rate into an availability floor.
 
-### A depleted prepaid balance is an availability event
+## What minimum instances do to the bill
 
-Replicate uses prepaid credit. Its current documentation says auto reload is optional, with a minimum $5 threshold and $15 reload balance. More importantly, when the balance hits zero, Replicate prevents new work from starting and shuts down infrastructure it is running for the account.
+Replicate says models scale down to a minimum of zero instances by default, and deployments let you customize the minimum and maximum. The deployment documentation also says a minimum can keep instances warm, while a maximum limits scale-out and therefore constrains one part of the spending envelope.
 
-For a deployment that matters to users, credit monitoring and auto reload are therefore part of the operating design. Treat them as a production safeguard, not finance-team cleanup.
+A useful first-pass model is:
 
-## Replicate pricing: the practical verdict
+    warm floor = hardware rate × minimum instances × online seconds
+    scale-out cost = hardware rate × extra instance-seconds created by traffic
+    estimated deployment bill = warm floor + scale-out cost
 
-Replicate is cheap to try when your workload can use public models and tolerate shared-pool behavior. It becomes a deliberate hosting expense when you need your own warm endpoint.
+At the August 21 public rates:
 
-- Official models use predictable model-specific output metrics; do not force those into a generic GPU-hour comparison.
-- Public models can make intermittent work economical because customers do not pay their setup or idle time.
-- Deployments and most private models bill all online time, so a nonzero minimum instance count creates a real monthly floor.
-- The published H100 rate works out to about **$3,953/month** for one continuously online deployment instance under the stated 30-day assumptions.
-- Prepaid credit running to zero stops new work and shuts down hosted infrastructure, so availability needs a balance policy.
+- A T4 deployment kept at one minimum instance for 720 hours has a compute floor of **$583.20**.
+- A one-GPU L40S deployment kept warm for 720 hours has a compute floor of **$2,527.20**.
+- A one-GPU H100 deployment kept warm for 720 hours has a compute floor of **$3,952.80**.
+- The published one-GPU H200 arithmetic also produces **$3,952.80**, but that row requires committed spend and should not be budgeted as self-serve capacity.
 
-Pick the billing shape first, then the hardware. That produces a more useful Replicate budget than treating every model endpoint as the same kind of serverless GPU service.
+These are estimates derived from [Replicate's August 21 pricing page](https://replicate.com/pricing), using the 720-hour assumptions above. They are not quotes. A minimum of zero removes the intentional always-warm floor, but setup, active work, and idle time remain billable whenever a deployment instance is online.
+
+The deeper choice is latency versus idle cost. If requests can tolerate a cold boot, start with a minimum of zero and observe setup time, queue time, and billable instance-seconds. If the endpoint must respond from warm capacity, budget the minimum replica count before looking at traffic growth.
+
+For adjacent billing shapes, compare the [RunPod Pods and Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) and [Modal per-second pricing guide](https://hostfleet.net/modal-pricing-guide-2026/). Their rates are not interchangeable with Replicate's managed deployment surface, but the lifecycle comparison is useful.
+
+## H200 at the H100 price is not a free upgrade
+
+The public rate card assigns both one-GPU H100 and one-GPU H200 the same **$0.001525/second ($5.49/hour)** rate as of August 21. Reading only that number makes H200 look like the obvious choice.
+
+The restriction changes the answer. H100 appears in Replicate's primary hardware list without a committed-spend note. H200 appears under additional hardware with a committed-spend requirement. Before treating H200 as a candidate, ask for the minimum spend, term, capacity reservation, region, start date, GPU count, and whether the published rate survives the contract structure.
+
+A rate card tells you the unit price. It does not tell you the smallest contract you can actually buy.
+
+## Prepaid credit can become an availability dependency
+
+Replicate's prepaid-credit documentation says auto reload is optional. As of **August 21, 2026**, the published minimum auto-reload threshold is **$5** and the minimum reload balance is **$15**. When the balance reaches zero, Replicate says it blocks new work and shuts down infrastructure running for the account.
+
+**Source and date:** [Replicate prepaid credit](https://replicate.com/docs/topics/billing/prepaid-credit), checked **August 21, 2026**.
+
+For a user-facing deployment, this belongs in the runbook:
+
+- Enable auto reload or maintain a separate balance-control process.
+- Alert before the threshold rather than waiting for a failed prediction.
+- Test what the application does when new work is rejected.
+- Keep a hard maximum-instance limit so a traffic spike cannot expand without a bound.
+
+The payment mechanism is therefore part of deployment reliability, not bookkeeping after the fact.
+
+## Who Replicate pricing fits
+
+### Good fit: intermittent public-model work
+
+Replicate is attractive when an existing public model fits and the workload can tolerate shared-pool queueing or cold boots. Setup and idle time are not billed to the customer for public models, which is a clean cost shape for experiments, asynchronous jobs, and low-duty-cycle features.
+
+### Good fit: teams that want deployment controls without managing GPU VMs
+
+Deployments provide hardware selection, minimum and maximum instances, a private endpoint, scaling, rollouts, and monitoring. The price can be rational when those controls replace infrastructure work the team would otherwise own.
+
+### Weak fit: buyers shopping only for the cheapest raw GPU-hour
+
+Replicate's deployment rate includes a managed product surface, and private/deployment instances bill setup and idle time. If the requirement is simply a long-running shell on the cheapest card, compare exact GPU VM or Pod products instead of reading Replicate as bare rental.
+
+### Contract-first fit: H200 and large multi-GPU deployments
+
+The public numbers are useful planning anchors, but eligibility comes before arithmetic. Get the committed-spend terms before designing around those rows.
+
+## Verdict
+
+Replicate's pricing is straightforward only after separating product shapes:
+
+- Public models bill active processing and can avoid a customer-paid warm floor.
+- Most private models and deployments bill setup, idle, and active time.
+- Official models use model-specific input/output metrics rather than generic GPU seconds.
+- Six GPU configurations appear without a committed-spend note; 11 additional rows require committed spend.
+- H200 is publicly priced at the H100 rate, but it is contract-qualified capacity.
+- A nonzero deployment minimum turns the hourly rate into a predictable monthly floor.
+
+For most teams, the right sequence is: choose public model versus deployment, choose cold versus warm capacity, verify account access, then select hardware. Re-check the official rate and contract boundary immediately before purchase.
 
 ## Sources
 
-- [Replicate pricing](https://replicate.com/pricing) — checked July 26, 2026
-- [Replicate billing](https://replicate.com/docs/topics/billing) — checked July 26, 2026
-- [Replicate official models](https://replicate.com/docs/topics/models/official-models) — checked July 26, 2026
-- [Replicate deployments](https://replicate.com/docs/topics/deployments) — checked July 26, 2026
-- [Create a Replicate deployment](https://replicate.com/docs/topics/deployments/create-a-deployment) — checked July 26, 2026
-- [Replicate prepaid credit](https://replicate.com/docs/topics/billing/prepaid-credit) — checked July 26, 2026
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, refreshed July 23, 2026
+- [Replicate pricing](https://replicate.com/pricing) — all 17 GPU hardware rows and committed-spend labels; checked August 21, 2026
+- [Replicate billing](https://replicate.com/docs/topics/billing) — lifecycle billing, public/private model rules, deployments, and fast-booting fine-tunes; checked August 21, 2026
+- [Replicate official models](https://replicate.com/docs/topics/models/official-models) — always-warm behavior, stable API, and model-specific pricing metrics; checked August 21, 2026
+- [Replicate deployments](https://replicate.com/docs/topics/deployments) — hardware control, autoscaling, warm minimums, and maximum instances; checked August 21, 2026
+- [Create a Replicate deployment](https://replicate.com/docs/topics/deployments/create-a-deployment) — hardware, minimum-instance, and maximum-instance configuration; checked August 21, 2026
+- [Replicate prepaid credit](https://replicate.com/docs/topics/billing/prepaid-credit) — auto reload and zero-balance behavior; checked August 21, 2026
+- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, cross-checked as the live-site data baseline; dataset-level verified date August 13, 2026
+- Existing HostFleet Replicate pricing guide — /opt/hostbot-v2/src/content/posts/replicate-pricing-guide-2026.md, used as the refresh baseline
