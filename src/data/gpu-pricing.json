@@ -16,14 +16,43 @@
     { "id": "verda", "name": "Verda (formerly DataCrunch)", "billing": "prepaid pay-as-you-go GPU instances in 10-minute increments, with unused terminated time refunded in the next billing period; listed one-GPU price includes fixed CPU and RAM, while storage is separate", "source": "https://verda.com/pricing" },
     { "id": "salad", "name": "Salad Container Engine", "billing": "per-second managed container instances at Lowest (formerly Batch) priority; GPU rates include selected vCPU and RAM, allocation and image-download time are unbilled, and distributed nodes are interruptible", "source": "https://salad.com/pricing" },
     { "id": "vultr", "name": "Vultr Cloud GPU", "billing": "hourly on-demand GPU instances using actual calendar-month hours; listed instance rates include fixed vCPU, RAM, local storage, and outbound bandwidth allocations, and stopped instances continue billing until destroyed", "source": "https://www.vultr.com/pricing/#cloud-gpu" },
-    { "id": "digitalocean_gpu", "name": "DigitalOcean GPU Droplets", "billing": "per-second on-demand GPU VMs with a 60-second or $0.01 minimum; listed one-GPU rates include fixed vCPU, RAM, boot/scratch storage, and outbound transfer allocations, and powered-off Droplets continue billing until destroyed", "source": "https://www.digitalocean.com/pricing/gpu-droplets" }
+    { "id": "digitalocean_gpu", "name": "DigitalOcean GPU Droplets", "billing": "per-second on-demand GPU VMs with a 60-second or $0.01 minimum; listed one-GPU rates include fixed vCPU, RAM, boot/scratch storage, and outbound transfer allocations, and powered-off Droplets continue billing until destroyed", "source": "https://www.digitalocean.com/pricing/gpu-droplets" },
+    { "id": "paperspace", "name": "Paperspace Machines", "billing": "per-hour GPU VMs; compute billing stops when powered off, while attached storage, public IPs, and add-ons continue billing; listed one-GPU configurations include fixed vCPU, RAM, and 50 GB SSD, with ingress and egress bandwidth free", "source": "https://docs.digitalocean.com/products/paperspace/pricing/" }
   ],
   "gpus": [
+    { "id": "m4000", "name": "M4000", "vram": "8 GB",
+      "prices": {
+        "paperspace": { "hr": 0.45, "raw": "$0.45/hr", "note": "1x GPU+ (M4000) Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; catalog regions NY2 and AMS1" }
+      } },
+    { "id": "p4000", "name": "P4000", "vram": "8 GB",
+      "prices": {
+        "paperspace": { "hr": 0.51, "raw": "$0.51/hr", "note": "1x P4000 Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; catalog regions NY2, AMS1, and CA1" }
+      } },
+    { "id": "rtx4000", "name": "RTX 4000", "vram": "8 GB",
+      "prices": {
+        "paperspace": { "hr": 0.56, "raw": "$0.56/hr", "note": "1x RTX4000 Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; catalog regions NY2, AMS1, and CA1; Turing model, not RTX 4000 Ada" }
+      } },
+    { "id": "p5000", "name": "P5000", "vram": "16 GB",
+      "prices": {
+        "paperspace": { "hr": 0.78, "raw": "$0.78/hr", "note": "1x P5000 Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; catalog regions NY2, AMS1, and CA1" }
+      } },
+    { "id": "rtx5000", "name": "RTX 5000", "vram": "16 GB",
+      "prices": {
+        "paperspace": { "hr": 0.82, "raw": "$0.82/hr", "note": "1x RTX5000 Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; NY2 catalog region" }
+      } },
     { "id": "t4", "name": "T4", "vram": "16 GB",
       "prices": {
         "modal": { "hr": 0.59, "raw": "$0.000164/sec" },
         "baseten": { "hr": 0.63, "raw": "$0.01052/min" },
         "replicate": { "hr": 0.81, "raw": "$0.000225/sec" }
+      } },
+    { "id": "v100_16", "name": "V100 16 GB", "vram": "16 GB",
+      "prices": {
+        "paperspace": { "hr": 2.30, "raw": "$2.30/hr", "note": "1x V100 Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; catalog regions NY2 and AMS1" }
+      } },
+    { "id": "a4000", "name": "RTX A4000", "vram": "16 GB",
+      "prices": {
+        "paperspace": { "hr": 0.76, "raw": "$0.76/hr", "note": "1x A4000 Machine; 8 vCPU, 45 GB RAM, and 50 GB SSD included; catalog regions NY2, AMS1, and CA1" }
       } },
     { "id": "rtx4000ada", "name": "RTX 4000 Ada", "vram": "20 GB",
       "prices": {
@@ -42,6 +71,14 @@
         "baseten": { "hr": 1.21, "raw": "$0.02012/min", "note": "A10G" },
         "lambda_cloud": { "hr": 1.29, "raw": "$1.29/GPU/hr", "note": "1x A10 instance" }
       } },
+    { "id": "p6000", "name": "P6000", "vram": "24 GB",
+      "prices": {
+        "paperspace": { "hr": 1.10, "raw": "$1.10/hr", "note": "1x P6000 Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; catalog regions NY2, AMS1, and CA1" }
+      } },
+    { "id": "a5000", "name": "RTX A5000", "vram": "24 GB",
+      "prices": {
+        "paperspace": { "hr": 1.38, "raw": "$1.38/hr", "note": "1x A5000 Machine; 8 vCPU, 45 GB RAM, and 50 GB SSD included; catalog regions NY2 and CA1" }
+      } },
     { "id": "rtx4090", "name": "RTX 4090", "vram": "24 GB",
       "prices": {
         "runpod_pods": { "hr": 0.74, "raw": "$0.74/hr", "note": "Secure Cloud RTX 4090; refreshed 2026-08-18" },
@@ -56,6 +93,10 @@
         "novita": { "hr": 0.72, "raw": "$0.72/GPU/hr", "note": "1x RTX 5090 high-frequency on-demand product; 24 vCPU, 58 GB RAM, and 60 GB container disk quota" },
         "salad": { "hr": 0.294, "raw": "$0.294/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included; interruptible distributed node, not a dedicated VM" }
       } },
+    { "id": "v100_32", "name": "V100 32 GB", "vram": "32 GB",
+      "prices": {
+        "paperspace": { "hr": 2.30, "raw": "$2.30/hr", "note": "1x V100-32G Machine; 8 vCPU, 30 GB RAM, and 50 GB SSD included; NY2 catalog region; official single-GPU pricing table groups V100 and V100-32G at the same rate" }
+      } },
     { "id": "a6000", "name": "RTX A6000 / A40", "vram": "48 GB",
       "prices": {
         "runpod_pods": { "hr": 0.44, "note": "A40 $0.44, RTX A6000 $0.53" },
@@ -63,7 +104,8 @@
         "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" },
         "hyperstack": { "hr": 0.50, "raw": "$0.50/GPU/hr", "note": "1x RTX A6000 PCIe flavor; 28 CPU, 58 GB RAM, and local storage included; CANADA-1" },
         "verda": { "hr": 0.61, "raw": "$0.6100/hr", "note": "1x RTX A6000 48 GB on-demand instance; 10 CPU and 60 GB RAM included; storage separate" },
-        "vultr": { "hr": 1.71, "raw": "$1.712/hr", "note": "1x NVIDIA A40 Cloud GPU instance; 24 vCPU, 120 GB RAM, 1.40 TB local storage, and 15 TB bandwidth included" }
+        "vultr": { "hr": 1.71, "raw": "$1.712/hr", "note": "1x NVIDIA A40 Cloud GPU instance; 24 vCPU, 120 GB RAM, 1.40 TB local storage, and 15 TB bandwidth included" },
+        "paperspace": { "hr": 1.89, "raw": "$1.89/hr", "note": "1x A6000 Machine; 8 vCPU, 45 GB RAM, and 50 GB SSD included; catalog regions NY2 and CA1" }
       } },
     { "id": "l40s", "name": "L40S", "vram": "48 GB",
       "prices": {
@@ -97,7 +139,8 @@
       "prices": {
         "modal": { "hr": 2.10, "raw": "$0.000583/sec" },
         "lambda_cloud": { "hr": 1.99, "raw": "$1.99/GPU/hr", "note": "1x A100 PCIe or A100 SXM; 40 GB" },
-        "verda": { "hr": 1.29, "raw": "$1.29/hr", "note": "1x A100 40 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" }
+        "verda": { "hr": 1.29, "raw": "$1.29/hr", "note": "1x A100 40 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" },
+        "paperspace": { "hr": 3.09, "raw": "$3.09/hr", "note": "1x A100 40 GB Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" }
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
@@ -110,7 +153,8 @@
         "hyperstack": { "hr": 1.35, "raw": "$1.35/GPU/hr", "note": "1x A100 80 GB PCIe flavor; 28 CPU, 120 GB RAM, and local storage included; CANADA-1" },
         "novita": { "hr": 1.60, "raw": "$1.60/GPU/hr", "note": "1x A100 80 GB SXM on-demand product; 14 vCPU, 240 GB RAM, and 60 GB container disk quota" },
         "verda": { "hr": 1.79, "raw": "$1.79/hr", "note": "1x A100 80 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" },
-        "vultr": { "hr": 2.40, "raw": "$2.397/hr", "note": "1x NVIDIA PCIe A100 80 GB Cloud GPU instance; 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth included" }
+        "vultr": { "hr": 2.40, "raw": "$2.397/hr", "note": "1x NVIDIA PCIe A100 80 GB Cloud GPU instance; 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth included" },
+        "paperspace": { "hr": 3.18, "raw": "$3.18/hr", "note": "1x A100-80G Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
@@ -126,7 +170,8 @@
         "hyperstack": { "hr": 2.50, "raw": "$2.50/GPU/hr", "note": "1x H100 80 GB PCIe flavor; 28 CPU, 180 GB RAM, and local storage included; CANADA-1" },
         "novita": { "hr": 3.39, "raw": "$3.39/GPU/hr", "note": "1x H100 80 GB SXM on-demand product; 16 vCPU, 128 GB RAM, and 60 GB container disk quota" },
         "verda": { "hr": 3.25, "raw": "$3.25/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/185 GB RAM configuration has the same price; storage separate" },
-        "digitalocean_gpu": { "hr": 4.41, "raw": "$4.41/GPU/hr", "note": "1x HGX H100 on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2, AMS3, and TOR1 catalog regions" }
+        "digitalocean_gpu": { "hr": 4.41, "raw": "$4.41/GPU/hr", "note": "1x HGX H100 on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2, AMS3, and TOR1 catalog regions" },
+        "paperspace": { "hr": 5.95, "raw": "$5.95/hr", "note": "1x H100 SXM5 Machine; 20 vCPU, 250 GB RAM, and 50 GB SSD included; NY2 catalog region; approval may be required and requests typically take 1-2 business days" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
