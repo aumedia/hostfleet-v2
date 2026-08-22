@@ -17,7 +17,8 @@
     { "id": "salad", "name": "Salad Container Engine", "billing": "per-second managed container instances at Lowest (formerly Batch) priority; GPU rates include selected vCPU and RAM, allocation and image-download time are unbilled, and distributed nodes are interruptible", "source": "https://salad.com/pricing" },
     { "id": "vultr", "name": "Vultr Cloud GPU", "billing": "hourly on-demand GPU instances using actual calendar-month hours; listed instance rates include fixed vCPU, RAM, local storage, and outbound bandwidth allocations, and stopped instances continue billing until destroyed", "source": "https://www.vultr.com/pricing/#cloud-gpu" },
     { "id": "digitalocean_gpu", "name": "DigitalOcean GPU Droplets", "billing": "per-second on-demand GPU VMs with a 60-second or $0.01 minimum; listed one-GPU rates include fixed vCPU, RAM, boot/scratch storage, and outbound transfer allocations, and powered-off Droplets continue billing until destroyed", "source": "https://www.digitalocean.com/pricing/gpu-droplets" },
-    { "id": "paperspace", "name": "Paperspace Machines", "billing": "per-hour GPU VMs; compute billing stops when powered off, while attached storage, public IPs, and add-ons continue billing; listed one-GPU configurations include fixed vCPU, RAM, and 50 GB SSD, with ingress and egress bandwidth free", "source": "https://docs.digitalocean.com/products/paperspace/pricing/" }
+    { "id": "paperspace", "name": "Paperspace Machines", "billing": "per-hour GPU VMs; compute billing stops when powered off, while attached storage, public IPs, and add-ons continue billing; listed one-GPU configurations include fixed vCPU, RAM, and 50 GB SSD, with ingress and egress bandwidth free", "source": "https://docs.digitalocean.com/products/paperspace/pricing/" },
+    { "id": "thunder", "name": "Thunder Compute", "billing": "per-minute on-demand GPU VMs while running, shown as one-GPU base rates; four vCPUs and 8 GB RAM per vCPU are included in the base, additional vCPUs cost $0.04/hour, the first 100 GB persistent disk per GPU is included, and snapshots are separate", "source": "https://www.thundercompute.com/pricing" }
   ],
   "gpus": [
     { "id": "m4000", "name": "M4000", "vram": "8 GB",
@@ -105,7 +106,12 @@
         "hyperstack": { "hr": 0.50, "raw": "$0.50/GPU/hr", "note": "1x RTX A6000 PCIe flavor; 28 CPU, 58 GB RAM, and local storage included; CANADA-1" },
         "verda": { "hr": 0.61, "raw": "$0.6100/hr", "note": "1x RTX A6000 48 GB on-demand instance; 10 CPU and 60 GB RAM included; storage separate" },
         "vultr": { "hr": 1.71, "raw": "$1.712/hr", "note": "1x NVIDIA A40 Cloud GPU instance; 24 vCPU, 120 GB RAM, 1.40 TB local storage, and 15 TB bandwidth included" },
-        "paperspace": { "hr": 1.89, "raw": "$1.89/hr", "note": "1x A6000 Machine; 8 vCPU, 45 GB RAM, and 50 GB SSD included; catalog regions NY2 and CA1" }
+        "paperspace": { "hr": 1.89, "raw": "$1.89/hr", "note": "1x A6000 Machine; 8 vCPU, 45 GB RAM, and 50 GB SSD included; catalog regions NY2 and CA1" },
+        "thunder": { "hr": 0.35, "raw": "$0.35/GPU/hr", "note": "1x RTX A6000 base GPU rate; available configurations require 6 or 8 vCPUs, so the minimum 6-vCPU VM is $0.43/hr after two additional vCPUs at $0.04/hr; 48 GB RAM and 100 GB persistent disk at that minimum" }
+      } },
+    { "id": "l40", "name": "L40", "vram": "48 GB",
+      "prices": {
+        "thunder": { "hr": 0.79, "raw": "$0.79/GPU/hr", "note": "1x NVIDIA L40 base GPU rate; available configurations require 6, 8, or 12 vCPUs, so the minimum 6-vCPU VM is $0.87/hr after two additional vCPUs at $0.04/hr; 48 GB RAM and 100 GB persistent disk at that minimum" }
       } },
     { "id": "l40s", "name": "L40S", "vram": "48 GB",
       "prices": {
@@ -154,7 +160,8 @@
         "novita": { "hr": 1.60, "raw": "$1.60/GPU/hr", "note": "1x A100 80 GB SXM on-demand product; 14 vCPU, 240 GB RAM, and 60 GB container disk quota" },
         "verda": { "hr": 1.79, "raw": "$1.79/hr", "note": "1x A100 80 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" },
         "vultr": { "hr": 2.40, "raw": "$2.397/hr", "note": "1x NVIDIA PCIe A100 80 GB Cloud GPU instance; 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth included" },
-        "paperspace": { "hr": 3.18, "raw": "$3.18/hr", "note": "1x A100-80G Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" }
+        "paperspace": { "hr": 3.18, "raw": "$3.18/hr", "note": "1x A100-80G Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" },
+        "thunder": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A100 80 GB base GPU rate; available configurations require 8, 12, or 16 vCPUs, so the minimum 8-vCPU VM is $1.25/hr after four additional vCPUs at $0.04/hr; 64 GB RAM and 100 GB persistent disk at that minimum" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
@@ -171,7 +178,8 @@
         "novita": { "hr": 3.39, "raw": "$3.39/GPU/hr", "note": "1x H100 80 GB SXM on-demand product; 16 vCPU, 128 GB RAM, and 60 GB container disk quota" },
         "verda": { "hr": 3.25, "raw": "$3.25/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/185 GB RAM configuration has the same price; storage separate" },
         "digitalocean_gpu": { "hr": 4.41, "raw": "$4.41/GPU/hr", "note": "1x HGX H100 on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2, AMS3, and TOR1 catalog regions" },
-        "paperspace": { "hr": 5.95, "raw": "$5.95/hr", "note": "1x H100 SXM5 Machine; 20 vCPU, 250 GB RAM, and 50 GB SSD included; NY2 catalog region; approval may be required and requests typically take 1-2 business days" }
+        "paperspace": { "hr": 5.95, "raw": "$5.95/hr", "note": "1x H100 SXM5 Machine; 20 vCPU, 250 GB RAM, and 50 GB SSD included; NY2 catalog region; approval may be required and requests typically take 1-2 business days" },
+        "thunder": { "hr": 3.19, "raw": "$3.19/GPU/hr", "note": "1x NVIDIA H100 PCIe base GPU rate; minimum configuration uses the four included vCPUs, 32 GB RAM, and 100 GB persistent disk; current live pricing page and public pricing API agree, superseding stale Thunder blog/search references to $2.19/hr" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
