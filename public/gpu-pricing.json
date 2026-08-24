@@ -19,7 +19,8 @@
     { "id": "digitalocean_gpu", "name": "DigitalOcean GPU Droplets", "billing": "per-second on-demand GPU VMs with a 60-second or $0.01 minimum; listed one-GPU rates include fixed vCPU, RAM, boot/scratch storage, and outbound transfer allocations, and powered-off Droplets continue billing until destroyed", "source": "https://www.digitalocean.com/pricing/gpu-droplets" },
     { "id": "paperspace", "name": "Paperspace Machines", "billing": "per-hour GPU VMs; compute billing stops when powered off, while attached storage, public IPs, and add-ons continue billing; listed one-GPU configurations include fixed vCPU, RAM, and 50 GB SSD, with ingress and egress bandwidth free", "source": "https://docs.digitalocean.com/products/paperspace/pricing/" },
     { "id": "thunder", "name": "Thunder Compute", "billing": "per-minute on-demand GPU VMs while running, shown as one-GPU base rates; four vCPUs and 8 GB RAM per vCPU are included in the base, additional vCPUs cost $0.04/hour, the first 100 GB persistent disk per GPU is included, and snapshots are separate", "source": "https://www.thundercompute.com/pricing" },
-    { "id": "massed", "name": "Massed Compute", "billing": "per-minute debit for active on-demand GPU VMs using published hourly VM totals; one-GPU rates include fixed vCPU, RAM, and listed storage allocations; no bandwidth charges or long-term contracts", "source": "https://vm.massedcompute.com/pricing" }
+    { "id": "massed", "name": "Massed Compute", "billing": "per-minute debit for active on-demand GPU VMs using published hourly VM totals; one-GPU rates include fixed vCPU, RAM, and listed storage allocations; no bandwidth charges or long-term contracts", "source": "https://vm.massedcompute.com/pricing" },
+    { "id": "jarvislabs", "name": "Jarvis Labs", "billing": "per-minute on-demand managed Templates or GPU VMs, shown per GPU-hour; public one-GPU rows include listed vCPU and RAM, paused instances stop compute billing while storage continues at $0.10/GB-month, and in-region egress is free", "source": "https://jarvislabs.ai/pricing" }
   ],
   "gpus": [
     { "id": "m4000", "name": "M4000", "vram": "8 GB",
@@ -65,7 +66,8 @@
         "runpod_pods": { "hr": 0.49, "raw": "$0.49/hr", "note": "Secure Cloud L4; refreshed 2026-08-18" },
         "runpod_sls": { "hr": 0.69, "note": "24 GB tier (L4 / A5000 / 3090)" },
         "modal": { "hr": 0.80, "raw": "$0.000222/sec" },
-        "baseten": { "hr": 0.85, "raw": "$0.01414/min" }
+        "baseten": { "hr": 0.85, "raw": "$0.01414/min" },
+        "jarvislabs": { "hr": 0.44, "raw": "$0.44/GPU/hr", "note": "1x NVIDIA L4 on-demand row; public pricing table lists 32 vCPU and 124 GB RAM; GPU and region availability can change" }
       } },
     { "id": "a10", "name": "A10 / A10G", "vram": "24 GB",
       "prices": {
@@ -84,7 +86,8 @@
       } },
     { "id": "a30", "name": "A30", "vram": "24 GB",
       "prices": {
-        "massed": { "hr": 0.35, "raw": "$0.35/hr", "note": "1x A30 24 GB on-demand VM; 16 vCPU and 48 GB RAM included; vendor lists storage 256 without a unit on the public page" }
+        "massed": { "hr": 0.35, "raw": "$0.35/hr", "note": "1x A30 24 GB on-demand VM; 16 vCPU and 48 GB RAM included; vendor lists storage 256 without a unit on the public page" },
+        "jarvislabs": { "hr": 0.41, "raw": "$0.41/GPU/hr", "note": "1x NVIDIA A30 on-demand row; public pricing table lists 16 vCPU and 112 GB RAM; GPU and region availability can change" }
       } },
     { "id": "rtx4090", "name": "RTX 4090", "vram": "24 GB",
       "prices": {
@@ -154,14 +157,16 @@
         "nebius": { "hr": 1.80, "raw": "$1.80/GPU/hr", "note": "RTX PRO 6000 Server Edition; unified 1gpu-24vcpu-218gb VM rate; us-central1" },
         "hyperstack": { "hr": 1.85, "raw": "$1.85/GPU/hr", "note": "RTX PRO 6000 Server Edition; 1x flavor has 28 CPU, 225 GB RAM, and local storage included; CANADA-1" },
         "verda": { "hr": 1.89, "raw": "$1.89/hr", "note": "1x RTX PRO 6000 96 GB on-demand instance; 30 CPU and 90 GB RAM included; non-confidential-compute flavor; storage separate" },
-        "massed": { "hr": 2.19, "raw": "$2.19/hr", "note": "1x RTX PRO 6000 Blackwell 96 GB on-demand VM; 16 vCPU and 144 GB RAM included; vendor lists storage 725 without a unit on the public page" }
+        "massed": { "hr": 2.19, "raw": "$2.19/hr", "note": "1x RTX PRO 6000 Blackwell 96 GB on-demand VM; 16 vCPU and 144 GB RAM included; vendor lists storage 725 without a unit on the public page" },
+        "jarvislabs": { "hr": 1.89, "raw": "$1.89/GPU/hr", "note": "1x NVIDIA RTX Pro 6000 Blackwell on-demand row; public pricing table lists 28 vCPU and 160 GB RAM; GPU and region availability can change" }
       } },
     { "id": "a100_40", "name": "A100 40 GB", "vram": "40 GB",
       "prices": {
         "modal": { "hr": 2.10, "raw": "$0.000583/sec" },
         "lambda_cloud": { "hr": 1.99, "raw": "$1.99/GPU/hr", "note": "1x A100 PCIe or A100 SXM; 40 GB" },
         "verda": { "hr": 1.29, "raw": "$1.29/hr", "note": "1x A100 40 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" },
-        "paperspace": { "hr": 3.09, "raw": "$3.09/hr", "note": "1x A100 40 GB Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" }
+        "paperspace": { "hr": 3.09, "raw": "$3.09/hr", "note": "1x A100 40 GB Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" },
+        "jarvislabs": { "hr": 0.89, "raw": "$0.89/GPU/hr", "note": "1x NVIDIA A100 40 GB on-demand row; public pricing table lists 16 vCPU and 112 GB RAM; GPU and region availability can change" }
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
@@ -177,7 +182,8 @@
         "vultr": { "hr": 2.40, "raw": "$2.397/hr", "note": "1x NVIDIA PCIe A100 80 GB Cloud GPU instance; 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth included" },
         "paperspace": { "hr": 3.18, "raw": "$3.18/hr", "note": "1x A100-80G Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" },
         "thunder": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A100 80 GB base GPU rate; available configurations require 8, 12, or 16 vCPUs, so the minimum 8-vCPU VM is $1.25/hr after four additional vCPUs at $0.04/hr; 64 GB RAM and 100 GB persistent disk at that minimum" },
-        "massed": { "hr": 1.35, "raw": "$1.35/hr", "note": "1x A100 80 GB on-demand VM; 16 vCPU and 96 GB RAM included; vendor lists storage 512 without a unit on the public page; lower than the separate $1.38 SXM4 and DGX A100 variants" }
+        "massed": { "hr": 1.35, "raw": "$1.35/hr", "note": "1x A100 80 GB on-demand VM; 16 vCPU and 96 GB RAM included; vendor lists storage 512 without a unit on the public page; lower than the separate $1.38 SXM4 and DGX A100 variants" },
+        "jarvislabs": { "hr": 1.49, "raw": "$1.49/GPU/hr", "note": "1x NVIDIA A100 80 GB on-demand row; public pricing table lists 16 vCPU and 112 GB RAM; GPU and region availability can change" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
@@ -196,7 +202,8 @@
         "digitalocean_gpu": { "hr": 4.41, "raw": "$4.41/GPU/hr", "note": "1x HGX H100 on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2, AMS3, and TOR1 catalog regions" },
         "paperspace": { "hr": 5.95, "raw": "$5.95/hr", "note": "1x H100 SXM5 Machine; 20 vCPU, 250 GB RAM, and 50 GB SSD included; NY2 catalog region; approval may be required and requests typically take 1-2 business days" },
         "thunder": { "hr": 3.19, "raw": "$3.19/GPU/hr", "note": "1x NVIDIA H100 PCIe base GPU rate; minimum configuration uses the four included vCPUs, 32 GB RAM, and 100 GB persistent disk; current live pricing page and public pricing API agree, superseding stale Thunder blog/search references to $2.19/hr" },
-        "massed": { "hr": 2.73, "raw": "$2.73/hr", "note": "1x H100 80 GB on-demand VM; 20 vCPU and 128 GB RAM included; vendor lists storage 1250 without a unit on the public page; distinct from the $3.11 one-GPU H100 NVL listing" }
+        "massed": { "hr": 2.73, "raw": "$2.73/hr", "note": "1x H100 80 GB on-demand VM; 20 vCPU and 128 GB RAM included; vendor lists storage 1250 without a unit on the public page; distinct from the $3.11 one-GPU H100 NVL listing" },
+        "jarvislabs": { "hr": 2.69, "raw": "$2.69/GPU/hr", "note": "1x NVIDIA H100 SXM on-demand row; public pricing table lists 16 vCPU and 200 GB RAM; GPU and region availability can change" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
@@ -209,7 +216,8 @@
         "hyperstack": { "hr": 3.99, "raw": "$3.99/GPU/hr; 8x flavor = $31.92/hr", "note": "H200 SXM5 is cataloged only as an 8x flavor with 176 CPU, 1800 GB RAM, and local storage included; CANADA-1" },
         "verda": { "hr": 4.00, "raw": "$4.00/hr", "note": "1x H200 141 GB SXM5 on-demand instance; 44 CPU and 182 GB RAM included; storage separate" },
         "digitalocean_gpu": { "hr": 4.47, "raw": "$4.47/GPU/hr", "note": "1x HGX H200 on-demand GPU Droplet; 24 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2 and ATL1 catalog regions" },
-        "massed": { "hr": 3.62, "raw": "$3.62/hr", "note": "1x H200 NVL 141 GB on-demand VM; 16 vCPU and 180 GB RAM included; vendor lists storage 750 without a unit on the public page; multi-GPU NVLink configurations are separate" }
+        "massed": { "hr": 3.62, "raw": "$3.62/hr", "note": "1x H200 NVL 141 GB on-demand VM; 16 vCPU and 180 GB RAM included; vendor lists storage 750 without a unit on the public page; multi-GPU NVLink configurations are separate" },
+        "jarvislabs": { "hr": 3.99, "raw": "$3.99/GPU/hr", "note": "1x NVIDIA H200 SXM on-demand row; public pricing table lists 28 vCPU and 300 GB RAM; GPU and region availability can change" }
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
       "prices": {
