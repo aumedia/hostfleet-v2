@@ -1,119 +1,146 @@
 ---
-title: "Serverless GPU pricing in 2026: August 10 rates and deployment matrix"
-description: "An August 10, 2026 source-backed GPU deployment price matrix that separates Pods, serverless workers, managed inference, and GPU VMs instead of treating unlike rates as one market."
+title: "Serverless GPU pricing in 2026: H100 rates and the costs hiding behind them"
+description: "Compare eight H100 serverless and managed deployment rates, including Koyeb and Northflank, without confusing GPU components, instances, and inference platforms."
 pubDate: 2026-04-21
-updatedDate: 2026-08-10
+updatedDate: 2026-08-26
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
+*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate check.** All provider rates and plan limits in this guide were checked against public vendor pricing pages on **August 10, 2026**. This is a rate-card comparison, not a capacity, throughput, latency, queue-time, or availability benchmark.
+**Source-backed rate-card comparison; estimated usage totals.** The Koyeb prices in this refresh were checked against its official pricing and instance-reference pages on **August 25, 2026**. Northflank's prices and cost components were checked on **August 26, 2026**. The other selected H100 rates were rechecked against official provider pricing pages on **August 23, 2026**. This is not a capacity, cold-start, latency, throughput, reliability, or availability benchmark.
 
-# Serverless GPU pricing in 2026: August 10 rates and deployment matrix
+# Serverless GPU pricing in 2026: H100 rates and the costs hiding behind them
 
-A GPU price only becomes useful after you identify the product around it. A RunPod Pod and a Lambda VM are allocated infrastructure that keeps billing while it is on. RunPod Serverless and Modal bill workers that can scale down. Fal, Baseten, and Replicate sell managed deployment surfaces. Those are different operational choices, so this table does not pretend they have one universal winner.
+The cheapest selected H100 headline in this serverless and managed-deployment comparison is **Koyeb at $2.50/hour**. Northflank follows at **$2.74 per GPU-hour**. Those two numbers look almost interchangeable, but they describe different cost boundaries: Koyeb's one-GPU instance price includes a fixed CPU, RAM, and disk bundle, while Northflank's number is only the GPU component.
 
-For the machine-readable reference behind the comparison, see [HostFleet's GPU pricing table](https://hostfleet.net/gpu-pricing/).
+That is the central problem with serverless GPU pricing. Per-second billing, autoscaling, and a serverless label do not prove that two products include the same resources or return to zero under the same conditions. A managed model deployment can also cost more per GPU-hour while removing work that an operator would otherwise have to build.
 
-> **Verified date:** August 10, 2026<br>
-> **Billing basis:** published USD list rates, normalized to GPU-hours where a vendor publishes per-second or per-minute pricing. Included resources and separately billed extras vary by product.
+HostFleet's [live GPU pricing table](https://hostfleet.net/gpu-pricing/) is generated from `gpu-pricing.json` and currently exposes **21 provider columns**. Its top-level full-table verification date remains August 13 because later additions were checked provider by provider: Koyeb on August 25 and Northflank on August 26. This article narrows that larger dataset to eight H100 deployment products whose public rates can be compared only after their product boundaries are made explicit.
 
-## August 10 GPU deployment price matrix
+> **Currency:** public USD list rates before tax  
+> **Comparison unit:** one published H100 rate or its hourly equivalent  
+> **Usage examples:** eight billable GPU-hours and 720 billable hours  
+> **Boundary:** a listed rate does not prove inventory, quota, regional access, approval, equal hardware topology, or equal performance
 
-All figures are rounded to cents per GPU-hour. A dash means this source check has no matching public product row; it does not mean the provider does not offer that GPU. The official rate sources and precise inputs are listed below.
+## Selected H100 serverless and managed deployment rates
 
-| GPU / VRAM | RunPod Pod | RunPod Serverless | Modal | Fal custom deployment | Baseten deployment | Replicate private deployment | Lambda VM |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| T4 / 16 GB | — | — | $0.59 | — | $0.63 | $0.81 | — |
-| L4 / 24 GB | $0.39 | $0.69 | $0.80 | — | $0.85 | — | — |
-| A10 / A10G / 24 GB | — | — | $1.10 | — | $1.21 | — | $1.29 |
-| RTX 4090 / 24 GB | $0.69 | $1.10 | — | — | — | — | — |
-| RTX 5090 / 32 GB | $0.99 | $1.58 | — | — | — | — | — |
-| A40 / RTX A6000 / 48 GB | $0.44 | $1.22 | — | — | — | — | $1.09 |
-| L40S / 48 GB | $0.99 | $1.75 | $1.95 | — | — | $3.51 | — |
-| RTX PRO 6000 / 96 GB | $1.99 | $3.49 | $3.03 | $2.99 | — | — | — |
-| A100 / 40 GB | — | — | $2.10 | — | — | — | $1.99 |
-| A100 / 80 GB | $1.39 | $2.72 | $2.50 | — | $4.00 | $5.04 | — |
-| H100 / 80 GB | $2.89 | $4.55 | $3.95 | $4.50 | $6.50 | $5.49 | $3.29 |
-| H200 / 141 GB | $4.39 | $5.93 | $4.54 | $4.50 | — | — | — |
-| B200 / 180 GB | $5.89 | $8.64 | $6.25 | $6.25 | $9.98 | — | $6.99 |
-| B300 / 288 GB | $7.39 | $9.98 | $7.10 | $8.50 | — | — | — |
+Per-second rates are multiplied by 3,600 and per-minute rates by 60. The table uses public list pricing rather than commitments or negotiated discounts. The product-boundary column matters as much as the number.
 
-### How the conversions work
+| Provider and product | Native public rate | Hourly equivalent | What the price includes or excludes | Official source and check date |
+|---|---:|---:|---|---|
+| **Koyeb H100 instance** | $2.50/hr | **$2.50/hr** | One H100 80 GB instance with 15 vCPU, 180 GB RAM, and 320 GB disk; GPU availability is region-specific | [Koyeb pricing](https://www.koyeb.com/pricing) and [instance reference](https://www.koyeb.com/docs/reference/instances), Aug. 25, 2026 |
+| **Northflank managed-cloud GPU** | $2.74/GPU-hr | **$2.74/GPU-hr plus CPU and memory** | GPU component only; vCPU, RAM, persistent disk, and egress are separate | [Northflank pricing](https://northflank.com/pricing) and [GPU deployment docs](https://northflank.com/docs/v1/application/gpu-workloads/deploy-gpus-on-northflank-cloud.md), Aug. 26, 2026 |
+| **Modal H100 container** | $0.001097/sec | **$3.9492/hr** | GPU allocation; CPU, memory, storage, and other resources are separately metered | [Modal pricing](https://modal.com/pricing), Aug. 23, 2026 |
+| **Fal custom deployment** | $4.50/hr list | **$4.50/hr** | Custom-deployment list rate; lower committed-use figures are excluded | [Fal pricing](https://fal.ai/pricing), Aug. 23, 2026 |
+| **RunPod Serverless H100 PRO** | $4.79/hr | **$4.79/hr** | Serverless Flex worker tier; it is not a reserved exact-card VM quote | [RunPod pricing](https://www.runpod.io/pricing), Aug. 23, 2026 |
+| **Replicate private deployment** | $0.001525/sec | **$5.49/hr** | Managed private model deployment rather than a bare GPU VM | [Replicate pricing](https://replicate.com/pricing), Aug. 23, 2026 |
+| **CoreWeave Inference** | $6.16/GPU-hr | **$6.16/GPU-hr** | Single-GPU inference rate for inference-platform customers; account-executive access applies | [CoreWeave pricing](https://www.coreweave.com/pricing), Aug. 23, 2026 |
+| **Baseten H100 deployment** | $0.10833/min | **$6.4998/hr** | Managed dedicated deployment rate, normalized from the public per-minute figure | [Baseten pricing](https://www.baseten.co/pricing/), Aug. 23, 2026 |
 
-[Modal's public rate card](https://modal.com/pricing) lists per-second GPU rates. On August 10, the tracked inputs were T4 **$0.000164/sec**, L4 **$0.000222/sec**, A10 **$0.000306/sec**, A100 80 GB **$0.000694/sec**, H100 **$0.001097/sec**, B200 **$0.001736/sec**, and B300 **$0.001972/sec**. The table multiplies each by 3,600.
+The selected range is **$2.50 to $6.4998 per listed H100 hour**. That spread is real, but it is not a ranking of equivalent machines. Koyeb publishes a bundled application instance. Northflank publishes a GPU component. Modal separately meters surrounding resources. Replicate and Baseten sell managed deployment surfaces. CoreWeave's selected rate has an inference-platform eligibility boundary.
 
-[Baseten's public rate card](https://www.baseten.co/pricing/) lists per-minute dedicated-deployment rates: T4 **$0.01052/min**, L4 **$0.01414/min**, A10G **$0.02012/min**, A100 80 GB **$0.06667/min**, H100 **$0.10833/min**, and B200 **$0.16633/min** as of August 10. The table multiplies those figures by 60.
+For a broader card-level comparison that also includes allocated Pods and GPU VMs, use the [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/).
 
-[Replicate's public pricing](https://replicate.com/pricing) lists private-deployment hardware at **$0.000225/sec** for T4, **$0.000975/sec** for L40S, **$0.001400/sec** for A100 80 GB, and **$0.001525/sec** for H100 as of August 10. [Lambda's instance page](https://lambda.ai/instances) lists its selected configuration prices per GPU-hour; the surrounding vCPU, RAM, and local-storage bundle depends on the exact VM.
+## What eight billable hours and a warm month would cost
 
-## What changed in the August 10 check
+The calculations below are estimates, not provider quotes. The short-run column assumes exactly eight billable hours at the public rate. The warm-month column assumes the product remains billable for all **720 hours** of a 30-day planning month. It does not assume that every product should be run that way.
 
-No displayed GPU list rate changed in this full check. That is still useful information: it means the matrix is current rather than silently carrying an old rate card.
+| Product | Eight billable hours | 720 billable hours | Important exclusion |
+|---|---:|---:|---|
+| Koyeb H100 instance | **$20.00** | **$1,800.00** | Availability, tax, overages, and any separate services |
+| Northflank H100 GPU component | **$21.92** | **$1,972.80** | CPU, memory, persistent disk, and egress |
+| Modal H100 container | **$31.59** | **$2,843.42** | CPU, memory, storage, and non-GPU meters |
+| Fal H100 custom deployment | **$36.00** | **$3,240.00** | Other product charges and any commitment terms |
+| RunPod Serverless H100 PRO | **$38.32** | **$3,448.80** | Storage, network, and workload-specific worker behavior |
+| Replicate H100 private deployment | **$43.92** | **$3,952.80** | Other managed-product charges |
+| CoreWeave Inference H100 | **$49.28** | **$4,435.20** | Eligibility and surrounding platform costs |
+| Baseten H100 deployment | **$52.00** | **$4,679.86** | Other deployment and resource charges |
 
-The one material plan-limit update was at Modal. Its Team plan now publicly lists **5,000 containers**, replacing the prior tracked 1,000-container limit. This is a plan limit, not a GPU price or a promise that 5,000 workers can start at once. Modal's published Team plan also has 50 GPU concurrency; readers should validate their exact account limits and workload behavior before designing around either number.
+Each estimate uses the sourced rate in the first table. Modal is `$0.001097 x 3,600 x hours`; Baseten is `$0.10833 x 60 x hours`; the remaining rows multiply the published hourly figure by 8 or 720. Totals are rounded to cents after calculation.
 
-Fal's custom-deployment list rates remain separate from the lower committed-use figures on its pricing page. The matrix keeps the public list rate so a commitment floor is not presented as a comparable on-demand-style rate.
+The Northflank row is deliberately labeled as incomplete. Its official pricing page lists CPU at **$0.01667 per vCPU-hour**, memory at **$0.00833 per GB-hour**, persistent disk at **$0.15 per GB-month**, and ordinary egress at **$0.06 per GB**, all checked August 26, 2026 on [Northflank pricing](https://northflank.com/pricing). Northflank does not prescribe one minimum CPU and RAM plan for each GPU, so inventing a representative all-in H100 total would create false precision.
 
-## Pick the product shape before reading the price
+The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) is the better tool once you know billable duration, idle behavior, and retained resources. A 720-hour multiplication is useful for exposing the cost of continuous allocation; it is the wrong forecast for a workload that reliably releases capacity between jobs.
 
-### Pods and VMs fit capacity you will actually keep allocated
+## Koyeb: a low all-in headline, but serverless does not mean proven scale-to-zero
 
-A RunPod Pod and a Lambda VM keep charging while the instance remains allocated. Their rates can look low next to managed deployment products because the operator takes on image selection, server process management, authentication, health checks, observability, storage, and shutdown discipline.
+Koyeb's official pricing page lists one H100 instance at **$2.50/hour** with 15 vCPU, 180 GB RAM, and 320 GB disk. Its instance-reference page independently agrees on the hourly price. Both sources were checked August 25, 2026. The reference says GPU types are limited to specific regions.
 
-For the split between those RunPod products, read [RunPod's Pods versus Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/). The [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) and [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) keep card variants and capacity classes distinct before applying a monthly estimate.
+Koyeb positions the product as serverless compute and supports autoscaling. That is useful, but the checked public sources do not establish a GPU scale-to-zero guarantee, cold-start time, current inventory, quota, or provisioning time. A buyer should therefore separate three questions:
 
-### Scale-to-zero changes the bill only when work really stops
+1. Can the service change replica count automatically?
+2. Can the GPU deployment reach zero billable instances for this configuration?
+3. How long does it take to become ready again, including image pull and model load?
 
-RunPod Serverless and Modal can make a bursty workload cheaper than continuously allocated capacity—but only when workers actually release between requests and their cold-start or queue behavior fits the service. A 720-hour calculation is the wrong model for a job that spends most of the month at zero.
+Only the first is established by the checked public material. Do not forecast zero idle cost until the second and third are tested on the actual account and workload.
 
-Modal's per-second pricing is useful for estimating billable GPU-seconds. Its **$3.95/hour** H100 equivalent as of August 10 is not a recommendation to leave a container warm for a month. For product-specific tradeoffs, see [Modal's pricing guide](https://hostfleet.net/modal-pricing-guide-2026/).
+Koyeb's pricing and instance-reference pages also disagree about CPU and RAM allocations for its L4, RTX A6000, and L40S products. They agree on the selected H100 price and resources, so the contradiction does not change this H100 row. It is still a warning that product configuration should be captured beside every price rather than inferred from a provider name.
 
-To turn a published rate into a budget decision, use [HostFleet's GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to compare the same H100 product at 1% allocation, 10% allocation, and a continuously warm 30-day deployment. The lower-allocation scenarios only apply when the product and workload can actually release capacity between jobs.
+## Northflank: low GPU component, incomplete instance total
 
-### Managed deployment rates are not bare-card rental quotes
+Northflank's **$2.74/GPU-hour** H100 figure is not an all-in workload price. Its managed-cloud deployment requires a separately configured CPU and memory plan. The platform bills GPU use by the second once provisioned, and the official docs say a managed-cloud GPU project requires at least **$50 in account credit**. These terms were checked August 26, 2026 on [Northflank's pricing page](https://northflank.com/pricing) and [managed-cloud GPU documentation](https://northflank.com/docs/v1/application/gpu-workloads/deploy-gpus-on-northflank-cloud.md).
 
-Fal, Baseten, and Replicate price managed deployment surfaces rather than raw GPU rental. A higher public rate may include controls or operating assumptions a Pod does not. Compare their minimum replicas, scaling controls, billing during startup, and separately billed services before treating two hourly equivalents as substitutes.
+The honest formula is:
 
-Use [Fal for inference APIs and jobs](https://hostfleet.net/fal-for-ai-inference-apis-and-jobs/), [Baseten's pricing guide](https://hostfleet.net/baseten-pricing-guide-2026/), and [Replicate's pricing guide](https://hostfleet.net/replicate-pricing-guide-2026/) for those caveats.
+    all-in compute rate = GPU component + vCPU component + memory component
 
-## A transparent warm-H100 estimate
+Persistent disk and egress remain separate. Northflank lets users choose one, two, four, or eight GPUs, and model availability varies by region. Its managed-cloud GPUs do not currently support timeslicing. None of those public statements proves live stock, allocation latency, quota, or scale-to-zero.
 
-This is an estimate, not a vendor quote. It assumes one named H100 product remains allocated for **720 hours** (30 days):
+This is why sorting a multi-provider table by the displayed GPU number alone can produce a false winner. Northflank may be economical for a workload with a lean CPU and RAM plan, but the actual result cannot be known until those components are specified.
 
-```text
-listed-rate capacity estimate = published hourly equivalent × 720 hours
-```
+## Per-second billing is not the same as paying only for inference
 
-| H100 product shape | Rate used (verified August 10) | 30-day listed-rate estimate |
-|---|---:|---:|
-| RunPod Secure Cloud PCIe Pod | $2.89/hr | about $2,081 |
-| Lambda 1x H100 PCIe VM | $3.29/GPU-hr | about $2,369 |
-| Modal H100 container | $0.001097/sec | about $2,843 |
-| Fal H100 custom deployment | $4.50/hr | about $3,240 |
-| Replicate private H100 deployment | $5.49/hr | about $3,953 |
-| Baseten H100 deployment | $0.10833/min | about $4,680 |
+Per-second pricing removes coarse hourly rounding. It does not automatically remove initialization, model loading, retries, idle timeout, warm replicas, or minimum capacity from the bill.
 
-These estimates multiply the source-listed compute rate by 720. They include whatever the named product bundles, and exclude separately billed storage, networking, taxes, support, minimums, additional replicas, and workload-specific scaling behavior. They help plan continuously allocated capacity; they do not predict the cost of a job that truly returns to zero.
+Use this billable-time model:
+
+    billable time = startup + model load + request work + idle window + retries + teardown delay
+
+The request itself may occupy only a fraction of that interval. A platform can still be the right choice when the managed surface reduces engineering and operational work, but the justification should be based on the whole deployment rather than a normalized GPU-hour alone.
+
+Modal is the clearest example of transparent per-second metering in this set. Its H100 rate was **$0.001097/second**, or **$3.9492/hour**, when rechecked August 23, 2026 on [Modal pricing](https://modal.com/pricing). CPU and memory remain separate meters. [HostFleet's Modal pricing guide](https://hostfleet.net/modal-pricing-guide-2026/) shows how to keep those inputs visible instead of treating the GPU conversion as a finished invoice.
+
+RunPod exposes a different choice inside one provider. Pods are allocated infrastructure, while Serverless bills worker activity. The H100 Serverless PRO Flex rate was **$4.79/hour** when rechecked August 23, 2026; an allocated Secure Cloud H100 PCIe Pod was **$2.89/hour** on the same official [RunPod pricing page](https://www.runpod.io/pricing). The lower Pod rate wins only when enough paid capacity is used to justify keeping the Pod allocated and operating it. [HostFleet's RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) covers that break-even boundary.
+
+## A practical selection order
+
+Choose a deployment surface in this order:
+
+1. **Fix the hardware requirement.** Record GPU model, VRAM, count, and any PCIe, SXM, or NVLink requirement. H100 is not one fungible configuration.
+2. **Fix the product shape.** Decide whether you need an allocated VM or Pod, a serverless application instance, a worker runtime, or a managed model deployment.
+3. **Reconstruct the all-in rate.** Add CPU, memory, storage, network, IP, support, and minimum-replica costs that the headline excludes.
+4. **Measure billable lifecycle.** Capture provisioning, image pull, model load, idle timeout, retries, and teardown—not only request latency.
+5. **Test release behavior.** Verify the exact action that returns the deployment to zero GPU compute cost and what data or capacity is lost.
+6. **Check access before migration.** Confirm account approval, quota, region, and current capacity before moving the workload.
+7. **Model failure time.** Calculate what happens if scale-down, teardown, or a scheduler fails for a day or a week.
+
+Credits should be applied after the base workload estimate, not used to hide it. The [GPU cloud free-credits guide](https://hostfleet.net/gpu-cloud-free-credits-2026/) separates a promotional balance from GPU access, quota, and recurring economics.
 
 ## Verdict
 
-Use this matrix to narrow a deployment shape, not to claim a universal cheapest GPU. For continuously allocated, self-managed capacity, the selected RunPod Pod rates are lower public starting points in several GPU classes, with corresponding operational responsibility. For bursty jobs, estimate billable GPU-seconds on Modal or a Serverless surface. For managed inference, compare Fal, Baseten, and Replicate after defining warm-replica and control requirements.
+Koyeb has the lowest selected all-in H100 headline at **$2.50/hour**, checked August 25, 2026. Northflank's **$2.74/GPU-hour** looks close, but it excludes CPU and memory and therefore cannot be ranked as a complete instance total. Modal, Fal, RunPod Serverless, Replicate, CoreWeave Inference, and Baseten occupy progressively more managed or product-specific deployment surfaces, so their higher normalized rates should not be read as bare-card rental quotes.
 
-Re-check the exact GPU variant, region, capacity, commitment tier, and add-ons before purchase. A public rate table is a starting point—not an invoice or a production-capacity promise.
+For a bursty workload, the winning product is the one that actually releases capacity, starts within the application's tolerance, and exposes a predictable all-in bill. For a continuously busy endpoint, an allocated Pod or VM can be cheaper per hour, provided the team can operate it and keep utilization high.
+
+The honest comparison is not serverless versus serverless. It is **one billable lifecycle versus another**.
 
 ## Sources
 
-- [RunPod pricing](https://www.runpod.io/pricing) — Pods and Serverless public rate tables; accessed August 10, 2026
-- [Modal pricing](https://modal.com/pricing) — GPU per-second rates and public container/concurrency plan limits; accessed August 10, 2026
-- [Fal pricing](https://fal.ai/pricing) — custom-deployment list and committed-use rate tables; accessed August 10, 2026
-- [Baseten pricing](https://www.baseten.co/pricing/) — managed deployment per-minute GPU rates; accessed August 10, 2026
-- [Replicate pricing](https://replicate.com/pricing) — private-deployment hardware per-second rates; accessed August 10, 2026
-- [Lambda GPU instances](https://lambda.ai/instances) — VM configuration and per-GPU-hour rates; accessed August 10, 2026
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated August 10, 2026
-- HostFleet full-verification note — `/opt/hostbot/data/ai-hosting/notes/2026-08-10-gpu-pricing-full-verification.md`
+All prices and product claims retain the check dates stated in the article.
 
-*Need a self-managed GPU endpoint? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
+- [Koyeb pricing](https://www.koyeb.com/pricing) and [GPU instance reference](https://www.koyeb.com/docs/reference/instances) — H100 price, included resources, billing, autoscaling positioning, and regional availability; checked August 25, 2026
+- [Northflank pricing](https://northflank.com/pricing) — GPU, CPU, memory, disk, and egress component prices; checked August 26, 2026
+- [Northflank managed-cloud GPU deployment documentation](https://northflank.com/docs/v1/application/gpu-workloads/deploy-gpus-on-northflank-cloud.md) — billing start, GPU counts, credit requirement, regional variation, and timeslicing boundary; checked August 26, 2026
+- [Modal pricing](https://modal.com/pricing) — H100 per-second rate and surrounding resource meters; rechecked August 23, 2026
+- [Fal pricing](https://fal.ai/pricing) — H100 custom-deployment list rate and commitment boundary; rechecked August 23, 2026
+- [RunPod pricing](https://www.runpod.io/pricing) — H100 Serverless and Secure Cloud Pod rates; rechecked August 23, 2026
+- [Replicate pricing](https://replicate.com/pricing) — private-deployment H100 rate; rechecked August 23, 2026
+- [CoreWeave pricing](https://www.coreweave.com/pricing) — inference single-GPU rate and eligibility boundary; rechecked August 23, 2026
+- [Baseten pricing](https://www.baseten.co/pricing/) — H100 per-minute dedicated-deployment rate; rechecked August 23, 2026
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`
+- HostFleet provider notes — `/opt/hostbot/data/ai-hosting/notes/2026-08-10-gpu-pricing-full-verification.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-12-coreweave-gpu-pricing.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-25-koyeb-gpu-pricing.md`, and `/opt/hostbot/data/ai-hosting/notes/2026-08-26-northflank-gpu-pricing.md`
+
+*Need a continuously allocated GPU Pod after comparing the lifecycle? This is a labeled affiliate link; every source above remains direct: [RunPod signup with $5 credit after the first $10 spend (affiliate)](https://hostfleet.net/go/runpod). Confirm the exact GPU, cloud tier, region, storage, and current rate before purchase.*
