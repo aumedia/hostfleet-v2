@@ -1,120 +1,205 @@
 ---
-title: "Baseten pricing 2026: warm-replica costs explained"
-description: "Baseten pricing explained: live per-minute GPU rates, 30-day warm-replica estimates, and when scale-to-zero really lowers the bill."
+title: "Baseten pricing 2026: GPU rates, warm replicas, and the charges buyers miss"
+description: "Baseten pricing explained with current GPU rates, warm-replica estimates, billable build and cold-start phases, autoscaling defaults, and budget limits."
 pubDate: 2026-07-26
-updatedDate: 2026-07-26
+updatedDate: 2026-08-27
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context. This is a source-backed pricing guide: rates and billing behavior come from Baseten's public pricing and documentation. The monthly figures are clearly labeled estimates, not quotes.*
+**Source-backed pricing guide; estimates are labeled.** This refresh uses Baseten's public pricing, resource, billing, autoscaling, request-lifecycle, and cold-start documentation checked on **August 27, 2026**. HostFleet did not benchmark performance, capacity, or cold-start latency. Read the [HostFleet methodology and affiliate policy](https://hostfleet.net/about/) for how sourced and measured claims are separated.
 
-**Pricing verified:** July 26, 2026
+**Pricing verified:** August 27, 2026
 
-# Baseten pricing 2026: warm-replica costs explained
+# Baseten pricing 2026: GPU rates, warm replicas, and the charges buyers miss
 
-Baseten prices dedicated model deployments by the minute. That sounds like fine-grained serverless billing, but it does not mean a production endpoint costs only when it handles a request. Baseten bills every minute a replica is observed as up—including cold starts, model load, and an idle replica intentionally kept warm.
+Baseten bills dedicated inference by the minute, but "per minute" is not the same as "per request." A replica costs money while it starts, loads a model, serves traffic, or sits warm. Baseten's current billing documentation also says image-builder workloads are metered and partial minutes round up.
 
-This is a source-backed infrastructure cost guide, not a model-token pricing roundup or a performance benchmark. It uses Baseten's live public resources and billing documentation checked on **July 26, 2026**. For the broader market first, see [Every serverless GPU host compared](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For product fit, deployment workflow, and operational tradeoffs beyond the bill, see [Baseten for AI inference APIs and jobs](https://hostfleet.net/baseten-for-ai-inference-apis-and-jobs/).
+That makes the useful budgeting question: **how many replica-minutes will the whole deployment lifecycle consume?**
 
-## The short answer
+The August refresh adds three hardware choices that were missing from the earlier guide—fractional H100, H200, and RTX Pro 6000—and documents two cost controls that are easy to misread. A workspace budget sends alerts, but its enforcement switch does not stop dedicated deployments. Baseten's default maximum replica count is one, so a new deployment does not scale out until that ceiling is raised.
 
-| If you need… | Baseten cost shape | Practical reading |
+For a market-wide rate view, start with [the serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For the product workflow and operational fit rather than the bill, read [Baseten for AI inference APIs and jobs](https://hostfleet.net/baseten-for-ai-inference-apis-and-jobs/).
+
+## Baseten pricing: the short answer
+
+| Workload shape | Cost behavior | What to budget |
 |---|---|---|
-| A staging endpoint or sporadic async job | Potentially efficient | With min replicas set to 0, idle time after scale-to-zero is not billed. |
-| A public endpoint that must answer without a cold start | Deliberate warm-capacity spend | One or more replicas must remain up, and every observed minute is billed. |
-| High availability through two warm replicas | A real monthly infrastructure floor | Double the single-replica estimate before traffic-driven scale-out. |
-| The cheapest always-on GPU | Usually the wrong buying lens | Baseten sells managed dedicated inference, not raw GPU rental economics. |
+| Development deployment | Baseten documents development deployments as unbilled | Do not assume that makes every build free; image-builder workloads are separately listed as billable |
+| Sporadic endpoint with minimum replicas at 0 | No GPU charge after it has scaled to zero | Billable starts, model loading, serving time, and the scale-down tail |
+| Latency-sensitive endpoint with one warm replica | Replica rate runs continuously | One 720-hour monthly floor before traffic-driven replicas |
+| Production layout following Baseten's recommendation of at least two minimum replicas | At least two replicas stay warm | Double the one-replica floor before scale-out |
+| Multi-GPU or multi-node model | Every replica or node adds its instance minutes | Multiply the full instance rate by GPU count, node count, replicas, and runtime |
 
-The buying rule: **use Baseten's per-minute price for work that can sleep; use 720-hour math for capacity you deliberately keep ready.**
+The practical rule is simple: **use replica-minutes for a sleeping deployment and 720-hour math for capacity you deliberately keep warm.**
 
-## Baseten's live instance prices
+## The six Baseten rates in HostFleet's live GPU dataset
 
-Baseten's resource reference publishes these representative one-GPU instance SKUs. Each price covers the listed vCPU, RAM, GPU, and VRAM for one replica; it is not a GPU-only component price. The table is drawn from HostFleet's current GPU pricing dataset and checked against Baseten's live resource page on **July 26, 2026**. Baseten bills per minute; the hourly column is a conversion of the per-minute rate times 60. Rates are USD per instance/replica and exclude any extra replicas created by autoscaling.
+The following dedicated-deployment rates come from HostFleet's live GPU pricing dataset and were rechecked against [Baseten's official pricing page](https://www.baseten.co/pricing/) on **August 27, 2026**. The per-hour figure is the published per-minute rate multiplied by 60. The monthly figure assumes one replica runs for 43,200 minutes, or 720 hours, in a 30-day month.
 
-| Instance GPU | VRAM | Published instance rate | Equivalent per hour | 30-day, one warm replica |
-|---|---:|---:|---:|---:|
-| T4 | 16 GB | $0.01052/min | $0.63/hr | about $454 |
-| L4 | 24 GB | $0.01414/min | $0.85/hr | about $611 |
-| A10G | 24 GB | $0.02012/min | $1.21/hr | about $869 |
-| A100 | 80 GB | $0.06667/min | $4.00/hr | about $2,880 |
-| H100 | 80 GB | $0.10833/min | $6.50/hr | about $4,680 |
-| B200 | 180 GB | $0.16633/min | $9.98/hr | about $7,185 |
+| Baseten GPU instance | VRAM | Published rate | Hourly equivalent | 100 replica-hours | One warm replica, 30 days |
+|---|---:|---:|---:|---:|---:|
+| T4 | 16 GiB | $0.01052/min | $0.63/hr | about $63 | about $454 |
+| L4 | 24 GiB | $0.01414/min | $0.85/hr | about $85 | about $611 |
+| A10G | 24 GiB | $0.02012/min | $1.21/hr | about $121 | about $869 |
+| A100 | 80 GiB | $0.06667/min | $4.00/hr | about $400 | about $2,880 |
+| H100 | 80 GiB | $0.10833/min | $6.50/hr | about $650 | about $4,680 |
+| B200 | 180 GiB | $0.16633/min | $9.98/hr | about $998 | about $7,185 |
 
-**Estimate assumptions:** one replica observed as up continuously for **43,200 minutes** (720 hours in a 30-day month); published instance charges only; no extra replicas from traffic spikes. Formula: per-minute rate times 60 times 720. These are continuously warm-replica estimates, not a forecast for an endpoint that really scales to zero. Re-check [Baseten's resource reference](https://docs.baseten.co/deployment/resources) before committing a production deployment.
+**Estimate assumptions:** one instance per replica; public list rate; 100 or 720 billable replica-hours; no traffic-driven scale-out; no negotiated discount; and no taxes. Totals are rate conversions, not Baseten quotes. Availability, quota, cold-start speed, and throughput were not tested.
 
-## The number most buyers miss: replica count
+The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) is useful for changing the allocation assumption. It does not replace replica accounting: two replicas running for 50 hours consume the same 100 replica-hours as one replica running for 100 hours.
 
-The table is a **one-replica** floor. Replica count changes the bill faster than small differences in GPU rate.
+## The expanded Baseten instance list changes the buying decision
 
-| Always-warm configuration | L4 instance-charge estimate | H100 instance-charge estimate |
+Baseten's [resource reference](https://docs.baseten.co/deployment/resources) now exposes more one-GPU configurations than the six headline rates in HostFleet's cross-provider dataset. The following prices and resource allocations were checked on **August 27, 2026**. They are complete instance prices with the listed CPU and RAM, not bare GPU component rates.
+
+| Exact Baseten instance | GPU allocation | vCPU / RAM | Published rate | Hourly equivalent | One warm replica, 30 days |
+|---|---|---:|---:|---:|---:|
+| T4x8x32 | 1× T4, 16 GiB VRAM | 8 / 32 GiB | $0.01504/min | $0.90/hr | about $650 |
+| T4x16x64 | 1× T4, 16 GiB VRAM | 16 / 64 GiB | $0.02408/min | $1.44/hr | about $1,040 |
+| A10Gx8x32 | 1× A10G, 24 GiB VRAM | 8 / 32 GiB | $0.02424/min | $1.45/hr | about $1,047 |
+| A10Gx16x64 | 1× A10G, 24 GiB VRAM | 16 / 64 GiB | $0.03248/min | $1.95/hr | about $1,403 |
+| H100MIG | Fractional H100, 40 GiB VRAM | 8 / 59 GiB | $0.06250/min | $3.75/hr | $2,700 |
+| H200 | 1× H200, 141 GiB VRAM | 16 / 200 GiB | $0.12500/min | $7.50/hr | $5,400 |
+| RTX-PRO-6000 | 1× RTX Pro 6000, 96 GiB VRAM | 16 / 116 GiB | $0.06667/min | $4.00/hr | about $2,880 |
+
+These additions matter for more than completeness.
+
+First, **GPU name does not determine the entire instance price**. Baseten offers T4 and A10G variants with more CPU and system memory. Choosing the accelerator field and broad resource constraints can map to a larger instance. Baseten says selecting an exact instance type is the way to make the SKU consistent.
+
+Second, the fractional H100 is not a cheap full H100. Baseten describes H100MIG as 3/7 of the compute and half the memory, with 40 GiB VRAM. Its $3.75 hourly equivalent is below the full H100's $6.50, but the allocation is different.
+
+Third, A100 and RTX Pro 6000 have the same listed per-minute rate in this snapshot while exposing 80 GiB and 96 GiB of VRAM respectively. That does **not** prove equal speed or make the RTX option universally better. It does mean memory fit should be checked before choosing on GPU-generation labels alone. The [VRAM guide for Llama 70B and other open models](https://hostfleet.net/what-gpu-to-run-llama-70b/) provides the sizing framework; it is not a Baseten performance benchmark.
+
+## Exactly what Baseten bills
+
+Baseten's [billing and usage documentation](https://docs.baseten.co/organization/billing) gives a more precise lifecycle map than the marketing phrase "only pay for the compute you use." The following behavior was checked on **August 27, 2026**.
+
+| Lifecycle phase | Billed? | Cost implication |
+|---|---|---|
+| Image build after a deployment push | Yes | Heavy install steps can add cost on every build |
+| Image pull before a workload starts | No | Scheduling and pulling are outside the metered window |
+| Cold start and model load | Yes | The first request can wait while billable minutes accumulate |
+| Serving requests | Yes | Ordinary dedicated-inference usage |
+| Idle warm replica | Yes | A minimum replica is paid readiness, even with zero requests |
+| Autoscaling termination | Yes, until termination | The scale-down tail is part of replica time |
+| Replica crash or out-of-memory failure mid-request | Yes, until termination | Failed work can still consume billable runtime |
+| Failed boot where the replica never comes up | No | No running workload means zero replica minutes |
+| Scaled to zero with no traffic | No | This is the true zero-GPU-charge state |
+| Development deployment | No | Baseten lists the watched development deployment as unbilled |
+
+Baseten also says partial minutes round up. For long-running replicas this has little effect. For many short builds, failures, or start-stop cycles, it can make a simple seconds-times-rate estimate too optimistic.
+
+There is another boundary worth preserving: image builds are workloads of their own. A failed replica boot is documented as free when it never comes up, but a build failure inside a running builder is billed until that build stops. "The model never served a request" is therefore not enough evidence that the attempt cost nothing.
+
+## Baseten autoscaling defaults, translated into cost
+
+The current [autoscaling documentation](https://docs.baseten.co/deployment/autoscaling/overview) publishes these defaults. They were checked on **August 27, 2026**.
+
+| Setting | Default | Cost meaning |
+|---|---:|---|
+| Minimum replicas | 0 | The deployment can eventually reach zero GPU cost |
+| Maximum replicas | 1 | It cannot scale beyond one replica until you raise the ceiling |
+| Concurrency target | 1 | One in-flight request per replica is the initial scaling target |
+| Target utilization | 70% | Scale-up triggers before the concurrency target is completely full |
+| Autoscaling window | 60 seconds | Decisions use a one-minute average of in-flight requests |
+| Scale-down delay | 900 seconds | A quiet replica normally stays up for 15 minutes before removal |
+| Maximum scale-down rate | 50% | At most half the running replicas are removed in each scale-down step |
+
+Two defaults deserve special attention.
+
+**Maximum replicas starts at one.** A deployment may be described as autoscaling, but that ceiling prevents horizontal scale-out until it is changed. Raising it unlocks capacity and also raises the possible bill. The cost guardrail is the ceiling itself, not the word autoscaling.
+
+**Scale-down waits 15 minutes by default.** At the tracked H100 rate, one 15-minute tail costs about $1.62: 15 × $0.10833. Ten such tails in a day would be roughly $16.25, assuming each event retains one otherwise-idle H100 replica for the full delay. These are exposed estimates based on the August 27 rate and default delay; real events can overlap or be interrupted by new traffic.
+
+Baseten recommends at least two minimum replicas for production to remove scale-from-zero cold starts and provide redundancy. Following that recommendation creates a substantial warm floor:
+
+| Production warm floor | L4 estimate | H100 estimate |
 |---|---:|---:|
-| One replica for 720 hours | about $611/month | about $4,680/month |
-| Two replicas for 720 hours | about $1,222/month | about $9,360/month |
+| One warm replica for 30 days | about $611 | about $4,680 |
+| Two warm replicas for 30 days | about $1,222 | about $9,360 |
 
-Two replicas are not automatically wasteful. They may be the reasonable design choice for redundancy or more predictable latency. The point is to price that choice as infrastructure before calling the deployment serverless and cheap.
+Those are instance-charge estimates before additional replicas, builds, or taxes. Redundancy may be the correct design; it still belongs in the budget.
 
-Baseten's autoscaling documentation says the minimum-replica setting controls the number of replicas kept running. Set it to zero and the deployment can scale down; set it to one or more and that capacity is intentionally held ready. The same docs describe production controls for maximum replicas, scale-down behavior, concurrency, and utilization. Those settings affect how many billable replicas the platform can create when traffic rises.
+## A Baseten workspace budget is an alert, not a GPU kill switch
 
-## What Baseten actually bills
+Baseten's billing documentation says workspace budget emails are sent at 75%, 90%, and 100% of the configured monthly amount. The enforcement option sounds like a hard cap, but its scope is narrower: **enforcement rejects Model API requests; it does not stop dedicated deployments or training jobs.**
 
-Baseten's billing documentation is unusually direct: it meters usage **by the minute**, and for every minute a replica is observed as up, its instance-type price applies. That covers more than requests:
+That distinction matters here because this guide covers dedicated inference. A warm GPU replica can continue accruing charges after the workspace budget threshold is reached. Treat the budget as observability for dedicated deployments, then use minimum replicas, maximum replicas, deployment cleanup, and external alerts as the operational controls.
 
-| Replica state | Billed? | Why it matters |
-|---|---|---|
-| Cold start and model load | Yes | The replica is already up before it is healthy enough to serve. |
-| Idle warm replica (minimum replicas at least 1) | Yes | Readiness is capacity, even with no requests. |
-| Active prediction | Yes | This is ordinary deployed compute use. |
-| Scaled-to-zero idle time (minimum replicas 0, no traffic) | No | This is where scale-to-zero can lower the compute bill. |
+Baseten also documents starting credits for new workspaces, but it does not publish a fixed credit amount on the billing page and says there is no perpetual free tier. Do not build a forecast around an assumed signup amount. The [GPU cloud free-credits comparison](https://hostfleet.net/gpu-cloud-free-credits-2026/) keeps exact public offers separate from programs whose amount or eligibility is not publicly fixed.
 
-That distinction resolves the apparent contradiction in Baseten's pricing language. A deployment can avoid idle compute costs when it has truly scaled to zero, yet a latency-sensitive endpoint can still have a substantial minimum monthly bill because its replicas must stay warm.
+## Three honest monthly estimates
 
-## How to estimate a real monthly Baseten bill
+Use this formula for dedicated inference:
 
-Start with two separate numbers instead of one blended guess:
+    estimated compute charge =
+      serving replica-minutes
+      + warm idle replica-minutes
+      + cold-start replica-minutes
+      + scale-down-tail replica-minutes
+      + billable image-builder minutes
 
-    warm-capacity floor = per-minute rate × warm replicas × minutes kept up
-    traffic-driven capacity = additional replica-minutes created by load
-    monthly instance-charge estimate = warm-capacity floor + traffic-driven capacity
+Then multiply each bucket by the applicable instance rate. Round partial metered minutes up when modeling many short events.
 
-For a simple first pass, use 43,200 minutes for a 30-day always-warm replica. Then ask three operational questions:
+### 1. Intermittent L4 endpoint
 
-1. **Can the endpoint tolerate a cold first request?** If yes, start with zero minimum replicas and measure the actual cold-start experience.
-2. **Does the endpoint need redundancy or predictable latency?** If yes, budget at least two warm replicas before adding traffic-driven scale-out.
-3. **How long should Baseten wait before scaling down?** A longer scale-down delay can avoid flapping after brief quiet periods, but it retains billable capacity longer.
+Assume the L4 consumes 100 total replica-hours across starts, loading, serving, idle warm time, and scale-down tails.
 
-A traffic-shape example makes the difference concrete. An L4 deployment held up for 100 total replica-hours in a month has roughly **$85** in L4 instance charges at the published $0.85/hour equivalent. An L4 kept warm for the full 720 hours is about **$611** before any extra replicas. Both figures can be correct; they describe different operating choices. Use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to pressure-test the same decision at 1%, 10%, and always-warm allocation before committing to a replica minimum.
+    100 hours × $0.8484/hour = $84.84
 
-## Scale-to-zero saves money, but it changes the request path
+Estimated dedicated instance charge: **about $85**, plus any separately metered image builds. The $0.8484 conversion uses the published $0.01414 per-minute L4 rate checked August 27, 2026.
 
-When a deployment is scaled to zero, Baseten's request-lifecycle documentation says a request can be parked while capacity starts. That removes the need for the client to treat every idle deployment as an immediate failure, but it does not make the first request fast. Baseten's cold-start documentation explains that model-weight loading is a major part of startup work; those startup minutes are also billed.
+### 2. One always-warm H100
 
-This makes the decision fairly clean:
+Assume one H100 replica remains up for all 43,200 minutes of a 30-day month.
 
-- **Scale to zero:** good for staging, batch work, internal tools, and asynchronous jobs that can wait.
-- **Keep replicas warm:** good for user-facing services where cold-start latency is unacceptable; budget the warm-replica floor honestly.
-- **Use more replicas:** good when availability and concurrency need it; estimate the full replica count, then test under real traffic.
+    43,200 minutes × $0.10833/minute = $4,679.86
 
-If the workload is mostly intermittent GPU execution rather than a managed dedicated model service, compare the same warm-capacity math with the broader [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). If you want a dedicated GPU container instead of a managed inference control plane, [RunPod pricing: Pods vs Serverless](https://hostfleet.net/runpod-pricing-guide-2026/) explains that different cost shape.
+Estimated dedicated instance charge: **about $4,680**, before extra replicas or builds. The source is Baseten's official H100 rate checked August 27, 2026.
 
-## Baseten pricing: the practical verdict
+### 3. Two warm H100 replicas
 
-Baseten is not expensive because it bills by the minute; it becomes expensive when its deployment design needs replicas to remain up.
+Assume a production minimum of two H100 replicas for the same 30-day month.
 
-- The published L4 instance rate is about **$611/month** for one continuously warm replica, while an H100 instance is about **$4,680/month**.
-- Scale-to-zero is meaningful only when the deployment actually spends time at zero replicas.
-- Cold starts are billable, so a cheaper idle bill exchanges money for first-request latency.
-- Production redundancy can double the warm-capacity floor before traffic causes any further scale-out.
+    2 × 43,200 minutes × $0.10833/minute = $9,359.71
 
-Price the number of warm replicas first, then use Baseten's autoscaling controls to absorb real demand. That produces a more useful Baseten budget than treating a per-minute rate as request-only billing.
+Estimated dedicated instance charge: **about $9,360**, before traffic-driven scale-out or builds. This exposes the high-availability floor; it is not a recommendation for every endpoint.
+
+If raw GPU rental is the main buying lens, compare the managed-inference bill with the current [H100 rental price table](https://hostfleet.net/h100-rental-price-per-hour-2026/) and [RunPod Pods-versus-Serverless guide](https://hostfleet.net/runpod-pricing-guide-2026/). The products are not interchangeable: Baseten's instance price buys a managed deployment control plane, while lower-level GPU rentals leave more deployment work with the operator.
+
+## Cold starts affect both cost and request behavior
+
+Baseten's [request-lifecycle documentation](https://docs.baseten.co/deployment/autoscaling/request-lifecycle) says a synchronous request can be parked while a scaled-to-zero deployment starts. The default predict timeout is 1,200 seconds, and the parking timeout matches it. If no replica becomes available before that window closes, the parked request fails.
+
+Async behavior has another boundary: the first request can park, but later async requests that arrive while capacity is still unavailable can receive a 429 capacity error. This is not a measured latency claim. It is the documented request path checked August 27, 2026.
+
+Scale-to-zero therefore exchanges a lower idle bill for a slower and more failure-sensitive first-request path. Keep replicas warm when that trade is unacceptable, but price the full replica count first.
+
+## Baseten pricing verdict
+
+Baseten's pricing is transparent at the instance-minute level. The misleading part is not the rate card; it is budgeting only the prediction window.
+
+- Six headline GPU rates remain unchanged in HostFleet's August 27 source check.
+- The resource reference adds H100MIG, H200, and RTX Pro 6000 choices that materially widen the VRAM and price ladder.
+- Image builds, cold starts, warm idle time, and termination tails can all be billable.
+- The default deployment can scale to zero but cannot scale beyond one replica until maximum replicas is raised.
+- Baseten's workspace budget does not enforce a hard cap on dedicated GPU deployments.
+- Two warm production replicas double the monthly floor before traffic adds more capacity.
+
+Choose the smallest exact instance that fits, model every billable lifecycle bucket, and set replica floors and ceilings deliberately. That produces a Baseten estimate you can operate, rather than a per-minute rate that looks cheap in isolation.
 
 ## Sources
 
-- [Baseten pricing](https://www.baseten.co/pricing/) — checked July 26, 2026
-- [Baseten resource reference](https://docs.baseten.co/deployment/resources) — checked July 26, 2026
-- [Baseten billing and usage](https://docs.baseten.co/organization/billing) — checked July 26, 2026
-- [Baseten autoscaling overview](https://docs.baseten.co/deployment/autoscaling/overview) — checked July 26, 2026
-- [Baseten request lifecycle](https://docs.baseten.co/deployment/autoscaling/request-lifecycle) — checked July 26, 2026
-- [Baseten cold starts](https://docs.baseten.co/deployment/autoscaling/cold-starts) — checked July 26, 2026
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, refreshed July 23, 2026
+All web sources below were accessed **August 27, 2026**.
+
+- [Baseten cloud pricing](https://www.baseten.co/pricing/)
+- [Baseten instance resource and price reference](https://docs.baseten.co/deployment/resources)
+- [Baseten billing and usage](https://docs.baseten.co/organization/billing)
+- [Baseten autoscaling overview](https://docs.baseten.co/deployment/autoscaling/overview)
+- [Baseten request lifecycle](https://docs.baseten.co/deployment/autoscaling/request-lifecycle)
+- [Baseten cold starts](https://docs.baseten.co/deployment/autoscaling/cold-starts)
+- HostFleet live GPU pricing dataset: /opt/hostbot-v2/src/data/gpu-pricing.json, updated August 27, 2026
+- HostFleet full source-verification ledger: /opt/hostbot/data/ai-hosting/notes/2026-08-27-gpu-pricing-full-verification.md
