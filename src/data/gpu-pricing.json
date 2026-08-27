@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13",
+  "updated": "2026-08-27",
   "refresh_policy": "Verified against vendor pricing pages by the HostFleet data agent. Target cadence: Monday and Thursday.",
   "providers": [
     { "id": "runpod_pods", "name": "RunPod Pods", "billing": "per-second, always-on container (Secure Cloud)", "source": "https://www.runpod.io/pricing" },
@@ -21,7 +21,8 @@
     { "id": "thunder", "name": "Thunder Compute", "billing": "per-minute on-demand GPU VMs while running, shown as one-GPU base rates; four vCPUs and 8 GB RAM per vCPU are included in the base, additional vCPUs cost $0.04/hour, the first 100 GB persistent disk per GPU is included, and snapshots are separate", "source": "https://www.thundercompute.com/pricing" },
     { "id": "massed", "name": "Massed Compute", "billing": "per-minute debit for active on-demand GPU VMs using published hourly VM totals; one-GPU rates include fixed vCPU, RAM, and listed storage allocations; no bandwidth charges or long-term contracts", "source": "https://vm.massedcompute.com/pricing" },
     { "id": "jarvislabs", "name": "Jarvis Labs", "billing": "per-minute on-demand managed Templates or GPU VMs, shown per GPU-hour; public one-GPU rows include listed vCPU and RAM, paused instances stop compute billing while storage continues at $0.10/GB-month, and in-region egress is free", "source": "https://jarvislabs.ai/pricing" },
-    { "id": "koyeb", "name": "Koyeb", "billing": "per-second pay-per-use serverless GPU instances, shown at exact public hourly list rates; one-GPU configurations include fixed vCPU, RAM, and local disk, autoscaling is available, and saving-plan discounts are excluded", "source": "https://www.koyeb.com/pricing" }
+    { "id": "koyeb", "name": "Koyeb", "billing": "per-second pay-per-use serverless GPU instances, shown at exact public hourly list rates; one-GPU configurations include fixed vCPU, RAM, and local disk, autoscaling is available, and saving-plan discounts are excluded", "source": "https://www.koyeb.com/pricing" },
+    { "id": "northflank", "name": "Northflank", "billing": "per-second managed-cloud GPU workloads, shown at exact public GPU-hour component rates; CPU, memory, persistent disk, and egress are priced separately, GPU deployment requires at least $50 account credit, and model availability varies by region", "source": "https://northflank.com/pricing" }
   ],
   "gpus": [
     { "id": "m4000", "name": "M4000", "vram": "8 GB",
@@ -70,7 +71,8 @@
         "modal": { "hr": 0.80, "raw": "$0.000222/sec" },
         "baseten": { "hr": 0.85, "raw": "$0.01414/min" },
         "jarvislabs": { "hr": 0.44, "raw": "$0.44/GPU/hr", "note": "1x NVIDIA L4 on-demand row; public pricing table lists 32 vCPU and 124 GB RAM; GPU and region availability can change" },
-        "koyeb": { "hr": 0.70, "raw": "$0.70/hr", "note": "1x L4 serverless instance; pricing card lists 6 vCPU, 32 GB RAM, and 160 GB disk; exact rate agrees with the instance-reference table, whose CPU/RAM fields conflict; GPU availability is region-specific" }
+        "koyeb": { "hr": 0.70, "raw": "$0.70/hr", "note": "1x L4 serverless instance; pricing card lists 6 vCPU, 32 GB RAM, and 160 GB disk; exact rate agrees with the instance-reference table, whose CPU/RAM fields conflict; GPU availability is region-specific" },
+        "northflank": { "hr": 0.80, "raw": "$0.80/GPU/hr", "note": "1x NVIDIA L4 24 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
     { "id": "a10", "name": "A10 / A10G", "vram": "24 GB",
       "prices": {
@@ -97,14 +99,14 @@
         "runpod_pods": { "hr": 0.74, "raw": "$0.74/hr", "note": "Secure Cloud RTX 4090; refreshed 2026-08-18" },
         "runpod_sls": { "hr": 1.10 },
         "novita": { "hr": 0.33, "raw": "$0.33/GPU/hr", "note": "1x RTX 4090 on-demand product; 16 vCPU, 62 GB RAM, and 60 GB container disk quota" },
-        "salad": { "hr": 0.204, "raw": "$0.204/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included; interruptible distributed node, not a dedicated VM" }
+        "salad": { "hr": 0.16, "raw": "$0.160/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included at no additional charge; interruptible distributed node, not a dedicated VM" }
       } },
     { "id": "rtx5090", "name": "RTX 5090", "vram": "32 GB",
       "prices": {
         "runpod_pods": { "hr": 0.99 },
         "runpod_sls": { "hr": 1.58 },
         "novita": { "hr": 0.72, "raw": "$0.72/GPU/hr", "note": "1x RTX 5090 high-frequency on-demand product; 24 vCPU, 58 GB RAM, and 60 GB container disk quota" },
-        "salad": { "hr": 0.294, "raw": "$0.294/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included; interruptible distributed node, not a dedicated VM" }
+        "salad": { "hr": 0.25, "raw": "$0.250/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included at no additional charge; interruptible distributed node, not a dedicated VM" }
       } },
     { "id": "rtxpro4500", "name": "RTX PRO 4500", "vram": "32 GB",
       "prices": {
@@ -164,7 +166,8 @@
         "verda": { "hr": 1.89, "raw": "$1.89/hr", "note": "1x RTX PRO 6000 96 GB on-demand instance; 30 CPU and 90 GB RAM included; non-confidential-compute flavor; storage separate" },
         "massed": { "hr": 2.19, "raw": "$2.19/hr", "note": "1x RTX PRO 6000 Blackwell 96 GB on-demand VM; 16 vCPU and 144 GB RAM included; vendor lists storage 725 without a unit on the public page" },
         "jarvislabs": { "hr": 1.89, "raw": "$1.89/GPU/hr", "note": "1x NVIDIA RTX Pro 6000 Blackwell on-demand row; public pricing table lists 28 vCPU and 160 GB RAM; GPU and region availability can change" },
-        "koyeb": { "hr": 2.20, "raw": "$2.20/hr", "note": "1x RTX-PRO-6000 serverless instance; 15 vCPU, 220 GB RAM, and 240 GB disk included; GPU availability is region-specific" }
+        "koyeb": { "hr": 2.20, "raw": "$2.20/hr", "note": "1x RTX-PRO-6000 serverless instance; 15 vCPU, 220 GB RAM, and 240 GB disk included; GPU availability is region-specific" },
+        "northflank": { "hr": 3.00, "raw": "$3.00/GPU/hr", "note": "1x NVIDIA RTX PRO 6000 96 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
     { "id": "a100_40", "name": "A100 40 GB", "vram": "40 GB",
       "prices": {
@@ -172,7 +175,8 @@
         "lambda_cloud": { "hr": 1.99, "raw": "$1.99/GPU/hr", "note": "1x A100 PCIe or A100 SXM; 40 GB" },
         "verda": { "hr": 1.29, "raw": "$1.29/hr", "note": "1x A100 40 GB SXM4 on-demand instance; 22 CPU and 120 GB RAM included; storage separate" },
         "paperspace": { "hr": 3.09, "raw": "$3.09/hr", "note": "1x A100 40 GB Machine; 12 vCPU, 90 GB RAM, and 50 GB SSD included; NY2 catalog region" },
-        "jarvislabs": { "hr": 0.89, "raw": "$0.89/GPU/hr", "note": "1x NVIDIA A100 40 GB on-demand row; public pricing table lists 16 vCPU and 112 GB RAM; GPU and region availability can change" }
+        "jarvislabs": { "hr": 0.89, "raw": "$0.89/GPU/hr", "note": "1x NVIDIA A100 40 GB on-demand row; public pricing table lists 16 vCPU and 112 GB RAM; GPU and region availability can change" },
+        "northflank": { "hr": 1.42, "raw": "$1.42/GPU/hr", "note": "1x NVIDIA A100 40 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
@@ -190,7 +194,8 @@
         "thunder": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A100 80 GB base GPU rate; available configurations require 8, 12, or 16 vCPUs, so the minimum 8-vCPU VM is $1.25/hr after four additional vCPUs at $0.04/hr; 64 GB RAM and 100 GB persistent disk at that minimum" },
         "massed": { "hr": 1.35, "raw": "$1.35/hr", "note": "1x A100 80 GB on-demand VM; 16 vCPU and 96 GB RAM included; vendor lists storage 512 without a unit on the public page; lower than the separate $1.38 SXM4 and DGX A100 variants" },
         "jarvislabs": { "hr": 1.49, "raw": "$1.49/GPU/hr", "note": "1x NVIDIA A100 80 GB on-demand row; public pricing table lists 16 vCPU and 112 GB RAM; GPU and region availability can change" },
-        "koyeb": { "hr": 1.60, "raw": "$1.60/hr", "note": "1x A100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; separate A100 SXM is $2.15/hr and excluded from this lowest one-GPU cell; GPU availability is region-specific" }
+        "koyeb": { "hr": 1.60, "raw": "$1.60/hr", "note": "1x A100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; separate A100 SXM is $2.15/hr and excluded from this lowest one-GPU cell; GPU availability is region-specific" },
+        "northflank": { "hr": 1.76, "raw": "$1.76/GPU/hr", "note": "1x NVIDIA A100 80 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
@@ -211,7 +216,8 @@
         "thunder": { "hr": 3.19, "raw": "$3.19/GPU/hr", "note": "1x NVIDIA H100 PCIe base GPU rate; minimum configuration uses the four included vCPUs, 32 GB RAM, and 100 GB persistent disk; current live pricing page and public pricing API agree, superseding stale Thunder blog/search references to $2.19/hr" },
         "massed": { "hr": 2.73, "raw": "$2.73/hr", "note": "1x H100 80 GB on-demand VM; 20 vCPU and 128 GB RAM included; vendor lists storage 1250 without a unit on the public page; distinct from the $3.11 one-GPU H100 NVL listing" },
         "jarvislabs": { "hr": 2.69, "raw": "$2.69/GPU/hr", "note": "1x NVIDIA H100 SXM on-demand row; public pricing table lists 16 vCPU and 200 GB RAM; GPU and region availability can change" },
-        "koyeb": { "hr": 2.50, "raw": "$2.50/hr", "note": "1x H100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; GPU availability is region-specific" }
+        "koyeb": { "hr": 2.50, "raw": "$2.50/hr", "note": "1x H100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; GPU availability is region-specific" },
+        "northflank": { "hr": 2.74, "raw": "$2.74/GPU/hr", "note": "1x NVIDIA H100 80 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
