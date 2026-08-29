@@ -1,181 +1,230 @@
 ---
-title: "Modal pricing 2026: GPU rates, plan fees, and warm-container costs"
-description: "Modal pricing explained with August 2026 GPU rates, Starter and Team limits, supporting-resource charges, and warm-container cost estimates."
+title: "Modal pricing 2026: GPU rates, region fees, and Sandbox costs"
+description: "Modal pricing checked August 2026, including GPU rates, 1.5-1.75x region fees, Sandbox CPU and memory costs, and worked estimates."
 pubDate: 2026-07-25
-updatedDate: 2026-08-12
+updatedDate: 2026-08-29
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
+*Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet methodology and affiliate policy](https://hostfleet.net/about/) for how sourced, estimated, and measured claims are separated.*
 
-**Source-backed rate check; estimated totals.** Modal's public rates, plan limits, and supporting-resource prices were checked on **August 12, 2026**. The monthly figures below are transparent arithmetic, not invoice predictions, capacity guarantees, or performance benchmarks.
+**Source-backed rate check; estimated totals.** Modal's public prices and billing documentation were checked on **August 29, 2026**. HostFleet did not inspect a customer invoice or benchmark performance, cold starts, capacity, or regional availability. Every calculated total below exposes its resource and time assumptions.
 
-# Modal pricing 2026: GPU rates, plan fees, and warm-container costs
+> **Verified date:** August 29, 2026<br>
+> **Currency:** public USD list rates<br>
+> **Scope:** Functions, GPU tasks, Sandboxes, Notebooks, plan fees, region multipliers, CPU, memory, ephemeral disk, and Volumes
 
-Modal's pricing is easy to misread because three separate decisions land on the same bill: the workspace plan, metered compute, and how long containers remain allocated. The GPU rate may be quoted per second, but one GPU deliberately kept warm for a month is still an always-on cost.
+# Modal pricing 2026: GPU rates, region fees, and Sandbox costs
 
-The short version: **Modal is compelling when work is bursty and containers genuinely scale down. It is expensive when low latency requires GPU capacity to sit ready all month.** Starter's included compute is useful for testing, but it does not change that production cost shape.
+Modal's headline GPU rates are not always the rates that reach the bill. Three choices can change the result before a workload processes more traffic:
 
-This is a source-backed refresh of HostFleet's Modal pricing guide. It uses [Modal's live pricing page](https://modal.com/pricing), checked August 12, 2026, and the August 10 dataset behind [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). It covers infrastructure billing, not model-token or subscription pricing.
+1. pinning a container to a broad region applies a **1.5× multiplier**;
+2. pinning it to a narrow region applies a **1.75× multiplier**; and
+3. Sandbox and Notebook CPU and memory use a separate rate card that is roughly **3× the standard Function rates**.
 
-> **Verified date:** August 12, 2026<br>
-> **Currency:** USD public list rates<br>
-> **Scope:** GPU, CPU, memory, volumes, and public workspace-plan charges
+The short buying answer is still favorable to Modal for bursty work: per-second metering and scale-to-zero can avoid idle allocation. But a low-latency API pinned near its database, an interactive agent Sandbox, and an ordinary scale-to-zero Function are three different cost shapes. Do not budget all three from the GPU row alone.
 
-## The buying answer in one table
+## The buying answer
 
-| Workload shape | Modal fit | Cost rule to use |
+| Workload | Modal fit | Cost boundary to model |
 |---|---|---|
-| Scheduled batch job that releases its container | Strong | Native per-second rates × total allocated seconds |
-| Uneven inference API that can tolerate cold starts | Strong | Metered allocation, including startup and idle time |
-| API with one GPU held warm continuously | Technically easy, financially substantial | GPU + CPU + memory × 2,592,000 seconds per 30-day month |
-| Cheapest predictable always-on GPU box | Usually weak | Compare a fixed Pod or VM before committing |
+| Batch or scheduled Function that releases resources | Strong | GPU + CPU + memory for total allocated seconds |
+| Bursty inference Function on Modal's automatic placement | Strong | Include startup, model loading, retries, and idle retention |
+| Function pinned to a broad geography such as `eu` | Viable when locality matters | Multiply base usage by **1.5** |
+| Function pinned to a narrow geography such as `eu-west` | Latency purchase, not a free setting | Multiply base usage by **1.75** |
+| Interactive Sandbox or Notebook | Useful, but not Function-priced | Use the separate Sandbox CPU and memory rates |
+| Continuously warm GPU endpoint | Technically easy; often expensive | Recalculate at 720 allocated hours and compare a fixed Pod or VM |
 
-Do not decide from the hourly equivalent alone. First decide whether the workload can return to zero.
+The decision sequence matters. Choose Function or Sandbox first, decide whether the container must be region-pinned, then add the workspace plan and expected allocation time.
 
-## Modal GPU price table
+## Modal GPU prices checked August 29
 
-[Modal's public rate card](https://modal.com/pricing), checked **August 12, 2026**, publishes GPU prices per second. The hourly column multiplies the native rate by 3,600; the 30-day column multiplies it by **2,592,000 seconds** (720 hours). Those two columns are estimates for comparison, not separate Modal billing units.
+[Modal's public pricing page](https://modal.com/pricing) publishes GPU rates per second. The hourly column below multiplies the native rate by 3,600. The 30-day column multiplies it by 2,592,000 seconds, or 720 hours. These are GPU-only arithmetic estimates, not separate Modal billing units.
 
-| GPU | VRAM | Published price | Hourly equivalent | 30-day continuously allocated estimate |
+| GPU | VRAM | Published rate | Hourly equivalent | 30-day allocated estimate |
 |---|---:|---:|---:|---:|
-| T4 | 16 GB | $0.000164/sec | $0.59/hr | about $425 |
-| L4 | 24 GB | $0.000222/sec | $0.80/hr | about $575 |
-| A10 | 24 GB | $0.000306/sec | $1.10/hr | about $793 |
-| L40S | 48 GB | $0.000542/sec | $1.95/hr | about $1,405 |
-| A100 | 40 GB | $0.000583/sec | $2.10/hr | about $1,511 |
-| A100 | 80 GB | $0.000694/sec | $2.50/hr | about $1,799 |
-| RTX PRO 6000 | 96 GB | $0.000842/sec | $3.03/hr | about $2,182 |
-| H100 | 80 GB | $0.001097/sec | $3.95/hr | about $2,843 |
-| H200 | 141 GB | $0.001261/sec | $4.54/hr | about $3,269 |
-| B200 | 180 GB | $0.001736/sec | $6.25/hr | about $4,500 |
-| B300 | 288 GB | $0.001972/sec | $7.10/hr | about $5,111 |
+| T4 | 16 GB | $0.000164/sec | $0.5904/hr | $425.09 |
+| L4 | 24 GB | $0.000222/sec | $0.7992/hr | $575.42 |
+| A10 | 24 GB | $0.000306/sec | $1.1016/hr | $793.15 |
+| L40S | 48 GB | $0.000542/sec | $1.9512/hr | $1,404.86 |
+| A100 | 40 GB | $0.000583/sec | $2.0988/hr | $1,511.14 |
+| A100 | 80 GB | $0.000694/sec | $2.4984/hr | $1,798.85 |
+| RTX PRO 6000 | 96 GB | $0.000842/sec | $3.0312/hr | $2,182.46 |
+| H100 | 80 GB | $0.001097/sec | $3.9492/hr | $2,843.42 |
+| H200 | 141 GB | $0.001261/sec | $4.5396/hr | $3,268.51 |
+| B200 | 180 GB | $0.001736/sec | $6.2496/hr | $4,499.71 |
+| B300 | 288 GB | $0.001972/sec | $7.0992/hr | $5,111.42 |
 
-**Estimate assumptions:** one GPU remains allocated for all 720 hours of a 30-day month; GPU charge only; no CPU, memory, volume, network, workspace-plan, tax, or support charges. The table mirrors the Modal rows in `/opt/hostbot-v2/src/data/gpu-pricing.json`, whose provider-rate inputs were fully rechecked August 10, and was rechecked directly against Modal's public page August 12.
+**Estimate assumptions:** one GPU stays allocated for the stated time; no CPU, memory, workspace-plan, region, Volume, tax, support, or credit adjustment. Modal's 11 source rates were also part of HostFleet's complete 21-provider check on August 27 and remain synchronized with [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/).
 
-The table is not evidence that every card is immediately available or equally fast for a workload. VRAM, region, quota, model-loading time, concurrency, and real throughput still need a prototype. For a cross-provider view that keeps Pods, VMs, scale-to-zero workers, and managed deployments separate, use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/).
+A published price is not proof of stock, quota, region access, cold-start time, throughput, or software compatibility. The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) keeps Modal's Function surface separate from Pods, VMs, and other managed deployments.
 
-## Starter versus Team: plan price is only the first line
+## Starter and Team do not make compute all-inclusive
 
-[Modal's plan table](https://modal.com/pricing), checked **August 12, 2026**, lists:
+Modal's plan table, checked August 29, lists:
 
-| Public plan | Base price | Included monthly compute | Containers | GPU concurrency |
-|---|---:|---:|---:|---:|
-| Starter | $0/month plus compute | $30 | 100 | 10 |
-| Team | $250/month plus compute | $100 | 5,000 | 50 |
+| Plan | Base price | Included compute | Containers | GPU concurrency | Selected cost controls |
+|---|---:|---:|---:|---:|---|
+| Starter | $0/month + compute | $30/month | 100 | 10 | Workspace-level budgets; up to 3 seats |
+| Team | $250/month + compute | $100/month | 5,000 | 50 | Environment-level budgets, billing exports, unlimited seats |
+| Enterprise | Custom | Custom | Custom | Custom | Custom security, support, and commercial terms |
 
-The important phrase is **plus compute**. The plan controls workspace features and limits; it does not turn the GPU table into an all-inclusive allowance.
+The phrase **plus compute** is the important one. Included compute is a credit against eligible usage, not a cheaper GPU rate. Build the gross resource estimate first, then apply the current credit and plan rules.
 
-The material August change is the Team container limit. Modal now lists **5,000 containers**, up from the previously tracked 1,000. That does not mean 5,000 simultaneous GPU workers: the same public Team row lists **50 GPU concurrency**. Container count and GPU concurrency solve different capacity questions, and neither is a guarantee of instant capacity for a particular card or region.
+Modal's [billing guide](https://modal.com/docs/guide/billing) says billing reports generated through its API or CLI are available on Team and Enterprise. Those reports show cost before credits or reservations, so their sum can be higher than the invoice. That gross view is useful: it exposes which App or resource is consuming the allocation before a credit temporarily hides it.
 
-Treat the included compute as a credit against eligible usage, not as a lower public GPU rate. Budget from gross resource usage first, then apply the plan's current credit rules. A prototype that fits inside Starter's $30 monthly compute inclusion does not prove that a continuously warm production deployment will be inexpensive.
+Budgets are guardrails, not a pricing model. The public plan table lists workspace budgets across plans and environment-level budgets on Team and Enterprise. Test the enforcement behavior with a small limit before treating a budget as protection against an unlimited production retry loop.
 
-## GPU is not the whole compute bill
+## Region selection can add 50% or 75%
 
-[Modal's pricing page](https://modal.com/pricing), checked **August 12, 2026**, also lists the following supporting-resource rates:
+Modal's [region-selection documentation](https://modal.com/docs/guide/region-selection), checked August 29, is explicit: defining a container region applies a multiplier on top of base usage pricing.
 
-| Resource | Published price | Planning note |
-|---|---:|---|
-| CPU | $0.0000131 per physical core-second | The page states a 0.125-core minimum per container. |
-| Memory | $0.00000222 per GiB-second | Multiply by requested GiB and allocated seconds. |
-| Volumes | $0.09 per GiB-month | The page says the Volumes price includes 1 TiB/month free. |
+| Placement choice | Example | Published multiplier |
+|---|---|---:|
+| Automatic placement | No `region=` argument | Base price |
+| Broad region | `region="eu"` or `region="us"` | **1.5×** |
+| Narrow region | `region="eu-west"` or `region="us-west"` | **1.75×** |
 
-Modal's [billing guide](https://modal.com/docs/guide/billing), checked August 12, says customers pay for resources they use or request, with no required reservations and no minimum usage-time increment. “Per second” therefore describes metering granularity; it does not mean CPU and memory disappear from a GPU function's cost.
+The multiplier covers the Function or Sandbox resource bundle, not only the GPU. Modal's own example adds GPU, CPU, and memory, then applies the region multiplier. If several requested regions span broad and narrow categories, the documentation says the smaller multiplier applies.
 
-### Example: one L4, one CPU core, and 8 GiB of memory
+This creates a direct latency-versus-cost decision. Modal routes Function inputs through Virginia by default. A container region can move compute nearer an external database, while `routing_region=` can change the Function traffic path. A narrow container region may reduce network distance, but it also reduces the scheduling pool and raises the public usage price by 75%.
 
-This estimate uses the August 12 public prices above and assumes the same resources remain allocated together:
+Do not pin a region because it feels production-ready. First measure whether geography materially affects end-to-end latency, data residency, or an external service's transfer bill. If it does, treat the multiplier as an explicit infrastructure requirement.
 
-```text
-L4 GPU:                  $0.00022200/sec
-1 physical CPU core:    $0.00001310/sec
-8 GiB memory: 8 ×       $0.00000222/sec = $0.00001776/sec
-Total allocated rate:   $0.00025286/sec
-```
+## Worked example: one L4 Function with region multipliers
 
-At **100 allocated hours**, the compute estimate is:
+Assume one L4, one physical CPU core, and 8 GiB of memory remain allocated together. Modal's August 29 standard Function rates are:
 
 ```text
-$0.00025286 × 360,000 seconds = $91.03
+L4:                       $0.00022200/sec
+1 physical CPU core:     $0.00001310/sec
+8 GiB memory: 8 ×        $0.00000222/sec = $0.00001776/sec
+Base total:               $0.00025286/sec
 ```
 
-At **720 allocated hours**, it becomes:
+The resulting estimates are:
+
+| Placement | Effective hourly estimate | 100 allocated hours | 720 allocated hours |
+|---|---:|---:|---:|
+| Automatic placement | $0.9103 | $91.03 | $655.41 |
+| Broad region at 1.5× | $1.3654 | $136.54 | $983.12 |
+| Narrow region at 1.75× | $1.5930 | $159.30 | $1,146.97 |
+
+**Estimate assumptions:** exactly one L4, one physical core, and 8 GiB remain allocated for the full duration; no plan fee, credit, Volume, other network or storage charge, tax, support, or discount. The monthly column uses 720 hours.
+
+The narrow-region choice adds about **$68.27 per 100 allocated hours** and **$491.56 per continuously allocated 30-day month** to this specific bundle. That is not a hidden invoice fee; it is a published multiplier that is easy to miss when reading only the GPU table.
+
+Use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to test a realistic allocation profile instead of defaulting to either one inference second or a full warm month.
+
+## Sandboxes and Notebooks have a different CPU and memory rate card
+
+The same Modal pricing page now separates ordinary resource costs from **Modal Sandbox + Notebooks Pricing**:
+
+| Resource | Standard Function rate | Sandbox and Notebook rate | Planning effect |
+|---|---:|---:|---|
+| CPU | $0.0000131/core-sec | $0.00003942/core-sec | About 3× before placement multipliers |
+| Memory | $0.00000222/GiB-sec | $0.00000667/GiB-sec | About 3× before placement multipliers |
+| GPU | Standard GPU table | Standard GPU table | GPU price itself is not tripled |
+
+For the same one-L4, one-core, 8-GiB bundle, a Sandbox estimate starts at **$1.1332/hour**, versus **$0.9103/hour** for a Function. At 100 allocated hours:
+
+| Surface and placement | 100-hour estimate |
+|---|---:|
+| Function, automatic placement | $91.03 |
+| Sandbox, automatic placement | $113.32 |
+| Sandbox, broad region | $169.98 |
+| Sandbox, narrow region | $198.31 |
+
+The narrow-region Sandbox estimate is more than twice the automatic Function estimate even though both use the same GPU, CPU count, memory request, and duration. The difference comes from the higher Sandbox CPU/memory rates and the 1.75× placement multiplier.
+
+That does not make Sandboxes a bad product. They solve a different problem: interactive or agent-controlled compute with burstable resources. It does mean a team building coding agents, isolated tool runners, or user sessions should model the Sandbox table directly instead of copying a Function estimate.
+
+## Requested resources, actual usage, and ephemeral disk
+
+Modal's [resource configuration guide](https://modal.com/docs/guide/resources), checked August 29, says each Function or Sandbox starts with a default request of 0.125 CPU cores and 128 MiB of memory. For CPU and memory, billing uses whichever is higher: the request or actual usage.
+
+That rule creates two failure modes:
+
+- over-requesting resources can raise the bill even when the application never uses them; and
+- under-requesting does not create a hard price ceiling if the container bursts above the request.
+
+Use billing exports and application metrics together. Compare requested CPU and memory with the higher observed usage, then right-size from actual workload traces rather than a one-off peak.
+
+Ephemeral disk is also coupled to memory billing. Modal documents a **20:1 disk-to-memory ratio**: requesting 500 GiB of ephemeral disk raises the memory request to 25 GiB if it was lower. At the public standard Function memory rate, 25 GiB held for 100 hours is about **$19.98**. At the Sandbox memory rate, the same 25-GiB billing equivalent is about **$60.03** before a region multiplier.
+
+Those disk figures are estimates using `500 GiB ÷ 20`, the respective August 29 memory rate, and 360,000 seconds. They do not include other memory the workload actually uses. The documented maximum ephemeral-disk request is 3 TiB.
+
+## Non-preemptible pricing does not apply to GPU Functions
+
+The public plan comparison labels non-preemptible execution as **3× base prices**, but Modal's [preemption guide](https://modal.com/docs/guide/preemption) provides the necessary boundary:
+
+- setting `nonpreemptible=True` applies a 3× multiplier to **CPU and memory usage**;
+- the parameter is **not supported for GPU Functions**; and
+- Sandboxes without a GPU are not subject to preemption, while GPU Sandboxes can be preempted.
+
+For a CPU Function requesting one physical core and 8 GiB for 100 hours, the standard CPU-plus-memory estimate is **$11.11**. Non-preemptible execution makes that component about **$33.33**. Do not multiply a GPU Function's accelerator price by three; the documentation says the setting is unavailable there.
+
+Long batch work should still be checkpointed and idempotent. Paying for a non-preemptible CPU Function can remove one interruption mode, but it does not fix application errors or make a multi-hour task safe to restart.
+
+## Volumes can remain billable after deletion
+
+Modal lists Volumes at **$0.09 per GiB-month**. The pricing card also displays an “includes 1 TiB/month free” footnote without identifying the free unit in the extracted rate row, so this guide does not treat it as 1 TiB of free storage. Confirm the current dashboard and terms before subtracting it from a storage estimate.
+
+Modal's [Volumes guide](https://modal.com/docs/guide/volumes), checked August 29, says storage usage is snapshotted daily. Deleted data may remain billable for up to four days because of underlying processing. A 500-GiB Volume therefore has a gross list-price estimate of **$45 per month** before any applicable inclusion:
 
 ```text
-$0.00025286 × 2,592,000 seconds = $655.41
+500 GiB × $0.09/GiB-month = $45/month
 ```
 
-These are estimated metered-compute totals before workspace-plan charges or credits, volumes, network charges outside published inclusions, taxes, and support. They assume exactly one L4, one physical core, and 8 GiB remain allocated for the stated time. Change any requested resource or allocation time and the estimate changes with it.
+This is a storage-capacity estimate, not an invoice prediction. Retention time, daily snapshots, deletion lag, credits, and any included usage can change the result. For model weights and checkpoints, record both the compute shutdown path and the Volume deletion path.
 
-This is the useful comparison: 100 allocated hours cost about $91 in this configuration, while a deliberately warm month costs about $655. The savings come from releasing resources, not from calling the workload serverless.
+## Allocation time still decides whether Modal is cheap
 
-## Warm settings are latency purchases
+Region and product multipliers do not replace the original serverless question: how long are resources actually allocated?
 
-Modal gives operators explicit controls over how containers scale:
-
-- `min_containers` keeps a minimum number of containers warm even when a Function is inactive.
-- `buffer_containers` holds extra capacity while a Function is active.
-- `scaledown_window` controls how long an idle container may remain before scaling down.
-
-Modal's [scaling guide](https://modal.com/docs/guide/scale), checked August 12, describes these as a cost-versus-latency tradeoff: a larger warm pool or idle buffer raises cost but reduces the chance that an input waits for a new container. Its [cold-start guide](https://modal.com/docs/guide/cold-start), checked the same day, lists a default maximum idle time of **60 seconds** before shutdown.
-
-That 60-second default is not a flat billing minimum. It is an idle window that can add allocated time after work, and operators can change it. A workload with many isolated requests may spend materially more billed time starting, loading, waiting, and scaling down than the visible inference duration suggests.
-
-For latency-sensitive production, measure at least:
+Modal's scaling controls let an operator keep minimum containers warm, hold buffer containers, and change the idle scale-down window. Those settings buy latency with additional allocated time. Count:
 
 1. container startup and image initialization;
-2. model-loading time;
-3. request execution time;
-4. idle time retained after the request;
+2. model loading;
+3. request execution;
+4. retained idle time;
 5. retries and failed starts; and
-6. the number of containers allocated in parallel.
+6. parallel containers.
 
-Then price those observed allocated seconds. The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) provides a companion worksheet for 1%, 10%, and continuously warm duty cycles.
+Then apply the correct Function or Sandbox rates and any region multiplier. A bursty workload can still be inexpensive after a 1.75× multiplier if it releases resources quickly. A low headline rate can still be expensive when warm containers remain allocated all month.
 
-## Timeouts should shape the request path
-
-Modal's [timeout guide](https://modal.com/docs/guide/timeouts), checked August 12, says Functions default to **300 seconds** and can be configured from **1 second to 24 hours**. That range supports substantial batch work, but it does not make a long synchronous web request good architecture.
-
-Keep short inference on the request path. Put document processing, fine-tuning preparation, media generation, or large fan-out work behind an async job with polling, a callback, or queue status. That architecture lets work finish and capacity release instead of turning a user connection into an accidental warm-container policy.
-
-For operational fit beyond the rate card, see [Modal for inference APIs and jobs](https://hostfleet.net/modal-for-ai-inference-apis-and-jobs/).
-
-## When Modal is the right buy
-
-Modal is a strong starting point when all three statements are true:
-
-- the team is comfortable deploying Python functions and containers rather than managing GPU VMs;
-- demand is uneven enough that resources can spend meaningful time at zero; and
-- cold-start behavior can be measured and managed without holding expensive capacity warm all month.
-
-It is a weaker cost fit when the deployment needs one predictable GPU online continuously. In that case, compare Modal's 720-hour GPU-plus-supporting-resource estimate with a fixed Pod or VM. [RunPod's Pods-versus-Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains the dedicated-capacity alternative and its operational burden.
-
-Do not compare the two as identical products. Modal bundles a serverless execution environment and scaling controls; a Pod gives the operator more infrastructure responsibility. The right comparison includes engineering time, startup behavior, observability, storage, and shutdown discipline—not only the card name.
+For operational behavior beyond the rate card, read [Modal for AI inference APIs and jobs](https://hostfleet.net/modal-for-ai-inference-apis-and-jobs/).
 
 ## Verdict
 
-Modal's rate card is transparent. The hard part is deciding what stays allocated.
+Modal remains a strong platform for bursty Python and GPU workloads, but its cost model now needs four explicit questions:
 
-- Use **Starter** to validate intermittent jobs and the real allocation profile.
-- Use the native per-second rates for estimates; hourly equivalents are only comparison aids.
-- Add CPU and memory to GPU calculations instead of calling the GPU row a total bill.
-- Treat `min_containers`, buffers, and longer idle windows as deliberate latency purchases.
-- Recalculate against 720 hours before keeping any GPU warm continuously.
+1. Is this a Function, Sandbox, or Notebook?
+2. Does it use automatic placement, a broad region, or a narrow region?
+3. What CPU, memory, disk, and GPU resources are requested or actually used?
+4. How many total seconds do those resources stay allocated?
 
-The August 12 buyer takeaway is not that Modal became cheaper: the tracked resource rates were unchanged. The meaningful correction is that Team now lists 5,000 containers, while GPU concurrency remains 50. That expands a plan limit without changing the basic economics of warm GPU capacity.
+The August 29 correction is material. A one-L4, one-core, 8-GiB workload costs an estimated **$91.03 for 100 automatic-placement Function hours**, **$159.30 when that Function is narrowly region-pinned**, and **$198.31 when the same resource bundle is a narrowly pinned Sandbox**. None of those totals includes a workspace-plan fee, storage, tax, support, or credits.
 
-If your workload truly needs a self-managed GPU to remain online, a RunPod Pod may be the cleaner cost shape. Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.
+Use Starter to profile one representative deployment. Export gross billing data when the workspace moves to Team. Add region pinning only when latency, residency, or an external dependency justifies the 50% or 75% uplift. And never use the GPU row as the total cost of an agent Sandbox.
+
+If the measured deployment truly needs one self-managed GPU online continuously, compare the 720-hour Modal bundle with a fixed-capacity alternative. [RunPod's Pods-versus-Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains that different operational boundary.
 
 ## Sources
 
-- [Modal pricing](https://modal.com/pricing) — workspace plans, included compute, GPU/CPU/memory/volume rates, and public plan limits; checked August 12, 2026
-- [Modal billing guide](https://modal.com/docs/guide/billing) — usage/request billing and metering behavior; checked August 12, 2026
-- [Modal Volumes guide](https://modal.com/docs/guide/volumes) — storage accounting and persistence behavior; checked August 12, 2026
-- [Modal GPU guide](https://modal.com/docs/guide/gpu) — GPU configuration reference; checked August 12, 2026
-- [Modal cold-start guide](https://modal.com/docs/guide/cold-start) — idle-window behavior and warm-container tradeoffs; checked August 12, 2026
-- [Modal scaling guide](https://modal.com/docs/guide/scale) — `min_containers`, `buffer_containers`, and `scaledown_window`; checked August 12, 2026
-- [Modal timeout guide](https://modal.com/docs/guide/timeouts) — default and configurable Function timeouts; checked August 12, 2026
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated August 10, 2026
-- HostFleet full-verification note — `/opt/hostbot/data/ai-hosting/notes/2026-08-10-gpu-pricing-full-verification.md`
+Official provider sources were checked **August 29, 2026**.
+
+- [Modal pricing](https://modal.com/pricing) — GPU, Function CPU and memory, Sandbox and Notebook CPU and memory, Volume price, plan limits, region multiplier summary, and non-preemptible summary
+- [Modal billing guide](https://modal.com/docs/guide/billing) — billing frequency, budgets, gross billing reports, credits, and tags
+- [Modal region-selection guide](https://modal.com/docs/guide/region-selection) — broad and narrow multipliers, routing, and placement behavior
+- [Modal resource configuration](https://modal.com/docs/guide/resources) — request-versus-actual billing, default requests, ephemeral-disk ratio, and disk maximum
+- [Modal preemption guide](https://modal.com/docs/guide/preemption) — CPU and memory multiplier, unsupported GPU Function boundary, and Sandbox behavior
+- [Modal Volumes guide](https://modal.com/docs/guide/volumes) — daily accounting and deletion lag
+- [Modal scaling guide](https://modal.com/docs/guide/scale) — warm-container and idle-window controls
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated August 27, 2026
+- HostFleet full source-verification ledger — `/opt/hostbot/data/ai-hosting/notes/2026-08-27-gpu-pricing-full-verification.md`
+- Live article baseline — `/opt/hostbot-v2/src/content/posts/modal-pricing-guide-2026.md`
+
+*Need a fixed GPU Pod after measuring the always-warm case? This is a labeled affiliate link: [RunPod signup (+$5 credit on your first $10, affiliate)](https://hostfleet.net/go/runpod). Source citations above are direct, non-affiliate links.*
