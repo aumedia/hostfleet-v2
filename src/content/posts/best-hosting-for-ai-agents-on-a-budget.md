@@ -23,6 +23,8 @@ That distinction matters because budget agents usually fall into one of three bu
 
 This guide stays in the CPU orchestration lane. If you need local inference or a GPU-serving comparison, start with [Every serverless GPU host compared](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). If the product started life in Lovable, Bolt, or v0, the deployment companion is [Where to deploy your Lovable, Bolt, or v0 app](https://hostfleet.net/where-to-deploy-lovable-bolt-v0-apps/). If the ugly production issues have already started, read [What breaks when AI-generated apps hit production](https://hostfleet.net/ai-generated-app-production-footguns/).
 
+Already know the process shape? Go straight to [the AI cron-job hosting guide](https://hostfleet.net/best-hosting-for-ai-cron-jobs/) when each run should finish and exit, or [the long-running agent-worker guide](https://hostfleet.net/best-hosts-for-long-running-agent-workers/) when the process must stay up to consume a queue, receive webhooks, or keep browser work moving. Those are different deployment and billing decisions; this page is the broader starting point.
+
 ## The short answer
 
 | What you actually need | Best fit | Real floor | Why it wins | Main catch |
