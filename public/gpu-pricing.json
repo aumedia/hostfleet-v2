@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27",
+  "updated": "2026-09-03",
   "refresh_policy": "Verified against vendor pricing pages by the HostFleet data agent. Target cadence: Monday and Thursday.",
   "providers": [
     { "id": "runpod_pods", "name": "RunPod Pods", "billing": "per-second, always-on container (Secure Cloud)", "source": "https://www.runpod.io/pricing" },
@@ -66,7 +66,7 @@
       } },
     { "id": "l4", "name": "L4", "vram": "24 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.49, "raw": "$0.49/hr", "note": "Secure Cloud L4; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 0.49, "raw": "$0.49/hr", "note": "Secure Cloud L4; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 0.69, "note": "24 GB tier (L4 / A5000 / 3090)" },
         "modal": { "hr": 0.80, "raw": "$0.000222/sec" },
         "baseten": { "hr": 0.85, "raw": "$0.01414/min" },
@@ -96,7 +96,7 @@
       } },
     { "id": "rtx4090", "name": "RTX 4090", "vram": "24 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.74, "raw": "$0.74/hr", "note": "Secure Cloud RTX 4090; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 0.74, "raw": "$0.74/hr", "note": "Secure Cloud RTX 4090; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 1.10 },
         "novita": { "hr": 0.33, "raw": "$0.33/GPU/hr", "note": "1x RTX 4090 on-demand product; 16 vCPU, 62 GB RAM, and 60 GB container disk quota" },
         "salad": { "hr": 0.16, "raw": "$0.160/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included at no additional charge; interruptible distributed node, not a dedicated VM" }
@@ -156,7 +156,7 @@
       } },
     { "id": "rtxpro6000", "name": "RTX PRO 6000", "vram": "96 GB",
       "prices": {
-        "runpod_pods": { "hr": 2.09, "raw": "$2.09/hr", "note": "Secure Cloud RTX PRO 6000; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 2.09, "raw": "$2.09/hr", "note": "Secure Cloud RTX PRO 6000; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 3.49 },
         "modal": { "hr": 3.03, "raw": "$0.000842/sec" },
         "fal": { "hr": 2.99, "note": "as low as $1.10 committed" },
@@ -180,7 +180,7 @@
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
-        "runpod_pods": { "hr": 1.39, "note": "PCIe $1.39, SXM $1.49" },
+        "runpod_pods": { "hr": 1.39, "note": "PCIe $1.39, SXM $1.59; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 2.72 },
         "modal": { "hr": 2.50, "raw": "$0.000694/sec" },
         "baseten": { "hr": 4.00, "raw": "$0.06667/min" },
@@ -199,8 +199,8 @@
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
-        "runpod_pods": { "hr": 2.89, "raw": "$2.89/hr", "note": "Secure Cloud PCIe $2.89, SXM $3.29, NVL $3.19; refreshed 2026-08-18" },
-        "runpod_sls": { "hr": 4.79, "raw": "$4.79/hr", "note": "H100 PRO Serverless Flex tier; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 2.89, "raw": "$2.89/hr", "note": "Secure Cloud PCIe $2.89, SXM $3.29, NVL $3.19; refreshed 2026-09-03" },
+        "runpod_sls": { "hr": 4.79, "raw": "$4.79/hr", "note": "H100 PRO Serverless Flex tier; refreshed 2026-09-03" },
         "modal": { "hr": 3.95, "raw": "$0.001097/sec" },
         "fal": { "hr": 4.50, "note": "as low as $1.89 committed" },
         "baseten": { "hr": 6.50, "raw": "$0.10833/min" },
@@ -213,7 +213,7 @@
         "verda": { "hr": 3.25, "raw": "$3.25/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/185 GB RAM configuration has the same price; storage separate" },
         "digitalocean_gpu": { "hr": 4.41, "raw": "$4.41/GPU/hr", "note": "1x HGX H100 on-demand GPU Droplet; 20 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2, AMS3, and TOR1 catalog regions" },
         "paperspace": { "hr": 5.95, "raw": "$5.95/hr", "note": "1x H100 SXM5 Machine; 20 vCPU, 250 GB RAM, and 50 GB SSD included; NY2 catalog region; approval may be required and requests typically take 1-2 business days" },
-        "thunder": { "hr": 3.19, "raw": "$3.19/GPU/hr", "note": "1x NVIDIA H100 PCIe base GPU rate; minimum configuration uses the four included vCPUs, 32 GB RAM, and 100 GB persistent disk; current live pricing page and public pricing API agree, superseding stale Thunder blog/search references to $2.19/hr" },
+        "thunder": { "hr": 3.20, "raw": "$3.20/GPU/hr", "note": "1x NVIDIA H100 PCIe base GPU rate; minimum configuration uses the four included vCPUs, 32 GB RAM, and 100 GB persistent disk; current live pricing page and public pricing API agree" },
         "massed": { "hr": 2.73, "raw": "$2.73/hr", "note": "1x H100 80 GB on-demand VM; 20 vCPU and 128 GB RAM included; vendor lists storage 1250 without a unit on the public page; distinct from the $3.11 one-GPU H100 NVL listing" },
         "jarvislabs": { "hr": 2.69, "raw": "$2.69/GPU/hr", "note": "1x NVIDIA H100 SXM on-demand row; public pricing table lists 16 vCPU and 200 GB RAM; GPU and region availability can change" },
         "koyeb": { "hr": 2.50, "raw": "$2.50/hr", "note": "1x H100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; GPU availability is region-specific" },
@@ -221,7 +221,7 @@
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
-        "runpod_pods": { "hr": 4.59, "raw": "$4.59/hr", "note": "Secure Cloud H200; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 4.59, "raw": "$4.59/hr", "note": "Secure Cloud H200; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 5.93 },
         "modal": { "hr": 4.54, "raw": "$0.001261/sec" },
         "fal": { "hr": 4.50, "note": "as low as $2.10 committed" },
@@ -236,7 +236,7 @@
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
       "prices": {
-        "runpod_pods": { "hr": 6.79, "raw": "$6.79/hr", "note": "Secure Cloud B200; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 6.79, "raw": "$6.79/hr", "note": "Secure Cloud B200; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 8.64 },
         "modal": { "hr": 6.25, "raw": "$0.001736/sec" },
         "fal": { "hr": 6.25, "note": "as low as $3.49 committed" },
@@ -258,7 +258,7 @@
       } },
     { "id": "b300", "name": "B300", "vram": "288 GB",
       "prices": {
-        "runpod_pods": { "hr": 7.89, "raw": "$7.89/hr", "note": "Secure Cloud B300; refreshed 2026-08-18" },
+        "runpod_pods": { "hr": 7.89, "raw": "$7.89/hr", "note": "Secure Cloud B300; refreshed 2026-09-03" },
         "runpod_sls": { "hr": 9.98 },
         "modal": { "hr": 7.10, "raw": "$0.001972/sec" },
         "fal": { "hr": 8.50, "note": "as low as $4.49 committed" },
