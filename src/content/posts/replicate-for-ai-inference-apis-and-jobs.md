@@ -2,14 +2,14 @@
 title: "Replicate for AI inference APIs and jobs (July 2026): fast to ship, expensive once you buy warm control"
 description: "A July 2026 HostFleet review of Replicate for AI inference APIs and jobs, focused on the real cost shape of official models versus public models versus deployments, the warm-capacity tradeoff, and the operational edges buyers miss."
 pubDate: 2026-07-12
-updatedDate: 2026-07-12
+updatedDate: 2026-09-03
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the recommendation. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context. This article is mostly source-backed on Replicate's current pricing, billing behavior, deployment controls, retention rules, and rate limits, with a narrow estimate layer for what continuously warm deployment capacity really costs over a full month.*
 
-**Last updated:** July 12, 2026
+**Last updated:** September 3, 2026. The platform-fit analysis below remains deliberately focused on product shape. For the current **17-configuration** GPU rate card, committed-spend boundary, deployment setup billing, and warm-floor arithmetic, see [Replicate pricing 2026: GPU rates, setup billing, and deployment floors](https://hostfleet.net/replicate-pricing-guide-2026/).
 
 # Replicate for AI inference APIs and jobs
 
@@ -72,6 +72,8 @@ As of **July 12, 2026**, Replicate's public pricing page lists these baseline ha
 Replicate also publicly lists higher multi-GPU variants such as **2x A100**, **2x L40S**, and **2x H100**, with additional preview multi-GPU capacity available through committed-spend contracts.
 
 Those prices are real, but they are not enough by themselves to tell you what you will actually pay, because **Replicate bills different product shapes differently**.
+
+Before choosing a warm deployment, use the current [Replicate pricing guide](https://hostfleet.net/replicate-pricing-guide-2026/) for the complete rate card and the billable setup, idle, and failed-run boundaries. This review answers whether Replicate's product shape fits; that guide is the cost checkpoint once the answer might be yes.
 
 ## Public models are cheap to try because idle time is hidden from you
 
