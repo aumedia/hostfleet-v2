@@ -1,8 +1,8 @@
 ---
-title: "GPU cloud cost calculator (2026): useful hours vs idle GPU leakage"
-description: "Calculate useful GPU hours, idle compute leakage, and retained-resource costs across six A100 cloud products with provider-specific cleanup actions."
+title: "GPU cloud cost calculator 2026: 8 A100 rates and idle-cost math"
+description: "Eight A100 cloud rates checked September 2026, with one-week idle leakage, stop-versus-hibernate math, storage tails, and exact cleanup actions."
 pubDate: 2026-08-09
-updatedDate: 2026-08-24
+updatedDate: 2026-09-09
 category: ai-hosting
 author: Alex Harmon
 draft: false
@@ -10,180 +10,196 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rates and billing rules; estimated totals.** The six A100 80 GB rate anchors and their lifecycle documentation were checked against official provider pages and public APIs on **August 24, 2026**. The cost examples are transparent arithmetic, not benchmarks, capacity guarantees, negotiated quotes, or invoice predictions.
+**Source-backed rates and billing rules; calculated totals are estimates.** The eight A100 80 GB rate anchors and their lifecycle documentation were checked against official provider pages and APIs on **September 9, 2026**. HostFleet did not benchmark performance, test capacity, inspect a settled invoice, or run the account-gated Hyperstack hibernation experiment described below.
 
-# GPU cloud cost calculator: useful hours versus idle GPU leakage
+> **Rates and lifecycle rules verified:** September 9, 2026  
+> **Currency:** public USD on-demand list prices before tax  
+> **Planning week:** 168 hours  
+> **Test case:** eight useful compute hours followed by 160 unattended hours  
+> **Boundary:** all rows expose 80 GB of A100 memory, but accelerator variant, CPU, RAM, storage, deployment surface, region, and availability differ
 
-The most useful GPU cost formula has three inputs, not one:
+# GPU cloud cost calculator: eight A100 rates and the real cost of stopping
 
-    estimated cost = useful compute + idle billable compute + retained resources
+The useful GPU cost formula has four terms:
 
-Hourly price matters, but the second term is where a short test becomes an expensive week. Some products stop compute billing when you pause or power them off. Others keep charging until you delete or destroy the instance. Storage, public IP addresses, and other retained resources can continue after the GPU meter stops.
+    estimated cost = useful compute + teardown lag + unattended compute + retained resources
 
-This refresh uses six A100 80 GB deployment products from HostFleet's [live GPU pricing table](https://hostfleet.net/gpu-pricing/) to make that failure mode visible. Every selected rate was rechecked on August 24 rather than treated as current merely because it appears in the local dataset.
+Hourly price only controls the first three terms. The action that ends billing controls whether a forgotten resource costs a few dollars or several hundred.
 
-> **Rate and lifecycle verification:** August 24, 2026<br>
-> **Currency:** public USD on-demand list prices before tax<br>
-> **Planning week:** 168 hours<br>
-> **Test assumption:** 8 billable compute hours, followed by 160 idle hours<br>
-> **Boundary:** all rows expose 80 GB of A100 memory, but accelerator variant, CPU, RAM, storage, product surface, location, and availability differ
+That action is not consistent across clouds. A stopped Hyperstack or Vultr VM remains fully billable. A hibernated Hyperstack VM releases its GPU but keeps charging for saved root data and, optionally, its public IP. Jarvis Labs pause and Paperspace power-off stop compute billing. Verda requires deletion. Koyeb can scale an eligible public Service to zero after an idle window.
 
-## The one-week A100 idle-cost calculator
+This refresh expands the calculator from six to eight A100 products, updates the RunPod Secure Cloud anchor to **$1.59/hour**, and adds a worked Hyperstack stop-versus-hibernate calculation. The source table comes from HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/), which contained 21 providers and 147 displayed price cells at its September 7 full verification, with every selected rate rechecked again on September 9.
 
-The table asks a deliberately simple question: what happens if an eight-hour test remains billable for the rest of a 168-hour week?
+## Eight current A100 80 GB planning rates
 
-| Provider and product | Rate used | Eight useful hours | Left billable for 168 hours | Avoidable 160-hour idle compute | Official rate check |
-|---|---:|---:|---:|---:|---|
-| **Thunder Compute minimum VM** | **$1.25/hr estimated minimum** | **$10.00** | **$210.00** | **$200.00** | [Thunder pricing](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing), and [specification API](https://api.thundercompute.com:8443/v1/specs), Aug. 24 |
-| **RunPod Secure Cloud PCIe Pod** | **$1.39/hr** | **$11.12** | **$233.52** | **$222.40** | [RunPod pricing](https://www.runpod.io/pricing), Aug. 24 |
-| **Jarvis Labs on-demand instance** | **$1.49/GPU-hr** | **$11.92** | **$250.32** | **$238.40** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Aug. 24 |
-| **Verda GPU instance** | **$1.79/hr** | **$14.32** | **$300.72** | **$286.40** | [Verda pricing](https://verda.com/pricing), Aug. 24 |
-| **Vultr Cloud GPU** | **$2.397/hr** | **$19.18** | **$402.70** | **$383.52** | [Vultr public plan API](https://api.vultr.com/v2/plans?per_page=500), Aug. 24 |
-| **Paperspace Machine** | **$3.18/hr** | **$25.44** | **$534.24** | **$508.80** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/), Aug. 24 |
+The table uses one public, reproducible product per provider. It is a cost-input table, not a performance ranking.
 
-The calculation is the published or derived hourly total multiplied by 8, 168, or 160 hours. Values are rounded to cents only after multiplication. The Vultr row retains the API's three-decimal $2.397 input.
+| Provider and product | Public rate used | What the rate includes or omits | 720-hour planning estimate | Official rate source |
+|---|---:|---|---:|---|
+| **Thunder Compute minimum VM** | **$1.25/hr estimated minimum** | $1.09 GPU base plus four required vCPUs at $0.04/vCPU-hr; minimum shape has 8 vCPU, 64 GiB RAM, and 100 GB disk | **$900.00** | [Thunder pricing](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing), and [spec API](https://api.thundercompute.com:8443/v1/specs), Sept. 9, 2026 |
+| **Hyperstack A100 PCIe VM** | **$1.35/hr** | One GPU with 28 CPU, 120 GB RAM, 100 GB root disk, and 750 GB ephemeral disk; public IP and shared storage are separate | **$972.00** | [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing) and [flavor catalog](https://docs.hyperstack.cloud/docs/hardware/flavors), Sept. 9, 2026 |
+| **Jarvis Labs on-demand instance** | **$1.49/GPU-hr** | Public one-GPU row lists 16 vCPU and 112 GB RAM; retained data bills separately when paused | **$1,072.80** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Sept. 9, 2026 |
+| **RunPod Secure Cloud A100 PCIe Pod** | **$1.59/hr** | Selected Secure Cloud Pod allocation; storage has a separate lifecycle | **$1,144.80** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 9, 2026 |
+| **Koyeb A100 Service** | **$1.60/hr** | One A100 Instance with 15 vCPU, 180 GB RAM, and 320 GB disk | **$1,152.00** | [Koyeb pricing](https://www.koyeb.com/pricing), Sept. 9, 2026 |
+| **Verda A100 80 GB SXM4 instance** | **$1.79/hr** | One GPU with 22 CPU and 120 GB RAM; storage is separate | **$1,288.80** | [Verda pricing](https://verda.com/pricing), Sept. 9, 2026 |
+| **Vultr A100 Cloud GPU** | **$2.397/hr** | One PCIe A100 with 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth; API location list was empty | **$1,725.84** | [Vultr public plan API](https://api.vultr.com/v2/plans?per_page=500), Sept. 9, 2026 |
+| **Paperspace A100-80G Machine** | **$3.18/hr** | One GPU with 12 vCPU, 90 GB RAM, and 50 GB SSD | **$2,289.60** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) and [Machine Type Reference](https://docs.digitalocean.com/products/paperspace/machines/details/machine-types/), Sept. 9, 2026 |
 
-These are **capacity-cost examples, not performance rankings**. Thunder's number is a derived minimum VM total. RunPod is an allocated Pod. Jarvis Labs, Verda, Vultr, and Paperspace publish different fixed instance shapes. PCIe and SXM A100s are not interchangeable throughput claims. A lower row can be unusable if the account cannot launch it, the region does not fit, or the workload needs another hardware variant.
+**Estimate assumptions:** one named product remains billable for 720 hours; the September 9 public rate remains unchanged; no tax, negotiated discount, overlapping replacement, retained-resource charge, or additional traffic-driven instance applies. Thunder is the only derived hourly input: `$1.09 + (8 - 4) × $0.04 = $1.25`. The other seven inputs are published product rates.
 
-For a broader comparison of the configurations, use HostFleet's [A100 rental-price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/).
+A100 PCIe and SXM4 are not throughput-equivalent. Koyeb is an application Service, RunPod is a Pod, and the other rows are VM-like products with different fixed resources. A cheaper estimate is useless if the required region, software path, or capacity is unavailable. Use the [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) for the larger product matrix and the [open-model VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) before choosing the memory tier.
 
-## Why Thunder's $1.09 headline becomes $1.25
+## The eight-hour test that runs for a week
 
-Thunder's official pricing page and public pricing API return an A100 80 GB base of **$1.09 per GPU-hour** on August 24. Four vCPUs are included, and each additional vCPU costs **$0.04/hour**. The live specification API says the smallest selectable one-GPU A100 configuration has eight vCPUs.
+The failure case is simple: a test does eight hours of useful work, but its resource remains billable for all 168 hours in the week.
 
-The calculator therefore uses:
+    useful cost = hourly input × 8
+    unattended compute = hourly input × 160
+    one-week billable compute = hourly input × 168
 
-    $1.09 + (8 required vCPUs - 4 included vCPUs) x $0.04 = $1.25/hour
+| Provider and product | Eight useful hours | Left billable for 168 hours | Avoidable 160-hour compute | One forgotten day |
+|---|---:|---:|---:|---:|
+| Thunder minimum VM | $10.00 | $210.00 | $200.00 | $30.00 |
+| Hyperstack A100 PCIe VM | $10.80 | $226.80 | $216.00 | $32.40 |
+| Jarvis Labs A100 80 GB | $11.92 | $250.32 | $238.40 | $35.76 |
+| RunPod Secure A100 PCIe Pod | $12.72 | $267.12 | $254.40 | $38.16 |
+| Koyeb A100 Service | $12.80 | $268.80 | $256.00 | $38.40 |
+| Verda A100 80 GB SXM4 | $14.32 | $300.72 | $286.40 | $42.96 |
+| Vultr A100 Cloud GPU | $19.18 | $402.70 | $383.52 | $57.53 |
+| Paperspace A100-80G Machine | $25.44 | $534.24 | $508.80 | $76.32 |
 
-That $1.25 is an estimate from official inputs, not a vendor-quoted bundle price. The minimum configuration also has 64 GB RAM and 100 GB persistent disk. Thunder's billing documentation says compute bills while the instance runs and deleting it stops instance billing.
+These totals are arithmetic from the September 9 inputs. They exclude retained storage, IP addresses, snapshots, support, tax, network charges, and any billing-unit rounding. The Vultr calculation preserves $2.397/hour until the final cent rounding.
 
-If the test runs for eight hours and the instance is deleted, the compute estimate is **$10.00**. If it runs unattended for the full week, the estimate is **$210.00**. The mistake costs an estimated **$200.00** before snapshots or other separate resources.
+The useful eight-hour spread is **$10.00 to $25.44**. The one-week spread is **$210.00 to $534.24**. More importantly, the avoidable idle column is roughly twenty times the useful-work column in every row. Cleanup policy dominates a small hourly discount.
 
-## The off switch is provider-specific
+## Stop, pause, hibernate, power off, and delete are different billing events
 
-A generic automation script that sends stop is not reliable cost control across GPU clouds.
-
-| Product | Action that ends or suspends GPU compute billing | What may remain billable or unavailable |
+| Product | Action that stops or avoids GPU compute billing | What can remain billable or unavailable |
 |---|---|---|
-| **Thunder Compute** | Delete the instance when work is complete | Snapshots are separate; confirm retained-data handling before deletion |
-| **RunPod Pod** | Stop or terminate the Pod, depending on whether data must survive | Volume and network storage can keep billing; container-disk data is erased when the Pod stops |
-| **Jarvis Labs** | Pause or delete the instance | Paused data bills at $0.00014/GB-hour; released GPU capacity is not guaranteed on resume |
-| **Verda** | Delete the instance | Shutdown does not stop compute billing; retained storage continues billing |
-| **Vultr Cloud GPU** | Destroy the instance | A stopped instance incurs normal charges as if active |
-| **Paperspace Machine** | Power off the Machine to stop compute; destroy unused add-ons to stop all charges | Attached storage, public IP addresses, and other add-ons continue billing while powered off |
+| **Thunder Compute** | Delete the instance | Snapshots are separate; confirm data handling before deletion |
+| **Hyperstack** | Hibernate or delete; **Stop is still fully billed** | Hibernation bills saved root data, retained public IPs, and attached shared volumes; ephemeral disk is deleted; the flavor is not reserved for restore |
+| **Jarvis Labs** | Pause or delete | Paused data bills at $0.00014/GB-hour; released GPU capacity is not guaranteed on resume |
+| **RunPod Pod** | Stop or terminate, depending on the data lifecycle required | Container disk is erased on stop; volume and network storage can keep billing |
+| **Koyeb Service** | Set minimum Instances to zero for an eligible Internet-facing Service | Scale-to-Zero is public preview; default idle period is five minutes; open connections can prevent sleep; HTTP/2 cannot wake a sleeping Service |
+| **Verda** | Delete the instance | Shutdown remains billable; retained storage not selected for deletion keeps charging |
+| **Vultr Cloud GPU** | Destroy the instance | A stopped instance keeps its resources and remains billed; destroying permanently deletes instance data |
+| **Paperspace Machine** | Shut down or power off to stop compute; destroy unused add-ons separately | Storage, public IPs, and other add-ons continue until removed |
 
-Every lifecycle statement in this table was rechecked on the linked official documentation on August 24. None establishes current GPU stock or guarantees that released capacity can be reacquired.
+These lifecycle rules were rechecked on the official documentation on September 9. None proves current stock, restore success, a provisioning SLA, or the exact time a provider ledger settles after an action.
 
-### Pause can stop compute without making the resource free
+## Hyperstack: Stop costs $216; hibernate is about $1.55 in this scenario
 
-Jarvis Labs is the clearest example. Its SDK documentation says pausing stops compute billing while preserving data. Its FAQ prices paused data at **$0.00014 per GB-hour** and gives **50 GB = $5.04/month** as its example.
+Hyperstack makes the vocabulary problem unusually clear. Its [VM state billing guide](https://docs.hyperstack.cloud/docs/billing/states-and-billing), checked September 9, marks both `ACTIVE` and `SHUTOFF` as billed because the flavor hardware remains reserved. Pressing Stop after the eight-hour test therefore does not change the remaining 160-hour compute estimate:
 
-For 100 GB retained during the remaining 160 hours of this test week:
+    $1.35/hour × 160 hours = $216.00
 
-    100 GB x $0.00014/GB-hour x 160 hours = $2.24
+The same guide says `HIBERNATED` releases the GPU, CPU, RAM, and ephemeral disk. The saved root data bills at **$0.000096774/GB-hour**, and a public IP retained during hibernation bills at **$0.00672/hour**. The selected A100 flavor has a 100 GB root disk.
 
-That makes the scoped estimate **$11.92 of compute + $2.24 of paused data = $14.16**, assuming exactly 100 GB is retained and no other charge applies. It is an estimate, not a quote. Pausing releases the GPU, so the same card and region may not be available when the workload resumes.
+Using configured root capacity as a conservative planning input:
 
-### Stop can preserve data while storage keeps billing
+    root retention = 100 GB × $0.000096774 × 160 hours = $1.55
+    retained IP = $0.00672 × 160 hours = $1.08
 
-RunPod's Pod documentation says storage charges continue on stopped Pods. It lists volume disk at **$0.10/GB-month while running** and **$0.20/GB-month while stopped**, while container disk is not charged after stop because its data is erased.
+| State after the eight-hour run | Remaining 160-hour estimate | Eight-hour compute plus remainder | Operational boundary |
+|---|---:|---:|---|
+| Stop (`SHUTOFF`) | $216.00 | $226.80 | Hardware remains reserved and billed |
+| Hibernate, release public IP | $1.55 | $12.35 | Root saved; ephemeral data deleted; restore needs capacity |
+| Hibernate, retain public IP | $2.62 | $13.42 | Root and IP billed; attached shared volumes would add cost |
+| Delete VM and unneeded retained resources | $0.00 in this scoped example | $10.80 | VM removed; preserve required data first |
 
-The operational choice is therefore explicit:
+The hibernated estimates are derived, not measured invoice results. Hyperstack's public rate is per GB of saved root data, while the planning calculation uses the flavor's configured 100 GB root capacity. Confirm whether the account ledger meters configured, transferred, or consumed storage before treating $1.55 as a quote.
 
-- stop the Pod and accept retained-volume charges;
-- terminate compute and delete storage only when the data is safely elsewhere; or
-- keep paying for an allocated GPU because fast resume is worth more than the idle cost.
+The economic saving also buys operational risk. Hyperstack's [hibernation guide](https://docs.hyperstack.cloud/docs/virtual-machines/hibernation), checked September 9, says ephemeral disk is not preserved, released public IPs change on restore, and the flavor is not reserved. A hibernated A100 VM cannot restore until the same flavor is back in stock.
 
-HostFleet's [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) covers the Pod-versus-Serverless and storage boundary in more detail.
+This is why a cost-control test must include sentinel files on root and ephemeral storage, state-transition timestamps, and a post-run ledger export. The experiment is designed in HostFleet's September 9 evidence note but remains **unmeasured and account-gated**; this article does not claim a verified billing cutoff or restore latency.
 
-### Power off and shutdown do not mean the same thing
+## Three retained-resource examples
 
-Paperspace says powering a Machine off stops compute billing, although attached storage, public IP addresses, and add-ons continue until destroyed. Its published A100-80G Machine remains **$3.18/hour** in the August 24 check.
+Stopping compute does not make the resource free.
 
-Verda documents the opposite compute behavior for its GPU instances: shutdown does **not** stop billing. Deletion is required. At Verda's current **$1.79/hour** A100 80 GB rate, confusing shutdown with release for the remaining 160 hours adds an estimated **$286.40** of compute.
+### Jarvis Labs pause
 
-Vultr is equally explicit. Its Cloud GPU FAQ says a stopped instance incurs normal charges and must be destroyed to avoid additional charges. The official public plan API still returns **$2.397/hour** for the selected one-GPU PCIe A100 80 GB instance. Stopping rather than destroying it after the eight-hour test produces the table's estimated **$383.52** idle-compute leak.
+Jarvis Labs' [SDK documentation](https://docs.jarvislabs.ai/sdk/) says pause stops compute billing and preserves data. Its [FAQ](https://docs.jarvislabs.ai/faqs/), checked September 9, prices paused data at **$0.00014/GB-hour** and says the released GPU is not guaranteed on resume.
+
+For 100 GB kept through the remaining 160 hours:
+
+    100 GB × $0.00014 × 160 = $2.24
+    scoped total = $11.92 compute + $2.24 retained data = $14.16
+
+That is far below the $250.32 one-week compute case, but it is not zero and it trades reservation for a future capacity check.
+
+### RunPod stopped volume
+
+RunPod's [Pod pricing documentation](https://docs.runpod.io/pods/pricing), checked September 9, lists volume disk at **$0.20/GB-month while stopped** and says container disk is erased when the Pod stops. It bills volume disk per second.
+
+Using 720 hours only as a planning-month divisor, 100 GB retained for 160 hours is approximately:
+
+    100 GB × $0.20/GB-month × 160/720 = $4.44
+
+The scoped estimate is **$12.72 of compute plus $4.44 of stopped volume = $17.16**. Network-volume rates and the exact storage choice can change that number. The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) covers the storage and Pod-versus-Serverless boundary in more detail.
+
+### Koyeb's default idle tail
+
+Koyeb's [Scale-to-Zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero), checked September 9, includes GPU Instances, labels the feature public preview, and gives GPU Services a five-minute default idle period. At the selected A100 rate:
+
+    $1.60/hour × 5/60 = $0.1333 nominal five-minute tail
+
+That is one tail for one active Instance, excluding useful work, wake time, extra Instances, storage, and connections that prevent idleness. It is not a per-request fee. For more request-waking products and lifecycle boundaries, use HostFleet's [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/).
 
 ## A reusable calculator for any GPU product
 
-Use the source rate's native billing unit where possible.
+Start with the provider's native billing unit:
 
-For hourly infrastructure:
+    useful compute = native rate × billable useful duration
+    teardown lag = native rate × time between work completion and release
+    unattended compute = native rate × time cleanup failed
+    retained resources = storage + IP + snapshots + volumes + other add-ons
+    estimated total = useful compute + teardown lag + unattended compute + retained resources
 
-    compute estimate = hourly rate x billable instance hours
+Then model three operating modes:
 
-For per-minute products:
+1. **Always allocated.** Use 720 hours only for a 30-day sensitivity case. It is not an invoice forecast.
+2. **Scheduled capacity.** Count from provider billing start through the exact release action, then add a scheduler-failure case.
+3. **Scale-to-zero.** Count startup where billed, execution, idle windows, retry overlap, and warm minimums. End-user response time is not a substitute for billable allocation time.
 
-    compute estimate = per-minute rate x billable minutes
-
-For per-second workers:
-
-    compute estimate = per-second rate x billable seconds
-
-Then add retained resources:
-
-    total estimate = compute estimate + storage + IP + network + snapshots + support + tax
-
-The hard input is **billable time**, not request time. Include provisioning where billed, image pulls, model loading, retries, idle windows, teardown, and any warm minimum. A serverless worker can return to zero, but only after its billing window actually ends.
-
-## Three planning modes
-
-Write one of these modes beside every estimate.
-
-1. **Always allocated.** Use 720 hours for a 30-day planning month only when the Pod, VM, or replica stays billable continuously.
-2. **Scheduled capacity.** Use the hours between automated start and the provider-specific release action. Add a failure case for the scheduler not running.
-3. **Bursty scale-to-zero.** Use observed billable seconds or minutes, including startup and idle timeout. Do not substitute end-user latency.
-
-A 720-hour figure is not a prediction. It is a sensitivity case:
-
-| Product | Hourly input | Eight-hour test | 30-day always-billable estimate |
-|---|---:|---:|---:|
-| Thunder minimum A100 80 GB VM | $1.25 | $10.00 | $900.00 |
-| RunPod Secure A100 80 GB Pod | $1.39 | $11.12 | $1,000.80 |
-| Jarvis Labs A100 80 GB | $1.49 | $11.92 | $1,072.80 |
-| Verda A100 80 GB | $1.79 | $14.32 | $1,288.80 |
-| Vultr A100 80 GB | $2.397 | $19.18 | $1,725.84 |
-| Paperspace A100 80 GB | $3.18 | $25.44 | $2,289.60 |
-
-All monthly figures multiply the August 24 rate by 720 hours. They exclude retained resources and every charge not already included in the named configuration. Vultr bills actual calendar-month hours for GPU products, so a 31-day month has 744 hours rather than 720.
+Credits belong outside the base estimate. Calculate the workload first, then subtract only a credit whose GPU eligibility, expiry, and paid-account transition are known. HostFleet's [GPU cloud free-credits guide](https://hostfleet.net/gpu-cloud-free-credits-2026/) explains why a promotional balance is neither capacity nor recurring unit economics.
 
 ## Build cleanup into the deployment
 
-Before launching a GPU test, record:
+Before launching a GPU workload, record:
 
-1. **The exact billable product.** Include GPU memory, PCIe or SXM variant, GPU count, CPU/RAM minimum, region, and provider tier.
-2. **The native rate and verification date.** Keep the official URL beside the value.
-3. **The exact release action.** Test whether stop, pause, power off, terminate, delete, or destroy ends GPU compute billing.
-4. **The data consequence.** Know which disk is erased, retained, snapshotted, or billed after compute stops.
-5. **A cleanup deadline.** Schedule provider-specific teardown and alert when the resource still exists afterward.
-6. **A budget ceiling.** Use provider alerts where available, but do not assume a low balance performs a safe backup.
-7. **A billing-record check.** After the first bounded run, compare expected and actual billable duration before scaling.
-
-Credits belong outside the base estimate. Calculate the workload first, then subtract only a credit whose GPU eligibility, expiry, and account restrictions are confirmed. HostFleet's [GPU cloud free-credits guide](https://hostfleet.net/gpu-cloud-free-credits-2026/) explains why a promotional balance is not capacity or recurring unit economics.
+1. **Exact product boundary.** GPU memory, PCIe or SXM variant, GPU count, minimum CPU/RAM, region, and deployment surface.
+2. **Native price and date.** Keep the official URL beside every numeric input.
+3. **Billable start.** Determine whether provisioning, image download, model load, or restore time is charged.
+4. **Exact release action.** Test stop, pause, hibernate, power off, terminate, delete, or destroy—whichever the provider documents.
+5. **Data consequence.** Know what survives, what keeps billing, and what cannot be restored without capacity.
+6. **Cleanup deadline.** Alert when the resource still exists or remains in a billable state after the job.
+7. **Failure budget.** Price at least one hour, one day, and one week of missed cleanup before launch.
+8. **Ledger reconciliation.** Compare expected and actual resource-state timestamps after the first bounded run.
 
 ## Verdict
 
-For a short GPU test, the difference between an eight-hour bill and a one-week bill is mostly an automation question.
+The selected A100 examples cost an estimated **$10.00 to $25.44** for eight useful hours. Leaving them billable for a week raises the range to **$210.00 through $534.24**. The spread matters, but lifecycle semantics matter more.
 
-The selected A100 examples range from **$10.00 to $25.44 for eight useful hours**. Leaving the same products billable for a full week raises the estimates to **$210.00 through $534.24**. Those totals do not prove that the cheaper instance is faster, available, or a better fit. They prove that idle allocation can dominate the rate-card decision.
+Hyperstack demonstrates the point: Stop leaves the selected VM's remaining 160-hour estimate at **$216.00**, while hibernation with a released IP reduces the configured-root-capacity estimate to about **$1.55**. That saving is real arithmetic from official rates, but it comes with ephemeral-data loss and restore-capacity risk.
 
-Use the calculator in this order: choose hardware that fits, reconstruct the minimum deployable price, identify the provider-specific release action, add retained resources, and model failure time. The cheapest cleanup action is the one tested before the GPU launches.
+Use the calculator in this order: choose hardware that fits, reconstruct the launchable rate, identify the provider-specific billing-stop action, add retained resources, and price cleanup failure. A low hourly number is not cost control. A tested state transition is.
 
 ## Sources
 
-- [Jarvis Labs pricing](https://jarvislabs.ai/pricing) — A100 80 GB rate, per-minute billing, storage, and product boundary; checked August 24, 2026
-- [Jarvis Labs FAQ](https://docs.jarvislabs.ai/faqs/) — paused-data rate and availability release; checked August 24, 2026
-- [Jarvis Labs SDK documentation](https://docs.jarvislabs.ai/sdk/) — pause stops compute billing; checked August 24, 2026
-- [Thunder Compute pricing](https://www.thundercompute.com/pricing) — A100 base rate and included resources; checked August 24, 2026
-- [Thunder pricing API](https://api.thundercompute.com:8443/v1/pricing) and [specification API](https://api.thundercompute.com:8443/v1/specs) — live calculation inputs; checked August 24, 2026
-- [Thunder billing](https://www.thundercompute.com/docs/billing) — deletion boundary; checked August 24, 2026
-- [RunPod pricing](https://www.runpod.io/pricing) — Secure Cloud A100 PCIe Pod rate; checked August 24, 2026
-- [RunPod Pod pricing documentation](https://docs.runpod.io/pods/pricing) — stopped storage behavior; checked August 24, 2026
-- [Verda pricing](https://verda.com/pricing) and [lifecycle documentation](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) — A100 rate and deletion behavior; checked August 24, 2026
-- [Vultr public plan API](https://api.vultr.com/v2/plans?per_page=500) and [Cloud GPU FAQ](https://docs.vultr.com/products/compute/instances/cloud-gpu/faq) — rate and stopped-instance billing; checked August 24, 2026
-- [Vultr GPU billing](https://docs.vultr.com/support/platform/billing/how-are-gpu-products-billed-differently) — calendar-month hours; checked August 24, 2026
-- [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) — A100 rate and powered-off billing; checked August 24, 2026
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json
-- HostFleet provider notes — /opt/hostbot/data/ai-hosting/notes/2026-08-24-jarvis-labs-gpu-pricing.md, /opt/hostbot/data/ai-hosting/notes/2026-08-22-thunder-compute-gpu-pricing.md, /opt/hostbot/data/ai-hosting/notes/2026-08-18-vultr-cloud-gpu-pricing.md, /opt/hostbot/data/ai-hosting/notes/2026-08-21-paperspace-gpu-machine-pricing.md, and /opt/hostbot/data/ai-hosting/notes/2026-08-15-verda-datacrunch-gpu-pricing.md
+- [HostFleet GPU pricing dataset](https://hostfleet.net/gpu-pricing/) — 21-provider, 147-cell live baseline fully checked September 7, 2026
+- [Thunder pricing](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing), and [spec API](https://api.thundercompute.com:8443/v1/specs) — A100 base, additional-vCPU rate, and minimum shape; rechecked September 9, 2026
+- [Thunder billing](https://www.thundercompute.com/docs/billing) — per-minute running-state billing and delete boundary; checked September 9, 2026
+- [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing) and [flavor catalog](https://docs.hyperstack.cloud/docs/hardware/flavors) — A100 rate, fixed resources, and hibernation support; rechecked September 9, 2026
+- [Hyperstack VM state billing](https://docs.hyperstack.cloud/docs/billing/states-and-billing) — stopped, hibernated, transitional, and deleted billing plus root-data and IP rates; checked September 9, 2026
+- [Hyperstack hibernation](https://docs.hyperstack.cloud/docs/virtual-machines/hibernation) — data, IP, volume, and restore-capacity boundaries; checked September 9, 2026
+- [Jarvis Labs pricing](https://jarvislabs.ai/pricing), [FAQ](https://docs.jarvislabs.ai/faqs/), and [SDK](https://docs.jarvislabs.ai/sdk/) — A100 rate, pause behavior, retained-data rate, and capacity release; checked September 9, 2026
+- [RunPod pricing](https://www.runpod.io/pricing) and [Pod pricing documentation](https://docs.runpod.io/pods/pricing) — Secure A100 rate and stopped-storage lifecycle; checked September 9, 2026
+- [Koyeb pricing](https://www.koyeb.com/pricing) and [Scale-to-Zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) — A100 rate, included resources, public-preview status, idle period, and protocol limits; checked September 9, 2026
+- [Verda pricing](https://verda.com/pricing) and [instance lifecycle documentation](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) — A100 rate, shutdown billing, deletion, and retained storage; checked September 9, 2026
+- [Vultr public plan API](https://api.vultr.com/v2/plans?per_page=500), [stopped-instance billing](https://docs.vultr.com/support/platform/billing/are-stopped-instances-still-billed-on-vultr), and [GPU billing](https://docs.vultr.com/support/platform/billing/how-are-gpu-products-billed-differently) — A100 rate, destroy boundary, and calendar-month billing; checked September 9, 2026
+- [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) and [Machine Type Reference](https://docs.digitalocean.com/products/paperspace/machines/details/machine-types/) — A100-80G rate, powered-off compute boundary, retained add-ons, and fixed resources; checked September 9, 2026
+- Local data baseline: /opt/hostbot-v2/src/data/gpu-pricing.json
+- Local verification notes: /opt/hostbot/data/ai-hosting/notes/2026-09-07-gpu-pricing-full-verification.md and /opt/hostbot/data/ai-hosting/notes/2026-09-09-hyperstack-hibernation-cost-boundary.md
 
-*Need an allocated A100 Pod? This is a labeled affiliate link, while every source citation above remains direct: [RunPod signup (+$5 credit on your first $10, affiliate)](https://hostfleet.net/go/runpod). Re-check the exact GPU, cloud tier, region, storage, and shutdown behavior before purchase.*
+*Need an allocated A100 Pod? This labeled affiliate link supports HostFleet's research at no extra cost to you: [RunPod signup (affiliate)](https://hostfleet.net/go/runpod). Every source citation above remains direct and non-affiliate.*
