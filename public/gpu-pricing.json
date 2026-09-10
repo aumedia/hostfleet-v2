@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-07",
+  "updated": "2026-09-10",
   "refresh_policy": "Verified against vendor pricing pages by the HostFleet data agent. Target cadence: Monday and Thursday.",
   "providers": [
     { "id": "runpod_pods", "name": "RunPod Pods", "billing": "per-second, always-on container (Secure Cloud)", "source": "https://www.runpod.io/pricing" },
@@ -263,6 +263,7 @@
         "modal": { "hr": 7.10, "raw": "$0.001972/sec" },
         "fal": { "hr": 8.50, "note": "as low as $4.49 committed" },
         "nebius": { "hr": 7.85, "raw": "$7.85/GPU/hr", "note": "B300 SXM/NVLink; unified 1gpu-24vcpu-346gb VM rate; uk-south1 and private eu-west2" },
+        "hyperstack": { "hr": 7.40, "raw": "$7.40/GPU/hr; 8x flavor = $59.20/hr", "note": "B300 SXM6 is cataloged as an 8x flavor with 224 CPU, 1,920 GB RAM, 1,000 GB root disk, and 40,000 GB ephemeral disk included; vendor specifies 288 GB VRAM; CANADA-1" },
         "verda": { "hr": 7.50, "raw": "$7.50/hr", "note": "1x B300 268 GB SXM6 on-demand instance; 30 CPU and 255 GB RAM included; vendor lists 268 GB VRAM; storage separate" }
       } }
   ]
