@@ -1,16 +1,18 @@
 ---
 title: "What GPU do you need to run Llama 70B? VRAM, context, and KV-cache guide"
-description: "Size Llama 70B for 4-bit, 8-bit, and BF16 with KV-cache math, context and concurrency headroom, and verified August 2026 GPU rates."
+description: "What GPU to run Llama 70B: VRAM and KV-cache math, current cloud rates, and the Massed L40S billing and termination boundary."
 pubDate: 2026-07-29
-updatedDate: 2026-08-28
+updatedDate: 2026-09-16
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-**Source-backed deployment guide; calculations are labeled.** This refresh uses Meta's Llama architecture paper and Llama 3.3 model card, current inference-runtime documentation, and public GPU prices checked on **August 27–28, 2026**. HostFleet did not benchmark tokens per second, latency, model quality, cloud capacity, or cold starts. Read the [HostFleet methodology and affiliate policy](https://hostfleet.net/about/) for how sourced and measured claims are separated.
 
-**GPU prices verified:** August 27, 2026<br>
+**Source-backed deployment guide; calculations are labeled.** This refresh uses Meta's Llama architecture paper and Llama 3.3 model card, current inference-runtime documentation, HostFleet's September 10 GPU dataset audit, and selected public GPU prices rechecked on **September 16, 2026**. HostFleet did not benchmark tokens per second, latency, model quality, cloud capacity, or cold starts. Read the [HostFleet methodology and affiliate policy](https://hostfleet.net/about/) for how sourced and measured claims are separated.
+
+**Selected GPU prices verified:** September 16, 2026<br>
+**Full GPU dataset verified:** September 10, 2026<br>
 **Model and runtime sources checked:** August 28, 2026
 
 # What GPU do you need to run Llama 70B? VRAM, context, and KV-cache guide
@@ -20,6 +22,8 @@ For **Llama 3.3 70B**, use a **48 GB GPU only as the entry point for a 4-bit, sh
 The common shortcut—70 billion parameters times four bits equals about 35 GB—counts only raw weights. It does not count quantization metadata, CUDA graphs, runtime workspace, temporary tensors, or the key-value cache that grows with context and concurrent sequences.
 
 This guide makes the missing cache term explicit. It is still a planning model, not a promise that a particular quantized artifact or inference engine will fit.
+
+The September refresh also makes the 48 GB cost boundary less abstract. Massed Compute's public one-GPU L40S VM moved from **$0.88 to $0.97 per hour** on September 16, a **10.2% increase**. That does not change the memory recommendation, but it raises the 720-hour planning estimate from **$633.60 to $698.40** before any other cost. Capacity and lifecycle still matter more than a nine-cent rate change.
 
 ## The buying answer
 
@@ -98,7 +102,7 @@ This is why an H200 with 141 GB of VRAM is not an honest BF16 Llama 70B recommen
 
 ### 4-bit on 48 GB: keep the test narrow
 
-A 48 GB A40 or RTX A6000 is still a sensible low-cost place to prove that a 4-bit artifact loads and answers short requests. But it is a poor basis for promising a 32K context or multi-user service.
+A 48 GB A40, RTX A6000, L40, or L40S is still a sensible place to prove that a 4-bit artifact loads and answers short requests. But it is a poor basis for promising a 32K context or multi-user service.
 
 The raw 4-bit estimate is about 35 GB. Add a theoretical 10 GiB BF16 cache for one filled 32K sequence and the deployment is already close to the card's advertised capacity before quantization overhead or runtime workspace. The units are not identical—weight arithmetic above uses decimal GB while GPU and cache reporting commonly use binary GiB—but that mismatch does not rescue a configuration with almost no margin.
 
@@ -122,20 +126,47 @@ Multi-GPU changes the operational problem. Tensor parallelism adds topology, com
 
 ## Current cloud price ladder for the capacity tiers
 
-The table below uses selected public one-GPU options from [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). HostFleet's complete 21-provider ledger rechecked every displayed rate against its official source on **August 27, 2026**. These rows illustrate a capacity ladder; they do not prove stock, quota, regional access, or performance.
+The table below uses selected public one-GPU options from [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). HostFleet's complete 21-provider ledger was fully checked on **September 10, 2026**; Massed Compute's L40S cell was then source-verified and updated on **September 16**. Every selected row below was also rechecked against its official pricing page on September 16. These rows illustrate a capacity ladder; they do not prove stock, quota, regional access, or performance.
 
-| Capacity tier | Selected published option | Public rate checked Aug. 27 | 720-hour estimate | Important boundary |
+| Capacity tier | Selected published option | Public rate checked Sept. 16 | 720-hour estimate | Important boundary |
 |---|---|---:|---:|---|
-| 48 GB | [RunPod Pods A40](https://www.runpod.io/pricing) | **$0.44/hr** | about **$317** | Secure Cloud always-on Pod rate; storage and stopped-resource behavior are separate |
-| 80 GB | [Hyperstack A100 80 GB](https://www.hyperstack.cloud/gpu-pricing) | **$1.35/hr** | about **$972** | Tracked one-GPU flavor includes fixed CPU, RAM, and local storage; dataset location is Canada-1 |
-| 96 GB | [Nebius RTX PRO 6000](https://nebius.com/prices) | **$1.80/hr** | about **$1,296** | One-GPU prescribed configuration includes 24 vCPU and 218 GB RAM |
-| 141 GB | [Koyeb H200](https://www.koyeb.com/pricing) | **$3.00/hr** | about **$2,160** | Serverless instance; scale-to-zero is public preview and region-specific availability is not guaranteed |
-| 180 GB | [Koyeb B200](https://www.koyeb.com/pricing) | **$5.50/hr** | about **$3,960** | Serverless instance with the same preview and availability caveats |
-| 288 GB | [Nebius B300](https://nebius.com/prices) | **$7.85/hr** | about **$5,652** | One-GPU prescribed configuration; public price is not evidence of capacity |
+| 48 GB | [Massed Compute L40S VM](https://vm.massedcompute.com/pricing) | **$0.97/hr** | **$698.40** | One GPU, 12 vCPU, and 72 GB RAM; the public table lists storage as 625 without a unit |
+| 80 GB | [Hyperstack A100 80 GB](https://www.hyperstack.cloud/gpu-pricing) | **$1.35/hr** | **$972.00** | One-GPU VM includes fixed CPU, RAM, root disk, and ephemeral disk; public IP and shared storage are separate |
+| 96 GB | [Nebius RTX PRO 6000](https://nebius.com/prices) | **$1.80/hr** | **$1,296.00** | One-GPU prescribed configuration includes 24 vCPU and 218 GB RAM |
+| 141 GB | [Koyeb H200](https://www.koyeb.com/pricing) | **$3.00/hr** | **$2,160.00** | Serverless instance; scale-to-zero is public preview and regional availability is not guaranteed |
+| 180 GB | [Koyeb B200](https://www.koyeb.com/pricing) | **$5.50/hr** | **$3,960.00** | Serverless instance; the public catalog currently marks the one-GPU product restricted and exposes no regions |
+| 288 GB | [Nebius B300](https://nebius.com/prices) | **$7.85/hr** | **$5,652.00** | One-GPU prescribed configuration includes 24 vCPU and 346 GB RAM; public price is not evidence of capacity |
 
 **Estimate assumptions:** one GPU remains allocated for 720 hours in a 30-day month; public USD list rates; no discounts, taxes, additional storage, network, or separately billed resources beyond what each exact row includes. The monthly column is arithmetic, not a vendor quote.
 
-The selected products are not interchangeable. RunPod's row is an always-on Pod. Hyperstack and Nebius rows are GPU VM configurations. Koyeb's rows are per-second serverless GPU instances. Compare the billing boundary as well as the accelerator. The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) separates those product models, while the [GPU cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) lets you change allocated hours.
+The selected products are not interchangeable. Massed Compute, Hyperstack, and Nebius expose VM-like configurations. Koyeb's rows are per-second serverless GPU instances. The L40S is also not necessarily the cheapest 48 GB way to test a quantized model; it is the selected current example because its rate changed and its billing boundary is documented. Compare all current rows in the live table, then compare lifecycle behavior as well as the accelerator. The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) separates those product models, while the [GPU cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) lets you change allocated hours.
+
+### What the Massed Compute price change means
+
+Massed Compute's official page lists the one-GPU L40S VM at **$0.97/hour**, with 12 vCPU and 72 GB RAM, as checked September 16. HostFleet's prior tracked rate was **$0.88/hour**. The arithmetic change is:
+
+```text
+rate increase = ($0.97 - $0.88) / $0.88 = 10.2%
+old 720-hour estimate = $0.88 × 720 = $633.60
+new 720-hour estimate = $0.97 × 720 = $698.40
+difference = $64.80
+```
+
+Those are utilization scenarios, not monthly plans or invoice predictions. They assume one VM remains active for every modeled hour and exclude tax or any unlisted add-on. Massed Compute says it has no bandwidth charges, but the public table's storage column shows `625` without a unit, so this guide does not silently label that number GB.
+
+The operational trap is the release action. Massed Compute's [billing overview](https://vm-docs.massedcompute.com/docs/billing/overview), checked September 16, says it sums the hourly cost of active VMs, divides by 60, and debits the account every minute; micro-cent remainders carry into the next charge. Its [instance documentation](https://vm-docs.massedcompute.com/docs/running-instances/instance-elements) describes `Running`, `Initializing`, and a billing-failure `Stopped` state, while the trash action terminates the VM and deletes all associated data.
+
+The checked public docs do not establish whether `Initializing` is included in the active-VM sum, the exact cutoff inside asynchronous termination, or partial-minute treatment. No instance was launched for this article. For planning, treat the VM as billable until termination is confirmed, preserve required data first, and do not interpret the documented billing-failure `Stopped` state as a customer-controlled pause button.
+
+For the guide's eight-hours-of-work-plus-160-hours-unattended scenario:
+
+```text
+useful compute = $0.97 × 8 = $7.76
+unattended compute = $0.97 × 160 = $155.20
+one-week active total = $0.97 × 168 = $162.96
+```
+
+That is why a cleanup test matters more than the nine-cent hourly increase.
 
 Koyeb's scale-to-zero documentation, checked August 28, explicitly includes GPU instances but labels the feature public preview. The default idle period is five minutes. A supported new request can wake a sleeping service, but HTTP/2 requests cannot do so, and no public GPU wake-time SLA is documented. At the current H200 rate, a nominal five-minute idle tail is **$0.25**; for B200 it is about **$0.46**. Those are rate × 5/60 estimates and exclude active work and wake/model-load time.
 
@@ -166,7 +197,7 @@ The capacity table should narrow the first rental, not replace a test. Use this 
 6. **Repeat after restarts.** A deployment that fits once but fails during cold load, graph capture, or a version change is not production capacity.
 7. **Price allocated time.** Include startup, model loading, idle retention, failed runs, and storage—not only successful generation seconds.
 
-For RunPod specifically, read [RunPod pricing: Pods vs Serverless](https://hostfleet.net/runpod-pricing-guide-2026/) before interpreting the A40 hourly rate. The cheaper product can become the more expensive deployment if shutdown behavior does not match the traffic pattern.
+For RunPod specifically, read [RunPod pricing: Pods vs Serverless](https://hostfleet.net/runpod-pricing-guide-2026/) before choosing between a Pod and a scale-to-zero worker. The cheaper-looking product can become the more expensive deployment if shutdown behavior does not match the traffic pattern.
 
 ## Verdict
 
@@ -183,7 +214,7 @@ Choose the smallest tier that preserves headroom for the intended context and se
 
 ## Sources
 
-Model and runtime sources were accessed **August 28, 2026**. Pricing sources were checked **August 27, 2026**, except Koyeb scale-to-zero documentation, checked August 28.
+Model and runtime sources were accessed **August 28, 2026** and confirmed reachable September 16. Selected pricing sources and Massed Compute billing documentation were checked **September 16, 2026**. Koyeb's scale-to-zero documentation was checked August 28.
 
 - [Meta Llama 3.3 model card](https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama3_3/MODEL_CARD.md) — 70B parameter label, 128K context, and GQA description
 - [The Llama 3 Herd of Models](https://arxiv.org/html/2407.21783) — 70B layer, dimension, attention-head, and key/value-head architecture values
@@ -193,13 +224,16 @@ Model and runtime sources were accessed **August 28, 2026**. Pricing sources wer
 - [Qwen3 8B model card](https://huggingface.co/Qwen/Qwen3-8B) — 8.2B parameter count
 - [Qwen3 32B model card](https://huggingface.co/Qwen/Qwen3-32B) — 32.8B parameter count
 - [Mistral Small 3.1 24B model card](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503) — 24B parameter count
-- [RunPod pricing](https://www.runpod.io/pricing) — selected A40 Pod rate
+- [Massed Compute pricing](https://vm.massedcompute.com/pricing) — current L40S rate, vCPU, RAM, and unresolved storage-unit field; checked September 16, 2026
+- [Massed Compute billing overview](https://vm-docs.massedcompute.com/docs/billing/overview) — active-VM hourly totals divided into per-minute debits and micro-cent carry; checked September 16, 2026
+- [Massed Compute instance documentation](https://vm-docs.massedcompute.com/docs/running-instances/instance-elements) — documented states and destructive termination boundary; checked September 16, 2026
 - [Hyperstack GPU pricing](https://www.hyperstack.cloud/gpu-pricing) — selected A100 80 GB rate
 - [Nebius AI Cloud pricing](https://nebius.com/prices) — selected RTX PRO 6000 and B300 rates
 - [Koyeb pricing](https://www.koyeb.com/pricing) — selected H200 and B200 rates
 - [Koyeb scale-to-zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) — preview status, GPU eligibility, default idle period, and wake-protocol limits
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated August 27, 2026
-- HostFleet full source-verification ledger — `/opt/hostbot/data/ai-hosting/notes/2026-08-27-gpu-pricing-full-verification.md`
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, full-table date September 10 with the Massed Compute L40S cell source-verified September 16, 2026
+- HostFleet full source-verification ledger — `/opt/hostbot/data/ai-hosting/notes/2026-09-10-gpu-pricing-full-verification.md`
+- HostFleet Massed Compute change note — `/opt/hostbot/data/ai-hosting/notes/2026-09-16-massed-compute-l40s-price-change.md`
 - HostFleet Koyeb limits note — `/opt/hostbot/data/ai-hosting/notes/2026-08-28-koyeb-gpu-scale-to-zero-limits.md`
 
 *Signing up for a GPU host? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
