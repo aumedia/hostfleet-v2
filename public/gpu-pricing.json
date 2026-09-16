@@ -146,7 +146,7 @@
         "verda": { "hr": 1.37, "raw": "$1.37/hr", "note": "1x L40S 48 GB on-demand instance; 20 CPU and 60 GB RAM included; storage separate" },
         "vultr": { "hr": 1.67, "raw": "$1.671/GPU/hr", "note": "1x NVIDIA L40S Cloud GPU instance; 16 vCPU, 180 GB RAM, 1.20 TB local storage, and 10 TB bandwidth included" },
         "digitalocean_gpu": { "hr": 1.57, "raw": "$1.57/GPU/hr", "note": "1x on-demand GPU Droplet; 8 vCPU, 64 GiB RAM, 500 GiB NVMe boot disk, and 10,000 GiB transfer included; TOR1 catalog region" },
-        "massed": { "hr": 0.88, "raw": "$0.88/hr", "note": "1x L40S 48 GB on-demand VM; 12 vCPU and 72 GB RAM included; vendor lists storage 625 without a unit on the public page" },
+        "massed": { "hr": 0.97, "raw": "$0.97/hr", "note": "1x L40S 48 GB on-demand VM; 12 vCPU and 72 GB RAM included; vendor lists storage 625 without a unit on the public page; source-verified 2026-09-16" },
         "koyeb": { "hr": 1.20, "raw": "$1.20/hr", "note": "1x L40S serverless instance; pricing card lists 15 vCPU, 64 GB RAM, and 160 GB disk; exact rate agrees with the instance-reference table, whose CPU/RAM fields conflict; GPU availability is region-specific" }
       } },
     { "id": "rtx6000ada", "name": "RTX 6000 Ada", "vram": "48 GB",
