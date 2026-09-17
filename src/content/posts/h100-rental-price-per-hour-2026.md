@@ -2,7 +2,7 @@
 title: "H100 rental price per hour in 2026: 19 public rates checked"
 description: "Nineteen public H100 rates checked September 2026, with 720-hour estimates and the Lambda guest-poweroff, termination, and filesystem traps the rate card omits."
 pubDate: 2026-07-29
-updatedDate: 2026-09-14
+updatedDate: 2026-09-17
 category: ai-hosting
 author: Alex Harmon
 draft: false
@@ -10,10 +10,10 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate-card and lifecycle comparison; estimated monthly totals.** This refresh uses official provider pricing pages, public vendor APIs, and HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/). It is not a capacity, latency, throughput, reliability, or current-stock benchmark. All 19 selected H100 price anchors were rechecked against live vendor sources on **September 14, 2026**. Lambda's termination, guest-poweroff, and filesystem rules were also checked September 14. HostFleet did not measure invoices or state-transition timing.
+**Source-backed rate-card and lifecycle comparison; estimated monthly totals.** This refresh uses official provider pricing pages, public vendor APIs, and HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/). It is not a capacity, latency, throughput, reliability, or current-stock benchmark. Eighteen selected H100 price anchors were rechecked against live vendor sources on **September 14, 2026**; Verda's current H100 offer was separately rechecked on **September 17, 2026**. Lambda's termination, guest-poweroff, and filesystem rules were also checked September 14. HostFleet did not measure invoices or state-transition timing.
 
-> **Price anchors rechecked:** September 14, 2026, for all 19 rows below<br>
-> **Dataset baseline:** September 10, 2026<br>
+> **Price anchors rechecked:** September 14, 2026, for 18 rows; September 17 for Verda<br>
+> **Dataset baseline:** September 17, 2026<br>
 > **Currency:** public USD on-demand list prices before tax<br>
 > **Comparison unit:** one listed GPU-hour or a published per-second/per-minute equivalent<br>
 > **Boundary:** a public rate does not prove inventory, quota, regional access, approval, or equal performance
@@ -24,7 +24,7 @@ The cheapest selected H100 rate is now a tie: **Hyperstack and Koyeb both publis
 
 Jarvis Labs follows at **$2.69/GPU-hour**, Massed Compute at **$2.73/hour**, Northflank at **$2.74/GPU-hour**, and RunPod Secure Cloud at **$2.89/hour**. Northflank's number is only a GPU component; CPU and memory are extra. The other rows package different resources and lifecycle controls.
 
-The September 14 bounded verification kept all 19 selected H100 price anchors unchanged. It did catch one specification change: Novita's live H100 API record now lists 22 vCPU and 150 GB RAM rather than the prior 16-vCPU, 128-GB shape. HostFleet's full 148-cell dataset retains its September 10 verification date because this was an H100-only check. The main addition is a Lambda cost-control boundary the rate card cannot show: guest `shutdown` or `poweroff` puts the instance into `Alert` and billing continues; only Lambda's termination operation ends the compute meter.
+The September 14 bounded verification kept its 19 selected H100 price anchors unchanged and caught one specification change: Novita's live H100 API record now lists 22 vCPU and 150 GB RAM rather than the prior 16-vCPU, 128-GB shape. A September 17 full-dataset source check then moved Verda's H100 offer from $3.25 to **$3.282/hour**. The main addition is a Lambda cost-control boundary the rate card cannot show: guest `shutdown` or `poweroff` puts the instance into `Alert` and billing continues; only Lambda's termination operation ends the compute meter.
 
 ## Current H100 price-per-hour comparison
 
@@ -39,7 +39,7 @@ The table is sorted by normalized hourly rate. Per-second prices are multiplied 
 | **Northflank** | 1x H100 80 GB managed-cloud GPU component; CPU, memory, disk, and egress separate | **$2.74/GPU-hr** | [Northflank pricing](https://northflank.com/pricing), Sept. 14, 2026 |
 | **RunPod Pods** | H100 PCIe Secure Cloud Pod | **$2.89/hr** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 14, 2026 |
 | **Thunder Compute** | 1x H100 80 GB PCIe base; 4 vCPU, 32 GB RAM, 100 GB persistent disk included | **$3.20/GPU-hr** | [Thunder pricing](https://www.thundercompute.com/pricing), Sept. 14, 2026 |
-| **Verda GPU instance** | 1x H100 80 GB SXM5; selected configuration includes 30 CPU and 120 GB RAM | **$3.25/hr** | [Verda pricing](https://verda.com/pricing), Sept. 14, 2026 |
+| **Verda GPU instance** | 1x H100 80 GB SXM5; selected configuration includes 30 CPU and 120 GB RAM | **$3.282/hr** | [Verda pricing](https://verda.com/pricing), Sept. 17, 2026 |
 | **Lambda Cloud** | 1x H100 PCIe VM | **$3.29/GPU-hr** | [Lambda GPU instances](https://lambda.ai/instances), Sept. 14, 2026 |
 | **Novita AI instance** | 1x H100 80 GB SXM; live API record lists 22 vCPU, 150 GB RAM, 60 GB container-disk quota | **$3.39/GPU-hr** | [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products), Sept. 14, 2026 |
 | **Nebius AI Cloud** | 1x H100 SXM/NVLink VM; 16 vCPU, 200 GB RAM; eu-north1 | **$3.85/GPU-hr** | [Nebius pricing](https://nebius.com/prices), Sept. 14, 2026 |
@@ -167,7 +167,7 @@ The stop-side transition cutoff remains **sourced but not measured**. A bounded 
 
 ## What one continuously allocated H100 costs for 30 days
 
-These estimates multiply each sourced September 14 rate by **720 hours**. Modal and Baseten use their unrounded native rates. The estimates assume one named product stays billable continuously. They exclude separate CPU/RAM, storage, IP, network, tax, support, commitments, extra replicas, and operational work. They are not quotes or performance comparisons.
+These estimates multiply each sourced rate by **720 hours**. Modal, Baseten, and Verda use their unrounded native rates. The estimates assume one named product stays billable continuously. They exclude separate CPU/RAM, storage, IP, network, tax, support, commitments, extra replicas, and operational work. They are not quotes or performance comparisons.
 
 | Product shape | Rate used | 720-hour compute estimate |
 |---|---:|---:|
@@ -178,7 +178,7 @@ These estimates multiply each sourced September 14 rate by **720 hours**. Modal 
 | Northflank H100 component only | $2.74/hr | **$1,972.80 plus CPU and memory** |
 | RunPod Secure Cloud H100 PCIe Pod | $2.89/hr | **$2,080.80** |
 | Thunder Compute H100 PCIe base | $3.20/hr | **$2,304.00** |
-| Verda H100 SXM5 instance | $3.25/hr | **$2,340.00** |
+| Verda H100 SXM5 instance | $3.282/hr | **$2,363.04** |
 | Lambda H100 PCIe VM | $3.29/hr | **$2,368.80** |
 | Novita H100 SXM instance | $3.39/hr | **$2,440.80** |
 | Nebius H100 SXM/NVLink VM | $3.85/hr | **$2,772.00** |
@@ -265,7 +265,7 @@ The defensible buying order is hardware fit, deployable product shape, current e
 
 ## Sources
 
-Official pricing sources below were rechecked **September 14, 2026**.
+Official pricing sources below were rechecked **September 14, 2026**, except Verda, which was rechecked September 17.
 
 - [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing)
 - [Koyeb pricing](https://www.koyeb.com/pricing) and [instance reference](https://www.koyeb.com/docs/reference/instances)
@@ -274,7 +274,7 @@ Official pricing sources below were rechecked **September 14, 2026**.
 - [Northflank pricing](https://northflank.com/pricing)
 - [RunPod pricing](https://www.runpod.io/pricing)
 - [Thunder Compute pricing](https://www.thundercompute.com/pricing)
-- [Verda pricing](https://verda.com/pricing)
+- [Verda pricing](https://verda.com/pricing) — exact H100 offer rechecked September 17, 2026
 - [Lambda GPU instances](https://lambda.ai/instances)
 - [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products)
 - [Nebius pricing](https://nebius.com/prices)
@@ -300,8 +300,8 @@ Operating-boundary sources:
 - [Verda lifecycle](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) — shutdown, deletion, and retained storage; checked August 15, 2026
 - [DigitalOcean Droplet pricing documentation](https://docs.digitalocean.com/products/droplets/details/pricing/) — powered-off billing and destruction; checked August 20, 2026
 - [Paperspace Machine limits](https://docs.digitalocean.com/products/paperspace/machines/details/limits/) — H100 approval boundary; checked August 21, 2026
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, updated September 10, 2026
-- HostFleet full-source verification note — /opt/hostbot/data/ai-hosting/notes/2026-09-10-gpu-pricing-full-verification.md
+- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, updated September 17, 2026
+- HostFleet full-source verification note — /opt/hostbot/data/ai-hosting/notes/2026-09-17-gpu-pricing-full-verification.md
 - HostFleet Koyeb scale-to-zero note — /opt/hostbot/data/ai-hosting/notes/2026-08-28-koyeb-gpu-scale-to-zero-limits.md
 - HostFleet Northflank autoscaling note — /opt/hostbot/data/ai-hosting/notes/2026-08-31-northflank-gpu-autoscaling-billing-boundary.md
 - HostFleet Thunder Compute pricing note — /opt/hostbot/data/ai-hosting/notes/2026-08-22-thunder-compute-gpu-pricing.md
