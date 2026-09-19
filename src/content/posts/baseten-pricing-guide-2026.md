@@ -22,7 +22,7 @@ The other easily missed cost is the descent from a burst. Baseten's documented s
 
 Those are different decisions: the minimum replica count sets the recurring floor, while scale-down settings shape the bill after a burst. This guide calculates both.
 
-For the cross-provider view, use [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For product fit beyond the rate card, read [Baseten for AI inference APIs and jobs](https://hostfleet.net/baseten-for-ai-inference-apis-and-jobs/).
+For the cross-provider view, use [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For product fit beyond the rate card, read [Baseten for AI inference APIs and jobs](https://hostfleet.net/baseten-for-ai-inference-apis-and-jobs/). If the immediate decision is whether to hold a small endpoint warm, compare Baseten's floor with [Modal and Replicate's warm-endpoint tradeoffs](https://hostfleet.net/baseten-vs-modal-vs-replicate-warm-inference-endpoint/) before treating the lowest GPU rate as the lowest operating cost.
 
 ## Baseten pricing: the short answer
 
