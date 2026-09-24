@@ -1,8 +1,8 @@
 ---
-title: "A100 rental price per hour in 2026: 22 public rates checked"
-description: "Twenty-two public A100 rates, exact 720-hour estimates, Verda’s September repricing, and lifecycle costs that change the cheapest headline."
+title: "A100 rental price per hour in 2026: 21 public rates checked"
+description: "Twenty-one public A100 rates checked September 24, Novita’s unsupported row removed, Verda repriced, and 720-hour costs compared."
 pubDate: 2026-07-31
-updatedDate: 2026-09-21
+updatedDate: 2026-09-24
 category: ai-hosting
 author: Alex Harmon
 draft: false
@@ -10,287 +10,158 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate-card and lifecycle comparison; calculated totals are estimates.** This September refresh uses official provider pages, vendor APIs, and HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/). Verda's two A100 rates were rechecked on **September 21, 2026**; every other listed A100 rate was last rechecked on **September 14, 2026**. Paperspace's disk, IP, Machine-state, and Linux auto-shutdown rules were checked on **September 11, 2026**; Jarvis Labs pricing, pause, resume, storage, filesystem, and Reserved IP rules were rechecked on **September 14, 2026**. HostFleet did not measure invoices, transition timing, availability, or performance.
+**Source-backed rate-card and lifecycle comparison; calculated totals are estimates.** This refresh uses official provider pages, public vendor APIs, and HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/). All 21 retained A100 price points were rechecked against official sources on **September 24, 2026**. HostFleet did not measure invoices, transition timing, inventory, throughput, or reliability.
 
-# A100 rental price per hour in 2026: 22 public rates checked
-
-The cheapest selected **A100 40 GB** list rate remains Jarvis Labs at **$0.89 per GPU-hour**, or an estimated **$640.80 for 720 active hours**. That remains below Verda's newly updated **$1.264/hour** row.
-
-For **A100 80 GB**, Thunder Compute still has the lowest minimum launchable total in this comparison: an estimated **$1.25/hour** after required CPU is added to its $1.09 GPU base rate. Hyperstack and Massed Compute publish complete one-GPU VM totals of **$1.35/hour**. Jarvis Labs lists **$1.49/hour**, followed by RunPod's selected Secure Cloud PCIe Pod at **$1.59/hour**.
-
-Those numbers do not buy the same thing. This comparison spans 40 GB and 80 GB cards, PCIe and SXM4 systems, complete VMs, Pods, per-second containers, managed deployments, and Northflank GPU components that still require paid CPU and memory. Choose the memory class and operating surface before sorting by price.
-
-The September 21 change is small but worth preserving exactly. Verda now publishes **$1.264/hour for A100 40 GB** and **$1.735/hour for A100 80 GB** in its embedded structured offer data. Those are complete fixed one-GPU instance prices with 22 CPU and 120 GB RAM, but storage remains separate. The visible table rounds the same rows to cents, so this guide keeps the three-decimal source values for monthly arithmetic.
-
-The September 11 Paperspace correction is about product scope, not a rate change. Paperspace's **$3.09/hour A100 40 GB** and **$3.18/hour A100 80 GB** rows are Machine compute prices. The default 50 GB SSD is configured with the Machine but billed separately at **$0.0074/hour, capped at $5/month**. Linux auto-shutdown can stop compute after a configured interval, but the public documentation does not define what counts as inactivity. Treat it as a watchdog to test, not proven load-aware scale-to-zero.
-
-> **Verda A100 rates rechecked:** September 21, 2026<br>
-> **All other price anchors rechecked:** September 14, 2026<br>
-> **Paperspace lifecycle and add-on rules rechecked:** September 11, 2026<br>
-> **Jarvis Labs lifecycle and add-on rules rechecked:** September 14, 2026<br>
-
+> **Price anchors rechecked:** September 24, 2026<br>
 > **Currency:** public USD list rates before tax<br>
 > **Monthly estimate:** one listed product held billable for 720 hours<br>
-> **Evidence boundary:** a public rate does not prove current stock, quota, regional access, approval, or equal performance
+> **Boundary:** a catalog price does not prove stock, quota, access, or equal performance
+
+# A100 rental price per hour in 2026: 21 public rates checked
+
+The cheapest selected **A100 40 GB** rate is Jarvis Labs at **$0.89 per GPU-hour**, or an estimated **$640.80 for 720 active hours**. For **A100 80 GB**, Thunder Compute has the lowest minimum launchable total here: an estimated **$1.25/hour** after required CPU is added to its $1.09 GPU base. Hyperstack and Massed Compute publish complete one-GPU VM totals of **$1.35/hour**.
+
+The September 24 refresh changes two details:
+
+1. **Novita's prior $1.60/hour A100 80 GB row has been removed.** It was absent from both the rendered public marketplace and Novita's public products API. That is a current-catalog observation, not proof of permanent discontinuation or private-account availability.
+2. **Verda raised both A100 rates.** Its exact A100 40 GB rate moved from $1.264 to **$1.282/hour**, while A100 80 GB moved from $1.735 to **$1.744/hour**. Its pricing page and public API agree.
+
+These products are not interchangeable. The comparison spans 40 GB and 80 GB cards, PCIe and SXM4 systems, complete VMs, Pods, per-second containers, managed deployments, and GPU-only components. Choose memory and operating surface before sorting by price.
 
 ## The short answer
 
 | Requirement | Lowest selected public rate | 720-hour planning figure | Important boundary |
 |---|---:|---:|---|
-| A100 40 GB | Jarvis Labs at **$0.89/hr** | **$640.80** | One-GPU on-demand row; capacity is released when paused |
+| A100 40 GB | Jarvis Labs at **$0.89/hr** | **$640.80** | One-GPU on-demand row; pause releases capacity |
 | A100 80 GB, lowest launchable total | Thunder Compute at **$1.25/hr estimated** | **$900.00** | $1.09 GPU base plus four required paid vCPUs |
-| A100 80 GB, complete published VM total | Hyperstack or Massed Compute at **$1.35/hr** | **$972.00** | Different regions, hardware variants, resources, and lifecycle rules |
+| A100 80 GB, complete published VM total | Hyperstack or Massed Compute at **$1.35/hr** | **$972.00** | Different regions, variants, included resources, and lifecycle rules |
 | A100 80 GB, request-waking service | Koyeb at **$1.60/hr while active** | **$1,152.00 if active for 720 hours** | Public-preview scale-to-zero; five-minute default idle period |
 | Managed-cloud component | Northflank at **$1.42/hr for 40 GB** or **$1.76/hr for 80 GB** | GPU component only | CPU, memory, disk, and egress are separate |
 
-All values in this summary come from the linked official rate sources. Verda's rows were rechecked September 21, 2026; all other price rows were last rechecked September 14, 2026. The 720-hour figures are arithmetic, not vendor quotes.
+All price inputs in this summary were checked September 24, 2026. The monthly values are arithmetic estimates, not vendor quotes or measured bills.
 
-## A100 40 GB: five complete rates plus one component price
+## A100 40 GB: five product rates plus one component price
 
-A100 40 GB is a separate capacity class. If the model, KV cache, batch, and runtime overhead do not fit with safe headroom, its lower rates are irrelevant.
+If model weights, KV cache, batch, context, runtime workspace, and safety headroom do not fit, the lower 40 GB rates are irrelevant. The [open-model VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) explains that sizing step.
 
 | Provider and product | Configuration or boundary | Public rate | 720-hour estimate | Official source and check date |
 |---|---|---:|---:|---|
-| **Jarvis Labs on-demand instance** | 1x A100 40 GB; public row lists 16 vCPU and 112 GB RAM | **$0.89/GPU-hr** | **$640.80** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Sept. 14, 2026 |
-| **Verda GPU instance** | 1x A100 40 GB SXM4; 22 CPU and 120 GB RAM included; storage separate | **$1.264/hr** | **$910.08** | [Verda pricing](https://verda.com/pricing), Sept. 21, 2026 |
-| **Lambda Cloud VM** | Selected one-GPU A100 PCIe or SXM row; 40 GB | **$1.99/GPU-hr** | **$1,432.80** | [Lambda GPU instances](https://lambda.ai/instances), Sept. 14, 2026 |
-| **Modal container** | A100 40 GB allocated to a serverless container | **$0.000583/sec** (**$2.0988/hr**) | **$1,511.14** | [Modal pricing](https://modal.com/pricing), Sept. 14, 2026 |
-| **Paperspace Machine** | 1x A100 40 GB; 12 vCPU and 90 GB RAM; default 50 GB SSD billed separately | **$3.09/hr compute** | **$2,224.80 compute** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) and [Machine Type Reference](https://docs.digitalocean.com/products/paperspace/machines/details/machine-types/), Sept. 14, 2026 |
+| **Jarvis Labs** | 1x A100 40 GB; 16 vCPU and 112 GB RAM listed | **$0.89/GPU-hr** | **$640.80** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Sept. 24, 2026 |
+| **Verda** | 1x A100 40 GB SXM4; 22 CPU and 120 GB RAM; storage separate | **$1.282/hr** | **$923.04** | [Verda pricing](https://verda.com/pricing) and [API](https://api.verda.com/v1/instance-types), Sept. 24, 2026 |
+| **Lambda Cloud** | Selected one-GPU A100 PCIe or SXM row; 40 GB | **$1.99/GPU-hr** | **$1,432.80** | [Lambda instances](https://lambda.ai/instances), Sept. 24, 2026 |
+| **Modal** | A100 40 GB allocated to a serverless container | **$0.000583/sec** (**$2.0988/hr**) | **$1,511.14** | [Modal pricing](https://modal.com/pricing), Sept. 24, 2026 |
+| **Paperspace** | 1x A100 40 GB; 12 vCPU and 90 GB RAM; default SSD separate | **$3.09/hr compute** | **$2,224.80 compute** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/), Sept. 24, 2026 |
 
-Northflank also publishes an A100 40 GB rate of **$1.42/GPU-hour**, checked September 14, 2026 on [Northflank's pricing page](https://northflank.com/pricing). That is **$1,022.40 for 720 GPU-component hours**, before the required CPU and memory compute plan. Because Northflank does not prescribe one minimum CPU/RAM shape for this card, inventing an all-in total would make the table look more precise than the source allows.
+Northflank publishes an A100 40 GB component at **$1.42/GPU-hour**, checked September 24, 2026 on [Northflank pricing](https://northflank.com/pricing). That is **$1,022.40 for 720 GPU-component hours**, before required CPU and memory. Northflank does not prescribe one A100-specific CPU/RAM shape, so this guide does not invent an all-in total.
 
-The estimates multiply the native rate by 720. Modal's figure uses its unrounded per-second rate. They exclude separately billed storage, networking where charged, IPs, support, tax, additional replicas, and operational labor. Paperspace's default disk is specifically outside its compute-only monthly figure.
+## A100 80 GB: 14 product rates plus one component price
 
-## A100 80 GB: 15 product rates plus one component price
-
-This table ranks published product rates, not Northflank's incomplete GPU component. Novita remains in the catalog-price comparison but is not currently launchable from the public inventory response. Thunder is the one ranked row whose minimum total requires transparent CPU arithmetic.
+The table ranks complete published products. Northflank's incomplete GPU component stays below it. Thunder is the one ranked row whose minimum total requires explicit CPU arithmetic.
 
 | Provider and product | Configuration or access boundary | Public rate used | 720-hour estimate | Official source and check date |
 |---|---|---:|---:|---|
-| **Thunder Compute** | 1x A100 80 GB; minimum 8 vCPU, 64 GB RAM, and 100 GB disk | **$1.09 GPU base + 4 × $0.04 vCPU = $1.25/hr minimum VM** | **$900.00** | [Thunder pricing](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing), and [spec API](https://api.thundercompute.com:8443/v1/specs), Sept. 14, 2026 |
-| **Hyperstack VM** | 1x A100 80 GB PCIe; 28 CPU, 120 GB RAM, and local storage included; Canada | **$1.35/GPU-hr** | **$972.00** | [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing), Sept. 14, 2026 |
-| **Massed Compute VM** | 1x A100 80 GB; 16 vCPU and 96 GB RAM included | **$1.35/hr** | **$972.00** | [Massed Compute pricing](https://vm.massedcompute.com/pricing), Sept. 14, 2026 |
-| **Jarvis Labs on-demand instance** | 1x A100 80 GB; public row lists 16 vCPU and 112 GB RAM | **$1.49/GPU-hr** | **$1,072.80** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Sept. 14, 2026 |
-| **RunPod Secure Cloud Pod** | Selected one-GPU A100 80 GB PCIe Pod; Secure Cloud SXM is also $1.59/hr | **$1.59/hr** | **$1,144.80** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 14, 2026 |
-| **Novita AI instance** | 1x A100 80 GB SXM; 14 vCPU, 240 GB RAM, and 60 GB container-disk quota; API reports inventoryState=none, usableNode=false, and zero available GPUs | **$1.60/GPU-hr** | **$1,152.00** | [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products), Sept. 14, 2026 |
-| **Koyeb GPU Service** | 1x A100 80 GB; 15 vCPU, 180 GB RAM, and 320 GB disk included | **$1.60/hr** | **$1,152.00** | [Koyeb pricing](https://www.koyeb.com/pricing), Sept. 14, 2026 |
-| **Verda GPU instance** | 1x A100 80 GB SXM4; 22 CPU and 120 GB RAM included; storage separate | **$1.735/hr** | **$1,249.20** | [Verda pricing](https://verda.com/pricing), Sept. 21, 2026 |
-| **Vultr Cloud GPU** | 1x PCIe A100 80 GB catalog plan; 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth included; API locations array is empty | **$2.397/hr** | **$1,725.84** | [Vultr public plan API](https://api.vultr.com/v2/plans?per_page=500), Sept. 14, 2026 |
-| **Modal container** | A100 80 GB allocated to a serverless container | **$0.000694/sec** (**$2.4984/hr**) | **$1,798.85** | [Modal pricing](https://modal.com/pricing), Sept. 14, 2026 |
-| **CoreWeave Inference** | A100 80 GB single-GPU inference rate; inference-platform customers only | **$2.70/GPU-hr** | **$1,944.00** | [CoreWeave pricing](https://www.coreweave.com/pricing), Sept. 14, 2026 |
-| **RunPod Serverless** | A100 80 GB worker tier; not an exact-card reservation | **$2.72/hr** | **$1,958.40** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 14, 2026 |
-| **Paperspace Machine** | 1x A100 80 GB; 12 vCPU and 90 GB RAM; default 50 GB SSD billed separately | **$3.18/hr compute** | **$2,289.60 compute** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) and [Machine Type Reference](https://docs.digitalocean.com/products/paperspace/machines/details/machine-types/), Sept. 14, 2026 |
-| **Baseten deployment** | A100 80 GiB managed deployment | **$0.06667/min** (**$4.0002/hr**) | **$2,880.14** | [Baseten pricing](https://www.baseten.co/pricing/), Sept. 14, 2026 |
-| **Replicate private deployment** | One A100 80 GB managed deployment | **$0.001400/sec** (**$5.04/hr**) | **$3,628.80** | [Replicate pricing](https://replicate.com/pricing), Sept. 14, 2026 |
+| **Thunder Compute** | 1x A100 80 GB; minimum 8 vCPU, 64 GB RAM, and 100 GB disk | **$1.09 GPU + 4 × $0.04 vCPU = $1.25/hr** | **$900.00** | [Thunder pricing](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing), and [spec API](https://api.thundercompute.com:8443/v1/specs), Sept. 24, 2026 |
+| **Hyperstack** | 1x A100 80 GB PCIe; 28 CPU, 120 GB RAM, and local storage; Canada | **$1.35/GPU-hr** | **$972.00** | [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing), Sept. 24, 2026 |
+| **Massed Compute** | 1x A100 80 GB; 16 vCPU and 96 GB RAM included | **$1.35/hr** | **$972.00** | [Massed Compute pricing](https://vm.massedcompute.com/pricing), Sept. 24, 2026 |
+| **Jarvis Labs** | 1x A100 80 GB; 16 vCPU and 112 GB RAM listed | **$1.49/GPU-hr** | **$1,072.80** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Sept. 24, 2026 |
+| **RunPod Secure Cloud Pod** | Selected one-GPU A100 80 GB PCIe Pod; Secure SXM also $1.59/hr | **$1.59/hr** | **$1,144.80** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 24, 2026 |
+| **Koyeb GPU Service** | 1x A100 80 GB; 15 vCPU, 180 GB RAM, and 320 GB disk | **$1.60/hr** | **$1,152.00** | [Koyeb pricing](https://www.koyeb.com/pricing), Sept. 24, 2026 |
+| **Verda** | 1x A100 80 GB SXM4; 22 CPU and 120 GB RAM; storage separate | **$1.744/hr** | **$1,255.68** | [Verda pricing](https://verda.com/pricing) and [API](https://api.verda.com/v1/instance-types), Sept. 24, 2026 |
+| **Vultr Cloud GPU** | 1x PCIe A100 80 GB; 12 vCPU, 120 GB RAM, storage, and bandwidth listed | **$2.397/hr** | **$1,725.84** | [Vultr plan API](https://api.vultr.com/v2/plans?per_page=500), Sept. 24, 2026 |
+| **Modal** | A100 80 GB allocated to a serverless container | **$0.000694/sec** (**$2.4984/hr**) | **$1,798.85** | [Modal pricing](https://modal.com/pricing), Sept. 24, 2026 |
+| **CoreWeave Inference** | Single-GPU inference rate; inference-platform customers only | **$2.70/GPU-hr** | **$1,944.00** | [CoreWeave pricing](https://www.coreweave.com/pricing), Sept. 24, 2026 |
+| **RunPod Serverless** | A100 80 GB worker tier; not an exact-card reservation | **$2.72/hr** | **$1,958.40** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 24, 2026 |
+| **Paperspace** | 1x A100 80 GB; 12 vCPU and 90 GB RAM; default SSD separate | **$3.18/hr compute** | **$2,289.60 compute** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/), Sept. 24, 2026 |
+| **Baseten** | A100 80 GiB managed deployment | **$0.06667/min** (**$4.0002/hr**) | **$2,880.14** | [Baseten pricing](https://www.baseten.co/pricing/), Sept. 24, 2026 |
+| **Replicate** | A100 80 GB private managed deployment | **$0.001400/sec** (**$5.04/hr**) | **$3,628.80** | [Replicate pricing](https://replicate.com/pricing), Sept. 24, 2026 |
 
-Northflank's separate **A100 80 GB component is $1.76/GPU-hour**, or **$1,267.20 for 720 GPU-component hours**, from its [official pricing](https://northflank.com/pricing) checked September 14, 2026. The all-in running rate must add the chosen vCPU and memory plan; persistent disk and egress can add more. Its raw GPU number is slightly above Verda's complete-instance rate, but the unknown complete Northflank total means it should not be ranked as if the two products included the same resources.
+Northflank's A100 80 GB component is **$1.76/GPU-hour**, or **$1,267.20 for 720 component hours**, from [official pricing](https://northflank.com/pricing) checked September 24, 2026. CPU, memory, persistent disk, and egress are additional. Its GPU number cannot be ranked as a complete service total.
 
-Together, the guide now contains **six A100 40 GB cells and 16 A100 80 GB cells: 22 public price points**. They are not 22 equivalent rentals.
+Together, the guide contains **six A100 40 GB price points and 15 A100 80 GB price points: 21 public rates**.
 
-The Vultr A100 plan is included because the official plan API returned it again on September 7 after it was absent during the September 4 review. Its current record has an empty `locations` array, so this is volatile catalog evidence, not proof that an account can deploy it in any region.
+## What changed on September 24
 
-## Verda's two A100 rates moved again
+### Novita's A100 row was removed
 
-Verda changed both one-GPU A100 offers between HostFleet's September 17 full-dataset snapshot and the September 21 bounded provider check:
+HostFleet's September 21 snapshot carried a Novita A100 80 GB row at **$1.60/hour**. On September 24, neither Novita's rendered public marketplace nor its [public products API](https://api-server.novita.ai/api/v1/market/products) exposed an A100 product. The unsupported row was removed.
 
-| Verda one-GPU offer | September 17 exact rate | September 21 exact rate | Change | 720-hour estimate now |
+A missing public row does not establish permanent discontinuation, private availability, future inventory, or a technical inability to offer A100s. It establishes only that a buyer could not reproduce the prior public catalog price from either checked official surface on September 24.
+
+This changes the count from 22 to 21 and leaves Koyeb alone at **$1.60/hour** in the current 80 GB list. Koyeb is still a serverless application instance, not a like-for-like replacement for the removed Novita VM.
+
+### Verda raised both exact rates
+
+| Verda offer | Sept. 21 rate | Sept. 24 rate | Derived movement | 720-hour estimate |
 |---|---:|---:|---:|---:|
-| A100 SXM4 40 GB | $1.251/hr | **$1.264/hr** | **+1.0%** | **$910.08** |
-| A100 SXM4 80 GB | $1.718/hr | **$1.735/hr** | **+1.0%** | **$1,249.20** |
+| A100 SXM4 40 GB | $1.264/hr | **$1.282/hr** | **+1.4%** | **$923.04** |
+| A100 SXM4 80 GB | $1.735/hr | **$1.744/hr** | **+0.5%** | **$1,255.68** |
 
-The percentages are derived from the exact vendor values and rounded to one decimal place. The fixed shapes remain one GPU, 22 CPU, and 120 GB RAM, with storage separate. Verda's visible rate table rounds to cents; embedded schema.org `Offer` metadata supplies the exact three-decimal prices. Using the rounded display alone would produce $907.20 for the 40 GB row and $1,252.80 for the 80 GB row over 720 hours, so exact source precision matters even when the ranking does not change.
+The percentages are derived from exact vendor values and rounded to one decimal. Against September 21, the 720-hour increase is **$12.96 for 40 GB** and **$6.48 for 80 GB**. The fixed shapes remain one GPU, 22 CPU, and 120 GB RAM; storage is separate. Neither movement changes the category leader.
 
-This was a provider-only recheck, not a new verification of all 22 cells. It does not prove stock, quota, launch success, or performance. The movement is too small to change the short answer: Jarvis Labs remains the selected 40 GB leader, and Verda still sits behind the lower-cost complete 80 GB VM totals in this comparison.
+Verda's [pricing and billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing), checked September 24, says pay-as-you-go usage is prepaid in 10-minute increments and unused terminated time is returned in the next billing period. Its [lifecycle guide](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/), checked the same day, says shutdown does not release compute billing; deletion is required.
 
-## What the five added cells change
+At the current A100 80 GB rate, one nominal 10-minute prepayment is **$0.2907**:
 
-The September 8 refresh expanded this page from 17 to 22 price cells. That revision added Jarvis Labs at both memory tiers, Koyeb at 80 GB, and Northflank components at both tiers.
+    $1.744 / 6 = $0.2907
 
-### Jarvis Labs leads 40 GB, but pause is not free storage
+That is cash-flow arithmetic, not a 10-minute minimum-charge claim. The unused terminated portion is documented as a later refund, while retained storage can continue billing.
 
-Jarvis Labs publishes **$0.89/GPU-hour for A100 40 GB** and **$1.49/GPU-hour for A100 80 GB**, rechecked September 14, 2026 on its [pricing page](https://jarvislabs.ai/pricing). The selected on-demand rows list one GPU, 16 vCPU, and 112 GB RAM. The page says on-demand instances bill per minute, but neither the pricing page nor the checked FAQ defines whether partial minutes are rounded, prorated, or aggregated. Do not turn a sub-minute run into an invoice claim.
+## Memory class comes before hourly price
 
-Pause changes the meter and the capacity promise. The [Jarvis Labs SDK documentation](https://docs.jarvislabs.ai/sdk/), checked September 14, says a successful pause preserves installed packages and files while stopping compute billing. The API accepts the request before the instance finishes moving through `Pausing` to `Paused`; the public sources do not establish the exact point inside that transition when compute billing stops.
+Jarvis Labs' $0.89 A100 40 GB rate is 36 cents below Thunder's estimated $1.25 minimum A100 80 GB total. The gap matters only if the workload safely fits the smaller card.
 
-Once paused, instance data costs **$0.00014/GB-hour**, according to the [Jarvis Labs FAQ](https://docs.jarvislabs.ai/faqs/) checked September 14. That is **$0.007/hour for 50 GB** and the vendor's own **$5.04 for 720 hours** example. The pricing page rounds storage to **$0.10/GB-month**; the hourly meter produces $0.1008 per GB over 720 hours. Use the hourly rate for lifecycle estimates and preserve the displayed monthly headline as a rounded planning number.
-
-Here is the intermittent-work boundary for one 50 GB instance:
-
-| Jarvis Labs A100 | 24 active hours | 696 paused hours | Derived 30-day total | 720 active hours |
-|---|---:|---:|---:|---:|
-| A100 40 GB | $21.36 compute | $4.872 storage | **$26.23** | **$640.80** |
-| A100 80 GB | $35.76 compute | $4.872 storage | **$40.63** | **$1,072.80** |
-
-**Estimate assumptions:** one instance, 24 whole active hours, 696 fully paused hours, 50 GB of instance storage, no overlap during state transitions, no shared filesystem, no Reserved IP, no tax, and unchanged September 14 rates. The calculations are `active rate × 24 + $0.00014 × 50 × 696`, rounded to cents only at the end. They are not measured bills, and they exclude any unresolved partial-minute or transition treatment.
-
-Pause also releases the GPU. The FAQ says a later resume is not guaranteed, while the SDK says resume remains tied to the original region, can fail when that GPU is unavailable there, and may return a new `machine_id`. Automation must wait for `Paused`, store the ID returned by resume, and treat the retained disk as recoverable working state rather than reserved compute capacity.
-
-Destroy has narrower cleanup semantics than its name suggests. The SDK says destroying an instance permanently deletes that instance and its instance storage. A [shared filesystem](https://docs.jarvislabs.ai/filestorage/) is an independent provisioned-capacity resource at **$0.00014/GB-hour**, checked September 14, and survives instance termination until separately removed. A [Reserved IP](https://docs.jarvislabs.ai/reserved-ip/) is VM-only and available only in IN1 and IN2, not EU1. For users outside the Indian-user billing category, it carries a separate, non-refundable **$5 charge per 30-day cycle**; destroying the VM returns the reservation to `Idle`, and billing continues until the IP is explicitly released.
-
-Finally, paused storage is not a backup. Jarvis warns that a zero wallet can release all resources and permanently delete retained data. Export important artifacts before pausing, keep the wallet funded for anything intentionally retained, and delete instance storage, shared filesystems, and Reserved IPs explicitly when the job is finished.
-
-### Koyeb adds an included-resource service with a real idle tail
-
-Koyeb lists one A100 80 GB Service at **$1.60/hour**, with 15 vCPU, 180 GB RAM, and 320 GB disk on the pricing card, rechecked September 14, 2026. The separate A100 SXM product is **$2.15/hour** and is not substituted into the lower selected row.
-
-Koyeb's [scale-to-zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero), checked August 28, 2026, explicitly includes GPU Instances. A Service can set its minimum instance count to zero, with a default five-minute idle period. At the current $1.60/hour A100 rate, the nominal five-minute post-traffic tail is:
-
-    $1.60 × 5 / 60 = $0.1333
-
-That is derived planning arithmetic, not a vendor-quoted minimum charge. It excludes active processing, wake and model-load time, additional instances, storage, and networking. Scale-to-zero is in public preview; held connections prevent idleness, HTTP/2 cannot wake a sleeping Service, and no public GPU wake-latency SLA was found.
-
-For a sparse request-driven endpoint, the active hourly rate plus the five-minute tail can matter more than a 720-hour estimate. For a continuously warm endpoint, it behaves like the $1,152 monthly planning row.
-
-### Northflank adds useful market evidence, not a finished invoice
-
-Northflank publishes **$1.42/GPU-hour for A100 40 GB** and **$1.76/GPU-hour for A100 80 GB**, rechecked September 14, 2026. Its managed-cloud documentation says GPU use is billed by the second once provisioned.
-
-The trap is that these are GPU components. Northflank separately charges for the selected CPU and memory compute plan, and also lists persistent disk and egress charges. Its public documents do not prescribe a model-specific minimum CPU/RAM plan that would justify one comparable all-in figure.
-
-Northflank's autoscaling is also not request-waking scale-to-zero. The [manual scaling documentation](https://northflank.com/docs/v1/application/scale/scale-instances.md), checked August 31, 2026, says a service can be manually set to zero but is unavailable at zero. Its [autoscaling documentation](https://northflank.com/docs/v1/application/scale/autoscale-deployments.md) describes 15-second evaluations and a five-minute moving downscale window, but does not establish an autoscaling minimum of zero or an incoming-request wake path. Treating it as interchangeable with Koyeb would erase the central product difference.
-
-## Forty gigabytes versus 80 GB is the first decision
-
-Jarvis's $0.89 A100 40 GB rate is 36 cents below Thunder's estimated $1.25 minimum 80 GB VM total. That gap is real, but it is useful only if the workload fits.
-
-Start with model weights, precision, KV-cache size, batch size, context length, runtime workspace, and headroom for the serving stack. If the safe requirement exceeds 40 GB, remove every 40 GB row. [HostFleet's Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) shows the memory arithmetic, including why context and concurrency can consume the apparent spare capacity.
-
-Hardware variant is the next filter. PCIe and SXM4 systems have different bandwidth and topology boundaries. A single-GPU inference service may care less about multi-GPU fabric than training or tensor-parallel inference, but the exact variant still belongs in the deployment record. “A100” alone is not a reproducible configuration.
+Start with weights, precision, KV cache, batch size, context, serving-runtime workspace, and safety headroom. If the requirement exceeds 40 GB, remove every 40 GB row. Then record PCIe versus SXM4, topology, region, and minimum GPU count. “A100” alone is not a reproducible deployment shape.
 
 ## What the 720-hour estimates mean
 
-A 30-day planning month has 720 hours. The estimates assume one named product stays billable for all 720 hours. They normalize continuously allocated capacity; they do not predict a bursty endpoint's bill.
+A 30-day planning month has 720 hours. Each monthly number assumes one named product remains billable for all 720 hours. Native per-second and per-minute inputs are multiplied before rounding. Thunder's $900 estimate includes minimum paid-vCPU arithmetic; Northflank remains a component floor.
 
-Vultr's [GPU billing guide](https://docs.vultr.com/support/platform/billing/how-are-gpu-products-billed-differently) uses 730 hours for its published monthly calculation while charging the actual hours in each calendar month. This guide applies 720 hours uniformly, so the Vultr row's **$1,725.84** planning figure differs from the API's **$1,750** catalog monthly price.
-
-The calculations assume:
-
-- one GPU product remains billable continuously;
-- no overlapping rollout, failed replacement, or extra replica is charged;
-- native per-second or per-minute rates are multiplied before display rounding; and
-- the public list rate remains unchanged for the planning period.
-
-They exclude storage beyond included allocations, network overages, public IPs, support, tax, commitments, regional premiums, retries, and engineering labor. Thunder's $900 estimate includes the minimum required vCPU arithmetic. Northflank's figures deliberately remain GPU-component floors. Paperspace's displayed monthly values are compute-only because its default disk is a separate charge.
-
-For intermittent work, billable allocation time replaces 720 in the formula. Startup, image pulls, model loading, retries, idle windows, minimum workers, downscale holds, and retained resources all change cost. [HostFleet's GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) exposes useful-hour and always-warm assumptions instead of burying them inside one monthly headline.
-
-## Paperspace: the default disk is not included, and auto-shutdown is not proven scale-to-zero
-
-Paperspace's September 11 documentation check corrects two easy assumptions about the A100 rows.
-
-First, the A100 Machine type includes **12 vCPU, 90 GB RAM, and a default 50 GB SSD in its configuration**, but the pricing page lists storage separately. The default disk costs **$0.0074/hour with a $5 monthly cap**, checked September 11, 2026. A public IP is another line item at **$0.0045/hour with a $3 monthly cap**. A dynamic public IP exists only while the Machine is on; a static IP persists and bills until it is deleted.
-
-That changes the continuously-on planning totals:
-
-| Paperspace A100 Machine | 720-hour compute | Default 50 GB disk | Public IP if held for the month | Maximum listed bundle estimate |
-|---|---:|---:|---:|---:|
-| A100 40 GB | $2,224.80 | $5.00 monthly cap | up to $3.00 monthly cap | **up to $2,232.80** |
-| A100 80 GB | $2,289.60 | $5.00 monthly cap | up to $3.00 monthly cap | **up to $2,297.60** |
-
-**Estimate assumptions:** 720 powered-on hours at the September 14 compute rates; one default 50 GB disk retained for the month; one public IP billed long enough to hit its monthly cap; no tax, snapshots, private networking, or other add-ons. The IP is optional, so the disk-adjusted figures without it are **$2,229.80** and **$2,294.60**. These are arithmetic planning totals, not invoice measurements.
-
-Second, `Off` is the only documented Machine state without hourly usage fees. `Provisioning`, `Starting up`, `On/Ready`, and `Shutting Down` should not be treated as free. Paperspace says a provider stop takes approximately one minute, but the public pricing documentation says only that Machines are billed per hour; it does not disclose whether partial hours are prorated, rounded, or metered more finely. Do not turn a 75-minute test into an invoice prediction by multiplying the hourly rate alone.
-
-Linux auto-shutdown is useful, but its semantics are not documented well enough to call it request-driven scale-to-zero:
-
-- the selectable delay is one hour to one week;
-- a Linux Machine shuts down after the selected inactivity period even when users are connected;
-- the public guide does not define `inactivity` or state whether GPU use, CPU use, SSH traffic, an open SSH session, or inference requests reset the timer; and
-- enabling or disabling auto-shutdown on an existing Machine is console-only, not available through the Paperspace API or CLI.
-
-For a development box, test the one-hour setting with a noncritical workload and an external stop watchdog. For a production inference server, use explicit API-driven lifecycle automation until a workload-specific test proves what the inactivity timer observes. Power-off ends Machine compute, not every charge: the disk and a static IP continue billing. Deactivation removes the Machine, its files, and its snapshots permanently and requires the Machine to be off first.
+The estimates exclude tax, commitments, support, regional premiums, extra replicas, retries, labor, and storage, network, or IP charges unless explicitly included. For intermittent work, replace 720 with billable allocation time, then add startup where charged, model load, retries, idle windows, warm floors, and retained resources. The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) exposes those assumptions.
 
 ## The off switch can reverse the ranking
 
-The cheapest hourly row is not always the cheapest operational choice.
+- **Jarvis Labs:** pause ends compute after the instance reaches the paused state; retained storage bills, and capacity is released.
+- **Thunder Compute:** its [billing guide](https://www.thundercompute.com/docs/billing), checked September 24, says compute bills per minute while running and deletion stops instance billing.
+- **Hyperstack:** its [states and billing guide](https://docs.hyperstack.cloud/docs/billing/states-and-billing/), checked September 24, says a stopped VM remains billable; hibernation releases compute while retained resources may bill.
+- **RunPod Pods:** compute and persistent storage have separate lifecycle controls. The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) covers the split.
+- **Koyeb:** its [scale-to-zero guide](https://www.koyeb.com/docs/run-and-scale/scale-to-zero), checked August 28, documents a five-minute default idle period for eligible GPU Services. At $1.60/hour, one nominal five-minute tail is **$0.1333**, excluding startup and active work.
+- **Verda:** shutdown keeps compute billing active; delete the instance and clean up retained storage separately.
+- **Vultr:** its [stopped-instance billing documentation](https://docs.vultr.com/support/platform/billing/are-stopped-instances-still-billed-on-vultr), checked September 24, says billing continues until destruction.
+- **Paperspace:** `Off` ends Machine compute, but the default disk and any static IP are separate resources.
+- **Northflank:** manual zero makes the service unavailable; checked docs do not establish request wake-up from zero.
+- **Modal and RunPod Serverless:** workers can reach zero, but startup, execution, idle windows, and warm settings determine billable allocation.
 
-- **Jarvis Labs:** wait for `Paused` before assuming compute has ended; instance storage then bills at $0.00014/GB-hour and capacity is released. Resume is region-locked and capacity-dependent. Destroy removes instance storage, not an independent shared filesystem or an unreleased Reserved IP.
-- **Thunder Compute:** its [billing guide](https://www.thundercompute.com/docs/billing) says compute bills per minute while the instance runs and deletion stops instance billing. Confirm retained-disk treatment.
-- **Hyperstack:** its [states-and-billing guide](https://docs.hyperstack.cloud/docs/billing/states-and-billing/) says a stopped VM remains billable because hardware stays reserved; hibernation deallocates the flavor, while retained resources can still bill.
-- **Massed Compute:** its [billing overview](https://vm-docs.massedcompute.com/docs/billing/overview) says the active VM total is debited per minute. Confirm the exact release action before automation.
-- **RunPod Pods:** compute allocation and persistent storage have separate lifecycle controls.
-- **Novita:** its [GPU instance pricing guide](https://novita.ai/docs/guides/gpu-instance-pricing) says stopping ends compute billing; storage is separate.
-- **Koyeb:** an eligible Internet-facing GPU Service can scale to zero after its idle window, subject to preview and protocol limitations.
-- **Verda:** its [instance lifecycle guide](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) says shutdown does not stop compute billing; deletion is required, and retained storage can continue billing.
-- **Vultr:** its [stopped-instance billing documentation](https://docs.vultr.com/support/platform/billing/are-stopped-instances-still-billed-on-vultr) says a stopped instance remains billable until it is destroyed.
-- **Paperspace:** only `Off` is documented as free of Machine usage fees. Power-off stops compute, but the default disk, a static IP, and other retained add-ons can continue billing; Linux auto-shutdown is not documented as load-aware.
-- **Northflank:** manual zero makes the service unavailable; documented autoscaling does not establish request wake-up from zero.
-- **Modal and RunPod Serverless:** workers can return to zero, but startup, execution, idle windows, and warm settings determine billable allocation.
+Use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) when request-driven wake behavior matters more than VM ownership.
 
-A portable cleanup job cannot merely call “stop” everywhere. For each provider, record the exact action that releases the GPU and the fate of disks, checkpoints, images, IPs, and cached model data.
+## Buying checklist
 
-## Choose the operating surface after memory
-
-Once the memory floor is fixed, group products by the work they remove.
-
-1. **Self-managed VM or Pod:** Jarvis Labs, Thunder, Hyperstack, Massed Compute, RunPod Pods, Novita, Verda, Vultr, Lambda, and Paperspace leave the image, inference server, authentication, rollout, monitoring, and cleanup largely to the buyer.
-2. **Request-driven or scale-to-zero container:** Koyeb, Modal, and RunPod Serverless can align compute with active allocation, but their wake path, idle policy, and worker semantics differ.
-3. **Managed deployment:** Baseten, Replicate, and eligible CoreWeave products add a more opinionated serving surface. Higher rates can be rational when autoscaling, rollout controls, and operations replace internal work.
-4. **Component-priced managed cloud:** Northflank exposes a GPU component inside a configurable service. Build the complete CPU, memory, storage, and egress total before comparing it with fixed VM bundles.
-5. **Catalog evidence:** a public price is not current capacity. Account access, quota, region, and actual launch success remain separate checks.
-
-The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) is the better companion for worker and managed-deployment tradeoffs. [RunPod's pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains why Pods and Serverless need different allocation and storage assumptions. If A100 is not the required generation, compare the [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) after fixing the workload shape.
-
-## A practical A100 buying checklist
-
-1. **Set the memory floor.** Remove every 40 GB row if weights plus runtime headroom require 80 GB.
-2. **Confirm the exact hardware.** Record PCIe versus SXM4, topology, region, and the smallest deployable GPU count.
-3. **Build the complete product total.** Add required CPU, memory, storage, IP, and egress components.
-4. **Prove capacity.** Check account eligibility, quota, approval, region, and live inventory.
-5. **Test the off switch.** Verify whether pause, stop, hibernate, scale-to-zero, manual zero, or deletion ends compute billing.
-6. **Run a bounded deployment test.** Measure provisioning, model load, billed duration, failure recovery, and cleanup before production traffic.
-7. **Set a spend guardrail.** Alert on unexpected replicas and retained resources; do not rely on a low hourly rate to limit a broken rollout.
+1. Set the 40 GB or 80 GB memory floor.
+2. Record PCIe or SXM4, topology, region, and GPU count.
+3. Add required CPU, memory, storage, IP, and egress.
+4. Confirm account eligibility, quota, approval, and live inventory.
+5. Verify which lifecycle action ends compute billing.
+6. Run a bounded deployment and billing test.
+7. Alert on extra replicas and retained resources.
 
 ## Verdict
 
-**Jarvis Labs remains the selected A100 40 GB public-rate leader at $0.89/GPU-hour**, or an estimated **$640.80 for 720 active hours**, based on the official rate checked September 14, 2026. Verda's September 21 increase to $1.264/hour does not change that ranking. For intermittent work, 24 active hours plus 696 paused hours with 50 GB of instance storage is an estimated **$26.23**, but pause releases the GPU and does not stop storage billing. Shared filesystems and Reserved IPs require their own cleanup.
+**Jarvis Labs remains the A100 40 GB price leader at $0.89/GPU-hour**, or an estimated **$640.80 for 720 active hours**, based on its official rate checked September 24.
 
-**Thunder Compute remains the lowest A100 80 GB launchable total in this check at an estimated $1.25/hour.** That is explicit component arithmetic: a $1.09 GPU base plus four paid vCPUs at $0.04 each. It is not a vendor-published all-in headline or proof of inventory.
+**Thunder Compute remains the lowest selected A100 80 GB launchable total at an estimated $1.25/hour.** This is transparent component arithmetic, not a vendor-published all-in headline. Hyperstack and Massed Compute tie at **$1.35/hour** among selected complete published VM totals.
 
-**Hyperstack and Massed Compute tie at $1.35/hour among selected published complete VM totals.** Jarvis Labs is $1.49/hour, RunPod's selected Secure Cloud PCIe Pod is $1.59/hour, and Koyeb is $1.60/hour with an included-resource, request-waking Service boundary.
+**Novita's former $1.60/hour A100 row is gone because neither checked public surface exposed it on September 24.** Removing an unsupported rate is more useful than preserving a cheap number readers cannot reproduce.
 
-**Verda's exact rates are now $1.264/hour for A100 40 GB and $1.735/hour for A100 80 GB.** Both moved about 1.0% from the September 17 exact snapshot, but neither changes this guide's leaders. The fixed instances include CPU and RAM; storage is separate.
+**Verda now lists $1.282/hour for A100 40 GB and $1.744/hour for A100 80 GB.** The increases are small, but they raise the 720-hour estimates to $923.04 and $1,255.68.
 
-**Northflank's $1.42 and $1.76 A100 numbers are GPU components, not comparable totals.** They are useful public market data only after CPU and memory are added.
-
-**Paperspace's $3.09 and $3.18 A100 rates are compute-only, not complete Machine totals.** Add the separately billed default disk, then any IP or other retained resource. Auto-shutdown can cap a development session, but the undefined Linux inactivity signal means it should not be sold as production scale-to-zero.
-
-The defensible buying order is memory, exact hardware, product shape, capacity, billing lifecycle, complete cost, and then hourly rate. The lowest number wins only after every earlier constraint survives.
+The buying order is memory, exact hardware, product shape, capacity, billing lifecycle, complete cost, and then hourly rate.
 
 ## Sources
 
-- [HostFleet GPU pricing dataset](https://hostfleet.net/gpu-pricing/) — live-table baseline; its last full-dataset verification was September 17, 2026, followed by this bounded Verda refresh
-- [Jarvis Labs pricing](https://jarvislabs.ai/pricing) — A100 40 GB and 80 GB on-demand rates, per-minute billing statement, resource rows, and rounded storage headline; rechecked September 14, 2026
-- [Jarvis Labs FAQ](https://docs.jarvislabs.ai/faqs/) — per-minute usage language, paused instance-storage rate, 50 GB example, capacity release, zero-wallet behavior, and data-loss warning; checked September 14, 2026
-- [Jarvis Labs SDK](https://docs.jarvislabs.ai/sdk/) — asynchronous pause, compute-billing stop statement, retained instance state, capacity-dependent region-locked resume, possible replacement machine ID, destroy semantics, and independent filesystems; checked September 14, 2026
-- [Jarvis Labs CLI](https://docs.jarvislabs.ai/cli/) — machine-readable lifecycle fields, automatic post-run pause, and command boundaries; checked September 13, 2026
-- [Jarvis Labs shared-filesystem documentation](https://docs.jarvislabs.ai/filestorage/) — independent lifecycle and $0.00014/GB-hour provisioned-capacity billing; checked September 14, 2026
-- [Jarvis Labs Reserved IP documentation](https://docs.jarvislabs.ai/reserved-ip/) — VM-only scope, IN1/IN2 availability, Indian-user versus other-user billing categories, non-refundable 30-day charge, persistence after VM destroy, and explicit-release requirement; checked September 14, 2026
-- [Verda pricing](https://verda.com/pricing) — exact A100 40 GB and 80 GB on-demand rates of $1.264/hr and $1.735/hr plus fixed CPU/RAM configurations; visible table and embedded `Offer` metadata rechecked September 21, 2026
-- [Lambda GPU instances](https://lambda.ai/instances) — selected one-GPU A100 40 GB rate; rechecked September 14, 2026
-- [Modal pricing](https://modal.com/pricing) — A100 40 GB and 80 GB per-second rates; rechecked September 14, 2026
-- [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) — A100 compute rates, Off-state billing boundary, separately billed block storage, public-IP rates, and bandwidth; rechecked September 14, 2026
-- [Paperspace Machine Type Reference](https://docs.digitalocean.com/products/paperspace/machines/details/machine-types/) — 12-vCPU, 90-GB-RAM, and default 50-GB-SSD configurations for A100 and A100-80G; rechecked September 14, 2026
-- [Paperspace auto-shutdown guide](https://docs.digitalocean.com/products/paperspace/machines/how-to/manage-auto-shutdown/) — one-hour-to-one-week range, Linux connected-user behavior, and console-only control; checked September 11, 2026
-- [Paperspace Machine states](https://docs.digitalocean.com/products/paperspace/machines/reference/states-and-error-codes/) — billable-state boundary and approximate stop duration; checked September 11, 2026
-- [Paperspace Machine features](https://docs.digitalocean.com/products/paperspace/machines/details/features/) and [public-IP guide](https://docs.digitalocean.com/products/paperspace/machines/how-to/manage-public-ips/) — dynamic and static IP lifecycles; checked September 11, 2026
-- [Paperspace Machine creation guide](https://docs.digitalocean.com/products/paperspace/machines/how-to/create/) — separate Machine, disk, and feature price-summary boundary; checked September 11, 2026
-- [Paperspace deactivation guide](https://docs.digitalocean.com/products/paperspace/machines/how-to/deactivate/) — off-state prerequisite and permanent deletion of the Machine, files, and snapshots; checked September 11, 2026
-- [Thunder pricing](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing), and [spec API](https://api.thundercompute.com:8443/v1/specs) — A100 base rate, vCPU price, and selectable minimum; rechecked September 14, 2026
-- [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing) — selected one-GPU A100 80 GB PCIe VM rate; rechecked September 14, 2026
-- [Massed Compute pricing](https://vm.massedcompute.com/pricing) — selected one-GPU A100 80 GB VM total; rechecked September 14, 2026
-- [RunPod pricing](https://www.runpod.io/pricing) — Secure Cloud PCIe/SXM and Serverless A100 rates; rechecked September 14, 2026
-- [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products) — A100 configuration and catalog rate, plus zero inventory, inventoryState=none, and usableNode=false; rechecked September 14, 2026
-- [Koyeb pricing](https://www.koyeb.com/pricing) — A100 and A100 SXM rates and included resources; rechecked September 14, 2026
-- [Koyeb scale-to-zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) — GPU eligibility, idle period, wake path, preview status, and protocol limits; checked August 28, 2026
-- [Northflank pricing](https://northflank.com/pricing) — A100 GPU-component, CPU, memory, storage, and egress pricing; rechecked September 14, 2026
-- [Northflank managed GPU documentation](https://northflank.com/docs/v1/application/gpu-workloads/deploy-gpus-on-northflank-cloud.md) — component and provisioning boundary; checked August 31, 2026
-- [Northflank autoscaling](https://northflank.com/docs/v1/application/scale/autoscale-deployments.md) and [manual scaling](https://northflank.com/docs/v1/application/scale/scale-instances.md) — downscale window and manual-zero behavior; checked August 31, 2026
-- [Vultr public plan API](https://api.vultr.com/v2/plans?per_page=500) — restored A100 catalog record, rate, included resources, and empty locations array; rechecked September 14, 2026
-- [Vultr GPU billing guide](https://docs.vultr.com/support/platform/billing/how-are-gpu-products-billed-differently) — 730-hour monthly calculation and actual calendar-month billing; rechecked September 14, 2026
-- [Vultr stopped-instance billing](https://docs.vultr.com/support/platform/billing/are-stopped-instances-still-billed-on-vultr) — stopped-instance resource reservation and destroy-to-end-billing rule; rechecked September 14, 2026
-- [CoreWeave pricing](https://www.coreweave.com/pricing) — A100 single-GPU inference rate and eligibility; rechecked September 14, 2026
-- [Baseten pricing](https://www.baseten.co/pricing/) — A100 80 GiB managed-deployment rate; rechecked September 14, 2026
-- [Replicate pricing](https://replicate.com/pricing) — A100 80 GB private-deployment rate; rechecked September 14, 2026
+- [HostFleet GPU pricing dataset](https://hostfleet.net/gpu-pricing/) — full source verification September 24, 2026
+- [Novita products API](https://api-server.novita.ai/api/v1/market/products) — no A100 product in the September 24 response
+- [Verda pricing](https://verda.com/pricing) and [API](https://api.verda.com/v1/instance-types) — exact rates and shapes; checked September 24
+- [Jarvis Labs](https://jarvislabs.ai/pricing), [Thunder](https://www.thundercompute.com/pricing), [Hyperstack](https://www.hyperstack.cloud/gpu-pricing), and [Massed Compute](https://vm.massedcompute.com/pricing) — low-end anchors; checked September 24
+- [RunPod](https://www.runpod.io/pricing), [Koyeb](https://www.koyeb.com/pricing), [Modal](https://modal.com/pricing), [Baseten](https://www.baseten.co/pricing/), and [Replicate](https://replicate.com/pricing) — Pod, serverless, and managed rates; checked September 24
+- [Lambda](https://lambda.ai/instances), [CoreWeave](https://www.coreweave.com/pricing), [Vultr API](https://api.vultr.com/v2/plans?per_page=500), [Paperspace](https://docs.digitalocean.com/products/paperspace/pricing/), and [Northflank](https://northflank.com/pricing) — remaining anchors; checked September 24
 
-*Need a self-managed A100 endpoint? This is a labeled affiliate link; source citations above remain direct. <a href="https://hostfleet.net/go/runpod" rel="sponsored nofollow">RunPod signup (+$5 credit on your first $10, affiliate)</a> supports HostFleet's testing budget at no extra cost to you. Re-check the exact card, region, rate, storage, and shutdown behavior before purchase.*
+*Need a self-managed A100 endpoint? This is a labeled affiliate link; source citations remain direct. <a href="https://hostfleet.net/go/runpod" rel="sponsored nofollow">RunPod signup (+$5 credit on your first $10, affiliate)</a> supports HostFleet's testing budget at no extra cost to you. Re-check the card, region, rate, storage, and shutdown behavior before purchase.*
