@@ -1,8 +1,8 @@
 ---
-title: "Serverless GPU pricing in 2026: H100 rates, scale-to-zero, and idle tails"
-description: "Eight current H100 serverless and managed rates compared with scale-to-zero and idle tails, plus why Salad Lowest consumer-GPU pricing is not equivalent."
+title: "Serverless GPU pricing 2026: H100 rates and what scale-to-zero actually bills"
+description: "Eight source-checked H100 rates compared by scale-to-zero, idle tails, and billable startup phases, including Salad's running-to-ready model-load boundary."
 pubDate: 2026-04-21
-updatedDate: 2026-09-13
+updatedDate: 2026-09-28
 category: ai-hosting
 author: Alex Harmon
 draft: false
@@ -10,260 +10,201 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate-card and lifecycle comparison; calculated costs are estimates.** All eight H100 price inputs were rechecked against official provider pages on **September 13, 2026**. Scale-to-zero, cooldown, and billing claims come from the linked provider documentation checked between August 28 and September 4. HostFleet did not benchmark cold starts, throughput, availability, or settled invoices for this update.
+> **H100 rates verified:** September 24, 2026<br>
+> **Salad lifecycle and RTX 4090 rate verified:** September 26, 2026<br>
+> **Evidence mode:** Official-source comparison with transparent arithmetic. HostFleet did not benchmark cold starts, throughput, capacity, reliability, or settled invoices.
 
-**Bounded Salad price check:** Salad’s rendered pricing table and effective-date notice were checked separately on **September 13, 2026**. The provider check confirms current priority-tier rates but does not advance the September 10 full-dataset verification date.
+# Serverless GPU pricing in 2026: H100 rates and what scale-to-zero actually bills
 
-# Serverless GPU pricing in 2026: H100 rates, scale-to-zero, and idle tails
+Serverless GPU pricing is not just an hourly-rate comparison. A service can advertise scale-to-zero and still bill for model loading, idle retention, or staged scale-down after the request has finished.
 
-The selected H100 headlines run from **$2.50/hour for Koyeb** to **$0.10833/minute, or $6.4998/hour, for Baseten** as of September 13, 2026. That spread is real. It is not a clean ranking of equivalent products.
+The selected H100 headlines currently run from **$2.50/hour for Koyeb** to **$0.10833/minute, or $6.4998/hour, for Baseten**. Those official rates were checked September 24, 2026. They are not equivalent products: Koyeb bundles an application instance, Northflank publishes a GPU component, Modal meters surrounding CPU and memory separately, and Baseten and Replicate sell managed deployment capacity.
 
-Koyeb's price includes one application instance with CPU, memory, and disk. Northflank's **$2.74/GPU-hour** is only a GPU component. Modal meters the GPU, CPU, and memory separately. Replicate and Baseten sell managed deployment surfaces. RunPod's Serverless rate applies to Flex worker time rather than an exact reserved-card VM.
+The important new boundary comes from Salad Container Engine. Salad's public RTX 4090 price remains **from $0.16/GPU-hour**, checked September 26. Allocation and image download are unbilled, but billing starts when the container enters `running`. Salad's lifecycle documentation says model download, model load, and warmup can continue after that transition. “Cold start is free” is therefore too broad: platform provisioning can be free while running-to-ready initialization is billable.
 
-The more useful comparison is what happens after traffic stops. RunPod documents a five-second default worker idle timeout. Modal's default maximum idle window is 60 seconds. Koyeb's GPU scale-to-zero preview defaults to five minutes. Baseten defaults to a 15-minute scale-down delay. Replicate says an idle Deployment remains online for “a few minutes” but does not publish a numeric default. Northflank documents manual zero, not automatic request-waking from zero.
+HostFleet's [live GPU pricing table](https://hostfleet.net/gpu-pricing/) contains the complete 21-provider, 147-cell dataset verified September 24. This page narrows that dataset to application-level H100 products, then compares the lifecycle rules that determine whether scale-to-zero actually lowers the bill.
 
-> **Price verification:** September 13, 2026<br>
-> **Salad priority-tier check:** September 13, 2026<br>
-> **Currency:** public USD list rates before tax<br>
-> **Planning month:** 720 billable hours<br>
-> **Evidence boundary:** no inventory, quota, cold-start, throughput, or SLA claim
-
-HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/) contains 21 providers and 148 displayed price cells, all rechecked September 10, 2026. A bounded September 13 check then confirmed Salad's two tracked Lowest-priority cells without changing them or pretending the other 20 providers had been rechecked that day. This page narrows the full dataset to eight H100 serverless, application-runtime, and managed-inference products, then adds the lifecycle rules that the raw price table cannot show.
-
-Before treating any H100 row as a candidate, confirm that 80 GB is the right capacity for the model, context window, concurrency, and runtime overhead. HostFleet's [open-model VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) is the sizing step; this page is the deployment-and-billing step after the hardware requirement is clear.
+Before choosing an H100, confirm that 80 GB is appropriate for the weights, quantization, runtime overhead, KV cache, context, and concurrency. The [open-model VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) is the sizing step; this page starts after the hardware requirement is known.
 
 ## The short buying answer
 
-| Workload need | Strong starting point | Why | Boundary to test |
+| Need | Strong starting point | Why | Boundary to test |
 |---|---|---|---|
-| Request-waking GPU service with one bundled rate | **Koyeb** | $2.50/hour includes 15 vCPU, 180 GB RAM, and 320 GB disk; eligible GPU Services can scale to zero | Public preview; default five-minute idle tail; HTTP/2 cannot wake a sleeping Service |
-| Fine control over container retention | **Modal** | Per-second GPU metering and a configurable 2-second to 20-minute maximum idle window | CPU and memory are separate; the configured window is an upper bound, not guaranteed retention |
-| Very short documented default worker tail | **RunPod Serverless Flex** | Five-second default idle timeout and zero Active workers by default | Official sources conflict on initialization billing and on several per-second equivalents |
-| Managed inference with explicit zero-replica request policies | **Baseten** | `min_replica: 0`, queue-or-reject behavior, and an explicit wake endpoint are documented | Fifteen-minute default delay; model loading and engine initialization are billable |
-| Private deployment with configurable minimum capacity | **Replicate** | Default minimum is zero and instances scale down toward it | The idle period is only described as “a few minutes”; no numeric tail should be assumed |
-| Configurable managed GPU component | **Northflank** | $2.74/GPU-hour can be combined with a chosen CPU and memory plan | Not an all-in rate; automatic zero and request wake-up are not established |
-| Retryable work that fits a consumer GPU | **Salad Lowest priority** | RTX 4090 is $0.160/hour and RTX 5090 is $0.250/hour with 4 vCPU and 8 GB RAM included | No H100; Lowest is the most interruptible tier; node loss and cold starts change the use case |
+| Lowest complete H100 headline in this set | **Koyeb** | $2.50/hour includes one H100, 15 vCPU, 180 GB RAM, and 320 GB disk | Five-minute default idle period; public-preview and protocol restrictions |
+| Shortest documented default worker tail | **RunPod Serverless Flex** | Five-second default idle timeout | Official docs still conflict on initialization billing |
+| Tunable idle retention | **Modal** | Maximum idle window is configurable from two seconds to 20 minutes | GPU, CPU, and memory can remain billable during retention |
+| Explicit managed zero-replica request policy | **Baseten** | Queue-or-reject behavior and a wake endpoint are documented | Fifteen-minute default scale-down delay and per-minute rounding |
+| Private managed deployment with a zero minimum | **Replicate** | Default minimum is zero | Idle shutdown is only described as “a few minutes” |
+| Retryable work that fits a consumer GPU | **Salad Lowest** | RTX 4090 starts at $0.16/GPU-hour with included vCPU and RAM | No H100; most interruptible tier; running-to-ready initialization is billable |
 
-The H100 prices in this table were checked against the official provider sources on September 13, 2026; the Salad rates were checked September 13, 2026. The operational rules do not prove that the first request succeeds, how long a model takes to become ready, or whether GPU capacity is available in the required region.
+The recommendation depends on product shape, not just the smallest number. Koyeb is the lowest complete H100 bundle in this selected set. Northflank's nearby number is not a complete workload total because required CPU and memory are separate. Salad is much cheaper only because it is a different accelerator and interruption model.
 
 ## Eight selected H100 rates
 
-Per-second prices are multiplied by 3,600 and per-minute prices by 60. The hourly equivalent is a comparison aid, not a new vendor billing unit.
+Per-second prices are multiplied by 3,600 and per-minute prices by 60. The hourly equivalent is a comparison aid, not a replacement for the provider's native billing unit.
 
-| Provider and product | Native public price | Hourly equivalent | Price boundary | Official rate source and check date |
+| Provider and product | Native public rate | Hourly equivalent | Product boundary | Official source and check date |
 |---|---:|---:|---|---|
-| **Koyeb H100 Service** | $2.50/hr | **$2.50/hr** | One H100 80 GB Instance with 15 vCPU, 180 GB RAM, and 320 GB disk | [Koyeb pricing](https://www.koyeb.com/pricing), Sept. 13, 2026 |
-| **Northflank managed-cloud H100** | $2.74/GPU-hr | **$2.74/GPU-hr plus CPU and memory** | GPU component only; compute plan, persistent disk, and egress are separate | [Northflank pricing](https://northflank.com/pricing), Sept. 13, 2026 |
-| **Modal H100 Function** | $0.001097/sec | **$3.9492/hr** | GPU allocation; CPU, memory, and storage add separate meters | [Modal pricing](https://modal.com/pricing), Sept. 13, 2026 |
-| **Fal custom deployment** | $4.50/hr | **$4.50/hr** | Public custom-deployment list rate; committed-use figures are excluded | [Fal pricing](https://fal.ai/pricing), Sept. 13, 2026 |
-| **RunPod Serverless H100 PRO** | $4.79/hr | **$4.79/hr** | Public Flex worker tier; not an exact-card reservation quote | [RunPod pricing](https://www.runpod.io/pricing), Sept. 13, 2026 |
-| **Replicate private Deployment** | $0.001525/sec | **$5.49/hr** | Online managed Deployment instance, including setup and idle time | [Replicate pricing](https://replicate.com/pricing), Sept. 13, 2026 |
-| **CoreWeave Inference** | $6.16/GPU-hr | **$6.16/GPU-hr** | Single-GPU inference-platform rate; account-executive access applies | [CoreWeave pricing](https://www.coreweave.com/pricing), Sept. 13, 2026 |
-| **Baseten Dedicated Inference** | $0.10833/min | **$6.4998/hr** | Managed deployment workload time; partial minutes round up | [Baseten pricing](https://www.baseten.co/pricing/), Sept. 13, 2026 |
+| **Koyeb H100 Service** | $2.50/hr | **$2.50/hr** | One H100 80 GB instance with 15 vCPU, 180 GB RAM, and 320 GB disk | [Koyeb pricing](https://www.koyeb.com/pricing), Sept. 24, 2026 |
+| **Northflank managed-cloud H100** | $2.74/GPU-hr | **$2.74/GPU-hr plus CPU and memory** | GPU component only; compute plan, disk, and egress are separate | [Northflank pricing](https://northflank.com/pricing), Sept. 24, 2026 |
+| **Modal H100 Function** | $0.001097/sec | **$3.9492/hr** | GPU allocation; CPU, memory, and storage use separate meters | [Modal pricing](https://modal.com/pricing), Sept. 24, 2026 |
+| **Fal custom deployment** | $4.50/hr | **$4.50/hr** | Public custom-deployment list rate; commitments excluded | [Fal pricing](https://fal.ai/pricing), Sept. 24, 2026 |
+| **RunPod Serverless H100 PRO** | $4.79/hr | **$4.79/hr** | Flex worker price, not an exact-card VM reservation | [RunPod pricing](https://www.runpod.io/pricing), Sept. 24, 2026 |
+| **Replicate private Deployment** | $0.001525/sec | **$5.49/hr** | Online managed Deployment instance, including setup and idle time | [Replicate pricing](https://replicate.com/pricing), Sept. 24, 2026 |
+| **CoreWeave Inference** | $6.16/GPU-hr | **$6.16/GPU-hr** | Single-GPU inference-platform rate; account access applies | [CoreWeave pricing](https://www.coreweave.com/pricing), Sept. 24, 2026 |
+| **Baseten Dedicated Inference** | $0.10833/min | **$6.4998/hr** | Managed workload time; partial minutes round up | [Baseten pricing](https://www.baseten.co/pricing/), Sept. 24, 2026 |
 
-The selected public range is **$2.50 to $6.4998 per H100 hour equivalent**, based on the sources checked September 13, 2026. Koyeb is the lowest complete bundled price in this set. Northflank's nearby number cannot be ranked as a complete workload total because required CPU and memory remain unpriced until the operator selects a plan.
+The range is **$2.50 to $6.4998 per H100 hour equivalent**, based on the official sources checked September 24. Host resources, management layer, access model, scaling policy, and included storage differ. The [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) is the broader comparison for VMs, Pods, hardware variants, and more providers.
 
-For bare VMs, Pods, hardware variants, and a larger provider set, use the [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/). This article stays focused on application-level and managed deployment surfaces.
+## What one continuously billable month costs
 
-## Why Salad's $0.160 row is not the cheapest H100 option
+The following sensitivity case assumes exactly one listed product remains billable for 720 hours. It is not a forecast for a service that reliably reaches zero.
 
-Salad Container Engine belongs in a serverless GPU buying conversation, but not in the H100 price ranking above. Its tracked RTX 4090 has **24 GB of VRAM** and its tracked RTX 5090 has **32 GB**; Salad does not publish an H100 row in the checked table. A workload sized for 80 GB, H100-specific hardware, or an H100 performance target cannot use the cheaper headline as a like-for-like substitute.
+| Product | Rate verified Sept. 24, 2026 | 720-hour estimate |
+|---|---:|---:|
+| Koyeb H100 Service | $2.50/hr | **$1,800.00** |
+| Northflank H100 component | $2.74/GPU-hr | **$1,972.80 plus CPU and memory** |
+| Modal H100 Function | $0.001097/sec | **$2,843.42 plus CPU and memory** |
+| Fal H100 custom deployment | $4.50/hr | **$3,240.00** |
+| RunPod Serverless H100 PRO | $4.79/hr | **$3,448.80** |
+| Replicate private H100 Deployment | $0.001525/sec | **$3,952.80** |
+| CoreWeave Inference H100 | $6.16/GPU-hr | **$4,435.20** |
+| Baseten H100 deployment | $0.10833/min | **$4,679.86** |
 
-Salad changed its priority prices at **00:00 UTC on September 12, 2026**. The official notice says the new prices applied to active and running instances, not only to newly created groups. The effective public matrix relevant to HostFleet's tracked GPU classes is below.
-
-| GPU | Priority | Previous rate | Effective Sept. 12 rate | Derived movement |
-|---|---|---:|---:|---:|
-| RTX 5090 32 GB | High | $0.450/hr | **$0.500/hr** | **+11.1%** |
-| RTX 5090 32 GB | Medium | $0.380/hr | **$0.417/hr** | **+9.7%** |
-| RTX 5090 32 GB | Low | $0.310/hr | **$0.333/hr** | **+7.4%** |
-| RTX 5090 32 GB | Lowest | $0.250/hr | **$0.250/hr** | **unchanged** |
-| RTX 4090 24 GB | High | $0.300/hr | **$0.330/hr** | **+10.0%** |
-| RTX 4090 24 GB | Medium | $0.253/hr | **$0.273/hr** | **+7.9%** |
-| RTX 4090 24 GB | Low | $0.207/hr | **$0.217/hr** | **+4.8%** |
-| RTX 4090 24 GB | Lowest | $0.160/hr | **$0.160/hr** | **unchanged** |
-| RTX 5080 16 GB | Lowest | $0.180/hr | **$0.150/hr** | **-16.7%** |
-
-The percentage movements are derived as `(new - previous) / previous`; the underlying rates are sourced from Salad's September notice and live rendered pricing table, checked September 13. They are not measured invoice changes. HostFleet retains only the exact RTX 4090 and RTX 5090 Lowest-priority rows in its live schema. RTX 5080 has no exact dataset row, so its lower rate is reported here without manufacturing a new comparison cell.
-
-The product boundary matters as much as the GPU name:
-
-- GPU rates include the displayed vCPU and RAM allocation. For the checked RTX 4090 and RTX 5090 Lowest configurations, that is four vCPUs and 8 GB RAM.
-- Billing is per second while an instance is running. Allocation, image download, and container cold start are unbilled according to the checked Salad sources.
-- Lowest is the cheapest and most interruptible priority. High avoids priority preemption, but Salad still warns that a node can disconnect.
-- The pricing page's monthly column is the Lowest rate multiplied by 730 hours. It is a utilization illustration, not a monthly commitment or proof that capacity stays available.
-- Retries and multiple replicas can change the complete cost.
-
-The practical conclusion is narrow: **Salad's tracked $0.160 and $0.250 Lowest rates did not rise on September 12, but they buy interruptible consumer-GPU containers, not H100 capacity.** Higher priority buys different preemption treatment and now costs more. Compare those tiers separately instead of combining Salad's lowest headline with another provider's more protected product.
+Each estimate is the September 24 official rate multiplied by 720 hours, with conversion performed before rounding. Tax, commitments, credits, extra replicas, retries, storage, networking, and surrounding resource meters are excluded unless the product bundle explicitly includes them. Replace 720 with observed billable duration in the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/).
 
 ## Scale-to-zero and idle-cost matrix
 
-The most dangerous phrase in this market is “pay only when used.” Providers define “used” differently. Some count startup and model load, some retain idle capacity, and some allow a permanent warm floor.
+The useful question is not whether a product can display zero replicas. It is which phases remain billable before and after useful inference.
 
-| Product | Can the checked product reach zero automatically? | Documented default after traffic | H100 planning unit | Important caveat |
+| Product | Can the checked product reach zero automatically? | Documented default after traffic | Derived one-GPU reserve | Main caveat |
 |---|---|---:|---:|---|
-| **RunPod Flex** | Yes, when Active workers are zero | 5-second idle timeout | **$0.006653 nominal idle tail** | Startup billing is unresolved because official docs conflict |
-| **Modal Function** | Yes; zero is the default without warm minimums | 60-second maximum idle window | **$0.065820 GPU upper bound** | May terminate earlier or reuse the container; CPU and memory are extra |
-| **Koyeb GPU Service** | Yes, for eligible Internet-facing Services | 5-minute idle period | **$0.2083 nominal idle tail** | Public preview; open connections prevent idleness; HTTP/2 cannot wake it |
-| **Baseten Dedicated Inference** | Yes when `min_replica` is zero | 900-second scale-down delay | **$1.6250 one-replica reserve** | Per-minute rounding; multi-replica scale-down can require repeated delays |
-| **Replicate Deployment** | Yes when minimum instances are zero | “A few minutes” | **$0.0915 per observed online minute** | No public numeric cooldown, so no fixed tail estimate is defensible |
-| **Northflank managed GPU service** | Automatic zero is not established; manual zero is documented | 5-minute moving downscale window | **$0.2283 H100 component reserve** | Manual zero makes the service unavailable; CPU and memory are additional |
-| **Fal custom deployment** | Not evaluated in this lifecycle refresh | Not evaluated | Not estimated | Price row is retained without inventing a zero-capacity behavior |
-| **CoreWeave Inference** | Not evaluated in this lifecycle refresh | Not evaluated | Not estimated | Price and access boundary are retained without a cooldown claim |
+| **RunPod Flex** | Yes, with zero Active workers | 5-second idle timeout | **$0.006653** at the Sept. 24 H100 rate | Startup billing remains unresolved because official docs conflict |
+| **Modal Function** | Yes; zero is default without warm minimums | 60-second maximum idle window | **$0.065820 GPU upper bound** at the Sept. 24 rate | CPU and memory are separate; the window is a maximum, not guaranteed retention |
+| **Koyeb GPU Service** | Yes for eligible Internet-facing Services | 5-minute idle period | **$0.2083** at the Sept. 24 H100 rate | Public preview; open connections and HTTP/2 affect sleep or wake behavior |
+| **Baseten Dedicated Inference** | Yes when `min_replica` is zero | 900-second scale-down delay | **$1.6250** at the Sept. 24 H100 rate | Model load and engine initialization bill; removal can be staged |
+| **Replicate Deployment** | Yes when minimum instances are zero | “A few minutes” | **$0.0915 per observed online minute** at the Sept. 24 H100 rate | No numeric public cooldown, so no fixed tail total is defensible |
+| **Northflank managed GPU service** | Automatic zero is not established; manual zero is documented | 5-minute moving downscale window | **$0.2283 H100 component reserve** at the Sept. 24 rate | CPU and memory are additional; zero makes the service unavailable |
+| **Fal custom deployment** | Yes with the documented zero default | 60-second idle window plus up to 5 seconds termination grace | **$0.08125** if both intervals are fully consumed at the Sept. 24 H100 rate | SETUP, IDLE, RUNNING, DRAINING, and TERMINATING bill |
+| **CoreWeave Inference** | Not evaluated in this lifecycle refresh | Not evaluated | Not estimated | The price row is retained without inventing a zero-capacity policy |
 
-Every dollar figure in this matrix is derived from the September 13 official H100 price and the linked documented interval. It excludes startup, active work, CPU, memory, storage, retries, multiple workers, credits, tax, and network charges unless the provider bundle explicitly includes the resource. None is a measured invoice.
+These are arithmetic planning values, not measured charges. RunPod lifecycle docs were checked August 30; Koyeb August 28; Northflank August 31; Baseten September 1; Modal September 2; Replicate September 4; and Fal September 8. The H100 rates used in every calculation were rechecked September 24.
 
-## What the documented tails actually mean
+## Salad: “unbilled cold start” ends before the model is ready
 
-### RunPod: five seconds is small, but startup remains unresolved
+Salad belongs in a serverless GPU buying comparison, but not in the H100 ranking. The [public pricing page](https://salad.com/pricing/), checked September 26, lists an RTX 4090 from **$0.16/GPU-hour**, includes the displayed vCPU and RAM, and labels Lowest as the most interruptible priority. Salad did not expose an H100 row in the checked table.
 
-RunPod's [Serverless pricing guide](https://docs.runpod.io/serverless/pricing), checked August 30, says compute is rounded to the nearest second and describes startup, execution, and idle timeout as chargeable worker phases. Its [worker overview](https://docs.runpod.io/serverless/workers/overview), checked the same day, labels the `Initializing` state as not billed. Those statements conflict, so this comparison does not add a startup-cost estimate.
+The lifecycle is more useful than the headline:
 
-The [endpoint settings documentation](https://docs.runpod.io/serverless/endpoints/endpoint-configurations), checked August 30, gives Flex endpoints a five-second default idle timeout. At the H100 Flex rate checked September 13:
+1. **`allocating`: unbilled.** The platform is finding a node.
+2. **`downloading`: unbilled.** The container image is being transferred.
+3. **`creating`: unbilled under the checked billing language.** The container has not entered the billable running state.
+4. **`running`: billable per second.** The container has started, but the model may still need to download, load into VRAM, and warm up.
+5. **`ready`: work can be routed after the readiness probe passes.** Time from `running` to `ready` belongs inside the billable interval.
 
-    $4.79 × 5 / 3,600 = $0.0066528
+At the September 26 public from-price, one observed running second has a nominal list-price value of:
 
-That is the nominal tail after execution for one worker. It is not a complete request price. A longer operator-configured timeout, concurrent workers, initialization, execution, storage, and retries can all cost more. RunPod's official endpoint-settings per-second table also fails to reproduce several current public hourly Flex prices, so the comparison keeps **$4.79/hour** from the public rate page rather than silently substituting a conflicting conversion.
+    $0.16 / 3,600 = $0.00004444
 
-The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) documents that conflict and the Pod-versus-Flex allocation break-even in more detail.
+That is a derived estimate, not a settled invoice. Salad's [general billing documentation](https://docs.salad.com/general/explanation/billing) exposes project-level usage graphs, not a promised per-instance per-second billing ledger. The defensible experiment is therefore to reconstruct `running` intervals from instance state and system events, then reconcile the project usage total in an isolated project.
 
-### Modal: the idle window is tunable and billable
+Salad's Job Queue autoscaler supports minimum replicas of zero, maximum replicas from one to 500 subject to quota, a desired queue length from one to 100, and a control period from 15 to 1,800 seconds. Those are configuration ranges, not startup-speed claims. A first queued job can wait through allocation, image transfer, container creation, model initialization, and readiness before work begins.
 
-Modal's [scaling documentation](https://modal.com/docs/guide/scale), checked September 2, says Functions scale to zero by default when they have no inputs. `min_containers` creates a continuously warm floor. `scaledown_window` sets a maximum idle duration from two seconds through 20 minutes, with a 60-second default maximum.
+Retries also matter. Salad documents up to three retries after the first attempt, and node interruptions count as failures. A cheap, interruptible worker can therefore perform more than one billable attempt for one logical job. Use an idempotency key and record every job event rather than treating one client submission as one execution.
 
-At the Modal H100 price checked September 13, the GPU part of that default upper bound is:
+## Provider lifecycle notes
 
-    $0.001097 × 60 = $0.065820
+### RunPod: a five-second tail, with initialization still unresolved
 
-This is not a mandatory one-minute charge. Modal may terminate an over-provisioned container before the maximum, or a later request may reuse it. Its [billing documentation](https://modal.com/docs/guide/billing), checked September 2, says idle GPU reservation and remaining memory occupancy can still bill. The total also needs CPU and memory.
+RunPod's [Serverless pricing guide](https://docs.runpod.io/serverless/pricing), checked August 30, describes startup, execution, and idle timeout as chargeable phases. Its [worker overview](https://docs.runpod.io/serverless/workers/overview), checked the same day, labels `Initializing` as not billed. Because those official sources conflict, this guide does not price startup.
 
-Use the [Modal pricing guide](https://hostfleet.net/modal-pricing-guide-2026/) when region placement, Sandbox rates, storage, and surrounding resource meters matter.
+The [endpoint configuration docs](https://docs.runpod.io/serverless/endpoints/endpoint-configurations), checked August 30, give Flex endpoints a five-second default idle timeout. At the September 24 H100 Flex rate, the nominal one-worker tail is `$4.79 × 5 / 3,600 = $0.0066528`. Longer configured retention, parallel workers, retries, execution, and storage add cost. The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) covers Pods versus Serverless and the source conflict in detail.
 
-### Koyeb: GPU scale-to-zero is real, with protocol boundaries
+### Modal: scale-to-zero is default, but retained resources bill
 
-Koyeb's [scale-to-zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero), checked August 28, explicitly includes GPU Instances. An eligible Internet-facing Service can set its minimum to zero. The default idle period is five minutes, and a supported inbound request wakes the Service to at least one Instance.
+Modal's [scaling docs](https://modal.com/docs/guide/scale), checked September 2, say Functions scale to zero by default when they have no inputs. `min_containers` creates a warm floor. `scaledown_window` is configurable from two seconds to 20 minutes, with a 60-second default maximum.
 
-At Koyeb's H100 price checked September 13, the nominal default post-traffic tail is:
+At the September 24 H100 rate, the GPU portion of that default upper bound is `$0.001097 × 60 = $0.065820`. Modal may terminate earlier or reuse the container. Its [billing docs](https://modal.com/docs/guide/billing), checked September 2, say idle GPU reservation and remaining memory occupancy can still bill. Use the [Modal pricing guide](https://hostfleet.net/modal-pricing-guide-2026/) for CPU, memory, region, Sandbox, and storage meters.
 
-    $2.50 × 5 / 60 = $0.2083
+### Koyeb: request-waking zero has protocol boundaries
 
-The feature is in public preview. No traffic, held connection, or new deployment can occur during the idle period. HTTP/2 cannot wake a sleeping Service, and gradual multi-instance downscale can add roughly one removal step per minute. The arithmetic above applies to one Instance and excludes wake time, model initialization, active work, storage, and network usage.
+Koyeb's [scale-to-zero docs](https://www.koyeb.com/docs/run-and-scale/scale-to-zero), checked August 28, include GPU Instances. An eligible Internet-facing Service can set its minimum to zero. The default idle period is five minutes, producing `$2.50 × 5 / 60 = $0.2083` at the September 24 H100 rate.
 
-### Baseten: one replica waits 15 minutes; a burst can wait much longer
+The feature is in public preview. Open connections prevent idleness, HTTP/2 cannot wake a sleeping Service, and gradual multi-instance downscale can add removal steps. The calculation above is one instance's nominal post-traffic interval, not a complete request cost.
 
-Baseten's [autoscaling documentation](https://docs.baseten.co/deployment/autoscaling/overview), checked September 1, sets the standard defaults at `min_replica: 0`, `max_replica: 1`, a 60-second autoscaling window, a 900-second scale-down delay, and a maximum 50% removal per step.
+### Baseten: the default delay can dominate a short request
 
-For one H100 replica, the September 13 public per-minute price gives this planning reserve after load falls away:
+Baseten's [autoscaling docs](https://docs.baseten.co/deployment/autoscaling/overview), checked September 1, default to `min_replica: 0`, `max_replica: 1`, a 60-second traffic window, a 900-second scale-down delay, and at most 50% removal per step.
 
-    $0.10833 × 15 = $1.62495
+For one H100 replica, `$0.10833 × 15 = $1.62495`, rounded to **$1.6250**. Baseten's [billing docs](https://docs.baseten.co/organization/billing), checked September 1, say image pull before workload start is free, while model loading, engine initialization, serving, and warm idle time are metered by the minute with partial minutes rounded up. The [Baseten pricing guide](https://hostfleet.net/baseten-pricing-guide-2026/) shows how staged multi-replica scale-down expands the tail.
 
-The value rounds to **$1.6250**. It excludes request work and billable model loading. Baseten's [billing documentation](https://docs.baseten.co/organization/billing), checked September 1, says scheduling and image pull before the workload starts are unmetered, while model loading, engine initialization, serving, and warm idle time are metered by the minute with partial minutes rounded up.
+### Replicate: zero minimum does not reveal the cooldown
 
-A burst to eight replicas has a different shape. With the default 50% removal cap and a fresh 15-minute delay between steps, the documented sequence is eight to four, four to two, two to one, then one to zero. That creates **225 replica-minutes** of staged delay after the first countdown begins. At the September 13 H100 rate, the derived reserve is about **$24.37**, before any delay caused by the 60-second averaging window.
+Replicate's [Deployment configuration docs](https://replicate.com/docs/topics/deployments/create-a-deployment), checked September 4, allow configurable minimum and maximum instances, with a platform default minimum of zero. Its [billing guide](https://replicate.com/docs/topics/billing), checked September 4, bills every online second, including model setup, predictions, and idle time.
 
-The request path also matters. Baseten's [request-lifecycle documentation](https://docs.baseten.co/deployment/autoscaling/request-lifecycle), checked September 1, says Queue on full can park the first request while a replica wakes; Reject on full returns `529` until capacity is ready. This is why scale-to-zero is both a cost decision and an API behavior decision. The [Baseten pricing guide](https://hostfleet.net/baseten-pricing-guide-2026/) covers the full replica sequence and budget boundaries.
+The idle period is only “a few minutes.” At the September 24 H100 rate, each observed online minute costs `$0.001525 × 60 = $0.0915`. Do not multiply that value by an invented cooldown. The [Replicate pricing guide](https://hostfleet.net/replicate-pricing-guide-2026/) explains why prediction timing is not a complete billing timer.
 
-### Replicate: zero is configurable, but the cooldown is not numeric
+## How to test scale-to-zero without benchmark theater
 
-Replicate's [Deployment configuration documentation](https://replicate.com/docs/topics/deployments/create-a-deployment), checked September 4, says Deployments can set minimum and maximum instance counts, with a platform-wide default minimum of zero. Its [billing guide](https://replicate.com/docs/topics/billing), checked September 4, says instances are charged for every second they are online, including model setup, predictions, and idle time.
+Use one bounded lifecycle smoke test before projecting production cost:
 
-Replicate says an idle instance stays online for “a few minutes” before shutdown. It does not publish the number or expose a setting for it in the checked public documentation. At the H100 price checked September 13, each observed online minute costs:
+1. **Pin the workload.** Record image digest, model revision, GPU class, region, runtime, concurrency, and autoscaling settings.
+2. **Isolate the bill.** Use a dedicated project or deployment and disable unrelated traffic.
+3. **Start at zero and cap at one.** Do this only where the provider documents request waking or queue-driven scale-up.
+4. **Capture state transitions.** Separate allocation, image transfer, container start, model load, readiness, request work, idle retention, stopping, and deletion.
+5. **Record retries and boot identity.** One logical job can produce multiple attempts or workers.
+6. **Prove zero.** Use provider state or telemetry; elapsed time alone does not establish GPU release.
+7. **Reconcile billing.** Compare the narrowest provider usage record with the lifecycle log after charges settle.
+8. **Clean up retained resources.** Check warm minimums, deployments, volumes, snapshots, disks, and queued retries.
 
-    $0.001525 × 60 = $0.0915
-
-Do not multiply that by an assumed three-, five-, or ten-minute cooldown. Measure instance reuse and reconcile it with isolated billing. Prediction `metrics.predict_time` is not a billing timer because it excludes queue wait and does not cover setup or post-request idle time. The [Replicate pricing guide](https://hostfleet.net/replicate-pricing-guide-2026/) explains the deployment and failure-cost boundary.
-
-### Northflank: a five-minute downscale window is not request-waking zero
-
-Northflank bills its H100 GPU component by the second once provisioned. The **$2.74/GPU-hour** price checked September 13 excludes the separately chosen CPU and memory plan, persistent disk, and egress.
-
-Its [autoscaling documentation](https://northflank.com/docs/v1/application/scale/autoscale-deployments.md), checked August 31, describes 15-second evaluations and a five-minute moving window for downscale decisions. Its [manual scaling documentation](https://northflank.com/docs/v1/application/scale/scale-instances.md), checked the same day, allows zero instances but says the service is unavailable at zero. The public docs do not establish that autoscaling accepts zero as its minimum or that a request wakes a zero-instance service.
-
-Five minutes of the H100 GPU component is:
-
-    $2.74 × 5 / 60 = $0.2283
-
-Treat that as a conservative component reserve for one excess instance during the documented downscale window, not as a proven billable tail. CPU, memory, evaluation alignment, container termination, and the exact billing cutoff remain outside the calculation.
-
-## Eight hours versus one warm planning month
-
-The next table isolates continuous billable allocation. The short column assumes exactly eight billable hours. The month column assumes one listed product stays billable for **720 hours**, the length of a 30-day planning month. It is not a prediction for a service that reliably returns to zero.
-
-| Product | Eight billable hours | 720 billable hours | Important exclusion |
-|---|---:|---:|---|
-| Koyeb H100 Service | **$20.00** | **$1,800.00** | Availability, tax, overages, and separate services |
-| Northflank H100 component | **$21.92** | **$1,972.80** | CPU, memory, persistent disk, and egress |
-| Modal H100 Function | **$31.59** | **$2,843.42** | CPU, memory, storage, and other meters |
-| Fal H100 custom deployment | **$36.00** | **$3,240.00** | Other product charges and commitment terms |
-| RunPod Serverless H100 PRO | **$38.32** | **$3,448.80** | Startup ambiguity, storage, and worker lifecycle |
-| Replicate private H100 Deployment | **$43.92** | **$3,952.80** | Setup, idle duration, and other managed-product charges |
-| CoreWeave Inference H100 | **$49.28** | **$4,435.20** | Eligibility and surrounding platform costs |
-| Baseten H100 deployment | **$52.00** | **$4,679.86** | Model load, partial-minute rounding, and other workloads |
-
-These are arithmetic estimates from the official rates checked September 13, 2026. Modal uses `$0.001097 × 3,600 × hours`; Baseten uses `$0.10833 × 60 × hours`; Replicate uses `$0.001525 × 3,600 × hours`; the other rows multiply the public hourly value. Totals are rounded to cents only after calculation.
-
-The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) is the better next step once you know billable duration. Request latency is not billable duration: add startup where charged, model load, execution, retry work, the idle tail, and any retained warm floor.
-
-## A deployment test that does not produce benchmark theater
-
-Before choosing a platform from the table, run one bounded smoke gate:
-
-1. **Pin the workload.** Record image digest, model revision, GPU class, region, runtime, concurrency, and autoscaling configuration.
-2. **Start at one worker.** Set the minimum to zero only where documented, cap the maximum at one, and disable unrelated traffic.
-3. **Separate timestamps.** Capture client send/receive, container start, model-load start/end, handler readiness, request work, and worker termination.
-4. **Prove zero.** Use provider state or telemetry rather than assuming that an elapsed timeout means the GPU was released.
-5. **Reconcile billing.** Compare the narrowest provider usage record with the lifecycle log after charges settle. Stop if traffic cannot be isolated.
-6. **Repeat only after attribution works.** Five valid trials can show a range; they cannot justify p95 or p99 claims.
-7. **Destroy retained resources.** Check volumes, disks, replicas, and deployment minimums after the test.
-
-Label observed timings and charges **measured**, official rules **sourced**, arithmetic **derived**, and any missing billing phase **unverified**. A cold-start result belongs to the pinned image, model, account, region, and date—not to an entire provider forever.
+Label official lifecycle rules **sourced**, timestamp observations **measured**, rate multiplication **derived**, and any phase that cannot be attributed **unverified**. Five runs can show a range; they do not justify universal p95 claims.
 
 ## Selection checklist
 
 Choose in this order:
 
-1. **Hardware fit:** GPU model, VRAM, topology, count, and regional availability.
-2. **Product shape:** bundled Service, configurable Function, worker endpoint, managed Deployment, or GPU component.
-3. **Complete price:** GPU, CPU, memory, storage, network, IP, and platform fees.
-4. **Zero-capacity behavior:** automatic, manual, unavailable at zero, or not established.
-5. **First-request behavior:** queued, rejected, retried, or protocol-limited while waking.
-6. **Billable lifecycle:** initialization, model load, active work, idle window, staged downscale, and teardown.
-7. **Operational evidence:** isolated usage records, lifecycle logs, and cleanup confirmation.
+1. **Hardware fit:** accelerator, VRAM, topology, count, and region.
+2. **Product shape:** bundled Service, Function, worker endpoint, managed Deployment, or GPU component.
+3. **Complete price:** GPU, CPU, memory, storage, network, platform fees, and tax.
+4. **Zero behavior:** automatic, manual, unavailable at zero, or not established.
+5. **Wake path:** queued, rejected, retried, or protocol-limited.
+6. **Billable lifecycle:** allocation, image pull, container start, model load, active work, idle tail, staged downscale, and teardown.
+7. **Evidence:** isolated usage records, state logs, and cleanup confirmation.
 
-Apply promotional credit only after the base workload is understood. The [GPU cloud free-credits guide](https://hostfleet.net/gpu-cloud-free-credits-2026/) separates exact public offers from access, quota, and recurring cost.
+Apply promotional credit only after the base lifecycle is understood. The [GPU cloud free-credits guide](https://hostfleet.net/gpu-cloud-free-credits-2026/) separates credit amount from GPU access and enforced spending controls.
 
 ## Verdict
 
-**Koyeb has the lowest complete bundled H100 headline in this selected comparison at $2.50/hour**, checked September 13, 2026. Its GPU scale-to-zero path is documented, but it carries a five-minute default idle period, public-preview status, and protocol restrictions.
+**Koyeb has the lowest complete H100 headline in this selected comparison at $2.50/hour**, verified September 24. Its documented scale-to-zero path still carries a five-minute default idle period, public-preview status, and protocol restrictions.
 
-**RunPod has the shortest documented default tail here at five seconds**, but its official sources still conflict on initialization billing. **Modal offers the widest useful retention control**, from a two-second minimum maximum-idle setting through 20 minutes, with a 60-second default. **Baseten exposes the clearest managed zero-replica request policies**, while its 15-minute default delay and staged multi-replica removal can create a substantial warm tail.
+**RunPod has the shortest documented default tail at five seconds**, but its official initialization-billing statements conflict. **Modal offers the broadest retention control**, while surrounding CPU and memory remain separate. **Baseten documents the clearest zero-replica request policies**, but its 15-minute default delay can outweigh a short request. **Replicate can return toward zero without publishing a numeric cooldown.**
 
-**Replicate can return Deployments toward a zero minimum, but its public cooldown is not numeric. Northflank's manual zero is not request-waking serverless, and its $2.74 figure is not an all-in workload price.** Fal and CoreWeave remain in the price comparison without unsupported lifecycle assumptions.
+**Salad is the useful warning against calling an entire cold start free.** Its checked public RTX 4090 from-price is $0.16/GPU-hour, and platform allocation plus image download are unbilled. Once the container is `running`, however, model initialization can still be underway and the meter is active. That distinction belongs in any serverless GPU cost model.
 
-**Salad remains a separate budget path for retryable consumer-GPU work.** Its Lowest RTX 4090 and RTX 5090 rates stayed at $0.160 and $0.250/hour on September 12, while the High tiers rose to $0.330 and $0.500/hour. Those figures should not be inserted into an H100 ranking, and the cheapest tier carries the strongest interruption caveat.
-
-The defensible buying order is product fit, complete rate, wake behavior, billable lifecycle, and then measured workload evidence. The lowest hourly number matters only after the endpoint can actually become ready, serve correctly, and stop charging in the way the forecast assumes.
+The defensible buying order is hardware fit, complete product price, wake behavior, billable lifecycle, and then measured workload evidence. The smallest hourly number matters only after the endpoint can become ready, serve correctly, and stop charging in the way the forecast assumes.
 
 ## Sources
 
-The eight H100 rate pages below were rechecked September 13, 2026. Salad pricing was checked September 13; lifecycle dates identify the bounded evidence check used for each claim.
+H100 rates were rechecked against the official pricing pages on **September 24, 2026**. Salad pricing and lifecycle documentation were checked **September 26, 2026**. Other lifecycle dates are listed beside each source.
 
-- [Koyeb pricing](https://www.koyeb.com/pricing) — H100 rate and included resources; rechecked September 13, 2026
-- [Koyeb scale-to-zero](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) and [autoscaling](https://www.koyeb.com/docs/run-and-scale/autoscaling) — GPU eligibility, preview status, idle conditions, request wake-up, protocols, and gradual downscale; checked August 28, 2026
-- [Northflank pricing](https://northflank.com/pricing) and [managed GPU documentation](https://northflank.com/docs/v1/application/gpu-workloads/deploy-gpus-on-northflank-cloud.md) — H100 component price, required compute plan, per-second billing, storage, egress, and regional boundary; rate rechecked September 13, lifecycle checked August 31, 2026
-- [Northflank autoscaling](https://northflank.com/docs/v1/application/scale/autoscale-deployments.md) and [manual scaling](https://northflank.com/docs/v1/application/scale/scale-instances.md) — downscale window, evaluation cadence, manual zero, and unavailable-at-zero boundary; checked August 31, 2026
-- [Modal pricing](https://modal.com/pricing) — H100 per-second rate and separate resource meters; rechecked September 13, 2026
-- [Modal scaling](https://modal.com/docs/guide/scale) and [billing](https://modal.com/docs/guide/billing) — default zero, warm floors, idle-window range, early termination caveat, and billable idle resources; checked September 2, 2026
-- [Fal pricing](https://fal.ai/pricing) — H100 custom-deployment list rate and commitment boundary; rechecked September 13, 2026
-- [RunPod pricing](https://www.runpod.io/pricing) — H100 PRO Flex hourly rate; rechecked September 13, 2026
-- [RunPod Serverless pricing](https://docs.runpod.io/serverless/pricing), [worker overview](https://docs.runpod.io/serverless/workers/overview), and [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations) — per-second rounding, conflicting initialization labels, worker types, zero defaults, and idle timeout; checked August 30, 2026
-- [Replicate pricing](https://replicate.com/pricing) — private H100 Deployment rate; rechecked September 13, 2026
-- [Replicate billing](https://replicate.com/docs/topics/billing) and [Deployment configuration](https://replicate.com/docs/topics/deployments/create-a-deployment) — online-instance billing, setup and idle scope, configurable minimums, and nonnumeric idle period; checked September 4, 2026
-- [CoreWeave pricing](https://www.coreweave.com/pricing) — H100 inference rate and access boundary; rechecked September 13, 2026
-- [Baseten pricing](https://www.baseten.co/pricing/) — H100 per-minute rate; rechecked September 13, 2026
-- [Baseten autoscaling](https://docs.baseten.co/deployment/autoscaling/overview), [request lifecycle](https://docs.baseten.co/deployment/autoscaling/request-lifecycle), and [billing](https://docs.baseten.co/organization/billing) — defaults, staged downscale, zero-replica request policies, metered phases, and rounding; checked September 1, 2026
-- [Salad pricing](https://salad.com/pricing/) and [September 2026 price-change notice](https://blog.salad.com/saladcloud-price-changes-september-2026/) — effective priority-tier rates, included resources, running-state billing boundary, monthly convention, and active-instance application; checked September 13, 2026
-- HostFleet live dataset: `/opt/hostbot-v2/src/data/gpu-pricing.json`, updated September 10, 2026
-- HostFleet Salad effective-price note: `/opt/hostbot/data/ai-hosting/notes/2026-09-12-salad-priority-price-change.md`
-- HostFleet evidence notes: `/opt/hostbot/data/ai-hosting/notes/2026-09-10-gpu-pricing-full-verification.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-28-koyeb-gpu-scale-to-zero-limits.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-30-runpod-serverless-billing-boundary.md`, `/opt/hostbot/data/ai-hosting/notes/2026-08-31-northflank-gpu-autoscaling-billing-boundary.md`, `/opt/hostbot/data/ai-hosting/notes/2026-09-01-baseten-autoscaling-billing-boundary.md`, `/opt/hostbot/data/ai-hosting/notes/2026-09-02-modal-scale-to-zero-billing-boundary.md`, and `/opt/hostbot/data/ai-hosting/notes/2026-09-04-replicate-deployment-idle-cost-boundary.md`
+- [Koyeb pricing](https://www.koyeb.com/pricing) — H100 rate and included resources; checked Sept. 24
+- [Koyeb scale-to-zero](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) — GPU eligibility, preview status, idle conditions, wake path, and protocol boundary; checked Aug. 28
+- [Northflank pricing](https://northflank.com/pricing) — H100 component rate and separate resources; checked Sept. 24
+- [Northflank autoscaling](https://northflank.com/docs/v1/application/scale/autoscale-deployments.md) and [manual scaling](https://northflank.com/docs/v1/application/scale/scale-instances.md) — downscale window and manual zero; checked Aug. 31
+- [Modal pricing](https://modal.com/pricing) — H100 rate; checked Sept. 24
+- [Modal scaling](https://modal.com/docs/guide/scale) and [billing](https://modal.com/docs/guide/billing) — zero default, idle window, warm floors, and billable retained resources; checked Sept. 2
+- [Fal pricing](https://fal.ai/pricing) — H100 list rate; checked Sept. 24
+- [Fal scaling](https://fal.ai/docs/documentation/deployment/scale-your-application), [serverless billing](https://fal.ai/docs/documentation/serverless/pricing), and [runner lifecycle](https://fal.ai/docs/documentation/deployment/runners) — zero default, idle window, termination grace, and billable phases; checked Sept. 8
+- [RunPod pricing](https://www.runpod.io/pricing) — H100 PRO Flex rate; checked Sept. 24
+- [RunPod Serverless pricing](https://docs.runpod.io/serverless/pricing), [worker overview](https://docs.runpod.io/serverless/workers/overview), and [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations) — rounding, initialization conflict, zero defaults, and idle timeout; checked Aug. 30
+- [Replicate pricing](https://replicate.com/pricing) — private H100 rate; checked Sept. 24
+- [Replicate billing](https://replicate.com/docs/topics/billing) and [Deployment configuration](https://replicate.com/docs/topics/deployments/create-a-deployment) — online billing, setup, idle, and configurable minimum; checked Sept. 4
+- [CoreWeave pricing](https://www.coreweave.com/pricing) — H100 inference rate and access boundary; checked Sept. 24
+- [Baseten pricing](https://www.baseten.co/pricing/) — H100 per-minute rate; checked Sept. 24
+- [Baseten autoscaling](https://docs.baseten.co/deployment/autoscaling/overview), [request lifecycle](https://docs.baseten.co/deployment/autoscaling/request-lifecycle), [scaling operations](https://docs.baseten.co/deployment/manage/scaling), and [billing](https://docs.baseten.co/organization/billing) — defaults, zero-replica behavior, the wake endpoint, metered phases, and rounding; scaling operations rechecked Sept. 28
+- [Salad pricing](https://salad.com/pricing/) — RTX 4090 from-price, included resources, and Lowest-tier caveat; checked Sept. 26
+- [Salad Container Engine billing](https://docs.salad.com/container-engine/explanation/billing-pricing/billing), [general billing and usage](https://docs.salad.com/general/explanation/billing), [deployment lifecycle](https://docs.salad.com/container-engine/explanation/container-groups/deployment-lifecycle), [Job Queue autoscaling](https://docs.salad.com/container-engine/explanation/infrastructure-platform/autoscaling), [autoscaling settings](https://docs.salad.com/container-engine/reference/autoscaling/settings), and [Job Queues](https://docs.salad.com/container-engine/explanation/job-processing/job-queues) — state meter, project-level usage graphs, model-initialization boundary, queue ranges, and retries; general billing rechecked Sept. 28
+- HostFleet dataset: `/opt/hostbot-v2/src/data/gpu-pricing.json`, 21 providers and 147 cells fully checked Sept. 24, 2026
+- HostFleet evidence notes: `/opt/hostbot/data/ai-hosting/notes/2026-09-24-gpu-pricing-full-verification.md` and `/opt/hostbot/data/ai-hosting/notes/2026-09-26-salad-queue-scale-to-zero-billing-boundary.md`
 
 *Need an allocated GPU Pod after testing the serverless lifecycle? This is a labeled affiliate link; source citations above remain direct. [RunPod signup (affiliate)](https://hostfleet.net/go/runpod) supports HostFleet at no extra cost to you. Re-check the exact GPU, cloud tier, region, storage, and current price before purchase.*
