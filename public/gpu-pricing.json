@@ -206,7 +206,7 @@
         "replicate": { "hr": 5.49, "raw": "$0.001525/sec" },
         "lambda_cloud": { "hr": 3.29, "raw": "$3.29/GPU/hr", "note": "1x H100 PCIe; H100 SXM is $4.29/GPU/hr" },
         "coreweave_inference": { "hr": 6.16, "raw": "$6.16/GPU/hr", "note": "Inference platform customers only; public 8x HGX H100 on-demand instance is $49.24/hr" },
-        "nebius": { "hr": 3.85, "raw": "$3.85/GPU/hr", "note": "H100 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; eu-north1" },
+        "nebius": { "hr": 4.50, "raw": "$4.50/GPU/hr", "note": "H100 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; eu-north1; effective 2026-10-01" },
         "hyperstack": { "hr": 2.50, "raw": "$2.50/GPU/hr", "note": "1x H100 80 GB PCIe flavor; 28 CPU, 180 GB RAM, and local storage included; CANADA-1" },
         "novita": { "hr": 3.39, "raw": "$3.39/GPU/hr", "note": "1x H100 80 GB SXM on-demand product; 22 vCPU, 150 GB RAM, and 60 GB container disk quota" },
         "verda": { "hr": 3.42, "raw": "$3.416/hr", "note": "1x H100 80 GB SXM5 on-demand instance; selected 30 CPU and 120 GB RAM configuration; another 32 CPU/170 GB RAM configuration has the same price; storage separate" },
@@ -225,7 +225,7 @@
         "modal": { "hr": 4.54, "raw": "$0.001261/sec" },
         "fal": { "hr": 4.50, "note": "as low as $2.10 committed" },
         "coreweave_inference": { "hr": 6.31, "raw": "$6.31/GPU/hr", "note": "Inference platform customers only; public 8x HGX H200 on-demand instance is $50.44/hr" },
-        "nebius": { "hr": 4.50, "raw": "$4.50/GPU/hr", "note": "H200 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; public regions include eu-north1, eu-west1, and us-central1" },
+        "nebius": { "hr": 5.40, "raw": "$5.40/GPU/hr", "note": "H200 SXM/NVLink; unified 1gpu-16vcpu-200gb VM rate; public regions include eu-north1, eu-west1, and us-central1; effective 2026-10-01" },
         "hyperstack": { "hr": 3.99, "raw": "$3.99/GPU/hr; 8x flavor = $31.92/hr", "note": "H200 SXM5 is cataloged only as an 8x flavor with 176 CPU, 1800 GB RAM, and local storage included; CANADA-1" },
         "verda": { "hr": 4.50, "raw": "$4.503/hr", "note": "1x H200 141 GB SXM5 on-demand instance; 44 CPU and 170 GB RAM included; storage separate" },
         "digitalocean_gpu": { "hr": 4.47, "raw": "$4.47/GPU/hr", "note": "1x HGX H200 on-demand GPU Droplet; 24 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2 and ATL1 catalog regions" },
@@ -242,7 +242,7 @@
         "baseten": { "hr": 9.98, "raw": "$0.16633/min" },
         "lambda_cloud": { "hr": 6.99, "raw": "$6.99/GPU/hr", "note": "1x B200 SXM6 instance" },
         "coreweave_inference": { "hr": 8.60, "raw": "$8.60/GPU/hr", "note": "Inference platform customers only; public 8x HGX B200 on-demand instance is $68.80/hr" },
-        "nebius": { "hr": 7.15, "raw": "$7.15/GPU/hr", "note": "B200 SXM/NVLink; unified 1gpu-20vcpu-224gb VM rate; us-central1 or me-west1" },
+        "nebius": { "hr": 8.50, "raw": "$8.50/GPU/hr", "note": "B200 SXM/NVLink; unified 1gpu-20vcpu-224gb VM rate; us-central1 or me-west1; effective 2026-10-01" },
         "hyperstack": { "hr": 6.00, "raw": "$6.00/GPU/hr; 8x flavor = $48.00/hr", "note": "B200 SXM6 is cataloged only as an 8x flavor with 252 CPU, 2048 GB RAM, and local storage included; vendor specifies 192 GB VRAM; CANADA-1" },
         "verda": { "hr": 6.68, "raw": "$6.682/hr", "note": "1x B200 180 GB SXM6 on-demand instance; 30 CPU and 170 GB RAM included; storage separate" },
         "koyeb": { "hr": 5.50, "raw": "$5.50/hr", "note": "1x B200 180 GB serverless instance; 15 vCPU, 240 GB RAM, and 320 GB disk included; GPU availability is region-specific" }
@@ -261,7 +261,7 @@
         "runpod_sls": { "hr": 9.98 },
         "modal": { "hr": 7.10, "raw": "$0.001972/sec" },
         "fal": { "hr": 8.50, "note": "as low as $4.49 committed" },
-        "nebius": { "hr": 7.85, "raw": "$7.85/GPU/hr", "note": "B300 SXM/NVLink; unified 1gpu-24vcpu-346gb VM rate; uk-south1 and private eu-west2" },
+        "nebius": { "hr": 9.50, "raw": "$9.50/GPU/hr", "note": "B300 SXM/NVLink; unified 1gpu-24vcpu-346gb VM rate; uk-south1, eu-west2, and us-north1; effective 2026-10-01" },
         "hyperstack": { "hr": 7.40, "raw": "$7.40/GPU/hr; 8x flavor = $59.20/hr", "note": "B300 SXM6 is cataloged as an 8x flavor with 224 CPU, 1,920 GB RAM, 1,000 GB root disk, and 40,000 GB ephemeral disk included; vendor specifies 288 GB VRAM; CANADA-1" },
         "verda": { "hr": 8.12, "raw": "$8.122/hr", "note": "1x B300 268 GB SXM6 on-demand instance; 30 CPU and 255 GB RAM included; vendor lists 268 GB VRAM; storage separate" }
       } }
