@@ -1,45 +1,46 @@
 ---
-title: "RunPod pricing 2026: 42 Pod prices, 13 Serverless tiers, and break-even math"
-description: "RunPod pricing checked September 2026: all 42 Pod prices, Secure-vs-Community premiums, 13 Flex tiers, break-even math, storage, and billing caveats."
+title: "RunPod pricing 2026: 42 Pod prices, 13 Serverless tiers, and stopped-Pod costs"
+description: "RunPod pricing checked October 2026: 42 Pod prices, 13 Serverless tiers, stopped-Pod storage costs, restart risk, and break-even math."
 pubDate: 2026-07-24
-updatedDate: 2026-09-17
+updatedDate: 2026-10-02
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
-
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed pricing refresh with derived estimates.** RunPod's public rate card and billing documentation were checked on **September 17, 2026**. HostFleet did not benchmark performance, inspect an invoice, test inventory, or verify capacity in any region. Dollar differences, 720-hour totals, percentages, and break-even points below are arithmetic estimates from the cited public rates.
+**Source-backed pricing and lifecycle refresh with derived estimates.** RunPod's public rate card was checked on **October 2, 2026**; the page itself says **Updated September 27, 2026**. All 42 Pod price points and 13 Serverless Flex tiers matched HostFleet's September 17 table. Pod stop, termination, storage, restart, billing-history, Serverless, and account-billing documentation were rechecked October 2. HostFleet did not create a paid resource, inspect an invoice, test restart capacity, or benchmark performance. Dollar differences, 720-hour totals, storage conversions, percentages, and break-even points below are arithmetic estimates from the cited public rates.
 
-> **Rates verified:** September 17, 2026<br>
-> **Billing and lifecycle rules verified:** September 17, 2026<br>
-> **Dataset boundary:** HostFleet's complete 21-provider, 148-cell [GPU pricing dataset](https://hostfleet.net/gpu-pricing/) was source-checked September 17<br>
-> **Estimate convention:** one GPU, public USD list rates before tax, and 720 hours for a 30-day planning month
+> **RunPod rate card rechecked:** October 2, 2026; provider page says updated September 27<br>
+> **Pod and Serverless lifecycle rules rechecked:** October 2, 2026<br>
+> **Dataset boundary:** HostFleet's sitewide [GPU pricing dataset](https://hostfleet.net/gpu-pricing/) was updated September 24; RunPod's complete provider card was independently rechecked October 2<br>
+> **Estimate conventions:** one GPU, public USD list rates before tax, 720 hours for compute comparisons, and 730 hours for storage-month conversions
 
-# RunPod pricing 2026: 42 Pod prices, 13 Serverless tiers, and break-even math
+# RunPod pricing 2026: 42 Pod prices, 13 Serverless tiers, and stopped-Pod costs
 
 RunPod publishes **21 Pod products with separate Community Cloud and Secure Cloud prices: 42 Pod price points**. It also publishes **13 Serverless Flex tiers**. The lowest number is not automatically the right comparison because Pods, Flex workers, and retained storage stop billing at different times.
 
-The September 17 full-dataset audit moved three tracked Secure Cloud cells by more than 10% against HostFleet's September 10 dataset snapshot: A40 from **$0.44 to $0.49/hour**, L40S from **$0.99 to $1.09/hour**, and A100 80 GB from **$1.39 to $1.59/hour**. The live RunPod guide had already adopted those vendor-page rates on September 9, so this refresh reconciles the sitewide dataset rather than pretending RunPod changed the same rates twice.
+The material October update is not a GPU-rate change. It is the cost boundary around a stopped Pod. RunPod documents that stopping releases the GPU, clears the container disk, preserves the local volume disk mounted at `/workspace`, and raises that local-volume rate from **$0.10 to $0.20 per GB-month**. Starting again is capacity-dependent and can return a Pod with zero GPUs. Termination deletes the Pod and its local volume disk, while a separately created network volume persists independently.
 
-The more useful buyer question is what Secure Cloud costs above the like-named Community row. On the September 17 public table, that spread ranges from **$0.05/hour for L4** to **$1.00/hour for H200**. As a percentage of the Community rate, it ranges from **9.0% for the 48 GB Pro 6000 MIG** to **127.3% for RTX 3090**. Those spreads are price differences, not proof that both supply pools have equal availability, host hardware, location, or performance.
+The October 2 rate check found all 55 public values unchanged from the September 17 HostFleet table. The Secure-versus-Community spread still ranges from **$0.05/hour for L4** to **$1.00/hour for H200**. As a percentage of the Community rate, it ranges from **9.0% for the 48 GB Pro 6000 MIG** to **127.3% for RTX 3090**. Those spreads are price differences, not proof that both supply pools have equal availability, host hardware, location, or performance.
 
 ## The buying answer
 
-| Workload | RunPod surface to test first | Cost boundary |
+| Workload | RunPod surface or action to test first | Cost boundary |
 |---|---|---|
-| Sustained job where you can manage the container | Pod | Pay until the Pod is released; compare Community and Secure availability separately |
-| Bursty endpoint with real idle gaps | Serverless Flex | Count initialization uncertainty, execution, idle timeout, retries, and parallel workers |
+| Sustained job where you manage the container | Running Pod | Compute bills while running; compare Community and Secure availability separately |
+| Short pause where `/workspace` must survive | Stop the Pod | GPU is released; local volume persists at $0.20/GB-month; restart capacity is not reserved |
+| Disposable environment after output export | Terminate the Pod | Pod and local volume are deleted; separately created network volumes survive |
+| Bursty endpoint with real idle gaps | Serverless Flex | Count the disputed startup boundary, execution, idle timeout, retries, and parallel workers |
 | Low-latency endpoint that must stay warm | Active Serverless or Pod | Active pricing is sales-negotiated; compare the actual quote with Pod allocation |
-| Checkpoints or weights that must survive compute deletion | Network volume | Storage keeps billing independently of compute |
+| Checkpoints or weights that must outlive the Pod | Network volume | Storage bills independently of Pod state and termination |
 | Cheapest possible listed Pod rate | Community Cloud | Treat availability and configuration as separate acceptance tests |
 
 Community Cloud is not simply Secure Cloud with a discount coupon. RunPod presents them as separate supply surfaces. Record which one was selected in every estimate and verify the exact console configuration before reserving money or capacity.
 
 ## Every public Pod price and the Secure Cloud premium
 
-[RunPod's public pricing page](https://www.runpod.io/pricing), checked **September 17, 2026**, exposed the 21 Community/Secure pairs below. The hourly premium is Secure minus Community. The 720-hour premium multiplies that difference by 720; it is not a RunPod quote.
+[RunPod's public pricing page](https://www.runpod.io/pricing), accessed **October 2, 2026** and labeled updated September 27, exposed the 21 Community/Secure pairs below. The hourly premium is Secure minus Community. The 720-hour premium multiplies that difference by 720; it is not a RunPod quote.
 
 | GPU product | Community | Secure | Secure premium/hr | Premium for 720 hours | Premium vs Community |
 |---|---:|---:|---:|---:|---:|
@@ -67,13 +68,13 @@ Community Cloud is not simply Secure Cloud with a discount coupon. RunPod presen
 
 **Estimate assumptions:** one listed product stays allocated for 720 hours; no savings plan, storage, tax, support, credit-card failure, duplicate Pod, regional adjustment, or negotiated discount. The percentage column divides the hourly premium by the Community rate. Public pricing does not prove stock, quota, provisioning success, region access, host CPU/RAM equivalence, or throughput.
 
-This table exposes why a percentage-only comparison can mislead. The RTX 3090 Secure row is 127.3% above Community, but its 720-hour dollar spread is $201.60. H200's percentage spread is only 27.9%, but the same planning month adds $720. Budget the absolute difference, then decide whether the available Secure configuration is worth it.
+This October 2 table exposes why a percentage-only comparison can mislead. The RTX 3090 Secure row is 127.3% above Community, but its 720-hour dollar spread is $201.60. H200's percentage spread is only 27.9%, but the same planning month adds $720. Budget the absolute difference, then decide whether the available Secure configuration is worth it.
 
 Card memory, PCIe versus SXM or NVL, host resources, and measured throughput can dominate a small hourly difference. Use the [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) and [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) when the accelerator and provider boundary matter more than RunPod's product labels.
 
 ## Every public Serverless Flex tier
 
-The same [RunPod pricing page](https://www.runpod.io/pricing), checked **September 17, 2026**, published these Flex rates:
+The same [RunPod pricing page](https://www.runpod.io/pricing), accessed **October 2, 2026**, published these Flex rates:
 
 | Public Flex tier | Memory label | Flex rate |
 |---|---:|---:|
@@ -103,7 +104,7 @@ This comparison asks one narrow question: how many Flex worker-hours equal a Sec
     Flex break-even hours = Pod month ÷ Flex hourly rate
     Break-even share = Flex break-even hours ÷ 720
 
-All input rates come from [RunPod's public pricing page](https://www.runpod.io/pricing), checked **September 17, 2026**. Results are derived estimates.
+All input rates come from [RunPod's public pricing page](https://www.runpod.io/pricing), accessed **October 2, 2026**. Results are derived estimates.
 
 | Capacity point | Secure Pod | Flex | Pod for 720 hours | Flex break-even |
 |---|---:|---:|---:|---:|
@@ -125,21 +126,21 @@ Use HostFleet's [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost
 
 ## RunPod's official startup-billing descriptions conflict
 
-RunPod's [Serverless pricing guide](https://docs.runpod.io/serverless/pricing), checked **September 17, 2026**, says billing starts when a worker starts and ends when it fully stops, rounded up to the nearest second. It includes container initialization and model loading, request execution, and the idle timeout.
+RunPod's [Serverless pricing guide](https://docs.runpod.io/serverless/pricing), checked **October 2, 2026**, says billing starts when a worker starts and ends when it fully stops, rounded up to the nearest second. It includes container initialization and model loading, request execution, and the idle timeout.
 
 RunPod's [worker overview](https://docs.runpod.io/serverless/workers/overview), checked the same day, labels the Initializing state—image download, code load, and cached-model download—as not billed, while Running is billed.
 
 Those pages do not establish one unambiguous startup boundary. This guide therefore labels startup billing as a **conflict between official sources**. It does not call cold starts free and does not invent a startup charge. Check the console rate and reconcile one isolated worker lifecycle against billing history before projecting traffic.
 
-The public hourly table and [endpoint-settings documentation](https://docs.runpod.io/serverless/endpoints/endpoint-configurations), also checked September 17, disagree on several rates. For example, the documentation's H100 Pro figure of $0.00116/second converts to $4.176/hour, while the public Flex table says $4.79/hour. The L40/L40S/6000 Ada documentation figure of $0.00053/second converts to $1.908/hour, while the public table says $1.75/hour.
+The public hourly table and [endpoint-settings documentation](https://docs.runpod.io/serverless/endpoints/endpoint-configurations), also checked October 2, disagree on several rates. For example, the documentation's H100 Pro figure of $0.00116/second converts to $4.176/hour, while the public Flex table says $4.79/hour. The L40/L40S/6000 Ada documentation figure of $0.00053/second converts to $1.908/hour, while the public table says $1.75/hour.
 
 Because the Serverless pricing guide sends buyers to the public pricing page for compute rates, the tables above use the public Flex rates. Confirm the rate displayed for the exact endpoint before launch.
 
 ## Idle tails are small once and material at volume
 
-RunPod's [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations), checked **September 17, 2026**, list zero Active workers, three maximum workers, one GPU per worker, and a five-second idle timeout as defaults. The worker stays billable during the idle timeout.
+RunPod's [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations), checked **October 2, 2026**, list zero Active workers, three maximum workers, one GPU per worker, and a five-second idle timeout as defaults. The worker stays billable during the idle timeout.
 
-Using the public September 17 Flex rates:
+Using the public October 2 Flex rates:
 
 | Flex tier | One five-second tail | 1,440 isolated tails |
 |---|---:|---:|
@@ -152,24 +153,50 @@ Using the public September 17 Flex rates:
 
 A longer timeout can reduce cold starts but increases warm idle cost. A shorter timeout cuts idle spend while potentially increasing startup frequency and latency. Measure both sides on the real endpoint.
 
-## Storage has its own lifecycle
+## Stopping a Pod releases the GPU but not every bill
 
-RunPod's [Pods pricing documentation](https://docs.runpod.io/pods/pricing), checked **September 17, 2026**, publishes:
+RunPod's [Manage Pods documentation](https://docs.runpod.io/pods/manage-pods), checked **October 2, 2026**, makes the stop boundary explicit. Stopping releases the GPU and clears the container disk. The local volume disk mounted at `/workspace` survives, but it bills at the stopped rate. Starting the Pod again attempts to find capacity; RunPod warns that changed availability can return a Pod with zero GPUs.
 
-| Storage type | Running Pod | Stopped Pod | Lifecycle boundary |
-|---|---:|---:|---|
-| Container disk | $0.10/GB-month | Not charged | Temporary; erased when the Pod stops |
-| Volume disk | $0.10/GB-month | $0.20/GB-month | Persistent until the Pod is deleted |
-| Network volume below 1 TB | $0.07/GB-month | $0.07/GB-month | Portable; billed hourly |
-| Network volume above 1 TB | $0.05/GB-month | $0.05/GB-month | Lower public rate above the threshold |
+Termination is different. It deletes the Pod and its local volume disk. A separately created network volume is independent of the Pod and survives both stop and termination.
 
-At those public rates, retaining 100 GB for one month is an estimated **$10** for running volume disk, **$20** for stopped volume disk, or **$7** for a sub-1-TB network volume. Those estimates multiply listed capacity rates by 100 GB and exclude tax or discounts.
+| Resource or action | Running Pod | Stopped Pod | Terminated Pod |
+|---|---|---|---|
+| GPU compute | Billed per second | GPU released; no reservation is retained | No Pod compute |
+| Container disk | $0.10/GB-month, billed per second | Cleared; no retained container-disk charge | Deleted |
+| Local volume disk (`/workspace`) | $0.10/GB-month, billed per second | Preserved at **$0.20/GB-month**, billed per second | Deleted |
+| Standard network volume below 1 TB | $0.07/GB-month, billed hourly | Persists independently | Persists independently |
+| Restart path | Already allocated | Capacity-dependent; zero GPUs is possible | Create a new Pod |
 
-Container and volume disks bill per second; network volumes bill hourly. The Serverless guide lists container disk at approximately $0.10/GB-month in five-minute intervals. Returning compute to zero does not make retained storage free.
+The storage prices come from [RunPod's Pods pricing documentation](https://docs.runpod.io/pods/pricing) and public rate card, checked **October 2, 2026**. The public table lists standard network storage above 1 TB at **$0.05/GB-month**. It uses “under 1 TB” and “over 1 TB,” so this guide makes no claim about the exact 1 TB boundary.
+
+### What retained storage costs
+
+These estimates use a 730-hour month only to normalize the monthly capacity rates. They assume provisioned capacity remains for the entire month and exclude tax, discounts, data transfer, compute, and other storage tiers.
+
+| Retained capacity | Running local volume | Stopped local volume | Standard network volume below 1 TB |
+|---:|---:|---:|---:|
+| 10 GB | **$1/month** | **$2/month** | **$0.70/month** |
+| 100 GB | **$10/month** | **$20/month** | **$7/month** |
+| 500 GB | **$50/month** | **$100/month** | **$35/month** |
+
+For a shorter example, 100 GB of local volume left on a stopped Pod for 160 hours costs an estimated **$4.38**:
+
+    100 GB × $0.20/GB-month × 160/730 month = $4.38
+
+The same provisioned capacity on standard network storage would be about **$1.53** for 160 hours at the under-1-TB rate. That is price arithmetic, not a performance comparison. RunPod describes local volume as fast local storage; network-volume performance and availability differ, and the network product bills hourly instead of per second.
+
+### The operational choice is stop, terminate, or decouple storage
+
+- **Stop** when `/workspace` must survive and the doubled local-storage rate is acceptable. Do not treat stop as a capacity reservation.
+- **Terminate** after exporting outputs when the environment is disposable. This is the cutoff for the Pod and local volume.
+- **Use a network volume** when data must outlive Pod deletion or move between compatible Pods. Budget it independently and verify data-center constraints.
+- **Back up critical data externally.** RunPod's [storage guide](https://docs.runpod.io/pods/storage/types), checked October 2, says the platform is not designed for long-term cloud storage.
+
+The [Pod billing-history endpoint](https://docs.runpod.io/api-reference-v2/billing/get-pod-billing-history), checked October 2, can filter by `podId` and returns `gpuAmount`, `cpuAmount`, `diskAmount`, and `totalAmount`. Its smallest published bucket is one hour. That is enough to reconcile compute-versus-disk totals over a controlled window, but not to manufacture a second-level stop cutoff from an hourly aggregate. Network volumes have a separate [billing-history endpoint](https://docs.runpod.io/api-reference-v2/billing/get-network-volume-billing-history).
 
 ## Prepaid credit is an uptime dependency
 
-RunPod's [billing overview](https://docs.runpod.io/accounts-billing/billing), checked **September 17, 2026**, documents prepaid credits, a minimum balance equal to one hour of the selected Pod configuration before deployment, a default account-wide spend limit of **$80/hour**, billing deductions every five minutes, and auto-pay attempts limited to once per hour.
+RunPod's [billing overview](https://docs.runpod.io/accounts-billing/billing), checked **October 2, 2026**, documents prepaid credits, a minimum balance equal to one hour of the selected Pod configuration before deployment, a default account-wide spend limit of **$80/hour**, billing deductions every five minutes, and auto-pay attempts limited to once per hour.
 
 At zero balance, Pods with a network volume stop; Pods without one terminate and their data cannot be recovered. Network-volume storage can continue charging after compute stops. If a zero balance persists, RunPod says the unfunded volume may eventually terminate.
 
@@ -181,12 +208,13 @@ Dormant endpoints require another check. Endpoint settings say RunPod reduces ma
 
 1. **Record the product boundary.** Community or Secure Cloud, exact card variant, region, and whether a Serverless tier can substitute GPUs.
 2. **Capture the dated rate.** Public values can move by more than 10%; retain the console price used for the decision.
-3. **Model allocated time.** Pods bill until release. Flex planning must include the disputed startup boundary, execution, idle tails, retries, and parallel workers.
-4. **Separate storage.** Track container, volume, and network-volume lifecycle independently from compute.
-5. **Test scale-to-zero.** Confirm zero Active workers, the idle timeout, and the observed return-to-zero state.
-6. **Reconcile one billing sample.** RunPod's [API v2 billing history](https://docs.runpod.io/api-reference-v2/billing/get-serverless-billing-history) can filter one endpoint and separate GPU, CPU, disk, platform-fee, and total amounts by time bucket.
-7. **Protect the prepaid balance.** Set alerts and auto-pay headroom for peak aggregate burn plus a payment-failure window.
-8. **Test reactivation.** Check maximum workers before relying on a dormant endpoint.
+3. **Model allocated time.** A running Pod bills until stop or termination. Flex planning must include the disputed startup boundary, execution, idle tails, retries, and parallel workers.
+4. **Choose the cleanup state.** Stop preserves local volume at double the running rate and releases the GPU; termination deletes the Pod and local volume.
+5. **Separate storage.** Track container, local-volume, and network-volume lifecycle independently from compute.
+6. **Test scale-to-zero.** Confirm zero Active workers, the idle timeout, and the observed return-to-zero state.
+7. **Reconcile one billing sample.** Use Pod-scoped billing history for Pod GPU and disk totals, and Serverless [billing history](https://docs.runpod.io/api-reference-v2/billing/get-serverless-billing-history) for endpoint costs.
+8. **Protect the prepaid balance.** Set alerts and auto-pay headroom for peak aggregate burn plus a payment-failure window.
+9. **Test reactivation.** A stopped Pod does not reserve its GPU; a dormant Serverless endpoint can also require a manual maximum-worker increase.
 
 The [RunPod deployment review](https://hostfleet.net/runpod-for-ai-inference-apis-and-jobs/) covers product fit beyond the rate card.
 
@@ -194,26 +222,32 @@ The [RunPod deployment review](https://hostfleet.net/runpod-for-ai-inference-api
 
 RunPod's cost model is coherent only after the supply and lifecycle boundaries are explicit:
 
-- Community and Secure Cloud publish separate prices for the same 21 product labels.
-- Secure premiums vary widely: the September 17 table spans **9.0% to 127.3%**, or **$36 to $720** over 720 hours.
+- Community and Secure Cloud publish separate prices for the same 21 product labels; all 42 values were unchanged in the October 2 check.
+- Secure premiums still span **9.0% to 127.3%**, or **$36 to $720** over 720 hours.
 - Secure Pods can beat public Flex rates for sustained allocation, but the selected break-even points range from about **289 to 569 Flex hours**.
-- Serverless startup billing remains contradictory across official pages.
-- Storage and prepaid balance failures can outlive or terminate compute in ways the GPU rate does not show.
+- Stopping a Pod releases the GPU but doubles local-volume storage to **$0.20/GB-month**, clears container disk, and does not reserve restart capacity.
+- Termination deletes the Pod and local volume; network storage remains independent.
+- Serverless startup billing remains contradictory across official pages, and prepaid-balance failure can stop or terminate workloads.
 
 Start with the exact product that fits memory and topology. Then test availability, worker lifecycle, one settled billing sample, and cleanup. The cheapest headline rate is useful only if those four checks agree with the workload.
 
 ## Sources
 
-Official provider sources were checked **September 17, 2026**.
+RunPod's public rate card and the official provider documentation used in this refresh were checked **October 2, 2026**.
 
-- [RunPod public pricing](https://www.runpod.io/pricing) — 21 Community/Secure Pod pairs and 13 Serverless Flex tiers
-- [RunPod Pods pricing](https://docs.runpod.io/pods/pricing) — compute billing, storage rates, minimum balance, and spend-limit boundary
+- [RunPod public pricing](https://www.runpod.io/pricing) — 21 Community/Secure Pod pairs, 13 Serverless Flex tiers, and storage rates; accessed October 2, page labeled updated September 27
+- [RunPod Pods pricing](https://docs.runpod.io/pods/pricing) — running/stopped disk rates, compute metering, and storage granularity
+- [RunPod Manage Pods](https://docs.runpod.io/pods/manage-pods) — stop, restart, zero-GPU capacity outcome, termination, and retained-data behavior
+- [RunPod storage types](https://docs.runpod.io/pods/storage/types) — container, local volume, and network-volume persistence boundaries
 - [RunPod Serverless pricing](https://docs.runpod.io/serverless/pricing) — billed phases, per-second rounding, storage, and Flex-versus-Active boundary
-- [RunPod worker overview](https://docs.runpod.io/serverless/workers/overview) — worker-state labels and worker limits
+- [RunPod worker overview](https://docs.runpod.io/serverless/workers/overview) — worker-state billing labels and worker limits
 - [RunPod endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations) — per-second table, idle timeout, GPU priority, and dormancy behavior
 - [RunPod billing overview](https://docs.runpod.io/accounts-billing/billing) — prepaid credits, auto-pay, zero-balance behavior, and storage summary
-- [RunPod API v2 billing history](https://docs.runpod.io/api-reference-v2/billing/get-serverless-billing-history) — endpoint filtering and cost categories
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, fully source-checked September 17, 2026
+- [RunPod Pod billing history](https://docs.runpod.io/api-reference-v2/billing/get-pod-billing-history) — Pod filtering, hourly minimum bucket, and GPU/CPU/disk totals
+- [RunPod network-volume billing history](https://docs.runpod.io/api-reference-v2/billing/get-network-volume-billing-history) — volume filtering and storage totals
+- [RunPod Serverless billing history](https://docs.runpod.io/api-reference-v2/billing/get-serverless-billing-history) — endpoint filtering and cost categories
+- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, sitewide dataset updated September 24, 2026
+- HostFleet RunPod lifecycle evidence note — /opt/hostbot/data/ai-hosting/notes/2026-10-02-runpod-pod-stop-storage-billing-boundary.md
 - HostFleet full verification ledger — /opt/hostbot/data/ai-hosting/notes/2026-09-17-gpu-pricing-full-verification.md
 - Live article baseline — /opt/hostbot-v2/src/content/posts/runpod-pricing-guide-2026.md
 
