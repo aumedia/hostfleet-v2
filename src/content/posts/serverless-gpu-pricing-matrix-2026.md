@@ -1,26 +1,27 @@
 ---
 title: "Serverless GPU pricing 2026: H100 rates and what scale-to-zero actually bills"
-description: "Eight source-checked H100 rates compared by scale-to-zero, idle tails, and billable startup phases, including Salad's running-to-ready model-load boundary."
+description: "Source-checked H100 rates and idle-tail rules, now with Cloud Run GPU instance billing and an explicit unpriced scale-to-zero boundary."
 pubDate: 2026-04-21
-updatedDate: 2026-09-28
-category: ai-hosting
+updatedDate: 2026-10-04
+category: "ai-hosting"
 author: Alex Harmon
 draft: false
 ---
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-> **H100 rates verified:** September 24, 2026<br>
+> **Cloud Run GPU lifecycle verified:** October 4, 2026<br>
+> **H100 rates verified:** September 24, 2026; these eight rates were not rechecked in this update<br>
 > **Salad lifecycle and RTX 4090 rate verified:** September 26, 2026<br>
 > **Evidence mode:** Official-source comparison with transparent arithmetic. HostFleet did not benchmark cold starts, throughput, capacity, reliability, or settled invoices.
 
 # Serverless GPU pricing in 2026: H100 rates and what scale-to-zero actually bills
 
-Serverless GPU pricing is not just an hourly-rate comparison. A service can advertise scale-to-zero and still bill for model loading, idle retention, or staged scale-down after the request has finished.
+Serverless GPU pricing is not just an hourly-rate comparison. A service can advertise scale-to-zero and still bill for model loading, idle retention, or staged scale-down after the request has finished. This is an official-source comparison, not a measured cold-start or invoice benchmark. The new Cloud Run GPU section was checked October 4, 2026; the eight H100 prices below remain a separately dated September 24 snapshot and should be rechecked before buying.
 
 The selected H100 headlines currently run from **$2.50/hour for Koyeb** to **$0.10833/minute, or $6.4998/hour, for Baseten**. Those official rates were checked September 24, 2026. They are not equivalent products: Koyeb bundles an application instance, Northflank publishes a GPU component, Modal meters surrounding CPU and memory separately, and Baseten and Replicate sell managed deployment capacity.
 
-The important new boundary comes from Salad Container Engine. Salad's public RTX 4090 price remains **from $0.16/GPU-hour**, checked September 26. Allocation and image download are unbilled, but billing starts when the container enters `running`. Salad's lifecycle documentation says model download, model load, and warmup can continue after that transition. “Cold start is free” is therefore too broad: platform provisioning can be free while running-to-ready initialization is billable.
+The earlier Salad boundary remains important: its Container Engine distinguishes unbilled platform preparation from billable running-to-ready time. Salad's public RTX 4090 price remains **from $0.16/GPU-hour**, checked September 26. Allocation and image download are unbilled, but billing starts when the container enters `running`. Salad's lifecycle documentation says model download, model load, and warmup can continue after that transition. “Cold start is free” is therefore too broad: platform provisioning can be free while running-to-ready initialization is billable.
 
 HostFleet's [live GPU pricing table](https://hostfleet.net/gpu-pricing/) contains the complete 21-provider, 147-cell dataset verified September 24. This page narrows that dataset to application-level H100 products, then compares the lifecycle rules that determine whether scale-to-zero actually lowers the bill.
 
@@ -37,7 +38,7 @@ Before choosing an H100, confirm that 80 GB is appropriate for the weights, quan
 | Private managed deployment with a zero minimum | **Replicate** | Default minimum is zero | Idle shutdown is only described as “a few minutes” |
 | Retryable work that fits a consumer GPU | **Salad Lowest** | RTX 4090 starts at $0.16/GPU-hour with included vCPU and RAM | No H100; most interruptible tier; running-to-ready initialization is billable |
 
-The recommendation depends on product shape, not just the smallest number. Koyeb is the lowest complete H100 bundle in this selected set. Northflank's nearby number is not a complete workload total because required CPU and memory are separate. Salad is much cheaper only because it is a different accelerator and interruption model.
+The recommendation depends on product shape, not just the smallest number. Koyeb is the lowest complete H100 bundle in this selected set. Northflank's nearby number is not a complete workload total because required CPU and memory are separate. Salad is much cheaper only because it is a different accelerator and interruption model. Cloud Run is also outside this H100 ranking: its current GPU choices are L4 and RTX PRO 6000 Blackwell, and this update does not claim a verified region-specific dollar rate for either.
 
 ## Eight selected H100 rates
 
@@ -87,6 +88,7 @@ The useful question is not whether a product can display zero replicas. It is wh
 | **Northflank managed GPU service** | Automatic zero is not established; manual zero is documented | 5-minute moving downscale window | **$0.2283 H100 component reserve** at the Sept. 24 rate | CPU and memory are additional; zero makes the service unavailable |
 | **Fal custom deployment** | Yes with the documented zero default | 60-second idle window plus up to 5 seconds termination grace | **$0.08125** if both intervals are fully consumed at the Sept. 24 H100 rate | SETUP, IDLE, RUNNING, DRAINING, and TERMINATING bill |
 | **CoreWeave Inference** | Not evaluated in this lifecycle refresh | Not evaluated | Not estimated | The price row is retained without inventing a zero-capacity policy |
+| **Cloud Run GPU service (L4 or RTX PRO 6000)** | Yes with `min=0`; request-driven wake | No fixed default quoted; at most 15 minutes idle after a request without a minimum | **Up to 900 billed post-request instance-seconds** as a bound, not a dollar quote | GPU, CPU and memory bill for the instance lifecycle; GPU sticker price alone is incomplete |
 
 These are arithmetic planning values, not measured charges. RunPod lifecycle docs were checked August 30; Koyeb August 28; Northflank August 31; Baseten September 1; Modal September 2; Replicate September 4; and Fal September 8. The H100 rates used in every calculation were rechecked September 24.
 
@@ -111,6 +113,22 @@ That is a derived estimate, not a settled invoice. Salad's [general billing docu
 Salad's Job Queue autoscaler supports minimum replicas of zero, maximum replicas from one to 500 subject to quota, a desired queue length from one to 100, and a control period from 15 to 1,800 seconds. Those are configuration ranges, not startup-speed claims. A first queued job can wait through allocation, image transfer, container creation, model initialization, and readiness before work begins.
 
 Retries also matter. Salad documents up to three retries after the first attempt, and node interruptions count as failures. A cheap, interruptible worker can therefore perform more than one billable attempt for one logical job. Use an idempotency key and record every job event rather than treating one client submission as one execution.
+
+## Cloud Run GPU: zero minimum is not request-only billing
+
+**Checked October 4, 2026 against official Google documentation.** This row is deliberately outside the H100 price ranking. Cloud Run offers one NVIDIA L4 with 24 GB VRAM or one NVIDIA RTX PRO 6000 Blackwell with 96 GB VRAM per instance. Google's [GPU configuration guide](https://docs.cloud.google.com/run/docs/configuring/services/gpu) says GPU services must use **instance-based billing**. GPU, CPU and memory can therefore accrue while the instance starts, serves, sits idle and shuts down; there is no per-request GPU fee. A minimum instance is billed at the full instance rate while idle.
+
+Set `min=0` if the workload tolerates waking from zero and you want to avoid a standing one-instance floor. That does **not** mean each request is charged only for inference seconds. Google's [billing-settings documentation](https://docs.cloud.google.com/run/docs/configuring/billing-settings) says an instance without a minimum never stays idle more than 15 minutes after processing a request. Treat **900 seconds as a documented upper bound** for one otherwise idle instance's post-request dwell, not as a guaranteed cooldown or an observed bill. Startup and shutdown are outside that post-request bound. Subsequent traffic, multiple instances or a configured minimum change the total.
+
+The cost model is straightforward but cannot yet be filled with a defensible dollar number here:
+
+`billable instance-seconds × (GPU rate per second + configured vCPU count × vCPU rate per second + configured GiB × memory rate per GiB-second)`, plus any separately billed items. Select the GPU rate for the actual redundancy mode.
+
+Check the exact region, GPU, CPU and RAM configuration in [Google's Cloud Run pricing](https://cloud.google.com/run/pricing) before doing the arithmetic. GPU zonal redundancy is enabled by default for new services and carries a different GPU rate; disabling it changes failover guarantees, so do not treat the cheaper mode as an identical product. This October 4 source check did **not** extract a verified region/SKU/redundancy-specific rate from the public pricing table. Cloud Run is therefore unpriced in this comparison; no monthly floor or tail-dollar estimate is implied.
+
+For capacity planning, Google's [GPU best practices](https://docs.cloud.google.com/run/docs/configuring/services/gpu-best-practices) say GPU utilization is **not** an autoscaling input. Set concurrency for the serving engine rather than assuming an overloaded GPU automatically adds instances. Record instance time, startup and request latency, and GPU metrics from [Cloud Run monitoring](https://docs.cloud.google.com/run/docs/monitoring); reconcile them to a billing export before presenting a measured cost or cold-start figure. Google's instance-start statement is not a model-ready latency guarantee: image and model loading and readiness still matter.
+
+**Decision:** Cloud Run is worth testing if a request-driven service, managed autoscaling and zero minimum fit the workload. If the purchase hinges on a price comparison, first capture the official price for the exact region, GPU, CPU, RAM and redundancy configuration. If it hinges on a latency SLO, test model readiness and the variable idle tail in an isolated project; this article supplies neither a benchmark nor an invoice result.
 
 ## Provider lifecycle notes
 
@@ -181,9 +199,17 @@ Apply promotional credit only after the base lifecycle is understood. The [GPU c
 
 **Salad is the useful warning against calling an entire cold start free.** Its checked public RTX 4090 from-price is $0.16/GPU-hour, and platform allocation plus image download are unbilled. Once the container is `running`, however, model initialization can still be underway and the meter is active. That distinction belongs in any serverless GPU cost model.
 
-The defensible buying order is hardware fit, complete product price, wake behavior, billable lifecycle, and then measured workload evidence. The smallest hourly number matters only after the endpoint can become ready, serve correctly, and stop charging in the way the forecast assumes.
+Cloud Run illustrates the same principle: a zero minimum does not make instance time free between requests, and its L4/RTX products cannot be inserted into an H100 rate ranking without a like-for-like hardware and price basis. The defensible buying order is hardware fit, complete product price, wake behavior, billable lifecycle, and then measured workload evidence. The smallest hourly number matters only after the endpoint can become ready, serve correctly, and stop charging in the way the forecast assumes.
 
 ## Sources
+
+Cloud Run GPU lifecycle claims were checked against official Google documentation on **October 4, 2026**. No Cloud Run dollar rate or measured lifecycle result is asserted. The H100 rates below retain their September 24 verification date.
+
+- [Cloud Run GPU configuration](https://docs.cloud.google.com/run/docs/configuring/services/gpu) — GPU options, instance billing, minimum-instance charges and redundancy setting; checked Oct. 4
+- [Cloud Run billing settings](https://docs.cloud.google.com/run/docs/configuring/billing-settings) and [minimum instances](https://docs.cloud.google.com/run/docs/configuring/min-instances) — whole-instance billing, zero minimum and the 15-minute maximum idle dwell; checked Oct. 4
+- [Cloud Run GPU best practices](https://docs.cloud.google.com/run/docs/configuring/services/gpu-best-practices) and [monitoring](https://docs.cloud.google.com/run/docs/monitoring) — concurrency/autoscaling and observable lifecycle metrics; checked Oct. 4
+- [Cloud Run pricing](https://cloud.google.com/run/pricing) — official price lookup, with no rate extracted or quoted in this update; checked Oct. 4
+- HostFleet research note: `/opt/hostbot/data/ai-hosting/notes/2026-10-04-cloud-run-gpu-scale-to-zero-billing-boundary.md`
 
 H100 rates were rechecked against the official pricing pages on **September 24, 2026**. Salad pricing and lifecycle documentation were checked **September 26, 2026**. Other lifecycle dates are listed beside each source.
 
@@ -207,4 +233,4 @@ H100 rates were rechecked against the official pricing pages on **September 24, 
 - HostFleet dataset: `/opt/hostbot-v2/src/data/gpu-pricing.json`, 21 providers and 147 cells fully checked Sept. 24, 2026
 - HostFleet evidence notes: `/opt/hostbot/data/ai-hosting/notes/2026-09-24-gpu-pricing-full-verification.md` and `/opt/hostbot/data/ai-hosting/notes/2026-09-26-salad-queue-scale-to-zero-billing-boundary.md`
 
-*Need an allocated GPU Pod after testing the serverless lifecycle? This is a labeled affiliate link; source citations above remain direct. [RunPod signup (affiliate)](https://hostfleet.net/go/runpod) supports HostFleet at no extra cost to you. Re-check the exact GPU, cloud tier, region, storage, and current price before purchase.*
+*Need an allocated GPU Pod after testing the serverless lifecycle? This is a labeled affiliate link; source citations above remain direct. <a href="/go/runpod" rel="sponsored nofollow">RunPod signup (affiliate)</a> supports HostFleet at no extra cost to you. Re-check the exact GPU, cloud tier, region, storage, and current price before purchase.*
