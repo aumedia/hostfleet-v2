@@ -1,18 +1,19 @@
 ---
 title: "What GPU do you need to run Llama 70B? VRAM, context, and KV-cache guide"
-description: "What GPU to run Llama 70B: VRAM and KV-cache math, current cloud rates, and the Massed L40S billing and termination boundary."
+description: "Llama 70B GPU VRAM and KV-cache math, selected cloud costs, and why a listed Koyeb B200 price is not deployable-capacity evidence."
 pubDate: 2026-07-29
-updatedDate: 2026-09-16
+updatedDate: 2026-10-06
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
 
-**Source-backed deployment guide; calculations are labeled.** This refresh uses Meta's Llama architecture paper and Llama 3.3 model card, current inference-runtime documentation, HostFleet's September 10 GPU dataset audit, and selected public GPU prices rechecked on **September 16, 2026**. HostFleet did not benchmark tokens per second, latency, model quality, cloud capacity, or cold starts. Read the [HostFleet methodology and affiliate policy](https://hostfleet.net/about/) for how sourced and measured claims are separated.
+**Source-backed deployment guide; calculations are labeled.** The memory model uses Meta's Llama architecture paper and Llama 3.3 model card plus inference-runtime documentation. The selected cloud-rate ladder began with a September 16 source check; Nebius's B300 price was updated from its October 1 effective-date notice, and Koyeb's H200/B200 list rates and public catalog-access flags were checked October 6. HostFleet did not benchmark tokens per second, latency, model quality, cloud capacity, account entitlement, or cold starts. Read the [HostFleet methodology and affiliate policy](https://hostfleet.net/about/) for how sourced and measured claims are separated.
 
-**Selected GPU prices verified:** September 16, 2026<br>
-**Full GPU dataset verified:** September 10, 2026<br>
+**Selected GPU rates:** Massed Compute, Hyperstack, and Nebius RTX PRO 6000 last checked September 16; Nebius B300 effective October 1; Koyeb H200/B200 rechecked October 6, 2026<br>
+**Full GPU dataset last verified:** September 24, 2026 (later targeted provider patches do not move this date)<br>
+**Koyeb public catalog status observed:** October 6, 2026<br>
 **Model and runtime sources checked:** August 28, 2026
 
 # What GPU do you need to run Llama 70B? VRAM, context, and KV-cache guide
@@ -23,7 +24,7 @@ The common shortcut—70 billion parameters times four bits equals about 35 GB�
 
 This guide makes the missing cache term explicit. It is still a planning model, not a promise that a particular quantized artifact or inference engine will fit.
 
-The September refresh also makes the 48 GB cost boundary less abstract. Massed Compute's public one-GPU L40S VM moved from **$0.88 to $0.97 per hour** on September 16, a **10.2% increase**. That does not change the memory recommendation, but it raises the 720-hour planning estimate from **$633.60 to $698.40** before any other cost. Capacity and lifecycle still matter more than a nine-cent rate change.
+The September refresh also makes the 48 GB cost boundary less abstract. Massed Compute's public one-GPU L40S VM moved from **$0.88 to $0.97 per hour** on September 16, a **10.2% increase**. That does not change the memory recommendation, but it raises the 720-hour planning estimate from **$633.60 to $698.40** before any other cost. Capacity and lifecycle still matter more than a nine-cent rate change. A further access boundary matters for the 180 GB tier: Koyeb still lists a B200 rate, but its public catalog marked that GPU class restricted with no listed regions on October 6. That observation is not a failed deployment test; it means the listed price should not be treated as capacity you can order immediately.
 
 ## The buying answer
 
@@ -126,20 +127,33 @@ Multi-GPU changes the operational problem. Tensor parallelism adds topology, com
 
 ## Current cloud price ladder for the capacity tiers
 
-The table below uses selected public one-GPU options from [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). HostFleet's complete 21-provider ledger was fully checked on **September 10, 2026**; Massed Compute's L40S cell was then source-verified and updated on **September 16**. Every selected row below was also rechecked against its official pricing page on September 16. These rows illustrate a capacity ladder; they do not prove stock, quota, regional access, or performance.
+The table below uses selected public one-GPU options from [HostFleet's live GPU pricing table](https://hostfleet.net/gpu-pricing/). HostFleet's complete 21-provider ledger was fully checked on **September 24, 2026**. This selected ladder retains the September 16 checks for Massed Compute, Hyperstack, and Nebius RTX PRO 6000; Nebius's B300 row reflects its October 1 effective price, and Koyeb's H200/B200 list rates were rechecked on October 6. These are mixed-date public list-price observations, not a claim that every provider was rechecked today. They do not prove stock, quota, account eligibility, regional access, or performance.
 
-| Capacity tier | Selected published option | Public rate checked Sept. 16 | 720-hour estimate | Important boundary |
+| Capacity tier | Selected published option | Public rate and check date | 720-hour estimate | Important boundary |
 |---|---|---:|---:|---|
-| 48 GB | [Massed Compute L40S VM](https://vm.massedcompute.com/pricing) | **$0.97/hr** | **$698.40** | One GPU, 12 vCPU, and 72 GB RAM; the public table lists storage as 625 without a unit |
-| 80 GB | [Hyperstack A100 80 GB](https://www.hyperstack.cloud/gpu-pricing) | **$1.35/hr** | **$972.00** | One-GPU VM includes fixed CPU, RAM, root disk, and ephemeral disk; public IP and shared storage are separate |
-| 96 GB | [Nebius RTX PRO 6000](https://nebius.com/prices) | **$1.80/hr** | **$1,296.00** | One-GPU prescribed configuration includes 24 vCPU and 218 GB RAM |
-| 141 GB | [Koyeb H200](https://www.koyeb.com/pricing) | **$3.00/hr** | **$2,160.00** | Serverless instance; scale-to-zero is public preview and regional availability is not guaranteed |
-| 180 GB | [Koyeb B200](https://www.koyeb.com/pricing) | **$5.50/hr** | **$3,960.00** | Serverless instance; the public catalog currently marks the one-GPU product restricted and exposes no regions |
-| 288 GB | [Nebius B300](https://nebius.com/prices) | **$7.85/hr** | **$5,652.00** | One-GPU prescribed configuration includes 24 vCPU and 346 GB RAM; public price is not evidence of capacity |
+| 48 GB | [Massed Compute L40S VM](https://vm.massedcompute.com/pricing) | **$0.97/hr**, Sept. 16 | **$698.40** | One GPU, 12 vCPU, and 72 GB RAM; the public table lists storage as 625 without a unit |
+| 80 GB | [Hyperstack A100 80 GB](https://www.hyperstack.cloud/gpu-pricing) | **$1.35/hr**, Sept. 16 | **$972.00** | One-GPU VM includes fixed CPU, RAM, root disk, and ephemeral disk; public IP and shared storage are separate |
+| 96 GB | [Nebius RTX PRO 6000](https://nebius.com/prices) | **$1.80/hr**, Sept. 16 | **$1,296.00** | One-GPU prescribed configuration includes 24 vCPU and 218 GB RAM |
+| 141 GB | [Koyeb H200](https://www.koyeb.com/pricing) | **$3.00/hr**, Oct. 6 | **$2,160.00** | Serverless instance; scale-to-zero is public preview and regional availability is not guaranteed |
+| 180 GB | [Koyeb B200](https://www.koyeb.com/pricing) | **$5.50/hr**, Oct. 6 | **$3,960.00** | List-price arithmetic only: public catalog says `RESTRICTED` and lists no regions; account access and stock untested |
+| 288 GB | [Nebius B300](https://nebius.com/prices) | **$9.50/hr**, effective Oct. 1 | **$6,840.00** | One-GPU prescribed configuration includes 24 vCPU and 346 GB RAM; public price is not evidence of capacity |
 
 **Estimate assumptions:** one GPU remains allocated for 720 hours in a 30-day month; public USD list rates; no discounts, taxes, additional storage, network, or separately billed resources beyond what each exact row includes. The monthly column is arithmetic, not a vendor quote.
 
 The selected products are not interchangeable. Massed Compute, Hyperstack, and Nebius expose VM-like configurations. Koyeb's rows are per-second serverless GPU instances. The L40S is also not necessarily the cheapest 48 GB way to test a quantized model; it is the selected current example because its rate changed and its billing boundary is documented. Compare all current rows in the live table, then compare lifecycle behavior as well as the accelerator. The [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) separates those product models, while the [GPU cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) lets you change allocated hours.
+
+### A listed GPU price is not a deployment slot
+
+Koyeb's [public pricing page](https://www.koyeb.com/pricing), inspected October 6, has two layers of evidence: a visible hourly price card and a serialized GPU catalog entry with `status` and `regions` fields. For two one-GPU classes tracked in HostFleet's [GPU pricing table](https://hostfleet.net/gpu-pricing/), the price remains visible even though the public catalog does not present an available region:
+
+| Koyeb class | Public list rate, Oct. 6 | Public catalog observation, Oct. 6 | Buyer interpretation |
+|---|---:|---|---|
+| L4 24 GB | **$0.70/hr** | `RESTRICTED`; `regions: []` | Do not plan a deployment around this rate until your account's selector exposes an orderable region |
+| B200 180 GB | **$5.50/hr** | `RESTRICTED`; `regions: []` | The 180 GB cost row above is a conditional estimate, not evidence that a new service can be placed |
+
+These are **source observations, not deployment measurements**. The public payload does not explain the restriction. It does not show whether a particular account can gain access, whether a region has live stock, or whether the status will persist. Koyeb's H200 class, also checked October 6, retained its **$3.00/hour** public list rate and appeared as `AVAILABLE` in the page catalog; that status still does not guarantee a successful allocation for your account. Confirm the exact GPU and region in the authenticated deployment selector before making an architecture or budget commitment. If the 180 GB card is not selectable, compare another orderable 180 GB option or test a supported multi-GPU topology rather than treating the cheapest public B200 number as a procurement plan.
+
+Nebius is a separate price-change example: its [pricing overview](https://nebius.com/prices) and [Compute pricing reference](https://docs.nebius.com/compute/resources/pricing) placed the one-GPU B300 rate at **$9.50/hour effective October 1**, up from **$7.85/hour**. The 720-hour figure above therefore rises by **$1,188** (`($9.50 − $7.85) × 720`), before any additional charges. This is source-backed list-rate arithmetic, not a reserved-capacity quote or invoice result.
 
 ### What the Massed Compute price change means
 
@@ -168,7 +182,7 @@ one-week active total = $0.97 × 168 = $162.96
 
 That is why a cleanup test matters more than the nine-cent hourly increase.
 
-Koyeb's scale-to-zero documentation, checked August 28, explicitly includes GPU instances but labels the feature public preview. The default idle period is five minutes. A supported new request can wake a sleeping service, but HTTP/2 requests cannot do so, and no public GPU wake-time SLA is documented. At the current H200 rate, a nominal five-minute idle tail is **$0.25**; for B200 it is about **$0.46**. Those are rate × 5/60 estimates and exclude active work and wake/model-load time.
+Koyeb's scale-to-zero documentation, checked August 28, explicitly includes GPU instances but labels the feature public preview. The default idle period is five minutes. A supported new request can wake a sleeping service, but HTTP/2 requests cannot do so, and no public GPU wake-time SLA is documented. At the H200 list rate rechecked October 6, a nominal five-minute idle tail is **$0.25**; at the B200 list rate it is about **$0.46**, conditional on being able to deploy that restricted class. Those are rate × 5/60 estimates and exclude active work and wake/model-load time.
 
 If the chosen GPU will stay warm continuously, compare the 720-hour result with the [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) or [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/), as applicable. If it can genuinely return to zero, compare total allocated seconds—including model loading and idle tails—not just inference time.
 
@@ -214,7 +228,7 @@ Choose the smallest tier that preserves headroom for the intended context and se
 
 ## Sources
 
-Model and runtime sources were accessed **August 28, 2026** and confirmed reachable September 16. Selected pricing sources and Massed Compute billing documentation were checked **September 16, 2026**. Koyeb's scale-to-zero documentation was checked August 28.
+Model and runtime sources were accessed **August 28, 2026** and confirmed reachable September 16. The original selected price and Massed Compute billing checks were performed **September 16, 2026**. Nebius's B300 effective rate was checked October 1; Koyeb's H200/B200 list rates and L4/B200 catalog flags were checked October 6. Koyeb's scale-to-zero documentation was checked August 28. These later targeted checks do not constitute a new full-provider audit.
 
 - [Meta Llama 3.3 model card](https://raw.githubusercontent.com/meta-llama/llama-models/main/models/llama3_3/MODEL_CARD.md) — 70B parameter label, 128K context, and GQA description
 - [The Llama 3 Herd of Models](https://arxiv.org/html/2407.21783) — 70B layer, dimension, attention-head, and key/value-head architecture values
@@ -228,12 +242,14 @@ Model and runtime sources were accessed **August 28, 2026** and confirmed reacha
 - [Massed Compute billing overview](https://vm-docs.massedcompute.com/docs/billing/overview) — active-VM hourly totals divided into per-minute debits and micro-cent carry; checked September 16, 2026
 - [Massed Compute instance documentation](https://vm-docs.massedcompute.com/docs/running-instances/instance-elements) — documented states and destructive termination boundary; checked September 16, 2026
 - [Hyperstack GPU pricing](https://www.hyperstack.cloud/gpu-pricing) — selected A100 80 GB rate
-- [Nebius AI Cloud pricing](https://nebius.com/prices) — selected RTX PRO 6000 and B300 rates
-- [Koyeb pricing](https://www.koyeb.com/pricing) — selected H200 and B200 rates
+- [Nebius AI Cloud pricing](https://nebius.com/prices) and [Compute pricing reference](https://docs.nebius.com/compute/resources/pricing) — RTX PRO 6000 selected rate last checked September 16; B300 $9.50 rate effective October 1, 2026
+- [Koyeb pricing](https://www.koyeb.com/pricing) — H200, B200, and L4 list rates; serialized L4/B200 `RESTRICTED` status and empty region arrays; checked October 6, 2026
 - [Koyeb scale-to-zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) — preview status, GPU eligibility, default idle period, and wake-protocol limits
-- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, full-table date September 10 with the Massed Compute L40S cell source-verified September 16, 2026
-- HostFleet full source-verification ledger — `/opt/hostbot/data/ai-hosting/notes/2026-09-10-gpu-pricing-full-verification.md`
+- HostFleet GPU pricing dataset — `/opt/hostbot-v2/src/data/gpu-pricing.json`, full-table date September 24, with later targeted Nebius and Koyeb checks noted above
+- HostFleet full source-verification ledger — `/opt/hostbot/data/ai-hosting/notes/2026-09-24-gpu-pricing-full-verification.md`
 - HostFleet Massed Compute change note — `/opt/hostbot/data/ai-hosting/notes/2026-09-16-massed-compute-l40s-price-change.md`
 - HostFleet Koyeb limits note — `/opt/hostbot/data/ai-hosting/notes/2026-08-28-koyeb-gpu-scale-to-zero-limits.md`
+- HostFleet Koyeb catalog-access note — `/opt/hostbot/data/ai-hosting/notes/2026-10-06-koyeb-gpu-catalog-access-boundary.md`
+- HostFleet Nebius price-change note — `/opt/hostbot/data/ai-hosting/notes/2026-10-01-nebius-gpu-price-increases.md`
 
-*Signing up for a GPU host? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: [RunPod (+$5 credit on your first $10)](https://hostfleet.net/go/runpod). Links are labeled, and source citations in this article are never affiliate links.*
+*Signing up for a GPU host? Using our affiliate link supports HostFleet's testing budget at no extra cost to you: <a href="/go/runpod" rel="sponsored nofollow">RunPod (+$5 credit on your first $10)</a>. Links are labeled, and source citations in this article are never affiliate links.*
