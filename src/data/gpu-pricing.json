@@ -80,6 +80,10 @@
         "baseten": { "hr": 1.21, "raw": "$0.02012/min", "note": "A10G" },
         "lambda_cloud": { "hr": 1.29, "raw": "$1.29/GPU/hr", "note": "1x A10 instance" }
       } },
+    { "id": "quadro_rtx6000", "name": "Quadro RTX 6000", "vram": "24 GB",
+      "prices": {
+        "lambda_cloud": { "hr": 0.69, "raw": "$0.69/GPU/hr", "note": "1x NVIDIA Quadro RTX 6000 on-demand instance; 14 vCPU, 46 GiB RAM, and 512 GiB SSD included; not RTX 6000 Ada; public list price, live stock unverified" }
+      } },
     { "id": "p6000", "name": "P6000", "vram": "24 GB",
       "prices": {
         "paperspace": { "hr": 1.10, "raw": "$1.10/hr", "note": "1x P6000 Machine compute; 8 vCPU and 30 GB RAM; 50 GB SSD default but billed separately; catalog regions NY2, AMS1, and CA1" }
@@ -217,6 +221,10 @@
         "jarvislabs": { "hr": 2.69, "raw": "$2.69/GPU/hr", "note": "1x NVIDIA H100 SXM on-demand row; public pricing table lists 16 vCPU and 200 GB RAM; GPU and region availability can change" },
         "koyeb": { "hr": 2.50, "raw": "$2.50/hr", "note": "1x H100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; GPU availability is region-specific" },
         "northflank": { "hr": 2.74, "raw": "$2.74/GPU/hr", "note": "1x NVIDIA H100 80 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
+      } },
+    { "id": "gh200", "name": "GH200", "vram": "96 GB",
+      "prices": {
+        "lambda_cloud": { "hr": 2.29, "raw": "$2.29/GPU/hr", "note": "1x NVIDIA GH200 on-demand instance; 64 vCPU, 432 GiB RAM, and 4 TiB SSD included; public list price, live stock unverified" }
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
