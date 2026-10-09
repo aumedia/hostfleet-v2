@@ -57,7 +57,8 @@
       } },
     { "id": "a4000", "name": "RTX A4000", "vram": "16 GB",
       "prices": {
-        "paperspace": { "hr": 0.76, "raw": "$0.76/hr", "note": "1x A4000 Machine compute; 8 vCPU and 45 GB RAM; 50 GB SSD default but billed separately; catalog regions NY2, AMS1, and CA1" }
+        "paperspace": { "hr": 0.76, "raw": "$0.76/hr", "note": "1x A4000 Machine compute; 8 vCPU and 45 GB RAM; 50 GB SSD default but billed separately; catalog regions NY2, AMS1, and CA1" },
+        "hyperstack": { "hr": 0.15, "raw": "$0.15/GPU/hr", "note": "1x NVIDIA RTX A4000 on-demand VM (n3-RTX-A4000x1); 16 GB VRAM, 4 CPU, 21 GB RAM, 100 GB root disk, no ephemeral disk; NORWAY-1 catalog region; public price, live stock unverified" }
       } },
     { "id": "rtx4000ada", "name": "RTX 4000 Ada", "vram": "20 GB",
       "prices": {
