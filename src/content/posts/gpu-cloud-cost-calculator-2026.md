@@ -1,8 +1,8 @@
 ---
 title: "GPU cloud cost calculator 2026: A100 rates, stop costs and retained storage"
-description: "Eight dated A100 rates, including Verda at $1.833/hour on October 7, with stop and retained-storage costs for an eight-hour job."
+description: "Eight dated A100 rates, including Verda at $1.870/hour on October 9, with stop and retained-storage costs for an eight-hour job."
 pubDate: 2026-08-09
-updatedDate: 2026-10-07
+updatedDate: 2026-10-09
 category: "ai-hosting"
 author: Alex Harmon
 draft: false
@@ -10,10 +10,10 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rates and lifecycle rules; calculated totals are estimates.** Five of the eight selected A100 80 GB rate anchors were rechecked against official provider pages or vendor-owned APIs on **September 30, 2026**; Verda's selected A100 rate was rechecked on **October 7, 2026**, RunPod's Secure Cloud A100 PCIe rate on **October 3, 2026**, and Vultr's rate was last source-verified on **September 29, 2026**. RunPod's Pod stop, storage, restart, and billing-documentation boundaries were checked October 2. Vast.ai's rented-instance states, storage behavior, and restart constraints were checked September 30. Verda's prepaid billing, shutdown, deletion, refund, and retained-storage rules were checked September 25. HostFleet did not benchmark performance, test inventory, rent a Pod or Vast instance, or inspect settled invoices for this refresh.
+**Source-backed rates and lifecycle rules; calculated totals are estimates.** Five of the eight selected A100 80 GB rate anchors were rechecked against official provider pages or vendor-owned APIs on **September 30, 2026**; Verda's selected A100 rate was rechecked on **October 9, 2026**, RunPod's Secure Cloud A100 PCIe rate on **October 3, 2026**, and Vultr's rate was last source-verified on **September 29, 2026**. RunPod's Pod stop, storage, restart, and billing-documentation boundaries were checked October 2. Vast.ai's rented-instance states, storage behavior, and restart constraints were checked September 30. Verda's prepaid billing, shutdown, deletion, refund, and retained-storage rules were checked September 25. HostFleet did not benchmark performance, test inventory, rent a Pod or Vast instance, or inspect settled invoices for this refresh.
 
 > **Five selected rates rechecked:** September 30, 2026<br>
-> **Verda A100 SXM4 rate rechecked:** October 7, 2026<br>
+> **Verda A100 SXM4 rate rechecked:** October 9, 2026<br>
 > **RunPod Secure A100 PCIe rate rechecked:** October 3, 2026<br>
 > **Vultr A100 rate last source-verified:** September 29, 2026<br>
 > **Vast.ai lifecycle rules verified:** September 30, 2026<br>
@@ -35,9 +35,9 @@ Hourly price controls only the first three terms. The provider-specific release 
 
 That action is not consistent across clouds. Thunder Compute has no native Stop operation. A stopped Hyperstack or Vultr VM remains fully billable. Jarvis Labs pause and Paperspace power-off stop compute billing. Verda requires deletion, not shutdown. Koyeb can scale an eligible public Service to zero after an idle window. Vast.ai documents stopped rented instances as storage-only, but a frozen instance still incurs GPU charges and a restart may wait indefinitely for capacity. A stopped RunPod Pod releases its GPU, but doubles the local-volume storage rate; termination deletes that local volume, while a separately created network volume survives. The table below prices those distinct states.
 
-An October 7 recheck found Verda's selected **1A100.22V** A100 80 GB at **$1.833 per hour** in both its official pricing page's embedded on-demand offer and public instance-types API. That is **$0.018/hour** above the October 5 snapshot of $1.815, adding **$12.96** to a 720-hour planning month. It is **5.1%** above the September 24 rate of $1.744, adding **$64.08** to that same planning month versus the older baseline. The human-facing table rounds the current rate to $1.83/hour; the embedded offer and API provide the exact $1.833 input used here. The September 25 lifecycle check found a more important operating boundary: Verda prepays pay-as-you-go resources in 10-minute increments, refunds unused terminated time in the next billing period, and keeps charging a shut-down instance until it is deleted.
+An October 9 recheck found Verda's selected **1A100.22V** A100 80 GB at **$1.870 per hour** in its public instance-types API; the official pricing page's embedded on-demand offer agrees at $1.87. That is **$0.037/hour** above this calculator's October 7 input of $1.833, adding **$26.64** to a 720-hour planning month. It is **7.2%** above the September 24 rate of $1.744, adding **$90.72** to that same planning month versus the older baseline. The API's three-decimal value is the exact input used here. This is a targeted Verda price check, not a recheck of the other seven rates or proof of available capacity. The September 25 lifecycle check found a more important operating boundary: Verda prepays pay-as-you-go resources in 10-minute increments, refunds unused terminated time in the next billing period, and keeps charging a shut-down instance until it is deleted.
 
-This comparison is a provider-source refresh of eight named products. It uses the same verified market baseline as HostFleet's broader [GPU pricing dataset](https://hostfleet.net/gpu-pricing/), but it deliberately keeps exact product shapes visible. The RunPod row, for example, selects a Secure Cloud PCIe Pod at $1.59, rechecked October 3, rather than mixing Secure and Community inventory. This is a planning tool, not a performance ranking or stock claim.
+This comparison is a provider-source refresh of eight named products. It uses the same verified market baseline as HostFleet's broader [GPU pricing dataset](https://hostfleet.net/gpu-pricing/), but it deliberately keeps exact product shapes visible. The broader dataset and [A100 rental guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) have separate verification clocks and may still show an earlier Verda price; use this October 9 input for the calculator until those pages are refreshed. The RunPod row, for example, selects a Secure Cloud PCIe Pod at $1.59, rechecked October 3, rather than mixing Secure and Community inventory. This is a planning tool, not a performance ranking or stock claim.
 
 ## Eight dated A100 80 GB planning rates
 
@@ -50,7 +50,7 @@ The table uses one public, reproducible product per provider. Thunder is the onl
 | **Jarvis Labs on-demand instance** | **$1.49/GPU-hr** | Public one-GPU row lists 16 vCPU and 112 GB RAM; retained data bills separately when paused | **$1,072.80** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), rechecked Sept. 30, 2026 |
 | **RunPod Secure Cloud A100 PCIe Pod** | **$1.59/hr** | Selected Secure Cloud Pod allocation; storage has a separate lifecycle | **$1,144.80** | [RunPod pricing](https://www.runpod.io/pricing), rechecked Oct. 3, 2026 |
 | **Koyeb A100 Service** | **$1.60/hr** | One A100 Instance with 15 vCPU, 180 GB RAM, and 320 GB disk | **$1,152.00** | [Koyeb pricing](https://www.koyeb.com/pricing), rechecked Sept. 30, 2026 |
-| **Verda A100 80 GB SXM4 instance** | **$1.833/hr exact** | One GPU with 22 CPU and 120 GB RAM; storage is separate; visible table rounds to $1.83/hr | **$1,319.76** | [Verda pricing](https://verda.com/pricing) and [instance-types API](https://api.verda.com/v1/instance-types), rechecked Oct. 7, 2026 |
+| **Verda A100 80 GB SXM4 instance** | **$1.870/hr exact** | One GPU with 22 CPU and 120 GB RAM; storage is separate; page offer is $1.87/hr | **$1,346.40** | [Verda pricing](https://verda.com/pricing) and [instance-types API](https://api.verda.com/v1/instance-types), rechecked Oct. 9, 2026 |
 | **Vultr A100 Cloud GPU** | **$2.397/hr** | One PCIe A100 with 12 vCPU, 120 GB RAM, 1.40 TB local storage, and 10 TB bandwidth | **$1,725.84** | [Vultr Cloud GPU pricing](https://www.vultr.com/pricing/#cloud-gpu), last source-verified Sept. 29, 2026 |
 | **Paperspace A100-80G Machine** | **$3.18/hr compute** | One GPU with 12 vCPU and 90 GB RAM; the default 50 GB SSD is configured with the Machine but billed separately | **$2,289.60 compute** | [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/), rechecked Sept. 30, 2026 |
 
@@ -73,7 +73,7 @@ The failure case is simple: a test performs eight hours of useful work, but its 
 | Jarvis Labs A100 80 GB | $11.92 | $250.32 | $238.40 | $35.76 |
 | RunPod Secure A100 PCIe Pod | $12.72 | $267.12 | $254.40 | $38.16 |
 | Koyeb A100 Service | $12.80 | $268.80 | $256.00 | $38.40 |
-| Verda A100 80 GB SXM4 | $14.66 | $307.94 | $293.28 | $43.99 |
+| Verda A100 80 GB SXM4 | $14.96 | $314.16 | $299.20 | $44.88 |
 | Vultr A100 Cloud GPU | $19.18 | $402.70 | $383.52 | $57.53 |
 | Paperspace A100-80G Machine | $25.44 | $534.24 | $508.80 | $76.32 |
 
@@ -103,11 +103,11 @@ Verda's [shutdown and deletion guide](https://docs.verda.com/cpu-and-gpu-instanc
 
 That makes the calculator's unattended case concrete. If the selected A100 instance finishes eight useful hours and an operator only shuts it down, another 160 billable hours are an estimated:
 
-    $1.833/hour × 160 hours = $293.28
+    $1.870/hour × 160 hours = $299.20
 
 The provider's [pricing and billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing/index.md), also checked September 25, says pay-as-you-go resources are prepaid in 10-minute increments. For the selected A100 rate, one nominal 10-minute prepayment is:
 
-    $1.833/hour ÷ 6 = $0.3055
+    $1.870/hour ÷ 6 ≈ $0.3117 nominal prepayment
 
 That is not a claimed 10-minute minimum charge. Verda says that when a resource is terminated before the paid interval ends, unused time is refunded within the next billing period. A balance can therefore show a debit before the final net cost is known. Forecast gross cash movement separately from settled usage, and do not treat an immediate prepaid debit as the final invoice.
 
@@ -264,7 +264,7 @@ Before launching a GPU workload, record:
 
 The selected A100 examples cost an estimated **$10.00 to $25.44** for eight useful hours. Leaving them billable for a week raises the range to **$210.00 through $534.24**. The spread matters, but lifecycle semantics matter more.
 
-Verda's selected A100 rate is $1.833/hour as of October 7, up from the October 5 snapshot of $1.815. That adds $12.96 to a 720-hour estimate, but a shutdown-only cleanup failure still adds an estimated $293.28 in this 160-hour scenario. Deletion stops the compute charge at a provider-controlled boundary, prepaid time can be refunded later, and storage treatment must be explicit because the console and API describe different omission defaults.
+Verda's selected A100 rate is $1.870/hour as of October 9, up from this calculator's October 7 input of $1.833. That adds $26.64 to a 720-hour estimate, but a shutdown-only cleanup failure still adds an estimated $299.20 in this 160-hour scenario. Deletion stops the compute charge at a provider-controlled boundary, prepaid time can be refunded later, and storage treatment must be explicit because the console and API describe different omission defaults.
 
 RunPod illustrates why “stopped” needs a storage line: the 100 GB local-volume case is about **$17.28** for eight GPU hours plus 160 stopped hours, versus **$14.35** with a separately retained standard network volume under the stated assumptions. Both include storage, but neither includes container disk or transfer. A terminated Pod deletes its local volume, so a cheaper storage figure is not a durability plan.
 
@@ -285,7 +285,7 @@ Use the calculator in this order: choose hardware that fits, reconstruct the lau
 - [RunPod Pod pricing](https://docs.runpod.io/pods/pricing), [management](https://docs.runpod.io/pods/manage-pods), and [storage types](https://docs.runpod.io/pods/storage/types) — running and stopped local-volume rates, network-volume rate, Pod stop/termination state, container-disk deletion, and restart-capacity boundary; checked October 2, 2026
 - [RunPod Pod billing history](https://docs.runpod.io/api-reference-v2/billing/get-pod-billing-history) and [network-volume billing history](https://docs.runpod.io/api-reference-v2/billing/get-network-volume-billing-history) — resource-scoped charge reconciliation and bucket limits; checked October 2, 2026
 - [Koyeb pricing](https://www.koyeb.com/pricing) and [Scale-to-Zero documentation](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) — A100 rate, included resources, public-preview status, idle period, and protocol limits; rate rechecked September 30, lifecycle checked August 28, 2026
-- [Verda pricing](https://verda.com/pricing), [instance-types API](https://api.verda.com/v1/instance-types), [billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing/index.md), [instance lifecycle guide](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/index.md), [storage deletion guide](https://docs.verda.com/storage/deleting-storage/index.md), and [Public API reference](https://api.verda.com/v1/docs) — exact A100 rate, prepaid intervals, refund timing, shutdown/deletion boundary, storage recovery, and API defaults; rate rechecked October 7 and lifecycle checked September 25, 2026
+- [Verda pricing](https://verda.com/pricing), [instance-types API](https://api.verda.com/v1/instance-types), [billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing/index.md), [instance lifecycle guide](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/index.md), [storage deletion guide](https://docs.verda.com/storage/deleting-storage/index.md), and [Public API reference](https://api.verda.com/v1/docs) — exact A100 rate, prepaid intervals, refund timing, shutdown/deletion boundary, storage recovery, and API defaults; rate rechecked October 9 and lifecycle checked September 25, 2026
 - [Vultr Cloud GPU pricing](https://www.vultr.com/pricing/#cloud-gpu), [stopped-instance billing](https://docs.vultr.com/support/platform/billing/are-stopped-instances-still-billed-on-vultr), and [GPU billing documentation](https://docs.vultr.com/support/platform/billing/how-are-gpu-products-billed-differently) — A100 rate, continued billing while stopped, destroy boundary, and GPU billing model; rate last source-verified September 29 and documentation rechecked September 26, 2026
 - [Paperspace pricing](https://docs.digitalocean.com/products/paperspace/pricing/) — A100-80G rate, powered-off compute boundary, and separately billed disk; rate rechecked September 30, 2026
 - [Vast.ai billing](https://docs.vast.ai/guides/reference/billing), [instance pricing](https://docs.vast.ai/guides/instances/pricing.md), [instance management](https://docs.vast.ai/guides/instances/manage-instances.md), [storage types](https://docs.vast.ai/guides/instances/storage/types.md), and [instance status reference](https://docs.vast.ai/cli/reference/show-instance.md) — host-priced components, per-second active rental, state-specific GPU treatment, stopped storage, destroy boundary, and restart-capacity risk; checked September 30, 2026
