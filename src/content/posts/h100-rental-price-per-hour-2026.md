@@ -1,18 +1,18 @@
 ---
-title: "H100 rental price per hour in 2026: Nebius rises 16.9% to $4.50"
-description: "Nineteen H100 rates compared, with Nebius now $4.50/GPU-hour after an effective 16.9% increase and updated 720-hour cost math."
+title: "H100 rental price per hour in 2026: Jarvis Labs rises 29.7% to $3.49"
+description: "Nineteen public H100 rates compared, with Jarvis Labs now $3.49/GPU-hour and a $576 change to its 720-hour estimate."
 pubDate: 2026-07-29
-updatedDate: 2026-10-02
+updatedDate: 2026-10-11
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 *Affiliate disclosure: HostFleet may earn a commission if you sign up through links on this page. That never changes the analysis. Read the live [HostFleet about page](https://hostfleet.net/about/) for methodology and affiliate-policy context.*
 
-**Source-backed rate-card and lifecycle comparison; estimated monthly totals.** This refresh uses official provider pricing pages, public vendor APIs, and HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/). It is not a capacity, latency, throughput, reliability, or current-stock benchmark. Seventeen selected H100 price anchors remain anchored to live-vendor checks on **September 28, 2026**. Nebius's H100 rate and October 1 effective date were rechecked on **October 1, 2026** against two official pricing surfaces. Verda's selected H100 rate was refreshed on **October 2, 2026** against its official pricing page and public instance API. This is a targeted two-provider price-event refresh, not a fresh full-market verification. TensorDock's two stop modes, storage-only release state, and restart constraints were checked September 28. Verda's prepaid billing terms were rechecked September 25. Lambda's termination, guest-poweroff, and filesystem rules were checked September 14. HostFleet did not measure invoices, refund timing, capacity, or state-transition timing.
+**Source-backed rate-card and lifecycle comparison; estimated monthly totals.** This refresh uses official provider pricing pages, public vendor APIs, and HostFleet's [live GPU pricing dataset](https://hostfleet.net/gpu-pricing/). It is not a capacity, latency, throughput, reliability, or current-stock benchmark. Sixteen selected H100 price anchors retain their **September 28, 2026** provider checks. Nebius's H100 rate and October 1 effective date were rechecked on **October 1, 2026** against two official pricing surfaces. Verda's selected H100 rate was refreshed on **October 2, 2026** against its official pricing page and public instance API. Jarvis Labs' one-GPU H100 SXM on-demand row was checked on **October 11, 2026** against its official public pricing table. This is a targeted price-event refresh, not a new full-market or invoice verification. TensorDock's two stop modes, storage-only release state, and restart constraints were checked September 28. Verda's prepaid billing terms were rechecked September 25. Lambda's termination, guest-poweroff, and filesystem rules were checked September 14. HostFleet did not measure invoices, refund timing, capacity, or state-transition timing.
 
-> **Price anchors rechecked:** Verda October 2, 2026; Nebius October 1, 2026; remaining 17 selected rows September 28, 2026<br>
-> **Full-dataset baseline:** September 24, 2026; targeted Verda and Nebius patches October 1; live Verda refresh October 2<br>
+> **Price anchors rechecked:** Jarvis Labs October 11, 2026; Verda October 2, 2026; Nebius October 1, 2026; remaining 16 selected rows September 28, 2026<br>
+> **Full-dataset baseline:** September 24, 2026; targeted Verda and Nebius patches October 1, Verda refresh October 2, and Jarvis Labs patch October 11<br>
 > **TensorDock lifecycle checked:** September 28, 2026; no current fixed H100 rate was added<br>
 > **Currency:** public USD on-demand list prices before tax<br>
 > **Comparison unit:** one listed GPU-hour or a published per-second/per-minute equivalent<br>
@@ -22,13 +22,13 @@ draft: false
 
 The cheapest selected H100 rate is now a tie: **Hyperstack and Koyeb both publish $2.50 per hour**. That does not make them interchangeable. Hyperstack's row is a one-GPU PCIe VM whose stopped state remains billable. Koyeb's row is a serverless application instance with public-preview scale-to-zero and a documented five-minute default idle period.
 
-Jarvis Labs follows at **$2.69/GPU-hour**, Massed Compute at **$2.73/hour**, Northflank at **$2.74/GPU-hour**, and RunPod Secure Cloud at **$2.89/hour**. Northflank's number is only a GPU component; CPU and memory are extra. The other rows package different resources and lifecycle controls.
+Massed Compute follows the $2.50 tie at **$2.73/hour**, Northflank lists **$2.74/GPU-hour**, and RunPod Secure Cloud lists **$2.89/hour**. Jarvis Labs is no longer near the price floor: its one-GPU H100 SXM on-demand row rose from **$2.69 to $3.49/GPU-hour** by October 11, a **29.7%** increase. Northflank's number is only a GPU component; CPU and memory are extra. These rows package different resources and lifecycle controls.
 
 The September 28 recheck found 18 selected H100 rates unchanged from September 24. Novita's official marketplace API still exposes product `H100-80GB.22c150g` with 22 vCPU, 150 GB RAM, a 60 GB container-disk quota, and **$3.39/hour**. Verda changed repeatedly: HostFleet observed its exact H100 offer at **$3.282/hour on September 17**, **$3.416 on September 24**, **$3.555 on September 28**, **$3.627 on October 1**, and **$3.663 on October 2**. The latest October 1–2 step adds **$25.92** to a 720-hour estimate; the cumulative September 17–October 2 increase is 11.6%, or **$274.32** for 720 hours.
 
 Nebius's previously scheduled increase is now effective. Its unified H100 SXM/NVLink VM moved from **$3.85 to $4.50/GPU-hour on October 1**, a **16.9%** increase. That adds **$468.00** to a 720-hour planning case and moves Nebius behind Modal and DigitalOcean in this rate-only ordering, into a tie with Fal's $4.50/hour list rate.
 
-The lifecycle still matters more than that ranking change. Verda prepays pay-as-you-go compute in 10-minute increments and returns unused terminated time in the next billing period; shutdown does not release the compute charge. Lambda has a different trap: guest `shutdown` or `poweroff` puts the instance into `Alert` and billing continues; only Lambda's termination operation ends the compute meter. TensorDock makes the distinction explicit in its API: a normal stop keeps the GPU reserved at the running rate, while stop-and-release drops the VM to storage-only billing and makes the next start capacity-dependent.
+The lifecycle still matters more than either ranking change. Verda prepays pay-as-you-go compute in 10-minute increments and returns unused terminated time in the next billing period; shutdown does not release the compute charge. Lambda has a different trap: guest `shutdown` or `poweroff` puts the instance into `Alert` and billing continues; only Lambda's termination operation ends the compute meter. TensorDock makes the distinction explicit in its API: a normal stop keeps the GPU reserved at the running rate, while stop-and-release drops the VM to storage-only billing and makes the next start capacity-dependent.
 
 ## Current H100 price-per-hour comparison
 
@@ -38,13 +38,13 @@ The table is sorted by normalized hourly rate. Per-second prices are multiplied 
 |---|---|---:|---|
 | **Hyperstack** | 1x H100 80 GB PCIe VM; 28 CPU, 180 GB RAM, local storage; Canada | **$2.50/GPU-hr** | [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing), Sept. 28, 2026 |
 | **Koyeb** | 1x H100 80 GB serverless instance; 15 vCPU, 180 GB RAM, 320 GB disk | **$2.50/hr** | [Koyeb pricing](https://www.koyeb.com/pricing), Sept. 28, 2026 |
-| **Jarvis Labs** | 1x H100 80 GB SXM on-demand instance; public row lists 16 vCPU and 200 GB RAM | **$2.69/GPU-hr** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Sept. 28, 2026 |
 | **Massed Compute** | 1x H100 80 GB on-demand VM; 20 vCPU, 128 GB RAM; storage shown as 1,250 with no unit | **$2.73/hr** | [Massed Compute pricing](https://vm.massedcompute.com/pricing), Sept. 28, 2026 |
 | **Northflank** | 1x H100 80 GB managed-cloud GPU component; CPU, memory, disk, and egress separate | **$2.74/GPU-hr** | [Northflank pricing](https://northflank.com/pricing), Sept. 28, 2026 |
 | **RunPod Pods** | H100 PCIe Secure Cloud Pod | **$2.89/hr** | [RunPod pricing](https://www.runpod.io/pricing), Sept. 28, 2026 |
 | **Thunder Compute** | 1x H100 80 GB PCIe base; 4 vCPU, 32 GB RAM, 100 GB persistent disk included | **$3.20/GPU-hr** | [Thunder pricing](https://www.thundercompute.com/pricing), Sept. 28, 2026 |
 | **Lambda Cloud** | 1x H100 PCIe VM | **$3.29/GPU-hr** | [Lambda GPU instances](https://lambda.ai/instances), Sept. 28, 2026 |
 | **Novita AI instance** | 1x H100 80 GB SXM; live API product `H100-80GB.22c150g` lists 22 vCPU, 150 GB RAM, 60 GB container-disk quota | **$3.39/GPU-hr** | [Novita marketplace API](https://api-server.novita.ai/api/v1/market/products), Sept. 28, 2026 |
+| **Jarvis Labs** | 1x H100 80 GB SXM on-demand instance; public row lists 16 vCPU and 200 GB RAM | **$3.49/GPU-hr** | [Jarvis Labs pricing](https://jarvislabs.ai/pricing), Oct. 11, 2026 |
 | **Verda GPU instance** | 1x H100 80 GB SXM5; selected configuration includes 30 CPU and 120 GB RAM; storage separate | **$3.663/hr** | [Verda pricing](https://verda.com/pricing) and [instance catalog](https://api.verda.com/v1/instance-types), Oct. 2, 2026 |
 | **Modal** | H100 allocated to a serverless container | **$0.001097/sec** (**$3.9492/hr**) | [Modal pricing](https://modal.com/pricing), Sept. 28, 2026 |
 | **DigitalOcean GPU Droplet** | 1x HGX H100; 20 vCPU, 240 GiB RAM, 720 GiB boot, 5 TiB scratch, 15,000 GiB transfer | **$4.41/GPU-hr** | [DigitalOcean GPU pricing](https://www.digitalocean.com/pricing/gpu-droplets), Sept. 28, 2026 |
@@ -74,9 +74,9 @@ That is arithmetic from sourced inputs, not an invoice measurement. It excludes 
 
 The honest conclusion is narrower than "serverless means free when idle." Koyeb can scale a GPU service to zero, but protocol choice, idle qualification, wake behavior, quota, and public-preview status all belong in the deployment design.
 
-### Jarvis Labs puts an SXM instance near the top
+### Jarvis Labs: the new $3.49 H100 rate changes the buying order
 
-Jarvis Labs publishes **$2.69/GPU-hour** for a one-GPU H100 SXM on-demand instance, checked September 28, 2026. Its public row lists 16 vCPU and 200 GB RAM. On-demand compute bills per minute. The page also announces new H100 rates effective October 5, but it does not yet replace the current $2.69 on-demand row; recheck after that date.
+Jarvis Labs publishes **$3.49/GPU-hour** for a one-GPU H100 SXM on-demand instance, checked October 11, 2026 on its official pricing page. Its public row lists 16 vCPU and 200 GB RAM, and labels the rate on-demand rather than Spot or a term reservation. On-demand compute bills per minute. The former **$2.69/hour** anchor is no longer the public one-GPU on-demand rate. The increase is **$0.80/hour**, or **29.7%**. At 720 continuously billable hours, the sourced-rate arithmetic moves from **$1,936.80 to $2,512.80**, a **$576.00** difference. This is a cost sensitivity, not a measured invoice, capacity check, or performance comparison. It excludes retained storage, taxes, and any other charges or discounts.
 
 Pausing stops compute billing while preserving data, according to the official SDK documentation. Paused data continues billing at **$0.00014/GB-hour**, verified from the Jarvis Labs FAQ on August 24, 2026. Pausing or deleting releases GPU capacity, so the same card and region are not guaranteed when the workload resumes.
 
@@ -218,19 +218,19 @@ The stop-side transition cutoff remains **sourced but not measured**. A bounded 
 
 ## What one continuously allocated H100 costs for 30 days
 
-These estimates multiply the October 2 Verda rate, the October 1 Nebius rate, and the remaining 17 September 28 sourced rates by **720 hours**. Modal, Baseten, and Verda use their unrounded native rates. The estimates assume one named product stays billable continuously. They exclude separate CPU/RAM, storage, IP, network, tax, support, commitments, extra replicas, and operational work. They are not quotes or performance comparisons. TensorDock remains excluded because it does not expose a current fixed H100 rate suitable for this arithmetic.
+These estimates multiply the October 11 Jarvis Labs rate, the October 2 Verda rate, the October 1 Nebius rate, and the remaining 16 September 28 sourced rates by **720 hours**. Modal, Baseten, and Verda use their unrounded native rates. The estimates assume one named product stays billable continuously. They exclude separate CPU/RAM, storage, IP, network, tax, support, commitments, extra replicas, and operational work. They are not quotes or performance comparisons. TensorDock remains excluded because it does not expose a current fixed H100 rate suitable for this arithmetic.
 
 | Product shape | Rate used | 720-hour compute estimate |
 |---|---:|---:|
 | Hyperstack H100 PCIe VM | $2.50/hr | **$1,800.00** |
 | Koyeb H100 serverless instance | $2.50/hr | **$1,800.00** |
-| Jarvis Labs H100 SXM instance | $2.69/hr | **$1,936.80** |
 | Massed Compute H100 VM | $2.73/hr | **$1,965.60** |
 | Northflank H100 component only | $2.74/hr | **$1,972.80 plus CPU and memory** |
 | RunPod Secure Cloud H100 PCIe Pod | $2.89/hr | **$2,080.80** |
 | Thunder Compute H100 PCIe base | $3.20/hr | **$2,304.00** |
 | Lambda H100 PCIe VM | $3.29/hr | **$2,368.80** |
 | Novita H100 SXM instance | $3.39/hr | **$2,440.80** |
+| Jarvis Labs H100 SXM instance | $3.49/hr | **$2,512.80** |
 | Verda H100 SXM5 instance | $3.663/hr | **$2,637.36** |
 | Modal H100 container | $0.001097/sec | **$2,843.42** |
 | DigitalOcean HGX H100 Droplet | $4.41/hr | **$3,175.20** |
@@ -309,7 +309,7 @@ If an A100 fits the model and the workload does not need H100-specific throughpu
 
 **Koyeb and Hyperstack share the lowest selected public H100 rate at $2.50/hour**, verified September 28, 2026. Koyeb is the more elastic documented shape, with public-preview GPU scale-to-zero and a five-minute default idle period. Hyperstack is an allocated PCIe VM whose stopped state remains billable. Equal hourly numbers do not mean equal bills.
 
-**Jarvis Labs is next at $2.69/hour**, with per-minute compute and a pause action that stops compute while retained data continues billing. **Massed Compute follows at $2.73/hour. Northflank's $2.74/hour is a GPU component, not an all-in workload price.**
+**Massed Compute follows the $2.50 tie at $2.73/hour. Northflank's $2.74/hour is a GPU component, not an all-in workload price.** Jarvis Labs' one-GPU H100 SXM on-demand rate is now **$3.49/hour**, up **29.7%** from $2.69. That adds **$576.00** to a 720-hour single-GPU estimate, moving Jarvis behind RunPod, Thunder, Lambda, and Novita in this rate-only ordering. Jarvis still offers per-minute compute and a pause action that stops compute while retained data continues billing; current stock and successful resume were not checked.
 
 Thunder's selected rate remains **$3.20/hour**, only **$7.20** above its former rate over a 720-hour estimate. Verda's September 17–October 2 increases move its exact H100 rate from $3.282 to **$3.663/hour**, adding **$274.32** to the 720-hour estimate and moving the current total to **$2,637.36**. Verda's 10-minute prepayment is not a 10-minute minimum charge in this comparison because the provider says unused terminated time is refunded in the next billing period; deletion and refund reconciliation are both part of cost control.
 
@@ -323,11 +323,11 @@ The defensible buying order is hardware fit, deployable product shape, current e
 
 ## Sources
 
-Official pricing sources below were rechecked **September 28, 2026**, except Nebius, which was rechecked **October 1, 2026**, and Verda, which was rechecked **October 2, 2026**; both were checked against two official pricing surfaces.
+Official pricing sources below were rechecked **September 28, 2026**, except Nebius (**October 1**), Verda (**October 2**), and Jarvis Labs (**October 11**). Nebius and Verda were checked against two official pricing surfaces; Jarvis Labs was checked against its public one-GPU on-demand table. This does not advance other providers' verification dates.
 
 - [Hyperstack pricing](https://www.hyperstack.cloud/gpu-pricing)
 - [Koyeb pricing](https://www.koyeb.com/pricing) and [instance reference](https://www.koyeb.com/docs/reference/instances)
-- [Jarvis Labs pricing](https://jarvislabs.ai/pricing)
+- [Jarvis Labs pricing](https://jarvislabs.ai/pricing) — one-GPU H100 SXM on-demand $3.49/GPU-hour, 16 vCPU/200 GB RAM, and per-minute on-demand billing; checked October 11, 2026
 - [Massed Compute pricing](https://vm.massedcompute.com/pricing)
 - [Northflank pricing](https://northflank.com/pricing)
 - [RunPod pricing](https://www.runpod.io/pricing)
@@ -360,8 +360,9 @@ Operating-boundary sources:
 - [Verda lifecycle](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) — shutdown, deletion, and retained storage; checked September 25, 2026
 - [DigitalOcean Droplet pricing documentation](https://docs.digitalocean.com/products/droplets/details/pricing/) — powered-off billing and destruction; checked August 20, 2026
 - [Paperspace Machine limits](https://docs.digitalocean.com/products/paperspace/machines/details/limits/) — H100 approval boundary; checked August 21, 2026
-- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, full-table baseline September 24, 2026, with targeted Verda and Nebius patches from October 1
+- HostFleet GPU pricing dataset — /opt/hostbot-v2/src/data/gpu-pricing.json, full-table baseline September 24, 2026, with targeted Verda and Nebius patches from October 1 and Jarvis Labs H100 patch from October 11
 - HostFleet full-source verification note — /opt/hostbot/data/ai-hosting/notes/2026-09-24-gpu-pricing-full-verification.md
+- HostFleet Jarvis Labs price-event note — /opt/hostbot/data/ai-hosting/notes/2026-10-11-jarvis-on-demand-price-change.md
 - HostFleet TensorDock lifecycle note — /opt/hostbot/data/ai-hosting/notes/2026-09-28-tensordock-stop-release-storage-boundary.md
 - HostFleet Verda price-change notes — /opt/hostbot/data/ai-hosting/notes/2026-09-21-verda-gpu-price-change.md, /opt/hostbot/data/ai-hosting/notes/2026-09-22-verda-gpu-price-change.md, and /opt/hostbot/data/ai-hosting/notes/2026-10-01-verda-gpu-price-change.md
 - HostFleet Koyeb scale-to-zero note — /opt/hostbot/data/ai-hosting/notes/2026-08-28-koyeb-gpu-scale-to-zero-limits.md
@@ -371,4 +372,4 @@ Operating-boundary sources:
 - HostFleet Nebius October 1 price-event note — /opt/hostbot/data/ai-hosting/notes/2026-10-01-nebius-gpu-price-increases.md
 - HostFleet Lambda termination/storage evidence note — /opt/hostbot/data/ai-hosting/notes/2026-09-14-lambda-cloud-termination-storage-boundary.md
 
-*Need self-managed H100 capacity? These are labeled affiliate links; the source citations above remain direct. [RunPod signup (affiliate)](https://hostfleet.net/go/runpod) and [DigitalOcean GPU signup (affiliate)](https://hostfleet.net/go/digitalocean-gpu) support HostFleet at no extra cost to you. Re-check the exact card, region, rate, storage, and shutdown behavior before purchase.*
+*Need self-managed H100 capacity? These are labeled affiliate links; the source citations above remain direct. <a href="/go/runpod" rel="sponsored nofollow">RunPod signup (affiliate)</a> and <a href="/go/digitalocean-gpu" rel="sponsored nofollow">DigitalOcean GPU signup (affiliate)</a> support HostFleet at no extra cost to you. Re-check the exact card, region, rate, storage, and shutdown behavior before purchase.*
