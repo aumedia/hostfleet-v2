@@ -170,7 +170,7 @@
         "hyperstack": { "hr": 1.85, "raw": "$1.85/GPU/hr", "note": "RTX PRO 6000 Server Edition; 1x flavor has 28 CPU, 225 GB RAM, and local storage included; CANADA-1" },
         "verda": { "hr": 2.06, "raw": "$2.064/hr", "note": "1x RTX PRO 6000 96 GB on-demand instance; 30 CPU and 90 GB RAM included; non-confidential-compute flavor; storage separate" },
         "massed": { "hr": 2.19, "raw": "$2.19/hr", "note": "1x RTX PRO 6000 Blackwell 96 GB on-demand VM; 16 vCPU and 144 GB RAM included; vendor lists storage 725 without a unit on the public page" },
-        "jarvislabs": { "hr": 1.89, "raw": "$1.89/GPU/hr", "note": "1x NVIDIA RTX Pro 6000 Blackwell on-demand row; public pricing table lists 28 vCPU and 160 GB RAM; GPU and region availability can change" },
+        "jarvislabs": { "hr": 2.19, "raw": "$2.19/GPU/hr", "note": "1x NVIDIA RTX Pro 6000 Blackwell on-demand row; public pricing table lists 28 vCPU and 160 GB RAM; GPU and region availability can change" },
         "koyeb": { "hr": 2.20, "raw": "$2.20/hr", "note": "1x RTX-PRO-6000 serverless instance; 15 vCPU, 220 GB RAM, and 240 GB disk included; GPU availability is region-specific" },
         "northflank": { "hr": 3.00, "raw": "$3.00/GPU/hr", "note": "1x NVIDIA RTX PRO 6000 96 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
@@ -219,7 +219,7 @@
         "paperspace": { "hr": 5.95, "raw": "$5.95/hr", "note": "1x H100 SXM5 Machine compute; 20 vCPU and 250 GB RAM; 50 GB SSD default but billed separately; NY2 catalog region; approval may be required and requests typically take 1-2 business days" },
         "thunder": { "hr": 3.20, "raw": "$3.20/GPU/hr", "note": "1x NVIDIA H100 PCIe base GPU rate; minimum configuration uses the four included vCPUs, 32 GB RAM, and 100 GB persistent disk; current live pricing page and public pricing API agree" },
         "massed": { "hr": 2.73, "raw": "$2.73/hr", "note": "1x H100 80 GB on-demand VM; 20 vCPU and 128 GB RAM included; vendor lists storage 1250 without a unit on the public page; distinct from the $3.11 one-GPU H100 NVL listing" },
-        "jarvislabs": { "hr": 2.69, "raw": "$2.69/GPU/hr", "note": "1x NVIDIA H100 SXM on-demand row; public pricing table lists 16 vCPU and 200 GB RAM; GPU and region availability can change" },
+        "jarvislabs": { "hr": 3.49, "raw": "$3.49/GPU/hr", "note": "1x NVIDIA H100 SXM on-demand row; public pricing table lists 16 vCPU and 200 GB RAM; GPU and region availability can change" },
         "koyeb": { "hr": 2.50, "raw": "$2.50/hr", "note": "1x H100 80 GB serverless instance; 15 vCPU, 180 GB RAM, and 320 GB disk included; GPU availability is region-specific" },
         "northflank": { "hr": 2.74, "raw": "$2.74/GPU/hr", "note": "1x NVIDIA H100 80 GB managed-cloud GPU component; CPU and memory compute plan, persistent disk, and egress are separate; billed by the second once provisioned; availability varies by region" }
       } },
@@ -239,7 +239,7 @@
         "verda": { "hr": 4.88, "raw": "$4.875/hr", "note": "1x H200 141 GB SXM5 on-demand instance; 44 CPU and 170 GB RAM included; storage separate" },
         "digitalocean_gpu": { "hr": 4.47, "raw": "$4.47/GPU/hr", "note": "1x HGX H200 on-demand GPU Droplet; 24 vCPU, 240 GiB RAM, 720 GiB NVMe boot disk, 5 TiB NVMe scratch disk, and 15,000 GiB transfer included; NYC2 and ATL1 catalog regions" },
         "massed": { "hr": 3.62, "raw": "$3.62/hr", "note": "1x H200 NVL 141 GB on-demand VM; 16 vCPU and 180 GB RAM included; vendor lists storage 750 without a unit on the public page; multi-GPU NVLink configurations are separate" },
-        "jarvislabs": { "hr": 3.99, "raw": "$3.99/GPU/hr", "note": "1x NVIDIA H200 SXM on-demand row; public pricing table lists 28 vCPU and 300 GB RAM; GPU and region availability can change" },
+        "jarvislabs": { "hr": 4.59, "raw": "$4.59/GPU/hr", "note": "1x NVIDIA H200 SXM on-demand row; public pricing table lists 28 vCPU and 300 GB RAM; GPU and region availability can change" },
         "koyeb": { "hr": 3.00, "raw": "$3.00/hr", "note": "1x H200 141 GB serverless instance; 15 vCPU, 240 GB RAM, and 320 GB disk included; GPU availability is region-specific" }
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
