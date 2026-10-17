@@ -67,7 +67,7 @@
       } },
     { "id": "l4", "name": "L4", "vram": "24 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.49, "raw": "$0.49/hr", "note": "Secure Cloud L4; 2026-10-15 source conflict: visible pricing table $0.59/hr vs embedded offer $0.49/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 0.59, "raw": "$0.59/hr", "note": "Secure Cloud L4 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 0.69, "note": "24 GB tier (L4 / A5000 / 3090)", "raw": "$0.69/hr" },
         "modal": { "hr": 0.80, "raw": "$0.000222/sec" },
         "baseten": { "hr": 0.85, "raw": "$0.01414/min" },
@@ -101,14 +101,14 @@
       } },
     { "id": "rtx4090", "name": "RTX 4090", "vram": "24 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.74, "raw": "$0.74/hr", "note": "Secure Cloud RTX 4090; 2026-10-15 source conflict: visible pricing table $0.89/hr vs embedded offer $0.74/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 0.89, "raw": "$0.89/hr", "note": "Secure Cloud RTX 4090 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 1.10, "raw": "$1.10/hr" },
         "novita": { "hr": 0.33, "raw": "$0.33/GPU/hr", "note": "1x RTX 4090 on-demand product; 16 vCPU, 62 GB RAM, and 60 GB container disk quota" },
         "salad": { "hr": 0.16, "raw": "$0.160/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included at no additional charge; interruptible distributed node, not a dedicated VM" }
       } },
     { "id": "rtx5090", "name": "RTX 5090", "vram": "32 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.99, "note": "Secure Cloud RTX 5090; 2026-10-15 source conflict: visible pricing table $1.19/hr vs embedded offer $0.99/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 1.19, "note": "Secure Cloud RTX 5090 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified", "raw": "$1.19/hr" },
         "runpod_sls": { "hr": 1.58, "raw": "$1.58/hr" },
         "novita": { "hr": 0.56, "raw": "$0.56/GPU/hr", "note": "1x RTX 5090 on-demand product; 16 vCPU, 58 GB RAM, and 60 GB container disk quota; cataloged but unavailable at verification time" },
         "salad": { "hr": 0.25, "raw": "$0.250/hr", "note": "Lowest (formerly Batch) priority managed container; public configuration shows 4 vCPU and 8 GB RAM included at no additional charge; interruptible distributed node, not a dedicated VM" }
@@ -123,7 +123,7 @@
       } },
     { "id": "a6000", "name": "RTX A6000 / A40", "vram": "48 GB",
       "prices": {
-        "runpod_pods": { "hr": 0.49, "raw": "$0.49/hr", "note": "Secure Cloud A40; 2026-10-15 source conflict: visible pricing table $0.59/hr vs embedded offer $0.49/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 0.59, "raw": "$0.59/hr", "note": "Secure Cloud A40 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 1.22, "note": "A6000 / A40 tier", "raw": "$1.22/hr" },
         "lambda_cloud": { "hr": 1.09, "raw": "$1.09/GPU/hr", "note": "1x NVIDIA A6000 instance" },
         "hyperstack": { "hr": 0.50, "raw": "$0.50/GPU/hr", "note": "1x RTX A6000 PCIe flavor; 28 CPU, 58 GB RAM, and local storage included; CANADA-1" },
@@ -141,7 +141,7 @@
       } },
     { "id": "l40s", "name": "L40S", "vram": "48 GB",
       "prices": {
-        "runpod_pods": { "hr": 1.09, "raw": "$1.09/hr", "note": "Secure Cloud L40S; refreshed 2026-09-17" },
+        "runpod_pods": { "hr": 1.09, "raw": "$1.09/hr", "note": "Secure Cloud L40S hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 1.75, "note": "48 GB tier (L40 / L40S / 6000 Ada)", "raw": "$1.75/hr" },
         "modal": { "hr": 1.95, "raw": "$0.000542/sec" },
         "replicate": { "hr": 3.51, "raw": "$0.000975/sec" },
@@ -161,7 +161,7 @@
       } },
     { "id": "rtxpro6000", "name": "RTX PRO 6000", "vram": "96 GB",
       "prices": {
-        "runpod_pods": { "hr": 2.09, "raw": "$2.09/hr", "note": "Secure Cloud RTX Pro 6000; 2026-10-15 source conflict: visible pricing table $2.49/hr vs embedded offer $2.09/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 2.49, "raw": "$2.49/hr", "note": "Secure Cloud RTX Pro 6000 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 3.49, "raw": "$3.49/hr" },
         "modal": { "hr": 3.03, "raw": "$0.000842/sec" },
         "fal": { "hr": 4.00, "note": "Custom-deployment list price; advertised as low as $1.99/hr subject to negotiated/committed terms, not general on-demand; source-verified 2026-10-15", "raw": "$4.00/hr" },
@@ -185,7 +185,7 @@
       } },
     { "id": "a100_80", "name": "A100 80 GB", "vram": "80 GB",
       "prices": {
-        "runpod_pods": { "hr": 1.59, "raw": "$1.59/hr", "note": "Secure Cloud A100 PCIe; 2026-10-15 source conflict: visible pricing table $1.79/hr vs embedded offer $1.59/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 1.79, "raw": "$1.79/hr", "note": "Secure Cloud A100 PCIe hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 2.72, "raw": "$2.72/hr" },
         "modal": { "hr": 2.50, "raw": "$0.000694/sec" },
         "baseten": { "hr": 4.00, "raw": "$0.06667/min" },
@@ -203,7 +203,7 @@
       } },
     { "id": "h100", "name": "H100 80 GB", "vram": "80 GB",
       "prices": {
-        "runpod_pods": { "hr": 2.89, "raw": "$2.89/hr", "note": "Secure Cloud H100 PCIe $2.89/hr source-verified 2026-10-15; non-selected H100 SXM has a source conflict (visible table $3.99/hr vs embedded offer $3.49/hr); H100 NVL $3.19/hr" },
+        "runpod_pods": { "hr": 2.89, "raw": "$2.89/hr", "note": "Secure Cloud H100 PCIe hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 4.79, "raw": "$4.79/hr", "note": "H100 PRO Serverless Flex tier; refreshed 2026-09-07" },
         "modal": { "hr": 3.95, "raw": "$0.001097/sec" },
         "fal": { "hr": 4.50, "note": "Custom-deployment list price; advertised as low as $2.49/hr subject to negotiated/committed terms, not general on-demand; source-verified 2026-10-15", "raw": "$4.50/hr" },
@@ -229,7 +229,7 @@
       } },
     { "id": "h200", "name": "H200", "vram": "141 GB",
       "prices": {
-        "runpod_pods": { "hr": 4.59, "raw": "$4.59/hr", "note": "Secure Cloud H200; 2026-10-15 source conflict: visible pricing table $5.29/hr vs embedded offer $4.59/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 5.29, "raw": "$5.29/hr", "note": "Secure Cloud H200 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 5.93, "raw": "$5.93/hr" },
         "modal": { "hr": 4.54, "raw": "$0.001261/sec" },
         "fal": { "hr": 6.00, "note": "Custom-deployment list price; advertised as low as $2.99/hr subject to negotiated/committed terms, not general on-demand; source-verified 2026-10-15", "raw": "$6.00/hr" },
@@ -244,7 +244,7 @@
       } },
     { "id": "b200", "name": "B200", "vram": "180 GB",
       "prices": {
-        "runpod_pods": { "hr": 6.79, "raw": "$6.79/hr", "note": "Secure Cloud B200; 2026-10-15 source conflict: visible pricing table $7.99/hr vs embedded offer $6.79/hr. Prior numeric rate retained pending clarification; not freshly verified." },
+        "runpod_pods": { "hr": 7.99, "raw": "$7.99/hr", "note": "Secure Cloud B200 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
         "runpod_sls": { "hr": 8.64, "raw": "$8.64/hr" },
         "modal": { "hr": 6.25, "raw": "$0.001736/sec" },
         "fal": { "hr": 7.99, "note": "Custom-deployment list price; advertised as low as $5.49/hr subject to negotiated/committed terms, not general on-demand; source-verified 2026-10-15", "raw": "$7.99/hr" },
@@ -266,8 +266,8 @@
       } },
     { "id": "b300", "name": "B300", "vram": "288 GB",
       "prices": {
-        "runpod_pods": { "hr": 7.89, "raw": "$7.89/hr", "note": "Secure Cloud B300; 2026-10-15 source conflict: visible pricing table $8.99/hr vs embedded offer $7.89/hr. Prior numeric rate retained pending clarification; not freshly verified." },
-        "runpod_sls": { "hr": 9.98, "raw": "$9.98/hr" },
+        "runpod_pods": { "hr": 8.99, "raw": "$8.99/hr", "note": "Secure Cloud B300 hourly list price; visible table and embedded Secure Cloud offer agree; source-verified 2026-10-17; live availability unverified" },
+        "runpod_sls": { "hr": 10.65, "raw": "$10.65/hr", "note": "B300 Serverless Flex hourly list price; source-verified 2026-10-17; vendor pricing row specifies 280 GB while this cross-provider GPU group is 288 GB; live availability unverified" },
         "modal": { "hr": 7.10, "raw": "$0.001972/sec" },
         "fal": { "hr": 12.99, "note": "Custom-deployment list price; advertised as low as $5.99/hr subject to negotiated/committed terms, not general on-demand; source-verified 2026-10-15", "raw": "$12.99/hr" },
         "nebius": { "hr": 9.50, "raw": "$9.50/GPU/hr", "note": "B300 SXM/NVLink; unified 1gpu-24vcpu-346gb VM rate; uk-south1, eu-west2, and us-north1; effective 2026-10-01" },
