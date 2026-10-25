@@ -1,8 +1,8 @@
 ---
-title: "A100 rental prices 2026: 21 rates and billing traps"
-description: "Compare 21 A100 rate inputs, resolved RunPod Secure pricing, higher Verda rates and Lambda billing traps: delayed credits and unfinished termination."
+title: "A100 rental prices 2026: rates, prepaid billing and cleanup"
+description: "Compare 21 dated A100 rate inputs, updated Verda prices, prepaid refund rules and storage cleanup. Separate compute estimates from maximum prepaid exposure."
 pubDate: 2026-07-31
-updatedDate: 2026-10-18
+updatedDate: 2026-10-25
 category: "ai-hosting"
 author: Alex Harmon
 draft: false
@@ -10,19 +10,20 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission through the labeled signup link on this page. That does not change the analysis. See our [methodology and affiliate policy](https://hostfleet.net/about/).*
 
-**Source-backed A100 pricing comparison; calculated totals are estimates, not measured invoices.** We checked all 21 selected A100 rate inputs against official pricing pages and public vendor APIs on **October 18, 2026**. RunPod's previous Secure Cloud price conflict is resolved, Verda's exact rates have increased again, and Lambda's billing documentation explains why an unchanged credit balance does not establish zero spend. No GPU was rented, capacity confirmed, workload benchmarked or account invoice inspected.
+**Source-backed A100 pricing comparison; calculated totals are estimates, not measured invoices.** This update checks Verda's two A100 VM rates and its prepaid-billing, refund and storage-cleanup documentation on **October 25, 2026**. The other 19 price inputs and their billing observations retain their **October 18** verification dates; they are dated comparison inputs, not fresh purchase quotes. Verda's selected 40/80 GB inputs are now **$1.561/$2.149 per hour**, from its [pricing page](https://verda.com/pricing) and [public catalog](https://api.verda.com/v1/instance-types). A ten-minute prepayment, a refund and the final net charge are different quantities. No GPU was rented, capacity confirmed, workload benchmarked or account invoice inspected.
 
-> **Selected A100 rates and cited billing rules checked:** October 18, 2026<br>
+> **Verda A100 rates, billing and cleanup checked:** October 25, 2026<br>
+> **Other 19 rate inputs and provider rules:** retained October 18, 2026 checks; not reverified today<br>
 > **Currency:** public USD list prices before applicable tax<br>
 > **Planning interval:** 720 billable hours, not a quoted monthly plan<br>
 > **Dataset-wide baseline:** September 24, 2026; this article's A100-only check does not advance it<br>
 > **Availability:** public rates do not establish regional stock, quota or account access
 
-# A100 rental prices in 2026: 21 rates and billing traps
+# A100 rental prices in 2026: dated rates, prepayments and cleanup
 
-For the selected products, **Jarvis Labs has the lowest 40 GB rate at $0.89/GPU-hour**, while **Thunder Compute has the lowest 80 GB VM base at $1.09/hour**. Those October 18 list-rate observations produce estimated 720-hour compute totals of **$640.80** and **$784.80**, respectively. They do not establish equal performance or availability.
+In the retained October 18 comparison, **Jarvis Labs has the lowest selected 40 GB rate at $0.89/GPU-hour**, while **Thunder Compute has the lowest selected 80 GB VM base at $1.09/hour**. Those October 18 list-rate observations produce estimated 720-hour compute totals of **$640.80** and **$784.80**, respectively. They do not establish equal performance or availability.
 
-The more useful buying question is what the number includes and what ends the meter. Thunder's base includes eight vCPUs. RunPod's Secure A100 PCIe Pod is now consistently listed at $1.79/hour. Lambda bills by the minute, but its credits update for usage only at the end of the weekly billing cycle. Cheap hardware is not a cheap deployment if cleanup or cost tracking is wrong.
+The more useful buying question is what the number includes and what ends the meter. Thunder's base includes eight vCPUs. The October 18 RunPod check resolved its Secure A100 PCIe Pod input at $1.79/hour. Lambda bills by the minute, but its credits update for usage only at the end of the weekly billing cycle. Cheap hardware is not a cheap deployment if cleanup or cost tracking is wrong.
 
 ## A100 40 GB rental prices
 
@@ -31,7 +32,7 @@ Check weights, KV cache, runtime workspace, context and batch size before choosi
 | Provider / product | Native price | Hourly input | 720-hour estimate | Cost boundary | Source / verified |
 |---|---:|---:|---:|---|---|
 | **Jarvis Labs** | $0.89/hr | $0.89/hr | **$640.80** | One-GPU on-demand instance | [Official source](https://jarvislabs.ai/pricing), Oct. 18, 2026 |
-| **Verda** | $1.486/hr | $1.486/hr | **$1,069.92** | SXM4 VM; 22 CPU, 120 GB RAM; storage extra | [Official source](https://verda.com/pricing), Oct. 18, 2026 |
+| **Verda** | $1.561/hr | $1.561/hr | **$1,123.92** | SXM4 VM; 22 CPU, 120 GB RAM; storage extra | [Official source](https://verda.com/pricing), Oct. 25, 2026 |
 | **Lambda Cloud** | $1.99/hr | $1.99/hr | **$1,432.80** | 1x PCIe 40 GB VM; 30 vCPU, 225 GiB RAM, 512 GiB SSD | [Official source](https://lambda.ai/instances), Oct. 18, 2026 |
 | **Modal** | $0.000583/sec | $2.0988/hr | **$1,511.14** | GPU allocation only; CPU and memory extra | [Official source](https://modal.com/pricing), Oct. 18, 2026 |
 | **Paperspace** | $3.09/hr | $3.09/hr | **$2,224.80** | Machine compute; default SSD billed separately | [Official source](https://docs.digitalocean.com/products/paperspace/pricing/), Oct. 18, 2026 |
@@ -50,7 +51,7 @@ These are rate-only orderings across different products: a VM, Pod, application 
 | **Jarvis Labs** | $1.49/hr | $1.49/hr | **$1,072.80** | One-GPU on-demand instance | [Official source](https://jarvislabs.ai/pricing), Oct. 18, 2026 |
 | **Koyeb** | $1.60/hr | $1.6/hr | **$1,152.00** | A100 application Instance; not the separate SXM tier | [Official source](https://www.koyeb.com/pricing), Oct. 18, 2026 |
 | **RunPod Secure Pods** | $1.79/hr | $1.79/hr | **$1,288.80** | Secure Cloud A100 PCIe Pod; disks extra | [Official source](https://www.runpod.io/pricing), Oct. 18, 2026 |
-| **Verda** | $2.036/hr | $2.036/hr | **$1,465.92** | SXM4 VM; 22 CPU, 120 GB RAM; storage extra | [Official source](https://verda.com/pricing), Oct. 18, 2026 |
+| **Verda** | $2.149/hr | $2.149/hr | **$1,547.28** | SXM4 VM; 22 CPU, 120 GB RAM; storage extra | [Official source](https://verda.com/pricing), Oct. 25, 2026 |
 | **Vultr Cloud GPU** | $2.397/hr | $2.397/hr | **$1,725.84** | Selected API plan; locations list empty, stock unconfirmed | [Official source](https://api.vultr.com/v2/plans?per_page=500), Oct. 18, 2026 |
 | **Modal** | $0.000694/sec | $2.4984/hr | **$1,798.85** | GPU allocation only; CPU and memory extra | [Official source](https://modal.com/pricing), Oct. 18, 2026 |
 | **CoreWeave Inference** | $2.70/hr | $2.7/hr | **$1,944.00** | Inference-platform customers; not a self-service VM | [Official source](https://www.coreweave.com/pricing), Oct. 18, 2026 |
@@ -63,7 +64,7 @@ These are rate-only orderings across different products: a VM, Pod, application 
 
 The two tables contain **19 selected product rates**; the two Northflank components bring the total to **21 checked inputs**. Each conversion uses the native rate before final cent rounding. The 720-hour estimates exclude tax, credits, discounts, billing-unit rounding, extra replicas, separately billed resources and account-plan charges.
 
-These tables start from the A100 entries in the same `gpu-pricing.json` baseline used by the [live GPU pricing table](https://hostfleet.net/gpu-pricing/), then apply this article's direct vendor checks. The wider dataset has its own verification scope: the Verda inputs below supersede its retained October 15 A100 values for this calculation. This draft does not represent a full-market dataset refresh.
+These tables expand the A100 entries in the pricing dataset behind the [live GPU pricing table](https://hostfleet.net/gpu-pricing/), retaining native precision and row-specific verification dates. Verda's two inputs were checked directly on October 25. Other providers keep this article's October 18 observations, which can differ from later partial dataset updates. Use the dates beside the rates rather than treating this page as a full-market refresh; the dataset-wide baseline remains September 24.
 
 ## RunPod: the Secure Cloud price conflict is resolved
 
@@ -77,24 +78,53 @@ Stopping compute does not remove every charge. RunPod's [Pod pricing documentati
 
 The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) covers the wider Pod/Serverless split. Confirm the exact card, region, storage and account-visible quote before launch.
 
-## Verda: refresh the exact SKU, not the rounded headline
+## Verda: price the exact SKU, then separate prepayment from settled cost
 
-Verda's [pricing page](https://verda.com/pricing) and [public instance catalog](https://api.verda.com/v1/instance-types) agree on these October 18 one-GPU on-demand inputs. Both shapes include **22 CPU and 120 GB RAM**; storage is separate. These are not spot or serverless prices.
+Verda's [pricing page](https://verda.com/pricing) and [public instance catalog](https://api.verda.com/v1/instance-types), checked **October 25, 2026**, agree on these fixed, single-GPU on-demand rates. Both VMs include **22 CPU and 120 GB RAM**; storage is separate. The visible rows, embedded offers and API match. These are not spot or serverless prices, and the public catalog does not establish account access or stock.
 
-| Exact VM | Previous October 15 observation | October 18 input | Change per hour | Change over 720 hours |
+| Exact VM | This guide's October 18 observation | October 25 input | Increase per hour | Increase over 720 hours |
 |---|---:|---:|---:|---:|
-| `1A100.40S.22V`, 40 GB SXM4 | $1.442 | **$1.486** | +$0.044 | **+$31.68** |
-| `1A100.22V`, 80 GB SXM4 | $1.976 | **$2.036** | +$0.060 | **+$43.20** |
+| `1A100.40S.22V`, 40 GB SXM4 | $1.486 | **$1.561** | +$0.075 | **+$54.00** |
+| `1A100.22V`, 80 GB SXM4 | $2.036 | **$2.149** | +$0.113 | **+$81.36** |
 
-The previous values are this guide's retained October 15 source observations, not current purchase quotes. The roughly **3.1%** and **3.0%** increases compare retrievals; they are not a vendor-announced effective date. Use exact native values in a forecast rather than multiplying a rounded two-decimal comparison cell.
+These are changes between this article's dated observations, not vendor-announced tariff effective dates. The resulting **720-hour compute estimates are $1,123.92 and $1,547.28** before storage, taxes or other charges. Use the native three-decimal inputs: multiplying rounded $1.56/$2.15 comparison cells instead changes those totals by **−$0.72/+$0.72**. Verda's [billing guide](https://docs.verda.com/welcome-to-verda/pricing-and-billing/index.md), checked October 25, also says location affects pricing. Capture the actual region and account-currency quote before deployment.
 
-Verda's [shutdown/deletion guide](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/), checked October 18, says shutdown instances continue charging. At the selected 80 GB rate:
+### Ten-minute prepayment is not a ten-minute nonrefundable minimum
 
-- Eight billable hours: `2.036 × 8 = $16.288`, or **$16.29**.
-- Another 160 billable hours after a shutdown-only mistake: **$325.76**.
-- The resulting 168-hour compute total: **$342.05**, before retained storage and other charges.
+The same billing guide describes PAYG deductions in **prepaid 10-minute increments** and says the unused portion after termination is automatically refunded **within the next billing period**. Keep these three quantities separate:
 
-Its [billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing), also checked October 18, describes prepaid **10-minute increments**, with the unused portion after termination refunded within the next billing period. One nominal 10-minute prepayment at $2.036/hour is approximately **$0.3393**. That is cash-flow arithmetic, not evidence of a nonrefundable 10-minute minimum. Delete the compute instance and explicitly choose which storage to delete; unselected storage remains chargeable.
+| Quantity | What it means | What the public documentation does not settle |
+|---|---|---|
+| Nominal compute estimate | Native hourly rate × assumed billable duration | Actual meter-start and cutoff events |
+| Gross prepaid deductions | Balance deducted across billing periods before refunds | A maximum debit bound for an individual short run |
+| Settled net cost | Deductions less applicable refunds, plus separately billed resources | Per-resource refund visibility or exact posting latency |
+
+At the **October 25 $2.149/hour A100 80 GB input**, one nominal 10-minute compute block is `2.149 ÷ 6 = $0.358166…`; 20 minutes are approximately **$0.716333**. As a **designed stress scenario**, three prepaid compute blocks total **$1.0745**, before storage. This is not a claim that a 20-minute run necessarily incurs three deductions. It shows why a sub-dollar elapsed-time estimate does not by itself prove a sub-dollar maximum cash draw. Deletion latency, period alignment, storage and refund timing still need bounds.
+
+The documented zero-balance behavior discontinues instances and deletes volumes; automatic top-up can replenish the balance. Neither is a documented per-test numerical budget cap. Check auto top-up separately, and do not rely on balance exhaustion as the cleanup mechanism.
+
+### Shutdown, instance deletion and storage deletion are different operations
+
+The [shutdown/deletion guide](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/index.md), checked October 25, says **shutdown instances continue charging**. At $2.149/hour, eight billable hours cost **$17.19** after rounding. Another 160 billable hours after a shutdown-only mistake add **$343.84**; the resulting 168-hour compute estimate is **$361.03**, before storage. These are conditional calculations, not a measured penalty.
+
+For deletion, do not assume the console and API have identical defaults. The console guide says **no storage is selected by default**, so retained storage keeps charging. The [public API schema](https://api.verda.com/v1/openapi.json), checked October 25, says omitting `volume_ids` on an instance action deletes only the OS volume and detaches the rest. Enumerate the volumes explicitly and decide which data to retain or export.
+
+For **disposable volumes only**, the API uses different permanence fields:
+
+- Instance action: explicit `volume_ids` and `delete_permanently=true`.
+- Standalone `DELETE /v1/volumes/{volume_id}`: request-body field **`is_permanent=true`**, not `delete_permanently`.
+
+Permanent deletion is irreversible. The [storage-deletion guide](https://docs.verda.com/storage/deleting-storage/index.md), checked October 25, documents a **96-hour** restoration window for trashed storage and a PAYG restore charge for the deleted interval. Permanent deletion is required to free storage quota. For a disposable test, verify instance inventory, active volumes and trash; for valuable data, retain it deliberately and budget for that choice.
+
+`PUT /v1/instances` also documents **HTTP 207 partial failures** and per-action success/error results. Inspect each resource result rather than accepting a successful-looking HTTP status as complete cleanup. A failed or filtered inventory is not proof of absence. If creation times out after submission, reconcile the resource ID and inventory before retrying: an ambiguous response does not prove that nothing was created. No action response establishes an independently measured billing-cutoff timestamp.
+
+### Do not turn a price quote or project balance into a resource ledger
+
+The October 25 API schema exposes only `amount` and `currency` in the balance response; it does not specify amount precision, a refund ID or per-instance usage. Instance `price_per_hour` and volume `base_hourly_cost` are quote fields, not accrued-cost counters. The [CLI cost/status guide](https://docs.verda.com/cli/cost-and-status/index.md), checked October 25, describes estimates; [audit logs](https://docs.verda.com/resources/audit-logs/index.md) describe actions and timestamps, not measured billable seconds.
+
+Storage also needs its own quote. The October 25 [pricing page](https://verda.com/pricing) labels NVMe at **$0.2000/GiB-month**, while the API describes volume size in **GB** and exposes hourly/monthly price fields. Do not assume GB equals GiB or invent a 730-hour conversion as a vendor billing rule. Record the account-visible size, unit, type, location, currency and hourly charge separately.
+
+**Next step:** read-only quote and inventory checks first. Establish the maximum gross prepaid exposure plus storage and cleanup allowance before a paid test. If the bounds or cost attribution remain unknown, the public rate supports a forecast—not a claimed hard spending cap. No Verda instance, deletion, refund or invoice was measured for this update.
 
 ## Lambda: credits and termination responses are not settled usage
 
@@ -149,20 +179,26 @@ For request-waking workloads, consult the [serverless GPU matrix](https://hostfl
 
 ## Verdict
 
-**Jarvis Labs' $0.89/hour 40 GB offer and Thunder's $1.09/hour 80 GB base lead these selected rate-only tables**, checked October 18. Hardware fit, account access and complete resource cost still determine whether either is usable.
+**Jarvis Labs' $0.89/hour 40 GB offer and Thunder's $1.09/hour 80 GB base lead the retained October 18 rate comparison**, not a newly verified market ranking. Hardware fit, account access and complete resource cost still determine whether either is usable.
 
-**RunPod Secure A100 PCIe is back in the comparison at a consistently sourced $1.79/hour. Verda's selected 40/80 GB inputs are now $1.486/$2.036 per hour.** Update old estimates without treating a price observation as a reservation.
+**The retained October 18 RunPod Secure A100 PCIe input is $1.79/hour. Verda's October 25 40/80 GB inputs are $1.561/$2.149 per hour**, or $1,123.92/$1,547.28 for 720 compute hours. A prepaid balance deduction is not settled usage, and an estimated 20-minute cost is not a hard maximum debit. Capture the region-specific quote, explicitly decide which volumes to retain, inspect every cleanup result and reconcile refunds separately.
 
 For Lambda, fix the monitoring and cleanup assumptions before a trial: a credit balance can lag until the weekly cycle ends, guest poweroff keeps billing, and a successful termination response can still describe an in-progress operation. A defensible deployment budget needs both a dated rate and a verified release path.
 
+## Choose the next A100 decision
+
+- **You need to validate model fit before comparing providers:** use the [Llama 70B GPU guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) to check VRAM, quantization, topology, and runtime headroom rather than treating every A100 row as interchangeable capacity.
+- **You need request-waking capacity rather than an allocated VM:** compare the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) for scale-to-zero behavior, startup boundaries, and idle-tail billing before choosing a managed endpoint.
+- **You already know the workload shape and need a planning number:** put active time, warm retention, retries, storage, and teardown into the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) instead of multiplying the selected hourly rate across every calendar hour.
+
 ## Sources and verification notes
 
-Every current price and billing rule linked above was checked on **October 18, 2026**. Historical RunPod October 15 prices and Verda October 15 values are explicitly labeled retained observations from this guide's previous version. Conversions and scenarios use the displayed native rates, expose their assumptions and round only final money totals.
+**October 25, 2026:** Verda's two A100 native rates, visible/structured/API agreement, machine allocations, prepaid/refund documentation, deletion behavior, storage units, API fields and cost/audit documentation were rechecked. **October 18, 2026:** the other 19 comparison inputs and their provider-specific billing observations retain the earlier check. Historical RunPod October 15 and Verda October 18 values are labeled retained observations. Link reachability checks today do not reverify an older provider's price or billing terms. Conversions use native rates; 720-hour money totals round only at the end, while repeating short-interval values are explicitly approximate.
 
 The A100 tables use official pricing pages, with these additional checks:
 
 - **RunPod:** visible Secure Cloud table and embedded offer agree; no authenticated quote or stock check was performed.
-- **Verda:** exact on-demand SKUs match the pricing page's structured offers and public API; these article inputs supersede the wider dataset's older A100 values without changing that dataset.
+- **Verda:** October 25 exact on-demand SKUs match visible table rows, structured offers and public API, and the current repo dataset's native `raw` cells. The comparison against October 18 is specific to this guide, not the data-agent's different prior audit window. Schema fields and examples establish a documented contract, not observed lifecycle or financial results. No dataset is modified by this draft.
 - **Lambda:** rows are bound to the **1x** GPU-count tab; PCIe and SXM shapes were checked separately. API schema and response examples are documentation, not observations of a running account.
 - **Vultr:** the complete [public plans response](https://api.vultr.com/v2/plans?per_page=500) supplies `vcg-a100-12c-120g-80vram` at $2.397/hour. Its marketing page returned HTTP 403. The API check does not establish deployable capacity or reconstruct monthly invoice rules.
 - **Thunder:** the pricing API independently matches the A100 base; the page supplies its CPU/memory/disk inclusions.
