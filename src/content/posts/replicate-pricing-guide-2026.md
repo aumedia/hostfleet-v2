@@ -1,45 +1,46 @@
 ---
-title: "Replicate pricing 2026: GPU rates, idle-tail costs, and deployment floors"
-description: "Replicate GPU pricing checked September 2026, with all 17 hardware rates, billable idle-tail math, warm floors, and metric limits."
+title: "Replicate pricing 2026: GPU rates, idle costs and teardown rules"
+description: "Replicate GPU rates checked November 2026, with all 17 configurations, idle costs, cancellation limits, deletion prerequisites and prepaid-credit risks."
 pubDate: 2026-07-26
-updatedDate: 2026-09-20
+updatedDate: 2026-11-01
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-**Source-backed pricing guide; estimates are labeled.** This refresh uses Replicate's live pricing, billing, deployment, monitoring, API, official-model, and prepaid-credit documentation checked on **September 20, 2026**. HostFleet did not run a Replicate Deployment or measure its idle cutoff, cold-start latency, throughput, queue time, or availability. See the [HostFleet methodology](https://hostfleet.net/about/) for the evidence boundary.
+**Source-backed pricing guide; estimates are labeled.** Replicate's official pricing, billing, Deployment and API documentation were checked on **November 1, 2026**. HostFleet did not create a paid Deployment or measure cold starts, idle eviction, shutdown propagation, throughput or settled charges. See the [HostFleet methodology](https://hostfleet.net/about/) for the evidence boundary.
 
-> **Pricing verified:** September 20, 2026<br>
-> **Currency:** public USD list rates<br>
-> **Evidence mode:** sourced platform behavior plus transparent arithmetic; no Replicate billing experiment
+> **Replicate rates and documentation verified:** November 1, 2026<br>
+> **Currency:** public USD list rates before credits, tax or negotiated terms<br>
+> **Evidence:** sourced behavior and rate arithmetic, not a billing benchmark
 
-# Replicate pricing 2026: GPU rates, idle-tail costs, and deployment floors
+# Replicate pricing 2026: GPU rates, idle costs and teardown rules
 
-Replicate pricing is simple at the rate-card level and easy to underestimate at the lifecycle level. Public models generally bill active processing while Replicate absorbs setup and idle time. Most private models and Deployments bill every second an instance is online: setup, active work, and idle waiting. Official models use their own output- or input-based metrics instead of the generic GPU-second table.
+Replicate's hardware prices are easy to read. Its billing stop is harder to establish. A private Deployment pays for every second its instances are online, including setup, prediction work and idle waiting. A completed or canceled prediction does not establish that its instance is offline.
 
-The most important correction in this refresh is that a Deployment with a minimum of zero does **not** stop billing as soon as a prediction finishes. Replicate says the instance remains idle for “a few minutes” before shutting down. The public documentation does not expose one numeric idle duration, so this guide prices each observed online minute instead of inventing a universal cutoff. At current list rates, one billable minute costs **$0.0135 on a T4** and **$0.0915 on an H100**.
+The important teardown rule is explicit: **you can delete a Deployment only after it has been offline and unused for at least 15 minutes**. Deletion is cleanup after shutdown eligibility, not an emergency way to shut down an online GPU. That 15-minute rule is also **not** a published idle timeout or an extra 15 minutes of billable online time.
 
-Replicate's prediction metrics do not close that gap. `predict_time` covers active CPU or GPU time and excludes time waiting to start. `total_time` covers the prediction's end-to-end completion time, but it ends with the prediction and therefore cannot represent the post-request idle window. The Deployment dashboard shows instance state, but its historical view is aggregated into 15-minute intervals. For cost control, online instance time is the quantity that matters.
+At the November 1 rates, a single T4 costs **$0.0135 per online minute** and an H100 costs **$0.0915**. The rate card remains unchanged from our previous check. This refresh adds the distinction between prediction cancellation, autoscaling settings, offline status and deletion—four events that should not share one “stop” button in a cost forecast.
 
-For broader market context, use HostFleet's [live GPU pricing table](https://hostfleet.net/gpu-pricing/) and [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For product fit beyond the bill, read [Replicate for AI inference APIs and jobs](https://hostfleet.net/replicate-for-ai-inference-apis-and-jobs/).
+For other providers, start with the [live GPU pricing table](https://hostfleet.net/gpu-pricing/) and [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For Replicate's broader product fit, read [Replicate for AI inference APIs and jobs](https://hostfleet.net/replicate-for-ai-inference-apis-and-jobs/).
 
-## Replicate pricing: the short answer
+## The short answer: choose the billing boundary first
 
-| Product shape | What the customer pays for | Cost boundary to model |
+| Product shape | Billing boundary | What to budget |
 |---|---|---|
-| Public model | Active processing | Shared capacity can add queue and setup delay, but setup and idle time are not billed to the customer |
-| Most private models | Setup, idle, and active instance time | Dedicated capacity makes cold boots and gaps between requests billable |
-| Fast-booting fine-tune | Active processing | The exception applies only when Replicate labels the version as fast booting |
-| Deployment | Every second its instances are online | Minimum instances create a warm floor; zero minimum still leaves a billable idle tail |
-| Official model | Model-specific input or output metric | This is not generic GPU-second pricing |
-| H200 or large multi-GPU configuration | Contract-qualified instance time | The public price does not reveal the minimum committed spend |
+| Runtime-priced public model | Active processing; Replicate absorbs setup and idle time | Request runtime, with shared-capacity queue and setup delays still possible |
+| Most private models | All online instance time | Setup, active work and gaps between requests |
+| Fast-booting fine-tune | Active processing | Only use this exception when the exact version is labeled fast booting |
+| Deployment | Every second its instances are online | Warm minimums, cold setup, idle tails and overlapping online instances |
+| Official model | Model-specific input or output metric | Outside this hardware-runtime guide |
 
-Choose the product shape before comparing GPU rates. A $5.49/hour H100 means something different when it is a continuously warm Deployment, an autoscaled Deployment with billable setup and idle time, or a public model that charges only while processing.
+These boundaries come from [Replicate pricing](https://replicate.com/pricing) and the [billing guide](https://replicate.com/docs/topics/billing), checked November 1. An hourly GPU equivalent is not automatically the price of one request. This guide covers infrastructure runtime, not model-specific unit pricing.
 
-## Replicate rates in HostFleet's live GPU dataset
+## Four single-GPU rates in HostFleet's live dataset
 
-HostFleet's live data file was updated **September 17, 2026**. It contains four single-GPU Replicate rows, and every Replicate cell below was rechecked against [Replicate's pricing page](https://replicate.com/pricing) on **September 20, 2026**.
+HostFleet's shared GPU dataset retains its **September 24, 2026 dataset-wide date**. Its four Replicate cells match the official rate card rechecked **November 1, 2026**; that is not a fresh verification of every other provider.
+
+The following rows use those live-dataset inputs and the native per-second rates on [Replicate pricing](https://replicate.com/pricing).
 
 | GPU | VRAM | Public rate | Hourly equivalent | One online minute | 730-hour warm estimate |
 |---|---:|---:|---:|---:|---:|
@@ -48,190 +49,161 @@ HostFleet's live data file was updated **September 17, 2026**. It contains four 
 | A100 | 80 GB | $0.001400/sec | $5.04/hr | $0.0840 | $3,679.20 |
 | H100 | 80 GB | $0.001525/sec | $5.49/hr | $0.0915 | $4,007.70 |
 
-**Estimate assumptions:** one named configuration remains online for 730 hours, the average month used for comparison; September 20 public USD rate; no additional replicas, contract adjustment, credits, tax, or unrelated model-specific charge. The minute and monthly columns are arithmetic from the published rate, not measured invoices or performance comparisons.
+**Estimate assumptions:** one named instance online throughout each interval; November 1 public rate; 730 hours is a comparison month, not a fixed billing month. The minute and monthly columns are derived arithmetic, excluding extra instances, credits, tax, contract changes and downstream-model charges. They are not invoices or performance comparisons.
 
-Use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to replace 730 hours with the billable duty cycle you actually observe. For a Replicate Deployment, that duty cycle must include setup and idle online time, not just prediction runtime.
+The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) can help vary duration. For Replicate Deployments, enter **online time**, including setup and idle time, rather than just successful prediction runtime.
 
 ## All 17 published GPU configurations
 
-Replicate still publishes **17 GPU configurations**. Six appear in the primary hardware list without a committed-spend note. Eleven appear as additional H200 or multi-GPU capacity that Replicate marks as available with committed-spend contracts. Every rate in this table comes from [Replicate pricing](https://replicate.com/pricing), checked **September 20, 2026**.
+The [November 1 pricing page](https://replicate.com/pricing) lists six GPU configurations in its primary hardware list and 11 additional configurations with committed-spend qualifications. The whole-configuration rates and monthly arithmetic are below.
 
 | Published configuration | Public rate | Hourly equivalent | 730-hour online estimate | Access note |
 |---|---:|---:|---:|---|
-| Nvidia T4, 1 GPU | $0.000225/sec | $0.81/hr | $591.30 | No committed-spend note |
-| Nvidia L40S, 1 GPU | $0.000975/sec | $3.51/hr | $2,562.30 | No committed-spend note |
-| Nvidia L40S, 2 GPUs | $0.001950/sec | $7.02/hr | $5,124.60 | No committed-spend note |
-| Nvidia A100 80 GB, 1 GPU | $0.001400/sec | $5.04/hr | $3,679.20 | No committed-spend note |
-| Nvidia A100 80 GB, 2 GPUs | $0.002800/sec | $10.08/hr | $7,358.40 | No committed-spend note |
-| Nvidia H100, 1 GPU | $0.001525/sec | $5.49/hr | $4,007.70 | No committed-spend note |
-| Nvidia L40S, 4 GPUs | $0.003900/sec | $14.04/hr | $10,249.20 | Committed spend |
-| Nvidia L40S, 8 GPUs | $0.007800/sec | $28.08/hr | $20,498.40 | Committed spend |
-| Nvidia A100 80 GB, 4 GPUs | $0.005600/sec | $20.16/hr | $14,716.80 | Committed spend |
-| Nvidia A100 80 GB, 8 GPUs | $0.011200/sec | $40.32/hr | $29,433.60 | Committed spend |
-| Nvidia H100, 2 GPUs | $0.003050/sec | $10.98/hr | $8,015.40 | Committed spend |
-| Nvidia H100, 4 GPUs | $0.006100/sec | $21.96/hr | $16,030.80 | Committed spend |
-| Nvidia H100, 8 GPUs | $0.012200/sec | $43.92/hr | $32,061.60 | Committed spend |
-| Nvidia H200, 1 GPU | $0.001525/sec | $5.49/hr | $4,007.70 | Committed spend |
-| Nvidia H200, 2 GPUs | $0.003050/sec | $10.98/hr | $8,015.40 | Committed spend |
-| Nvidia H200, 4 GPUs | $0.006100/sec | $21.96/hr | $16,030.80 | Committed spend |
-| Nvidia H200, 8 GPUs | $0.012200/sec | $43.92/hr | $32,061.60 | Committed spend |
+| T4, 1 GPU | $0.000225/sec | $0.81/hr | $591.30 | No committed-spend note |
+| L40S, 1 GPU | $0.000975/sec | $3.51/hr | $2,562.30 | No committed-spend note |
+| L40S, 2 GPUs | $0.001950/sec | $7.02/hr | $5,124.60 | No committed-spend note |
+| A100 80 GB, 1 GPU | $0.001400/sec | $5.04/hr | $3,679.20 | No committed-spend note |
+| A100 80 GB, 2 GPUs | $0.002800/sec | $10.08/hr | $7,358.40 | No committed-spend note |
+| H100, 1 GPU | $0.001525/sec | $5.49/hr | $4,007.70 | No committed-spend note |
+| L40S, 4 GPUs | $0.003900/sec | $14.04/hr | $10,249.20 | Committed spend |
+| L40S, 8 GPUs | $0.007800/sec | $28.08/hr | $20,498.40 | Committed spend |
+| A100 80 GB, 4 GPUs | $0.005600/sec | $20.16/hr | $14,716.80 | Committed spend |
+| A100 80 GB, 8 GPUs | $0.011200/sec | $40.32/hr | $29,433.60 | Committed spend |
+| H100, 2 GPUs | $0.003050/sec | $10.98/hr | $8,015.40 | Committed spend |
+| H100, 4 GPUs | $0.006100/sec | $21.96/hr | $16,030.80 | Committed spend |
+| H100, 8 GPUs | $0.012200/sec | $43.92/hr | $32,061.60 | Committed spend |
+| H200, 1 GPU | $0.001525/sec | $5.49/hr | $4,007.70 | Committed spend |
+| H200, 2 GPUs | $0.003050/sec | $10.98/hr | $8,015.40 | Committed spend |
+| H200, 4 GPUs | $0.006100/sec | $21.96/hr | $16,030.80 | Committed spend |
+| H200, 8 GPUs | $0.012200/sec | $43.92/hr | $32,061.60 | Committed spend |
 
-The monthly estimate is:
+**Estimate assumptions:** every GPU in the named configuration remains online for 730 hours at the November 1 public rate; no credits, tax, contract adjustment or downstream calls. Monthly cost is `per-second rate × 3,600 × 730`. An eight-GPU row is not a promise that one-eighth of the configuration can be rented separately.
 
-    published hourly rate × 730 hours
+Absence of a committed-spend note is not proof of account quota, stock, region or launch permission. H200's matching H100 unit rate does not make it ordinary self-service capacity: every H200 row is contract-qualified. Ask for the minimum spend, term, configuration and capacity start date before using it in a purchase plan.
 
-It assumes the whole configuration remains online. It does not divide an eight-GPU row and imply that one-eighth can be rented separately. Absence of a committed-spend note is also not proof of stock, quota, regional availability, or launch permission.
+For wider accelerator comparisons, use the [H100 rental guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) and [A100 rental guide](https://hostfleet.net/a100-rental-price-per-hour-2026/). Replicate Deployments are managed inference capacity, not generic GPU VMs.
 
-For raw accelerator-market context, compare exact product boundaries in the [H100 rental price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) and [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/). Replicate Deployments are managed inference capacity, not generic GPU virtual machines.
+## Zero minimum removes a warm floor, not the idle tail
 
-## What Replicate bills during an instance lifecycle
+Replicate's [billing documentation](https://replicate.com/docs/topics/billing), checked November 1, says it scales toward a configured minimum, zero by default. A Deployment can customize minimum and maximum instance counts. When requests stop, an instance remains idle for “a few minutes” to avoid repeatedly setting up from scratch.
 
-Replicate's [billing documentation](https://replicate.com/docs/topics/billing), checked September 20, describes setup, active, idle, and offline states.
+The checked documentation does not provide a universal numeric idle duration. Do not turn that phrase into a guaranteed three-, five- or ten-minute shutdown time.
 
-| Product or state | Setup billed? | Idle billed? | Active billed? | Planning consequence |
-|---|---:|---:|---:|---|
-| Public model | No | No | Yes | Intermittent traffic avoids a customer-paid warm floor, but uses shared capacity |
-| Most private models | Yes | Yes | Yes | Setup and gaps between requests belong in the forecast |
-| Fast-booting fine-tune | No | No | Yes | Verify that Replicate labels the exact version as fast booting |
-| Deployment | Yes | Yes | Yes | Every online instance contributes to the bill |
-| Offline instance | No | No | No | Billing stops only after the instance has gone offline |
-| Official model | Model-specific | Model-specific | Model-specific | Use the model's published unit price rather than this hardware table |
+For a single configuration, the useful equation is:
 
-The [official-model documentation](https://replicate.com/docs/topics/models/official-models), checked September 20, says official models are always warm and use metrics such as output images, video duration, or input and output tokens. Those prices should not be blended with private-hardware runtime.
+    online instance-seconds
+      = setup seconds + active seconds + idle seconds
 
-## Zero minimum still has an idle-tail cost
+    compute estimate
+      = sum of online instance-seconds × exact configuration rate
 
-Replicate says models scale down to the configured minimum, which is zero by default. Deployments can change both minimum and maximum instance counts. Zero therefore removes the intentional always-warm floor, but it does not mean the instance disappears when the response is returned. The billing page says an instance remains idle for “a few minutes” before shutdown so it can serve another request without setting up again.
+Sum the online time across all paid instances. Concurrent replicas and any rollout overlap cannot be priced as one wall-clock timer. Count successful and failed setup time within online time; do not assume a failed request means a free Deployment. The billing page specifically says failed and canceled private-model and Deployment runs are billed normally for the instances involved, despite broader failure wording elsewhere on that page.
 
-The public documentation checked September 20 does not provide one numeric idle duration or a public setting that controls it. A fixed three-, five-, or ten-minute assumption would be guesswork. The defensible unit is cost per observed online minute:
+A warm minimum is easier to forecast. At the **November 1** rate, one H100 continuously online for 24 hours costs an estimated **$131.76** (`$0.001525 × 86,400`). Five simultaneously online H100 instances have a combined list-price run rate of **$27.45/hour**. These estimates exclude credits, tax, downstream work and negotiated terms.
 
-| Configuration | Each online minute | Each 10 online minutes | Each online hour |
-|---|---:|---:|---:|
-| T4, 1 GPU | $0.0135 | $0.1350 | $0.81 |
-| L40S, 1 GPU | $0.0585 | $0.5850 | $3.51 |
-| A100 80 GB, 1 GPU | $0.0840 | $0.8400 | $5.04 |
-| H100, 1 GPU | $0.0915 | $0.9150 | $5.49 |
-| H100, 8 GPUs | $0.7320 | $7.3200 | $43.92 |
+The minimum sets an intentional capacity floor. The maximum limits concurrent scale-out, not cumulative monthly spend. A minimum of zero and maximum of one can still leave one instance billing for an unknown duration.
 
-**Estimate assumptions:** one instance or named multi-GPU configuration remains online for the full interval; September 20 public rates; no credits, discount, tax, or downstream-model charge. These rows price a duration; they do not claim Replicate's idle tail lasts 10 minutes. The eight-H100 configuration is contract-qualified.
+## Cancellation, scale-down and deletion are different controls
 
-The cost model for a Deployment that scales to zero is:
+Replicate's [HTTP API reference](https://replicate.com/docs/reference/http) and [deletion guide](https://replicate.com/docs/topics/deployments/delete-a-deployment), checked November 1, support the following distinctions.
 
-    billable setup seconds
-    + active prediction seconds
-    + billable idle seconds before shutdown
-    = online instance-seconds
+| Control or event | What it establishes | What it does not establish |
+|---|---|---|
+| Prediction completes | That prediction is finished | The dedicated instance is offline |
+| Prediction cancellation | A request to cancel a prediction | Immediate shutdown of the Deployment's online capacity |
+| `Cancel-After` | Automatic prediction cancellation after the specified lifetime, measured from creation | A whole-instance online-time or dollar ceiling |
+| `min_instances=0` | A zero autoscaling floor | Current zero-instance state or a known meter-stop time |
+| `max_instances` | A scale-out configuration limit | A documented emergency-stop operation |
+| Offline state | Under the billing model, offline compute is not billed | A second-exact timestamp from coarse dashboard history |
+| Successful Deployment deletion | The Deployment object has been removed | That deletion terminated an online GPU at that moment |
 
-Then multiply online instance-seconds by the configuration's per-second rate. If traffic arrives during the idle window, the same warm instance may be reused and the idle interval becomes part of a longer online session. If traffic is sparse enough for the instance to go offline between requests, each new cold session can add setup and another idle tail.
+`Cancel-After` is documented for Deployment predictions, with a minimum duration of **five seconds**. A value such as `60s` limits prediction lifetime from creation; it is not a promise that setup, idle time or other instances cost only 60 seconds.
 
-This makes traffic shape important. Ten predictions packed into one warm session do not have the same lifecycle cost as ten isolated predictions that each create a new session, even when active GPU time is identical. HostFleet has designed a capped boot-UUID experiment to locate that boundary, but it remains unmeasured and account-gated. This article does not turn the design into a benchmark result.
+The Deployment PATCH reference exposes hardware, version and min/max instance settings. Each properties update increments the current release number. It does **not** document a numeric minimum for `max_instances` or guarantee that `max_instances=0` is accepted and immediately terminates every instance. Treat that as unverified, not as an emergency-stop recipe.
 
-## Why `predict_time` is not the billable duration
+### The deletion prerequisite does not reveal the idle timeout
 
-Replicate's [HTTP API reference](https://replicate.com/docs/reference/http), checked September 20, documents prediction timestamps plus two timing metrics:
+The requirement is **offline and unused for at least 15 minutes**. It does not say “wait 15 minutes after the last prediction, then all compute stops.” The instance must already be offline for deletion eligibility. Offline waiting is not online compute time under the documented billing model.
 
-- `predict_time` is CPU or GPU time used while the prediction is running and excludes time waiting to start.
-- `total_time` is the total time the prediction took to complete.
-- `created_at`, `started_at`, and `completed_at` locate the prediction lifecycle.
+There is also a documentation mismatch. The deletion tutorial shows a path with `{deployment_id}`. The explicit HTTP reference specifies:
 
-Those fields are useful for latency and active-work analysis, but neither metric is a complete Deployment bill. Setup can precede active prediction work, and billable idle time can continue after `completed_at`. A cost report that multiplies `predict_time` by the hardware rate will undercount a Deployment whenever it paid for setup or idle online time.
+```text
+DELETE /v1/deployments/{deployment_owner}/{deployment_name}
+```
 
-The [Deployment monitoring guide](https://replicate.com/docs/topics/deployments/monitor-a-deployment), checked September 20, exposes latency, throughput, errors, instance status, queue depth, and GPU-memory usage. It says historical metrics cover up to 24 hours and are aggregated into 15-minute intervals. That is useful for capacity trends, but a 15-minute bucket is too coarse to establish an exact scale-to-zero cutoff described only as “a few minutes.”
+The reference says a successful delete returns an empty **HTTP 204** response. Prefer the explicit owner/name reference when implementing cleanup, and confirm the current resource identity and API behavior before relying on it. HostFleet has not tested either route against an account; no delete command is presented here as a verified shutdown mechanism.
 
-A practical reconciliation needs one of these:
+## A shutdown checklist that does not wake the GPU
 
-1. Precise online-instance usage from Replicate's billing or account records.
-2. An isolated Deployment and charge delta with no unrelated traffic.
-3. Model instrumentation that records a boot identifier, so warm reuse can be distinguished from a new setup.
+Before starting a paid Deployment, establish how you will stop submissions, observe offline capacity and reconcile its bill. Do not wait until a small budget is nearly exhausted to discover that deletion is unavailable while the instance is online.
 
-Without that evidence, label per-minute arithmetic as an estimate and leave the idle duration unknown.
+1. **Record the target.** Keep the owner/name, model version, hardware SKU, release number and min/max configuration. Know which usage belongs to it.
+2. **Stop the producers.** Disable scheduled submissions and automatic client retries; account for queued or in-flight work. Cancel outstanding predictions where appropriate, without treating cancellation as a billing stop.
+3. **Use a confirmed shutdown procedure.** A zero minimum can permit autoscaling toward zero. It does not prove that zero has been reached. If you need a bounded stop, confirm a supported procedure and its limits with Replicate before the run.
+4. **Observe passively.** Use control-plane status and monitoring rather than a test prediction that could wake the Deployment again. Preserve observation times as intervals where precision is limited.
+5. **Delete only when eligible.** After the documented offline/unused prerequisite, use the confirmed cleanup route, retain the response and verify absence with a read-only resource lookup or listing.
+6. **Reconcile settled usage.** An empty resource list does not replace a billing record. Attribute charges to the isolated Deployment and record credits, rounding and reporting delay separately.
 
-## Minimum and maximum instances define different cost boundaries
+This is a source-backed operational checklist, not a tested guarantee of a shutdown deadline. If a bounded stop or attributable usage is unavailable, keep the forecast source-backed and do not describe a small dollar target as an enforced cap.
 
-A nonzero minimum is the predictable part of a Deployment bill. Using the September 20 rates, these are the one-instance warm floors:
+## Prediction timing is not the Deployment bill
 
-| Warm minimum | T4 floor | A100 80 GB floor | H100 floor |
-|---:|---:|---:|---:|
-| 1 instance for 24 hours | $19.44 | $120.96 | $131.76 |
-| 1 instance for 730 hours | $591.30 | $3,679.20 | $4,007.70 |
-| 2 instances for 730 hours | $1,182.60 | $7,358.40 | $8,015.40 |
+The [HTTP reference](https://replicate.com/docs/reference/http), checked November 1, defines `predict_time` as the CPU/GPU time used while the prediction runs, excluding the wait before it starts. `total_time` is the time the prediction took to complete. Neither represents the post-completion idle interval of a dedicated instance.
 
-**Estimate assumptions:** all minimum instances remain online continuously; 24-hour day or 730-hour comparison month; September 20 public rates; no additional replicas, contract change, credits, tax, or model-specific charge.
+The [monitoring guide](https://replicate.com/docs/topics/deployments/monitor-a-deployment) says historical metrics cover up to **24 hours** in **15-minute intervals**. That is useful for capacity trends but cannot establish a second-exact billing stop or an idle cutoff described only as “a few minutes.”
 
-A maximum is different. It caps simultaneous scale-out, not monthly spend. Five H100 instances online together have a list-price run rate of **$27.45/hour**, sourced from the September 20 $5.49/hour rate. They may run for seconds or hours, and the maximum setting says nothing about request volume, setup retries, or the duration of each idle tail.
+The same guide gives a default model setup timeout of **10 minutes**. Configuring it from one minute to three hours requires an enterprise contract. A setup timeout bounds that setup attempt; it is not a promise that all capacity or retries stop billing then.
 
-Start at minimum zero when cold setup is acceptable. Keep a nonzero minimum only when tested latency and availability requirements justify the floor. Set the maximum from a tested concurrency target and a tolerable concurrent run rate. For different lifecycle shapes, compare the [RunPod Pods and Serverless pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) and [Modal per-second pricing guide](https://hostfleet.net/modal-pricing-guide-2026/); matching GPU names do not make their billing boundaries interchangeable.
+For reconciliation, use isolated settled online-instance usage with known monetary precision. If only a rounded account total is available, do not assign unrelated spend to one Deployment or divide the rounded total by the rate and call the answer measured billed seconds.
 
-## Setup failures and retries are also online time
+A process boot UUID is also narrower evidence than it first appears. Reusing it supports process reuse between observations. A changed UUID shows a different process, not whether idle eviction, a crash or a configuration change caused replacement. Neither proves continuous GPU residency or an exact invoice interval.
 
-Replicate says private-model and Deployment instances bill setup, idle, and active time. Its billing page also says failed and canceled runs for these products are billed for the time their instances were active as normal. The wording elsewhere on the page discusses other failure contexts differently, so the safe claim is specific: online private-model and Deployment instance time remains the billing boundary.
+## Prepaid balance is not an exact experiment ceiling
 
-The monitoring guide, checked September 20, says Deployment setup has a **10-minute default timeout**. Custom timeouts from one minute through three hours and setup-failure email notifications require an enterprise contract. A timeout is a ceiling, not evidence that each failure consumes the full interval.
+The [prepaid-credit guide](https://replicate.com/docs/topics/billing/prepaid-credit), checked **November 1, 2026**, states:
 
-At the full default timeout, one failed setup would expose approximately **$0.14 on T4**, **$0.84 on A100**, or **$0.92 on H100**, based on September 20 rates. Those figures equal per-second price multiplied by 600 seconds and are estimates, not measured Replicate incidents. Retries multiply the exposure, so automatic retry loops need a cap even when no prediction succeeds.
+- Auto reload is optional. Its minimum threshold is **$5** and minimum reload balance is **$15**.
+- Saving a threshold at or above the current balance triggers an immediate reload.
+- At zero balance, Replicate prevents new work and shuts down infrastructure running for the account.
+- A prediction can rarely overrun the balance; the outstanding amount is charged to the default payment method at month end.
+- Purchased credit is non-refundable and valid for **one year**.
 
-## H200 at the H100 rate is contract-qualified
+Separate credit purchases from consumed compute. A $15 reload balance is an account funding setting, not the cost of a request or the minimum amount consumed. A low prepaid balance is not a guaranteed exact test ceiling because overruns are documented. Record the account's billing mode and reload state before estimating cash exposure.
 
-Replicate lists one H100 and one H200 at the same **$0.001525/second ($5.49/hour)** rate as of September 20. The access boundary changes the buying decision. The one-H100 row appears in the primary list without a committed-spend note, while every H200 row is marked as committed-spend capacity.
+### Example: a sub-dollar target still needs a bounded stop
 
-Before planning around H200, ask Replicate for the minimum spend, term, GPU count, region, capacity start date, and whether the public unit rate survives the contract structure. A public price is useful for arithmetic, but it does not disclose the smallest purchasable commitment.
+At the [November 1 T4 rate](https://replicate.com/pricing), **30 total online minutes** cost:
 
-## Prepaid credit can shut down warm capacity
+    $0.000225/second × 1,800 seconds = $0.405
 
-Replicate's [prepaid-credit documentation](https://replicate.com/docs/topics/billing/prepaid-credit), checked September 20, says auto reload is optional, the published minimum reload threshold is **$5**, and the minimum reload balance is **$15**. When credit reaches zero, Replicate says it prevents new work from starting and shuts down infrastructure running for the account. A prediction can rarely overrun the balance, in which case Replicate charges the outstanding amount to the default payment method at month end.
+Adding an explicitly assumed **$0.25 planning reserve** gives **$0.655** against a **$1 test target**. The reserve and target are editorial planning assumptions, not Replicate fees or enforced limits.
 
-For a production Deployment, monitor the credit balance separately from request health. A configured warm minimum is not dependable capacity if the payment balance can turn the infrastructure off.
+That estimate assumes one instance, no overlapping replacement, no downstream calls and complete online shutdown inside 30 minutes. Those conditions were not measured. Each additional T4 online minute adds **$0.0135**; multiple online instances multiply the exposure. Do not add the deletion eligibility interval as though it were automatically billable GPU time.
 
-## Replicate pricing checklist
-
-Before launch, record:
-
-- **Product shape:** public model, private model, Deployment, or official model.
-- **Hardware access:** primary-list configuration or committed-spend capacity.
-- **Minimum instances:** intentional always-warm floor.
-- **Maximum instances:** maximum concurrent list-price run rate.
-- **Setup behavior:** observed setup duration, failure rate, and retry cap.
-- **Idle behavior:** observed online tail; do not substitute “a few minutes” with an invented constant.
-- **Metrics boundary:** `predict_time` for active work, not complete billed lifetime.
-- **Payment control:** credit balance, reload settings, and alert owner.
-
-Estimate Deployment compute as:
-
-    warm-floor instance-seconds
-    + successful setup seconds
-    + failed setup seconds
-    + active prediction seconds
-    + billable idle seconds
-    = total online instance-seconds
-
-Multiply by the exact configuration rate. Keep official-model metric pricing and any downstream-model charges outside that hardware-lifecycle equation.
+HostFleet has not run this test. We are not treating the $1 target as a cap: a paid trial first needs a supported bounded-stop procedure and attributable settled usage. The useful result today is a transparent cost equation, not an invented idle cutoff.
 
 ## Replicate pricing verdict
 
-Replicate's public rate card remained unchanged in this September 20 check: 17 GPU configurations, with six in the primary list and 11 marked as committed-spend capacity. The rate card is not the hard part. The hard part is measuring the online lifecycle.
+Replicate still publishes **17 GPU configurations** at the rates above, with H200 and larger additional configurations subject to committed-spend terms. The buying decision is less about multiplying GPU seconds and more about deciding which seconds the product makes you pay for.
 
-- Public models generally bill active processing, while most private models and Deployments bill setup, active, and idle instance time.
-- A zero minimum removes the permanent warm floor but not the post-request idle tail.
-- Replicate describes that tail only as “a few minutes,” so a universal numeric cooldown remains unverified.
-- Each online minute currently costs $0.0135 on T4 through $0.0915 on single-H100 hardware.
-- `predict_time` and `total_time` do not expose the complete setup-plus-post-request-idle billing window.
-- Nonzero minimums create clear warm floors; maximums cap concurrency rather than monthly spend.
-- Setup failures, retry loops, and depleted prepaid credit are operational billing risks.
+- Use the runtime-priced public-model path when it fits and paying only for active processing matters more than owning the queue.
+- Budget a Deployment across all online setup, active and idle time. Treat nonzero minimums as warm floors and maximums as concurrency limits.
+- Plan the shutdown evidence before launch. Prediction cancellation, zero minimum and deletion are not interchangeable billing stops.
+- Treat credits and small budget targets as financial controls with documented limitations, not guaranteed exact caps.
 
-Replicate fits teams that value a managed model and Deployment surface more than the lowest raw GPU-hour. The honest forecast is not request count multiplied by `predict_time`. It is the total time every paid instance remains online.
+For alternative billing boundaries, compare the [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) and [Modal pricing guide](https://hostfleet.net/modal-pricing-guide-2026/). Matching GPU names do not make lifecycle charges interchangeable.
 
-## Sources
+## Sources and verification scope
 
-Official web sources below were checked **September 20, 2026**.
+Official sources below were fetched **November 1, 2026**. They document provider behavior, not HostFleet account results.
 
-- [Replicate pricing](https://replicate.com/pricing) — all 17 GPU configurations, per-second and hourly rates, and committed-spend labels
-- [Replicate billing](https://replicate.com/docs/topics/billing) — setup, active, idle, and offline states; public/private/Deployment billing; the “few minutes” idle description; failed and canceled runs
-- [Replicate Deployments](https://replicate.com/docs/topics/deployments) — configurable hardware, minimum instances, and maximum instances
-- [Create a Deployment](https://replicate.com/docs/topics/deployments/create-a-deployment) — minimum and maximum settings
-- [Monitor a Deployment](https://replicate.com/docs/topics/deployments/monitor-a-deployment) — dashboard metrics, 24-hour history, 15-minute aggregation, setup timeout, and enterprise-only controls
-- [Replicate HTTP API reference](https://replicate.com/docs/reference/http) — prediction timestamps, `predict_time`, and `total_time`
-- [Replicate official models](https://replicate.com/docs/topics/models/official-models) — always-warm behavior and model-specific pricing units
-- [Replicate prepaid credit](https://replicate.com/docs/topics/billing/prepaid-credit) — reload limits and zero-balance shutdown behavior
-- HostFleet GPU dataset: /opt/hostbot-v2/src/data/gpu-pricing.json, updated September 17, 2026; Replicate cells rechecked September 20
-- Existing HostFleet baseline: /opt/hostbot-v2/src/content/posts/replicate-pricing-guide-2026.md
-- HostFleet research note: /opt/hostbot/data/ai-hosting/notes/2026-09-04-replicate-deployment-idle-cost-boundary.md
+- [Replicate pricing](https://replicate.com/pricing) — all 17 GPU configurations, native per-second rates, hourly equivalents and committed-spend qualifications.
+- [Billing](https://replicate.com/docs/topics/billing) — public/private/Deployment billing, online states, idle retention and failed/canceled run qualifications.
+- [Deployments](https://replicate.com/docs/topics/deployments) and [create a Deployment](https://replicate.com/docs/topics/deployments/create-a-deployment) — hardware, min/max instances and configurable capacity.
+- [Delete a Deployment](https://replicate.com/docs/topics/deployments/delete-a-deployment) — offline/unused prerequisite and the tutorial's ID-style path.
+- [HTTP API reference](https://replicate.com/docs/reference/http) — owner/name delete route and HTTP 204 success; prediction cancellation, `Cancel-After`, timing metrics and Deployment updates.
+- [Monitor a Deployment](https://replicate.com/docs/topics/deployments/monitor-a-deployment) — historical aggregation, setup timeout and enterprise-only customization.
+- [Prepaid credit](https://replicate.com/docs/topics/billing/prepaid-credit) — reload limits, immediate reload behavior, zero-balance shutdown, overruns, expiry and refunds.
+- [Official models](https://replicate.com/docs/topics/models/official-models) — distinct product and billing boundary; no model-specific price comparison is made here.
+
+**HostFleet data note:** four Replicate cells from the shared GPU dataset, whose dataset-wide date remains September 24, were independently rechecked November 1. The two rate tables use the current official Replicate rate card. No full-market refresh, paid invoice reconciliation or measured shutdown result is claimed.
