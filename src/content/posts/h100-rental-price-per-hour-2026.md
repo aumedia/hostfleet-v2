@@ -167,6 +167,12 @@ Before choosing an H100 at all, size weights, runtime workspace, context, KV cac
 
 **Bottom line:** the dated rate floor is useful for a shortlist, not a purchasing verdict. Novita's unchanged price conceals a changed CPU/RAM description and a billable image-pull phase. Verda's refreshed price changes the monthly sensitivity case by hundreds of dollars. Buy a verified product and lifecycle, not a copied GPU-hour number.
 
+## Turn the shortlist into a deployment decision
+
+- **Still deciding whether H100 memory is necessary?** Start with the [Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) before treating this rate table as a hardware requirement.
+- **Already know the shape and need a billable-hours estimate?** Put active work, pulling, idle time and retained storage into the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) rather than extending an hourly headline across every calendar hour.
+- **Building a request-driven endpoint instead of holding a VM?** Compare the [serverless GPU lifecycle and pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) before selecting a provider on rate alone.
+
 ## Sources and verification scope
 
 - **October 21, 2026 — Novita:** [public legacy GPU catalog](https://api-server.novita.ai/api/v1/market/products), [marketplace](https://novita.ai/gpus-console/explore) and its currently referenced first-party script; [instance pricing](https://docs.novita.ai/guides/gpu-instance-pricing.md), [management](https://docs.novita.ai/guides/gpu-instance-quickstart-manage-instances.md), [FAQ](https://docs.novita.ai/guides/gpu-instance-faq.md), [V2 product precision/unit schema](https://docs.novita.ai/api-reference/gpus-v2-list-products.md), and [separate account-balance unit schema](https://docs.novita.ai/api-reference/basic-get-user-balance.md). Public data and code inspection only; no rendered marketplace or authenticated billing observation.

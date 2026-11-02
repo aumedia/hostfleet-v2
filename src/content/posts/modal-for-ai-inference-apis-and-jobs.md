@@ -142,7 +142,7 @@ Approximate continuous warm-GPU reservation cost:
 - **A100 80 GB:** about **$1,799/month**
 - **H100:** about **$2,843/month**
 
-If you add even a minimal CPU and memory footprint, the floor rises further. If you pin the deployment to a specific region, Modal's region docs say pricing is multiplied by **1.5x** for broad regions such as `us` and **1.75x** for narrow regions such as `us-west`.
+If you add even a minimal CPU and memory footprint, the floor rises further. If you pin the deployment to a specific region, Modal's current region docs say pricing is multiplied by **1.15x** for broad regions such as `us` and **1.75x** for narrow regions such as `us-west`. For the checked rate card, CPU and memory additions, and closed-hour billing workflow, see the [Modal pricing guide](https://hostfleet.net/modal-pricing-guide-2026/).
 
 That is why Modal can be fantastic for bursty workloads and still be the wrong answer for a low-latency service that must never cold-start. In that case, the bill starts to look less like serverless magic and more like reserved infrastructure with a nicer developer experience.
 

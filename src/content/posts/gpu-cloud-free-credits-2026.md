@@ -122,7 +122,11 @@ Oracle's [Free Tier FAQ](https://www.oracle.com/cloud/free/faq.html), checked Se
 6. **Test the stop action:** verify whether stop, zero, or delete ends compute billing and what remains chargeable.
 7. **Export before expiry:** do not depend on a recovery window.
 
-For paid alternatives, compare lifecycle boundaries in [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) and Pods versus Serverless in [HostFleet's RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/).
+## After the credit test: choose the cost model before adding spend
+
+- **Running queue-driven or scale-to-zero GPU work?** Check the documented billing, retry, and teardown boundaries in [HostFleet's serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) before treating a cancelled job or stopped group as proof that worker charges ended.
+- **Keeping an endpoint warm between requests?** Put the GPU, CPU, memory, active work, and idle retention into the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) rather than extending a credit-only GPU-hour estimate into a production forecast.
+- **Moving to continuously allocated capacity?** Compare like-for-like hardware, storage, and billing boundaries in the [H100 rental-price guide](https://hostfleet.net/h100-rental-price-per-hour-2026/) before choosing a Pod or VM.
 
 ## Verdict
 

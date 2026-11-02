@@ -173,6 +173,14 @@ The practical order is:
 
 That is the most defensible answer to **Cloudflare Workers AI vs self-hosted GPU** in June 2026 without pretending one benchmark chart can settle an infrastructure decision.
 
+## Continue the deployment decision
+
+The next check depends on what is pushing you beyond the managed edge path:
+
+- **A bursty GPU API that may scale down between requests:** compare [serverless GPU lifecycle and billing boundaries](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) before assuming a per-second rate means request-only cost.
+- **A model that must stay warm or a hybrid service you expect to run most of the day:** use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to model allocated hours, idle time, and a warm endpoint separately.
+- **A specific open-weight model that is forcing the move:** check the [Llama 70B VRAM guide](https://hostfleet.net/what-gpu-to-run-llama-70b/) before choosing a GPU class or rental shape.
+
 ## Sources
 
 - Cloudflare Workers AI pricing - https://developers.cloudflare.com/workers-ai/platform/pricing/

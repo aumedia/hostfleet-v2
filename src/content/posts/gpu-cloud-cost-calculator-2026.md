@@ -322,6 +322,12 @@ For the October 24 selected A100 set, eight useful hours cost an estimated **$8.
 - **Building a request-driven endpoint that should return to zero?** Check the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) for warm-minimum, idle-tail and billing-boundary differences. A VM or Pod hourly estimate is not a serverless endpoint cost model.
 - **Choosing RunPod after the calculator?** Read the [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) to select Pods versus Serverless and account for worker-state and retained-storage charges alongside the current A100 input.
 
+## Continue the deployment decision
+
+- **Still deciding whether an A100 is the right allocated shape?** Use the [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) to compare the wider 80 GB market, resource bundles and provider-specific billing traps before treating this calculator input as a recommendation.
+- **Building a request-driven endpoint that should return to zero?** Check the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) for warm-minimum, idle-tail and billing-boundary differences. A VM or Pod hourly estimate is not a serverless endpoint cost model.
+- **Choosing RunPod after the calculator?** Read the [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) to select Pods versus Serverless and account for worker-state and retained-storage charges alongside the current A100 input.
+
 ## Source notes
 
 Eight selected A100 rates and their resource bundles were rechecked on **October 24, 2026** against the official links in that table and the current Verda and Vultr API rows. All six Nebius L40S PAYG component rates, 12 presets, region/platform identities, headline floors and cited Nebius billing rules were checked on **October 20, 2026** against its [price overview](https://nebius.com/prices), [compute pricing](https://docs.nebius.com/compute/resources/pricing) and [VM types](https://docs.nebius.com/compute/virtual-machines/types). Nebius's live dataset cell matches the exact Intel minimum-preset formula.

@@ -2,12 +2,12 @@
 title: "Baseten vs Modal vs Replicate for one warm inference endpoint (July 2026): who makes you pay for readiness?"
 description: "A July 2026 HostFleet comparison of Baseten, Modal, and Replicate for one warm inference endpoint, focused on 30-day warm-capacity cost floors, scale-to-zero tradeoffs, and where each platform shape really fits."
 pubDate: 2026-07-17
-updatedDate: 2026-07-17
+updatedDate: 2026-11-01
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
-**Last updated:** July 17, 2026
+**Original comparison:** July 17, 2026. **Replicate deployment teardown note:** checked November 1, 2026.
 
 # Baseten vs Modal vs Replicate for one warm inference endpoint
 
@@ -117,8 +117,13 @@ Replicate also carries two operational caveats that matter for production apps:
 
 Those are not deal-breakers, but they are reminders that Replicate remains prediction-shaped even when you buy more control.
 
-## Where each one actually wins
+### Replicate teardown is not a spending stop
 
+For a dedicated Replicate Deployment, a completed or canceled prediction does not establish that the GPU is offline, and `min_instances=0` is only an autoscaling floor. Replicate permits Deployment deletion only after the Deployment has already been **offline and unused for at least 15 minutes**. That prerequisite is cleanup eligibility, not a published idle timeout or an emergency shutdown control.
+
+Before treating a warm endpoint as a bounded-cost experiment, use the current [Replicate pricing guide: GPU rates, idle costs and teardown rules](https://hostfleet.net/replicate-pricing-guide-2026/) to separate prediction cancellation, offline observation, deletion eligibility, and prepaid-credit limits. This comparison's July warm-floor estimates remain a directional product-shape comparison; the linked guide holds the November-checked Replicate lifecycle boundary.
+
+## Where each one actually wins
 Choose **Modal** first if:
 
 - your team wants a custom Python API

@@ -249,6 +249,16 @@ Pods are the better fit when:
 
 This is the lane where RunPod stops being a cheap burst platform and starts being a dedicated GPU host with meaningful billing discipline requirements.
 
+## Before you deploy: use the current rate and lifecycle checks
+
+This July review is a product-shape decision, not a replacement for a current rate check. If you are now choosing RunPod, take the next step that matches the decision still open:
+
+- **Choosing a Flex tier or a Pod:** read the [November-checked RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) for the current public rate card, the observed Flex-tier changes, and the console-versus-REST configuration defaults. Confirm the account-visible quote before purchasing capacity.
+- **Setting active workers or an idle timeout:** use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to model startup, useful work, idle tails, retries, and retained resources instead of multiplying request time by a headline GPU rate.
+- **Still deciding whether RunPod is the right serving surface:** compare it with [Modal and Replicate for a small inference API](https://hostfleet.net/runpod-vs-modal-vs-replicate-small-inference-api/) before committing your deployment workflow to a dedicated Pod or serverless endpoint.
+
+The pricing guide has its own verification date and assumptions; this comparison's July estimates remain historical context rather than a claim that its table is a current market snapshot.
+
 ### Choose Modal first if the bigger priority is Python app ergonomics
 
 If the team mainly wants the cleanest custom Python service with FastAPI-like ergonomics and cleaner application abstractions, [Modal for AI inference APIs and jobs](https://hostfleet.net/modal-for-ai-inference-apis-and-jobs/) is often the stronger starting point.

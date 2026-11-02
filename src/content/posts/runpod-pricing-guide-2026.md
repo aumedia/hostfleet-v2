@@ -268,6 +268,12 @@ Check how the endpoint was created: console and REST v2 idle defaults differ. Co
 - **You need to compare an endpoint with other serverless options:** use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) to compare rate shape, scale-down behavior, and bill-verification limits before choosing a platform.
 - **You have a workload shape and need a planning number:** use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to model active time, idle tails, retained resources, and teardown rather than multiplying a headline hourly rate by a month.
 
+## Choose the next RunPod decision
+
+- **You need an allocated GPU for sustained work:** read the [RunPod deployment review](https://hostfleet.net/runpod-for-ai-inference-apis-and-jobs/) for the Pods-versus-Serverless operating split, warm-capacity risk, and workload fit.
+- **You need to compare an endpoint with other serverless options:** use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) to compare rate shape, scale-down behavior, and bill-verification limits before choosing a platform.
+- **You have a workload shape and need a planning number:** use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to model active time, idle tails, retained resources, and teardown rather than multiplying a headline hourly rate by a month.
+
 ## Sources and verification notes
 
 All official sources linked below were retrieved successfully on **November 2, 2026**. These are public sources, not authenticated account responses or measured invoices.

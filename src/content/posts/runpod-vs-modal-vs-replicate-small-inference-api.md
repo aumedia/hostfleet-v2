@@ -162,6 +162,14 @@ Replicate is weaker when you want a richer custom multi-route service or fine-gr
 | Biggest strength | Infra-shaped control | Best custom Python DX | Fastest path to a model product |
 | Biggest catch | More control means more tuning | Warm capacity still becomes billable | Easiest path is also the most opinionated abstraction |
 
+## Turn the platform choice into a deployment cost
+
+This comparison narrows the serving model; it does not turn a per-second headline into a production budget. Take the next step that matches the remaining decision:
+
+- **Need to compare bursty workers with a warm endpoint?** Use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) to account for startup, active work, idle retention, retries, and scale-down behavior.
+- **Already know the traffic shape?** Put the allocated time, warm replicas, and storage assumptions into the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) rather than extrapolating from successful inference seconds alone.
+- **Evaluating an 80 GB A100 endpoint?** Check the current [A100 rental price guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) for like-for-like rental comparisons and the provider-specific billing and cleanup boundaries before committing capacity.
+
 ## How I would choose
 
 Choose **RunPod** if:
