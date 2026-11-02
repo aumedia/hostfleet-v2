@@ -1,32 +1,33 @@
 ---
-title: "RunPod pricing 2026: updated GPU rates and billing rules"
-description: "Compare 42 RunPod Pod prices and 13 Flex tiers, updated break-even math, worker billing states, retained storage and endpoint cost reconciliation."
+title: "RunPod pricing 2026: higher Flex rates and billing boundaries"
+description: "Compare 42 RunPod Pod prices and 13 Flex tiers checked November 2026, with updated break-even costs, console/API defaults and storage billing."
 pubDate: 2026-07-24
-updatedDate: 2026-10-17
+updatedDate: 2026-11-02
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 *Affiliate disclosure: HostFleet may earn a commission through labeled signup links on this page. That does not change the analysis. Read our [methodology and affiliate policy](https://hostfleet.net/about/).*
 
-**Source-backed pricing guide; calculated costs are estimates, not measured bills.** We checked RunPod's public pricing page and the official billing, worker, endpoint and Pod documentation on **October 17, 2026**. The public page labels itself **Updated October 8, 2026**. We did not rent a GPU, obtain an authenticated quote, confirm capacity, inspect an invoice or benchmark performance.
+**Source-backed pricing guide; calculated costs are estimates, not measured bills.** We checked RunPod's public rate card and official billing, worker, endpoint and Pod documentation on **November 2, 2026**. We did not rent a GPU, obtain an authenticated quote, confirm capacity, inspect an invoice or benchmark performance.
 
-> **Rates verified:** October 17, 2026 — 42 Pod prices and 13 Serverless Flex tiers<br>
-> **Lifecycle and billing API documentation checked:** October 17, 2026<br>
-> **Currency and assumptions:** public USD list prices before tax; one GPU; 720 billable hours for compute comparisons; 730 hours only for illustrative storage-month conversion<br>
-> **Dataset scope:** only RunPod was checked for this refresh. The dataset-wide September 24 verification date is unchanged.
+> **Rates verified:** November 2, 2026 — all 42 Community/Secure Pod prices and 13 Serverless Flex tiers<br>
+> **Billing and configuration documentation checked:** November 2, 2026<br>
+> **Currency and assumptions:** public USD list prices before tax; one GPU; 720 allocated hours for compute comparisons; 730 hours only for illustrative storage-month conversion<br>
+> **Dataset scope:** this article's RunPod checks do not advance the dataset-wide September 24 verification date.
 
-# RunPod pricing 2026: Pods, Serverless and what actually bills
+# RunPod pricing 2026: higher Flex rates, Pods and billing boundaries
 
-The buying distinction is simple: **a Pod charges for allocated infrastructure; Serverless Flex charges while workers run; retained storage can bill after compute stops.** A cheap hourly rate does not tell you when the meter ends.
+**RunPod pricing** depends first on what stays allocated: a Pod charges while its infrastructure is allocated; Serverless Flex charges while workers run; retained storage can bill after compute stops. A successful request is not the end of the worker's billable lifetime.
 
-Three findings change this guide's earlier estimates:
+The November 2 check changes the buying math:
 
-- **The Pod price conflict is resolved in today's public source.** For all 21 products, the visible Secure price, explicit Community/Secure attributes and matching structured offers agree. The selected A100 PCIe Secure rate is **$1.79/hour**, not the older **$1.59/hour** input. This is a public rate-card check, not an account-visible purchase quote.
-- **More Secure rates differ from the October 2 guide than the dataset subset alone shows.** Fifteen of the 21 Secure prices changed between those observations; the 21 Community prices are unchanged. H100 SXM is now **$3.99/hour**, for example. Do not infer that the vendor changed them today.
-- **B300 Flex is now $10.65/hour**, versus the guide's older **$9.98/hour** observation. Its Flex row specifies **280 GB**, whereas the B300 Pod row specifies **288 GB**. They are not an exact memory-equivalent comparison.
+- **Seven of 13 Flex rates are higher than our October 17 observation.** The 24 GB pooled L4-class tier is $0.75/hour, RTX 4090 Pro $1.34/hour, H100 Pro $5.39/hour and B200 $10.79/hour. The largest observed increase is B200 at 24.88%. These are observation-to-observation differences, not a claim that prices changed today.
+- **All 42 Pod list prices are unchanged from October 17.** L4 Secure remains $0.59/hour; A100 PCIe $1.79/hour; H100 PCIe $2.89/hour. More expensive Flex lowers the worker-hours at which an always-on Pod becomes cheaper on compute alone.
+- **Configuration defaults depend on how you deploy.** Current endpoint docs say the console uses a five-second idle timeout while REST v2 uses ten seconds. The same five-second example cannot stand in for both.
+- **The B300 Flex memory label is now 288 GB**, matching the Pod page's label; the October 17 capture showed 280 GB for Flex. Matching labels still do not prove matching host resources or throughput.
 
-All current figures above come from the [official pricing page](https://www.runpod.io/pricing), checked October 17. Historical figures are the October 2 observations retained in this article's previous version, not an announced effective date.
+All current GPU figures above come from the [official pricing page](https://www.runpod.io/pricing), checked **November 2, 2026**. Its structured metadata says `dateModified: 2026-10-28`; that is a page-level marker, not proof of when any individual rate changed.
 
 ## Which RunPod product fits the workload?
 
@@ -43,7 +44,7 @@ Community and Secure Cloud are different supply surfaces, not interchangeable pe
 
 ## Every public Pod price: Community versus Secure
 
-**Verified October 17, 2026.** The [public RunPod pricing page](https://www.runpod.io/pricing) supplies all 21 pairs below. The premium is Secure minus Community; the 720-hour column is that difference multiplied by 720. These are on-demand list inputs, not savings-plan or all-in quotes.
+**Verified November 2, 2026.** All 21 pairs on the [public rate card](https://www.runpod.io/pricing) match the October 17 article baseline. Explicit Community/Secure price attributes agree with the matching structured offers; the visible default price is Secure. These are on-demand list inputs, not an authenticated account quote or commitment discount.
 
 | GPU product | Community/hr | Secure/hr | Secure premium/hr | Premium over 720 hours | Premium vs Community |
 |---|---:|---:|---:|---:|---:|
@@ -69,73 +70,75 @@ Community and Secure Cloud are different supply surfaces, not interchangeable pe
 | B200 | $5.98 | $7.99 | $2.01 | $1,447.20 | 33.6% |
 | B300 | $6.94 | $8.99 | $2.05 | $1,476.00 | 29.5% |
 
-**Estimate assumptions:** one listed GPU product stays allocated for all 720 hours, with no tax, storage, extra GPU, credit, negotiated discount or commitment adjustment. Percentages divide the difference by Community price. Equal product names do not prove equal host resources, stock or throughput.
+**Estimate assumptions:** one listed GPU stays allocated for all 720 hours, excluding tax, storage, credits, negotiated discounts and other charges. Percentages divide the difference by Community price. Equal GPU names do not establish equal host resources, stock or throughput.
 
-The smallest absolute spread is now **$0.11/hour for RTX A5000**, or **$79.20 over 720 hours**. The largest is **$2.05/hour for B300**, or **$1,476.00**. Percentage spreads range from **18.8% for L40** to **161.8% for RTX 4090**. A percentage alone can hide the larger dollar exposure of an expensive card.
+For example, A100 PCIe Secure compute is **$1.79 × 720 = $1,288.80**, compared with **$1.19 × 720 = $856.80** on the Community list input: a **$432.00** difference before other costs. The largest dollar premium in this table is B300 at **$1,476.00** over 720 hours; the largest percentage premium is RTX 4090 at **161.8%**. Percentages and total dollars answer different questions.
 
-For A100 PCIe, **$1.79 × 720 = $1,288.80** of Secure compute, compared with **$1,144.80** using the guide's old $1.59 input: **$144.00 more** under the same allocation assumption. H100 SXM's current **$3.99/hour** instead of the older **$3.49/hour** adds **$360.00** over 720 hours. Both comparisons use today's cited rate and the October 2 baseline; neither establishes a vendor change date.
-
-Compare accelerator variants and other providers in the [A100 rental guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) and [H100 rental guide](https://hostfleet.net/h100-rental-price-per-hour-2026/). Those pages have their own verification dates; this guide's dated RunPod inputs do not reverify their other providers.
+Compare exact variants and other providers in the [A100 rental guide](https://hostfleet.net/a100-rental-price-per-hour-2026/) and [H100 rental guide](https://hostfleet.net/h100-rental-price-per-hour-2026/). Those pages have their own verification dates; this article does not reverify their other providers.
 
 ## Every public Serverless Flex tier
 
-**Verified October 17, 2026.** These are the hourly Flex inputs on the [same official rate card](https://www.runpod.io/pricing). RunPod's [Serverless pricing documentation](https://docs.runpod.io/serverless/pricing.md), also checked October 17, describes per-second compute billing, rounded up to the nearest second. The public hourly figures below remain the calculation inputs; converting them to seconds is not a separate quoted tariff.
+**Current rates and memory labels verified November 2, 2026**, on the [official pricing page](https://www.runpod.io/pricing). These are Flex rates, not Active-worker discounts. RunPod's [Serverless pricing docs](https://docs.runpod.io/serverless/pricing.md), also checked November 2, describe billing by the second, rounded up. The hourly card is the consistent input here; dividing it by 3,600 is arithmetic, not an independently quoted per-second tariff.
 
-| Public Flex tier | Vendor memory label | Flex hourly input |
-|---|---:|---:|
-| A4000, A4500, RTX 4000, RTX 2000 | 16 GB | $0.58/hr |
-| L4, A5000, 3090, MIG 24GB | 24 GB | $0.69/hr |
-| RTX 4090 Pro | 24 GB | $1.10/hr |
-| RTX PRO 4500 Blackwell | 32 GB | $1.15/hr |
-| RTX 5090 Pro | 32 GB | $1.58/hr |
-| A6000, A40 | 48 GB | $1.22/hr |
-| L40 / L40S / 6000 Ada / MIG | 48 GB | $1.75/hr |
-| A100 | 80 GB | $2.72/hr |
-| H100 Pro | 80 GB | $4.79/hr |
-| RTX 6000 Pro | 96 GB | $3.49/hr |
-| H200 | 141 GB | $5.93/hr |
-| B200 | 180 GB | $8.64/hr |
-| B300 | 280 GB | $10.65/hr |
+| Public Flex tier | Current memory label | October 17/hr | November 2/hr | Observed change |
+|---|---:|---:|---:|---:|
+| A4000, A4500, RTX 4000, RTX 2000 | 16 GB | $0.58 | $0.58 | Unchanged |
+| L4, A5000, 3090, MIG 24GB | 24 GB | $0.69 | $0.75 | +8.70% |
+| RTX 4090 Pro | 24 GB | $1.10 | $1.34 | +21.82% |
+| RTX PRO 4500 Blackwell | 32 GB | $1.15 | $1.15 | Unchanged |
+| RTX 5090 Pro | 32 GB | $1.58 | $1.79 | +13.29% |
+| A6000, A40 | 48 GB | $1.22 | $1.22 | Unchanged |
+| L40 / L40S / 6000 Ada / MIG 48GB | 48 GB | $1.75 | $1.75 | Unchanged |
+| A100 | 80 GB | $2.72 | $2.72 | Unchanged |
+| H100 Pro | 80 GB | $4.79 | $5.39 | +12.53% |
+| RTX 6000 Pro | 96 GB | $3.49 | $3.49 | Unchanged |
+| H200 | 141 GB | $5.93 | $6.99 | +17.88% |
+| B200 | 180 GB | $8.64 | $10.79 | +24.88% |
+| B300 | 288 GB | $10.65 | $11.99 | +12.58% |
 
-A pooled label is not an exact-card reservation. The 24 GB L4/A5000/3090/MIG tier does not promise that every request runs on an L4. RunPod's [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked October 17, allow up to three GPU selections in priority order and describe distribution across priorities with five or more workers. Record the GPU actually observed before making a performance comparison.
+The seven increases range from **8.70% for the L4-class tier** to **24.88% for B200**. Six exceed 10%. Historical columns are HostFleet's October 17 observations, not announced vendor effective dates; no cause for the changes is inferred.
 
-B300's **$10.65/hour** input is **6.7% above** the guide's earlier $9.98 observation. The other 12 Flex prices match that baseline. Preserving the vendor's **280 GB Flex / 288 GB Pod** distinction matters more than silently forcing both into a single cross-provider memory label.
+A pooled label is not an exact-card reservation. The 24 GB L4/A5000/3090/MIG tier does not promise an L4 on every request. The [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked November 2, allow up to three GPU selections in priority order and describe distribution across priorities with five or more workers. Record the actual GPU before drawing performance conclusions.
 
-Use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) for other deployment surfaces. For the wider dated catalog, use our [GPU pricing table](https://hostfleet.net/gpu-pricing/). The article tables extend the selected RunPod entries from the same `gpu-pricing.json` baseline with checks of the complete public provider card; they are snapshots, not automatic account-price lookups.
+The B300 row now says **288 GB**, rather than the October baseline's 280 GB. This is a source-label correction, not evidence of a hardware upgrade. Check the available GPU and memory in the account quote rather than inferring capacity from a catalog label.
+
+These tables extend the selected RunPod rows in HostFleet's `gpu-pricing.json` baseline to the complete current card. The dataset's selected Flex raw prices agree with this check; its global date remains September 24. They are dated source snapshots, not automatic account-price lookups. Use the [live GPU pricing table](https://hostfleet.net/gpu-pricing/) and [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) for the wider catalog, respecting each provider's verification date.
 
 ## Pod versus Flex: updated break-even math
 
-This calculation asks how many **aggregate Flex worker-hours** equal one Secure Pod kept allocated for 720 hours. It does not compare successful requests, throughput or all-in deployment cost.
+How many **aggregate Flex worker-hours** equal one Secure Pod allocated for 720 hours? This is compute-only accounting, not a comparison of throughput, successful requests or total deployment cost.
 
     Pod compute = Secure Pod rate × 720
     Flex break-even worker-hours = Pod compute ÷ Flex rate
     Share of 720 hours = Secure Pod rate ÷ Flex rate
 
-**All current inputs: official public pricing, verified October 17, 2026.**
+**Inputs: official public rate card, verified November 2, 2026.**
 
-| Capacity point | Secure Pod | Flex | Pod for 720 hours | Flex compute-only break-even |
+| Capacity point | Secure Pod/hr | Flex/hr | Pod for 720 hours | Flex compute-only break-even |
 |---|---:|---:|---:|---:|
-| L4 / 24 GB pooled tier | $0.59/hr | $0.69/hr | $424.80 | 615.7 hours (85.5%) |
-| RTX 4090 / 24 GB tier | $0.89/hr | $1.10/hr | $640.80 | 582.5 hours (80.9%) |
-| RTX 5090 / 32 GB tier | $1.19/hr | $1.58/hr | $856.80 | 542.3 hours (75.3%) |
-| A40 / 48 GB pooled tier | $0.59/hr | $1.22/hr | $424.80 | 348.2 hours (48.4%) |
-| L40S / 48 GB pooled tier | $1.09/hr | $1.75/hr | $784.80 | 448.5 hours (62.3%) |
-| RTX Pro 6000 / 96 GB tier | $2.49/hr | $3.49/hr | $1,792.80 | 513.7 hours (71.3%) |
-| A100 PCIe / 80 GB tier | $1.79/hr | $2.72/hr | $1,288.80 | 473.8 hours (65.8%) |
-| H100 PCIe / 80 GB tier | $2.89/hr | $4.79/hr | $2,080.80 | 434.4 hours (60.3%) |
-| H200 / 141 GB tier | $5.29/hr | $5.93/hr | $3,808.80 | 642.3 hours (89.2%) |
-| B200 / 180 GB tier | $7.99/hr | $8.64/hr | $5,752.80 | 665.8 hours (92.5%) |
-| B300: 288 GB Pod / 280 GB Flex | $8.99/hr | $10.65/hr | $6,472.80 | 607.8 hours (84.4%) |
+| L4 / pooled 24 GB | $0.59 | $0.75 | $424.80 | 566.4 hours (78.7%) |
+| RTX 4090 / 24 GB | $0.89 | $1.34 | $640.80 | 478.2 hours (66.4%) |
+| RTX 5090 / 32 GB | $1.19 | $1.79 | $856.80 | 478.7 hours (66.5%) |
+| A40 / pooled 48 GB | $0.59 | $1.22 | $424.80 | 348.2 hours (48.4%) |
+| L40S / pooled 48 GB | $1.09 | $1.75 | $784.80 | 448.5 hours (62.3%) |
+| RTX Pro 6000 / 96 GB | $2.49 | $3.49 | $1,792.80 | 513.7 hours (71.3%) |
+| A100 PCIe / 80 GB | $1.79 | $2.72 | $1,288.80 | 473.8 hours (65.8%) |
+| H100 PCIe / 80 GB | $2.89 | $5.39 | $2,080.80 | 386.0 hours (53.6%) |
+| H200 / 141 GB | $5.29 | $6.99 | $3,808.80 | 544.9 hours (75.7%) |
+| B200 / 180 GB | $7.99 | $10.79 | $5,752.80 | 533.2 hours (74.1%) |
+| B300 / 288 GB | $8.99 | $11.99 | $6,472.80 | 539.8 hours (75.0%) |
 
-**Assumptions:** one GPU per worker; no storage, tax, Active discount, credits or extra charges; no assertion that a pooled Flex tier is performance-equivalent to the Pod. Hours are aggregate across workers, not necessarily wall-clock endpoint hours. Ten simultaneous workers consume ten worker-hours in one elapsed hour. The B300 row also has the stated memory-label mismatch.
+**Assumptions:** one GPU per worker, no storage, tax, credits, discounts or extra charges, and no assertion of performance equivalence between a pooled Flex tier and a Pod. Hours aggregate across all workers: ten simultaneous workers consume ten worker-hours in one elapsed hour. Warm Active workers require their own quote.
 
-For the 24 GB L4-class comparison, the new compute-only crossover is **615.7 Flex worker-hours**, rather than the previous **511.3-hour** estimate. At **100 billable Flex worker-hours**, $0.69/hour gives **$69.00**, versus **$424.80** for an L4 Secure Pod held for 720 hours at $0.59/hour. But releasing that Pod after the same 100 allocated hours would cost **$59.00** of compute instead. The apparent Flex saving depends on comparing demand-led allocation with an always-on Pod, not simply the word “serverless.”
+For L4-class capacity, the crossover falls from the October 17 estimate of **615.7** to **566.4 aggregate worker-hours** because Flex rises from $0.69 to $0.75/hour while the Pod stays $0.59/hour. At **100 billable Flex worker-hours**, compute is **$75.00**, compared with **$424.80** for a Secure Pod held for 720 hours. Release the Pod after the same 100 allocated hours and its compute would instead be **$59.00**. The apparent Flex saving depends on avoiding unnecessary allocation, not simply using “serverless.”
 
-Use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to replace 720 with useful work, startup, idle tails, retries, teardown lag and retained resources. A worker's response time is not its whole billable lifetime.
+For B200, the corresponding crossover falls from **665.8** to **533.2 worker-hours**. At 100 worker-hours, the public Flex input gives **$1,079.00**, versus **$864.00** using October 17's rate: **$215.00 more** with identical billable time assumptions.
 
-## Startup billing is clearer now: Initializing is not model loading
+Use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to replace 720 with expected useful work, startup, idle tails, retries, teardown lag and retained resources. Request response time is not total worker lifetime.
 
-The [Serverless pricing guide](https://docs.runpod.io/serverless/pricing.md) and [worker lifecycle guide](https://docs.runpod.io/serverless/workers/overview.md), checked October 17, now describe the same boundary: **compute bills while a worker is running**. This supersedes this article's older statement that the startup descriptions conflict. It resolves a documentation interpretation, not a measured invoice cutoff.
+## Startup billing: Initializing is not model loading
+
+The [Serverless pricing guide](https://docs.runpod.io/serverless/pricing.md) and [worker lifecycle guide](https://docs.runpod.io/serverless/workers/overview.md), checked November 2, describe the same boundary: **compute bills while a worker is running**. This is a documented lifecycle boundary, not a measured invoice cutoff.
 
 | Worker phase or console state | Documented compute treatment | Practical meaning |
 |---|---|---|
@@ -150,34 +153,56 @@ The [Serverless pricing guide](https://docs.runpod.io/serverless/pricing.md) and
 
 ### A separate rate-table discrepancy remains
 
-Clearer lifecycle language does not resolve every pricing source. The [endpoint-settings per-second table](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked October 17, still differs from the public hourly card. Its H100 figure of **$0.00116/second** converts to **$4.176/hour**, versus public Flex **$4.79/hour**. Its L40/L40S/6000 Ada figure of **$0.00053/second** converts to **$1.908/hour**, versus public **$1.75/hour**.
+Clearer lifecycle language does not resolve every pricing source. The [endpoint-settings per-second table](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked November 2, still differs from the public hourly card. Its H100 figure of **$0.00116/second** converts to **$4.176/hour**, versus public Flex **$5.39/hour**. Its L40/L40S/6000 Ada figure of **$0.00053/second** converts to **$1.908/hour**, versus public **$1.75/hour**.
 
-This guide consistently uses the public hourly card because the Serverless pricing documentation points there for compute prices. Confirm the effective quote for the exact account and endpoint before reconstructing charges. Do not combine one page's per-second input with another page's hourly rate as though they were identical tariffs.
+This guide consistently uses the public hourly card because the Serverless pricing documentation points there for compute prices. For the L4-class row, the docs' $0.00019/second yields $0.684/hour rather than the public card's $0.75/hour. Confirm the effective quote for the exact account and endpoint before reconstructing charges. Do not combine one page's per-second input with another page's hourly rate as though they were identical tariffs.
 
-## Idle tails: count worker waits, not successful requests
+## Idle tails: console and REST v2 defaults differ
 
-The October 17 [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md) list defaults of **zero Active workers, three maximum workers, one GPU per worker and a five-second idle timeout**. FlashBoot is enabled by default. A waiting worker remains Running and billed.
+The [endpoint-settings guide](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked **November 2, 2026**, now distinguishes these creation defaults:
 
-At the October 17 public Flex inputs:
+| Setting | Console default | REST v2 default documented in the guide |
+|---|---|---|
+| Idle timeout | 5 seconds | `workers.idleTimeout`: 10 seconds |
+| Execution timeout | 600 seconds | `timeout`: 300000 milliseconds (5 minutes) |
+| FlashBoot | Enabled | `flashboot`: `OFF`; set `FLASHBOOT` to enable |
 
-| Flex tier | One five-second tail | 1,440 isolated tails |
-|---|---:|---:|
-| L4-class at $0.69/hr | $0.000958 | $1.38 |
-| A100 at $2.72/hr | $0.003778 | $5.44 |
-| H100 Pro at $4.79/hr | $0.006653 | $9.58 |
-| B300 at $10.65/hr | $0.014792 | $21.30 |
+The console also lists zero Active workers, three maximum workers and one GPU per worker. Do not treat a console default as the configuration of an API-created endpoint: inspect the actual returned settings. The guide says REST v2 requires `type` and `scaling`, and has no endpoint-level job TTL field.
 
-**Derived assumptions:** hourly rate × 5/3,600 per tail; 1,440 independent, nonoverlapping tails. The scenario excludes cold start, execution, retries, rounding effects, storage, discounts and other workers. Requests sharing a running worker can share a tail; multiple workers can produce multiple tails. It is not a fee applied to every request.
+A waiting worker remains Running and billed. At the **November 2 public Flex inputs**, isolated tails cost:
+
+| Flex tier | One five-second tail | 1,440 five-second tails | 1,440 ten-second tails |
+|---|---:|---:|---:|
+| L4-class at $0.75/hr | $0.001042 | $1.50 | $3.00 |
+| A100 at $2.72/hr | $0.003778 | $5.44 | $10.88 |
+| H100 Pro at $5.39/hr | $0.007486 | $10.78 | $21.56 |
+| B300 at $11.99/hr | $0.016653 | $23.98 | $47.96 |
+
+**Derived assumptions:** hourly rate × timeout seconds / 3,600; 1,440 independent, nonoverlapping worker tails. This excludes cold start, execution, retries, rounding effects, storage and discounts. Requests can share a running worker's tail; multiple workers can create multiple tails. It is not a fixed fee applied to each request. Under this scenario, doubling the configured timeout doubles the waiting component, not necessarily the full bill.
 
 Queue-based endpoints advertise automatic retries. Turning off client retries does not prove a single provider execution. Capture request/job ID, attempt count, worker ID and process identity when measuring. The worker guide also mentions extra workers during spikes; do not treat a nominal maximum as a verified small-experiment spend cap without checking its effective behavior.
 
+## A $0.25 L4 smoke test is a plan, not a hard cap
+
+Using the **November 2** public L4-class Flex rate of **$0.75/hour**, ten cumulative billable worker-minutes cost:
+
+    $0.75 × 10/60 = $0.125 of compute
+    $0.125 + $0.10 assumed other-cost reserve = $0.225
+    $0.25 planning target − $0.225 = $0.025 headroom
+
+The $0.10 reserve is an **unmeasured assumption** for all other charges, storage and cleanup. It is not a quoted fee or a proven upper bound. This envelope only holds if aggregate running time really stays within ten worker-minutes on a supported one-running-worker configuration. Ten wall-clock minutes with two concurrent workers can mean twenty worker-minutes. A nominal max-workers setting alone is not proof of that bound; the worker docs also describe extra workers during spikes.
+
+Before any paid smoke test, confirm the account quote, endpoint/GPU identity, actual concurrency controls, all retry paths, supported shutdown action and attributable billing precision. Include handler/model startup and idle waiting in the time allowance; stop when a gate cannot be established. RunPod's documented default **$80/hour account-wide limit is not a $0.25 per-run cap**. Execution timeout limits a job, not the endpoint's entire spend.
+
+We designed this example; we did not execute it, validate the reserve or verify a watchdog cutoff. The [billing overview](https://docs.runpod.io/accounts-billing/billing.md), checked November 2, says credits are non-refundable and evaluation can start with $10. A sub-dollar usage estimate is not a promise of a sub-dollar deposit.
+
 ## Stopping a Pod: GPU released, storage retained
 
-The [Pod management guide](https://docs.runpod.io/pods/manage-pods.md), rechecked October 17, says stopping releases the GPU, clears the container disk and preserves the local volume normally mounted at `/workspace`. Restart depends on available capacity and can return zero GPUs. Stop is not a reservation.
+The [Pod management guide](https://docs.runpod.io/pods/manage-pods.md), rechecked November 2, says stopping releases the GPU, clears the container disk and preserves the local volume normally mounted at `/workspace`. Restart depends on available capacity and can return zero GPUs. Stop is not a reservation.
 
 Termination deletes the Pod and its local data. A separately created network volume survives both stop and termination; if `/workspace` is backed by that network volume rather than local volume, follow the network-volume lifecycle instead.
 
-**Storage prices and granularity: [Pods pricing](https://docs.runpod.io/pods/pricing.md), verified October 17, 2026.**
+**Storage prices and granularity: [Pods pricing](https://docs.runpod.io/pods/pricing.md), verified November 2, 2026.**
 
 | Resource | Running Pod | Stopped Pod | After Pod termination |
 |---|---|---|---|
@@ -193,13 +218,13 @@ For **100 GB** retained for a full nominal month, the cited rates imply **$10 ru
     stopped local: 100 × $0.20 × 160/730 = $4.38
     network:       100 × $0.07 × 160/730 = $1.53
 
-These are capacity-rate estimates excluding compute, tax, credits and other charges, not measured bills or storage-performance comparisons. A 730-hour divisor is an exposed planning assumption, not a newly verified provider proration rule. Back up critical data externally: RunPod's [storage guidance](https://docs.runpod.io/pods/storage/types.md), checked October 17, says it is not designed for long-term cloud storage.
+These are capacity-rate estimates excluding compute, tax, credits and other charges, not measured bills or storage-performance comparisons. A 730-hour divisor is an exposed planning assumption, not a newly verified provider proration rule. Back up critical data externally: RunPod's [storage guidance](https://docs.runpod.io/pods/storage/types.md), checked November 2, says it is not designed for long-term cloud storage.
 
-For Serverless, the separate [pricing guide](https://docs.runpod.io/serverless/pricing.md), checked October 17, describes container disk at **approximately $0.10/GB-month in five-minute intervals**, plus independently persistent network volumes. Zero running compute is not proof of a zero endpoint/storage bill.
+For Serverless, the separate [pricing guide](https://docs.runpod.io/serverless/pricing.md), checked November 2, describes container disk at **approximately $0.10/GB-month in five-minute intervals**, plus independently persistent network volumes. Zero running compute is not proof of a zero endpoint/storage bill.
 
 ## Reconcile endpoint cost without inventing billed seconds
 
-A useful first audit answers **“what did this endpoint cost?”** before trying to assign dollars to cold start, execution and waiting. RunPod documents two Serverless billing contracts, checked October 17; they are not interchangeable schemas.
+A useful first audit answers **“what did this endpoint cost?”** before trying to assign dollars to cold start, execution and waiting. RunPod documents two Serverless billing contracts, checked November 2; they are not interchangeable schemas.
 
 | API contract | Endpoint scope | Documented output | Limit |
 |---|---|---|---|
@@ -221,33 +246,38 @@ For Pods, use the separate [Pod billing history](https://docs.runpod.io/api-refe
 
 ## Prepaid balance and dormant endpoints are operational limits
 
-The [billing overview](https://docs.runpod.io/accounts-billing/billing.md), checked October 17, describes prepaid credit, a minimum balance of one hour of the selected Pod configuration before deployment, billing runs every five minutes and auto-pay attempts limited to once per hour. That balance requirement is not a one-hour minimum usage charge.
+The [billing overview](https://docs.runpod.io/accounts-billing/billing.md), checked November 2, describes prepaid credit, a minimum balance of one hour of the selected Pod configuration before deployment, billing runs every five minutes and auto-pay attempts limited to once per hour. That balance requirement is not a one-hour minimum usage charge.
 
 The documented default spend limit is **$80/hour across all resources**, not a cumulative experiment budget. At zero balance, Pods with a network volume stop; those without one terminate and lose their data. Network-volume storage can continue charging and may eventually be deleted if unfunded. Set balance alerts and maintain payment headroom; an alert is not a substitute for teardown.
 
-The [worker guide](https://docs.runpod.io/serverless/workers/overview.md), checked October 17, lists a default combined limit of five Flex and Active workers. Balance-based limits are account ceilings, not capacity guarantees. Check the actual account rather than planning production around a default.
+The [worker guide](https://docs.runpod.io/serverless/workers/overview.md), checked November 2, lists a default combined limit of five Flex and Active workers. Balance-based limits are account ceilings, not capacity guarantees. Check the actual account rather than planning production around a default.
 
-Dormancy is separate from normal five-second scale-down. The [endpoint guide](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked October 17, says three days without requests reduces max workers to two and seven days sets it to zero. You must raise that value yourself before reuse. Test recovery endpoints instead of assuming the next request restores capacity.
+Dormancy is separate from the configured worker idle timeout. The [endpoint guide](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md), checked November 2, says three days without requests reduces max workers to two and seven days sets it to zero. You must raise that value yourself before reuse. Test recovery endpoints instead of assuming the next request restores capacity.
 
-## Verdict: compare allocation, then verify the bill
+## Verdict: choose allocation first, then verify the bill
 
-**Pods suit sustained allocation when the exact available configuration fits. Flex suits genuine gaps between worker lifetimes. Active workers trade a warm running floor for readiness.** Those are deployment choices, not a benchmark ranking.
+**Pods suit sustained allocation when the exact configuration fits. Flex suits real gaps between running workers. Active workers trade a billable warm floor for readiness.** None of those is a benchmark ranking.
 
-Use today's complete tables rather than the guide's older Secure inputs: A100 PCIe is **$1.79/hour**, H100 SXM **$3.99/hour**, and B300 Flex **$10.65/hour** on the October 17 public rate card. The selected compute-only break-even points now span **348.2 to 665.8 aggregate Flex worker-hours** against a 720-hour Secure Pod, with the product and memory caveats above.
+The November 2 public card keeps all 42 Pod prices unchanged but raises seven Flex inputs. For the illustrated capacity points, compute-only crossover against a 720-hour Secure Pod now spans **348.2 to 566.4 aggregate Flex worker-hours**. Those are planning comparisons with the hardware and pooling caveats above, not measured savings.
 
-The startup documentation now distinguishes unbilled scaled-down preparation from billed handler startup and waiting. The remaining public-hourly versus docs-per-second discrepancy still needs an account quote. Stopping a Pod releases compute but preserves billable local storage; an hourly API amount does not prove startup seconds.
+Check how the endpoint was created: console and REST v2 idle defaults differ. Count running startup, execution, waiting and every worker; check retained storage after compute stops. Before buying, capture the available configuration and quote, then reconcile one isolated run and verify cleanup. A cheap headline rate, a completed job and a small prepaid balance each answer a different question.
 
-Before committing to a provider, capture the exact available shape and quote, run one controlled billing reconciliation, and verify cleanup. Until then, these are sourced rates and explicit estimates—not measured savings.
+## Choose the next RunPod decision
+
+- **You need an allocated GPU for sustained work:** read the [RunPod deployment review](https://hostfleet.net/runpod-for-ai-inference-apis-and-jobs/) for the Pods-versus-Serverless operating split, warm-capacity risk, and workload fit.
+- **You need to compare an endpoint with other serverless options:** use the [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) to compare rate shape, scale-down behavior, and bill-verification limits before choosing a platform.
+- **You have a workload shape and need a planning number:** use the [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) to model active time, idle tails, retained resources, and teardown rather than multiplying a headline hourly rate by a month.
 
 ## Sources and verification notes
 
-All linked official sources in this refresh were retrieved successfully on **October 17, 2026**:
+All official sources linked below were retrieved successfully on **November 2, 2026**. These are public sources, not authenticated account responses or measured invoices.
 
-- [Public rate card](https://www.runpod.io/pricing): all 42 Pod values, matching structured Community/Secure offers, all 13 Flex rates, and the page's October 8 update label. Historical comparisons use the October 2 article baseline, not inferred vendor effective dates.
+- [Public rate card](https://www.runpod.io/pricing): all 42 Pod prices, Community/Secure structured offers, all 13 Flex prices and current memory labels. Its metadata says October 28; the comparison baseline is HostFleet's October 17 article, not an inferred effective date.
 - [Pods pricing](https://docs.runpod.io/pods/pricing.md), [management](https://docs.runpod.io/pods/manage-pods.md) and [storage](https://docs.runpod.io/pods/storage/types.md): compute/storage granularity, stopped local storage, restart risk and persistence.
-- [Serverless pricing](https://docs.runpod.io/serverless/pricing.md), [worker lifecycle](https://docs.runpod.io/serverless/workers/overview.md) and [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md): running versus scaled-down treatment, billed startup exception, storage, defaults, retries and the remaining rate discrepancy.
-- [Operation reference](https://docs.runpod.io/serverless/endpoints/operation-reference.md), [v1 billing](https://docs.runpod.io/api-reference/billing/GET/billing/endpoints.md), [v2 billing](https://docs.runpod.io/api-reference-v2/billing/get-serverless-billing-history.md) and [deletion](https://docs.runpod.io/api-reference/endpoints/DELETE/endpoints/endpointId.md): job/API boundaries and proposed attribution workflow. No authenticated response or paid run was obtained.
-- [Billing overview](https://docs.runpod.io/accounts-billing/billing.md), [Pod billing history](https://docs.runpod.io/api-reference-v2/billing/get-pod-billing-history.md) and [network-volume billing history](https://docs.runpod.io/api-reference-v2/billing/get-network-volume-billing-history.md): prepaid failure behavior and separate resource-level cost records.
-- HostFleet's GPU dataset supplies the selected-product baseline; today's complete RunPod-card check does not advance its September 24 dataset-wide date. All costs beyond directly published prices are calculations with assumptions exposed above. No stock, invoice or throughput verification is implied.
+- [Serverless pricing](https://docs.runpod.io/serverless/pricing.md), [worker lifecycle](https://docs.runpod.io/serverless/workers/overview.md) and [endpoint settings](https://docs.runpod.io/serverless/endpoints/endpoint-configurations.md): running versus scaled-down billing, image-pull exception, retries, console/API defaults and separate per-second rate discrepancy.
+- [Operation reference](https://docs.runpod.io/serverless/endpoints/operation-reference.md), [v1 billing](https://docs.runpod.io/api-reference/billing/GET/billing/endpoints.md), [v2 billing](https://docs.runpod.io/api-reference-v2/billing/get-serverless-billing-history.md) and [deletion](https://docs.runpod.io/api-reference/endpoints/DELETE/endpoints/endpointId.md): job/API boundaries and proposed cost reconciliation.
+- [Billing overview](https://docs.runpod.io/accounts-billing/billing.md), [Pod billing history](https://docs.runpod.io/api-reference-v2/billing/get-pod-billing-history.md) and [network-volume billing history](https://docs.runpod.io/api-reference-v2/billing/get-network-volume-billing-history.md): prepaid behavior, non-refundable credits and separate resource-level cost records.
 
-*Need a self-managed GPU Pod? This labeled affiliate link supports HostFleet's research: <a href="/go/runpod" rel="sponsored nofollow">RunPod signup (affiliate)</a>. Verify the exact account-visible quote and available configuration before purchase. Source citations remain direct and non-affiliate.*
+HostFleet's `gpu-pricing.json` supplies the selected-product baseline, including today's selected Flex updates. The complete RunPod-card check does not advance its September 24 dataset-wide date. Cross-provider guides retain their own dated inputs. All amounts beyond directly published prices are arithmetic with assumptions stated; no stock, throughput, exact bill cutoff or settled invoice is implied.
+
+*Need a self-managed GPU Pod? This labeled affiliate link supports HostFleet's research: <a href="https://hostfleet.net/go/runpod" rel="sponsored nofollow">RunPod signup (affiliate)</a>. Verify the exact account-visible quote and available configuration before purchase. Source citations remain direct and non-affiliate.*
