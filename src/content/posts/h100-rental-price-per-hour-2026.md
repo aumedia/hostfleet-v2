@@ -1,21 +1,22 @@
 ---
-title: "H100 rental price per hour: 19 cloud rates and billing traps"
-description: "Compare 19 dated H100 cloud rates, Novita’s $3.39 CPU/RAM bundle and billable startup, plus Verda’s updated price and 30-day cost estimates."
+title: "H100 rental price per hour: current checks and future-price traps"
+description: "Compare 19 dated H100 inputs, updated Verda and RunPod costs, and Lambda’s November 16 announcement without mistaking future prices for current quotes."
 pubDate: 2026-07-29
-updatedDate: 2026-10-21
+updatedDate: 2026-11-09
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 *Affiliate disclosure: HostFleet may earn a commission through the labeled signup links at the end. That does not change our analysis. See our [methodology and affiliate policy](https://hostfleet.net/about/).*
 
-**Source-backed H100 rental guide; calculated costs are estimates, not measured invoices.** This page starts with HostFleet's GPU dataset and saved official pricing checks. Novita's selected H100 product, price conversion and billing documentation, plus Verda's exact one-GPU H100 price, were rechecked **October 21, 2026**. The other 17 rate inputs retain **October 15** source checks. No GPU was provisioned, workload benchmarked, stock confirmed, or account charge measured.
+**Source-backed H100 rental guide; calculated costs are estimates, not measured invoices.** This refresh uses HostFleet's GPU dataset, saved official checks and live public sources. On **November 9, 2026**, we rechecked Verda, both selected RunPod rates, Novita's selected catalog record and Northflank's GPU component. Lambda's public table now announces future prices rather than establishing today's account rate. The other 13 price inputs retain their October 15 checks. No GPU was provisioned, stock confirmed, workload benchmarked or account charge measured.
 
-> **Novita and Verda selected prices checked:** October 21, 2026<br>
-> **Other 17 selected prices checked:** October 15, 2026; not rechecked today<br>
-> **Full-dataset verification baseline:** September 24, 2026; targeted checks do not advance it<br>
-> **Currency:** USD public on-demand list prices before tax; native billing units retained<br>
-> **Planning convention:** 720 continuously billable hours, not a provider's monthly-price promise
+> **Five selected rate inputs checked:** November 9, 2026 — Verda, RunPod Pod/Flex, Novita and Northflank<br>
+> **Lambda:** November 9 announcement check; current account price unverified; future table effective November 16, 2026 at 00:00 UTC<br>
+> **Other 13 prices:** October 15, 2026; not newly verified by this refresh<br>
+> **Lifecycle evidence:** separately dated beside each claim; Novita billing docs retain October 21 checks<br>
+> **Full-dataset baseline:** September 24, 2026; this targeted check does not advance it<br>
+> **Currency and planning convention:** public USD before tax; 720 continuously billable hours, not a monthly-price promise
 
 # H100 rental price per hour: compare the product, not just the number
 
@@ -28,45 +29,51 @@ The useful buying questions are:
 3. Which lifecycle state actually stops billing?
 4. Can your account launch the product in the required region?
 
-Today's targeted checks catch two different problems. **Novita's H100 remains $3.39/hour, but its current product includes 16 vCPU and 128 GB RAM, not the guide's older 22-vCPU/150-GB bundle. Verda's selected H100 is now $4.382/hour.** Hardware metadata can become stale without a price change; a price can also move while the instance shape stays the same.
+The November 9 refresh changes the shortlist in three useful ways:
+
+- **Verda's selected H100 is $4.938/hour**, versus this guide's October 21 $4.382 observation. That adds **$400.32** to the same 720-hour compute scenario.
+- **RunPod H100 PRO Flex is $5.39/hour**, not this guide's older $4.79 input. The selected Secure PCIe Pod remains **$2.89/hour**. These are separate products, not two tariffs for the same allocation.
+- **Lambda's announced one-GPU PCIe price is $3.79/GPU-hour from November 16 at 00:00 UTC.** It is not today's verified rate. The former $3.29 input is retained only as historical context; current pricing requires an account quote.
+
+Sources: [Verda pricing](https://verda.com/pricing), [RunPod pricing](https://www.runpod.io/pricing) and [Lambda instances](https://lambda.ai/instances), checked **November 9, 2026**. These are dated observations, not a claim that each price changed today.
 
 ## 19 dated H100 rental rates and 30-day compute estimates
 
-This table is a dated extract of the H100 row in HostFleet's `gpu-pricing.json`, reconciled to the linked official sources. Native rates from the October 15 source ledger avoid rounding errors; October 21 direct checks override Novita's product metadata and Verda's cached price. The [live GPU pricing table](https://hostfleet.net/gpu-pricing/) remains the broader comparison, not a promise that every provider has been rechecked today.
+This table starts with the H100 row in HostFleet's `gpu-pricing.json` and retains native rates from saved official checks. November 9 checks override five selected inputs; the Lambda row is explicitly historical, not a verified current offer. The source/check column governs freshness for each row. The [live GPU pricing table](https://hostfleet.net/gpu-pricing/) remains the broader comparison, not a promise that every provider has been rechecked today.
 
-**Every total below assumes one named product remains billable for all 720 hours.** It excludes separately priced CPU/RAM, disks, IPs, network, tax, support, extra replicas and operational work. Where the listed product bundles resources, those remain included. This is neither an all-in invoice nor a performance ranking.
+**Each total assumes the named allocation remains billable for 720 hours; Northflank has conditional one- and eight-GPU cases, and Lambda is historical-only.** It excludes separately priced CPU/RAM, disks, IPs, network, tax, support, extra replicas and operational work. Where the listed product bundles resources, those remain included. This is neither an all-in invoice nor a performance ranking.
 
 | Product | What the rate buys | Native list rate | 720-hour estimate | Source / checked |
 |---|---|---:|---:|---|
 | **Hyperstack** | PCIe VM; 28 CPU / 180 GB RAM; local storage | **$2.50/hr** | **$1,800.00** | [Official source](https://www.hyperstack.cloud/gpu-pricing), 2026-10-15 |
 | **Koyeb** | Serverless instance; 15 vCPU / 180 GB RAM / 320 GB disk | **$2.50/hr** | **$1,800.00** | [Official source](https://www.koyeb.com/pricing), 2026-10-15 |
 | **Massed Compute** | Base H100 VM; 20 vCPU / 128 GB RAM; not another H100 variant | **$2.73/hr** | **$1,965.60** | [Official source](https://vm.massedcompute.com/pricing), 2026-10-15 |
-| **Northflank** | GPU component only; CPU, RAM, disk and egress extra | **$2.74/hr** | **$1,972.80** | [Official source](https://northflank.com/pricing), 2026-10-15 |
-| **RunPod Secure Cloud** | H100 PCIe Pod; not the Serverless tier | **$2.89/hr** | **$2,080.80** | [Official source](https://www.runpod.io/pricing), 2026-10-15 |
+| **Northflank** | GPU component; one-GPU orderability unresolved; eight-GPU listing observed | **$2.74/GPU-hr** | **$1,972.80 for 1; $15,782.40 for 8, GPU-only** | [Official source](https://northflank.com/pricing), 2026-11-09 |
+| **RunPod Secure Cloud** | H100 PCIe Pod; not the Serverless tier | **$2.89/hr** | **$2,080.80** | [Official source](https://www.runpod.io/pricing), 2026-11-09 |
 | **Thunder Compute** | H100 SXM; 4 vCPU / 32 GB RAM / first 100 GB disk | **$3.20/hr** | **$2,304.00** | [Official source](https://www.thundercompute.com/pricing), 2026-10-15 |
-| **Lambda Cloud** | One-GPU H100 PCIe VM | **$3.29/hr** | **$2,368.80** | [Official source](https://lambda.ai/instances), 2026-10-15 |
-| **Novita AI** | H100 SXM; 16 vCPU / 128 GB RAM / 60 GB container quota | **$3.39/hr** | **$2,440.80** | [Official source](https://api-server.novita.ai/api/v1/market/products), 2026-10-21 |
+| **Lambda Cloud — historical only** | One-GPU H100 PCIe; current quote required | **$3.29/hr historical, not current-verified** | **$2,368.80 historical scenario only** | [Official source](https://lambda.ai/instances), historical 2026-10-15; future-date notice checked 2026-11-09 |
+| **Novita AI** | H100 SXM; 16 vCPU / 128 GB RAM / 60 GB container quota | **$3.39/hr** | **$2,440.80** | [Official source](https://api-server.novita.ai/api/v1/market/products), 2026-11-09 |
 | **Jarvis Labs** | H100 SXM; 16 vCPU / 200 GB RAM | **$3.49/hr** | **$2,512.80** | [Official source](https://jarvislabs.ai/pricing), 2026-10-15 |
 | **Modal** | H100 serverless container GPU; CPU and memory extra | **$0.001097/sec (≈ $3.95/hr)** | **$2,843.42** | [Official source](https://modal.com/pricing), 2026-10-15 |
-| **Verda** | H100 SXM5; selected 30 CPU / 120 GB RAM; storage extra | **$4.382/hr** | **$3,155.04** | [Official source](https://verda.com/pricing), 2026-10-21 |
 | **DigitalOcean GPU Droplet** | HGX H100; 20 vCPU / 240 GiB RAM; bundled boot/scratch/transfer | **$4.41/hr** | **$3,175.20** | [Official source](https://www.digitalocean.com/pricing/gpu-droplets), 2026-10-15 |
 | **Fal** | H100 custom deployment; on-demand list, not negotiated floor | **$4.50/hr** | **$3,240.00** | [Official source](https://fal.ai/pricing), 2026-10-15 |
 | **Nebius** | H100 SXM/NVLink; prescribed 16 vCPU / 200 GB RAM | **$4.50/hr** | **$3,240.00** | [Official source](https://nebius.com/prices), 2026-10-15 |
-| **RunPod Serverless** | H100 PRO Flex worker tier; not an exact-card reservation | **$4.79/hr** | **$3,448.80** | [Official source](https://www.runpod.io/pricing), 2026-10-15 |
+| **Verda** | H100 SXM5; selected 30 CPU / 120 GB RAM; storage extra | **$4.938/hr** | **$3,555.36** | [Official source](https://verda.com/pricing), 2026-11-09 |
+| **RunPod Serverless** | H100 PRO Flex worker tier; not an exact-card reservation | **$5.39/hr** | **$3,880.80** | [Official source](https://www.runpod.io/pricing), 2026-11-09 |
 | **Replicate** | Private H100 model deployment; billed online-instance time | **$0.001525/sec (≈ $5.49/hr)** | **$3,952.80** | [Official source](https://replicate.com/pricing), 2026-10-15 |
 | **Paperspace Machines** | H100 SXM5 compute; default disk billed separately; approval may apply | **$5.95/hr** | **$4,284.00** | [Official source](https://docs.digitalocean.com/products/paperspace/pricing/), 2026-10-15 |
 | **CoreWeave Inference** | Inference-platform rate; not a self-serve one-GPU VM quote | **$6.16/hr** | **$4,435.20** | [Official source](https://www.coreweave.com/pricing), 2026-10-15 |
 | **Baseten** | Managed H100 deployment; published 80 GiB VRAM label | **$0.10833/min (≈ $6.50/hr)** | **$4,679.86** | [Official source](https://www.baseten.co/pricing/), 2026-10-15 |
 
-Northflank's estimate is **GPU-only**; Modal's GPU line also needs any billed CPU and memory. Paperspace's default disk is not free just because a Machine includes a disk specification. CoreWeave's entry is specifically an inference-platform rate. Do not compare those numbers as if each bought the same ready-to-serve VM.
+Northflank's estimates are **GPU-only**. Public H100 count captures have conflicted; the latest checked pricing capture lists eight. Neither a universal eight-GPU minimum nor one-GPU account availability is established. Its component price is not a one-GPU deployment quote. Modal's GPU line also needs any billed CPU and memory. Paperspace's default disk is not free just because a Machine includes a disk specification. CoreWeave's entry is specifically an inference-platform rate. Do not compare those numbers as if each bought the same ready-to-serve VM.
 
-Per-second inputs are multiplied by 3,600; per-minute inputs by 60. The 720-hour calculation uses the native rate before rounding: for example, Baseten's **$0.10833/minute** gives **$4,679.86**, not the total obtained from a rounded $6.50/hour headline. Those inputs retain their October 15 checks and direct citations above.
+Per-second inputs are multiplied by 3,600; per-minute inputs by 60. The 720-hour calculation uses the native rate before rounding: for example, Baseten's **$0.10833/minute** gives **$4,679.86**, not the total obtained from a rounded $6.50/hour headline. Those per-second and per-minute inputs retain their October 15 checks and direct citations above.
 
-## Novita: the same $3.39 buys a different documented bundle
+## Novita: verify the $3.39 product ID and included resources
 
-**Product, conversion and billing documents checked October 21, 2026.** The [public product feed](https://api-server.novita.ai/api/v1/market/products) identifies `H100-80GB.16c128g` as a one-GPU **H100 SXM 80 GB** on-demand product with **16 vCPU, 128 GB RAM and a 60 GB free container-disk quota**. The CPU and system RAM are included in that selected compute rate; extra storage is not.
+**Catalog checked November 9, 2026; conversion independently rechecked in the same day’s saved first-party implementation audit. Billing documents retain October 21, 2026 checks.** The [public product feed](https://api-server.novita.ai/api/v1/market/products) identifies `H100-80GB.16c128g` as a one-GPU **H100 SXM 80 GB** on-demand product with **16 vCPU, 128 GB RAM and a 60 GB free container-disk quota**. The CPU and system RAM are included in that selected compute rate; extra storage is not.
 
-The earlier 22-vCPU/150-GB description is no longer the selected feed record. This is a catalog-description correction, not evidence that an existing instance was resized or a customer's workload migrated.
+The November 9 feed again selects the 16-vCPU/128-GB record; the saved November 5 audit saw a 22-vCPU/150-GB variant that is absent from the latest feed. Absence today does not prove permanent withdrawal. The selected product must be checked by ID, rather than borrowing host resources from another capture. These catalog observations are not evidence that an existing instance was resized or a customer’s workload migrated.
 
 ### What we verified about the price
 
@@ -115,21 +122,45 @@ Both management documents also warn about stopped-data retention: the management
 
 The October 21 public H100 record reported **zero** in both availability counters and `usableNode: false`, while also reporting `canBuy: true`. Those fields do not establish launchable stock, account quota or future availability. They are not proof that the provider is globally sold out, either. Confirm the exact offer in your account before committing to a deadline.
 
-## Verda: use $4.382, not the older article or rounded dataset input
+## Verda: $4.938/hour changes the monthly comparison
 
-**Selected offer checked October 21, 2026.** Verda's [pricing page](https://verda.com/pricing) and [instance-types API](https://api.verda.com/v1/instance-types) both publish **$4.382/hour** for `1H100.80S.30V`: one **H100 SXM5 80 GB**, **30 CPU and 120 GB RAM**, with storage separate. The visible pricing table, embedded on-demand offer and API agree. The distinct 32-CPU/170-GB one-GPU shape also lists that rate; do not silently substitute its resources.
+**Selected offer checked November 9, 2026.** Verda's [pricing page](https://verda.com/pricing) and [instance-types API](https://api.verda.com/v1/instance-types) agree on **$4.938/hour** for `1H100.80S.30V`: one **H100 SXM5 80 GB**, **30 CPU and 120 GB RAM**, with storage separate. The separate 32-CPU/170-GB one-GPU shape lists the same rate; do not substitute its resources silently. This is on-demand instance pricing, not spot or Verda's serverless-container tariff.
 
-The former guide used **$3.663/hour**, checked October 2. Today's selected quote is **19.6% higher** than that historical input:
+The previous guide used **$4.382/hour**, checked October 21. The current selected price is **12.69% higher** than that historical input:
 
-    old 720-hour estimate = $3.663 × 720 = $2,637.36
-    new 720-hour estimate = $4.382 × 720 = $3,155.04
-    difference = $517.68
+    October 21 input: $4.382 × 720 = $3,155.04
+    November 9 input: $4.938 × 720 = $3,555.36
+    Difference: $400.32 for the same 720 billable hours
 
-This is a difference between observations, not a claimed one-day increase or a measured invoice. This comparison uses today's exact direct quote where the cached dataset differs; it does not relabel the dataset as globally current. The higher rate puts this selected Verda shape above Modal's GPU-only hourly equivalent and below DigitalOcean's bundled H100 Droplet in this dated price ordering. Those are not equivalent products.
+These are differences between observations, not a one-day increase, an effective-date announcement or a measured invoice. The exact raw input matters: use $4.938 rather than the displayed two-decimal $4.94 when calculating a long allocation. In this mixed-date table, Verda now sits above the retained DigitalOcean, Fal and Nebius inputs. That is a list-price ordering, not a performance or all-in-cost verdict.
+
+## Lambda: an announced price is not today's quote
+
+**Public announcement checked November 9, 2026.** The [instances page](https://lambda.ai/instances) explicitly says its public prices take effect **November 16, 2026 at 00:00 UTC**, and directs users to log in for current pricing until then. A page retrieved today can legitimately describe next week's tariff.
+
+The one-GPU table announces **H100 PCIe 80 GB at $3.79/GPU-hour**, with **26 vCPU, 225 GiB RAM and 1 TiB SSD**. Do not substitute the SXM or multi-GPU rows: prices are labeled per GPU, while an instance may contain several GPUs. Account orderability and the effective contract still need confirmation.
+
+| Scenario | Input and status | 720-hour compute sensitivity |
+|---|---|---:|
+| Previously saved one-GPU PCIe rate | $3.29/hr; October 15 historical observation, not current-verified | $2,368.80 |
+| Announced one-GPU PCIe rate | $3.79/GPU-hr; November 9 capture, effective November 16 at 00:00 UTC | $2,728.80 |
+| Difference between those inputs | $0.50/hr, or 15.20% | $360.00 |
+
+**Assumptions:** one GPU, 720 hours entirely under the selected tariff, before tax and separately billed resources. The future scenario is not a quote for a deployment started today and does not assume how a workload spanning the effective date will be charged. The comparison does not establish what your account currently pays. Obtain the current quote, then recheck the effective tariff before scheduling work across November 16.
+
+This distinction also explains why the dataset can retain an old numeric value without making it fresh: a historical rate with an explicit caveat is not a current offer. Do not include Lambda in a current-price winner claim until the account rate is verified.
+
+## RunPod: Pod and Flex have different updated inputs
+
+**Both public inputs checked November 9, 2026.** The [rate card](https://www.runpod.io/pricing) lists **$2.89/hour for the Secure H100 PCIe Pod** and **$5.39/hour for the H100 PRO Flex worker tier**. The Flex figure replaces this guide's October 15 **$4.79/hour** input; the Pod is unchanged.
+
+For the same assumed 720 continuously billed worker-hours, Flex rises from **$3,448.80 to $3,880.80**, a **$432.00** difference. That is not a prediction for a bursty endpoint. At 100 billable Flex worker-hours, the current compute input gives **$539.00**; a Pod held for 720 hours gives **$2,080.80**, while a Pod released after 100 allocated hours gives **$289.00**. All three examples exclude storage, tax and other charges and do not establish equivalent performance or host resources.
+
+The decision is about allocation lifetime, not whether “serverless” sounds cheaper. A job completing does not establish that its worker stopped billing. The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) separates running startup, request work, idle waiting and retained storage, with its own dated documentation checks.
 
 ## The off switch can matter more than a lower hourly rate
 
-The lifecycle evidence below has its own dates. **Only Novita's documents were rechecked today**; the other checked boundaries are retained from the earlier guide.
+The lifecycle evidence below has its own dates. **No lifecycle document inherits the November 9 price-check date.** Novita retains October 21 checks; the other boundaries retain their earlier dates.
 
 | Product | Action or state that matters | What can remain / documentation checked |
 |---|---|---|
@@ -165,7 +196,7 @@ Before choosing an H100 at all, size weights, runtime workspace, context, KV cac
 6. **Preserve results deliberately.** Verify exports and price retained storage independently of compute.
 7. **Measure before committing.** Run a bounded deployment test for readiness, throughput, failure recovery and settled usage. None of those outcomes is established by this rate table.
 
-**Bottom line:** the dated rate floor is useful for a shortlist, not a purchasing verdict. Novita's unchanged price conceals a changed CPU/RAM description and a billable image-pull phase. Verda's refreshed price changes the monthly sensitivity case by hundreds of dollars. Buy a verified product and lifecycle, not a copied GPU-hour number.
+**Bottom line:** the dated rate floor is useful for a shortlist, not a purchasing verdict. Novita's unchanged price still requires exact product-ID matching and includes a billable image-pull phase. Verda’s refreshed price adds $400.32 to the same 720-hour scenario; RunPod’s Flex correction adds $432.00. Lambda’s future announcement must not masquerade as today’s rate. Buy a verified product and lifecycle, not a copied GPU-hour number.
 
 ## Turn the shortlist into a deployment decision
 
@@ -175,9 +206,10 @@ Before choosing an H100 at all, size weights, runtime workspace, context, KV cac
 
 ## Sources and verification scope
 
-- **October 21, 2026 — Novita:** [public legacy GPU catalog](https://api-server.novita.ai/api/v1/market/products), [marketplace](https://novita.ai/gpus-console/explore) and its currently referenced first-party script; [instance pricing](https://docs.novita.ai/guides/gpu-instance-pricing.md), [management](https://docs.novita.ai/guides/gpu-instance-quickstart-manage-instances.md), [FAQ](https://docs.novita.ai/guides/gpu-instance-faq.md), [V2 product precision/unit schema](https://docs.novita.ai/api-reference/gpus-v2-list-products.md), and [separate account-balance unit schema](https://docs.novita.ai/api-reference/basic-get-user-balance.md). Public data and code inspection only; no rendered marketplace or authenticated billing observation.
-- **October 21, 2026 — Verda price:** [public pricing](https://verda.com/pricing) and [instance-types API](https://api.verda.com/v1/instance-types). Exact on-demand one-GPU price; spot, dynamic, serverless and multi-GPU prices excluded. The October 2 comparison comes from the prior dated version of this guide.
-- **October 15, 2026 — other 17 H100 prices:** the direct official citations beside each rate, backed by HostFleet's saved provider-by-provider source ledger. Those prices were not rechecked October 21.
+- **November 9, 2026 — selected current prices and announcement:** [RunPod](https://www.runpod.io/pricing) (Secure PCIe Pod and H100 PRO Flex), [Northflank](https://northflank.com/pricing) (H100 GPU component and count caveat), [Verda pricing](https://verda.com/pricing) plus [instance-types API](https://api.verda.com/v1/instance-types), and [Lambda](https://lambda.ai/instances) (future-effective notice, not current account pricing). Novita’s legacy catalog and saved first-party implementation audit reconfirm the selected product and $3.39/hour conversion. Source files and conversion checks are saved in HostFleet’s November 9 audit ledger; no account or rendered UI observation is implied.
+- **October 21, 2026 — Novita retained billing evidence:** [public legacy GPU catalog](https://api-server.novita.ai/api/v1/market/products), [marketplace](https://novita.ai/gpus-console/explore) and its currently referenced first-party script; [instance pricing](https://docs.novita.ai/guides/gpu-instance-pricing.md), [management](https://docs.novita.ai/guides/gpu-instance-quickstart-manage-instances.md), [FAQ](https://docs.novita.ai/guides/gpu-instance-faq.md), [V2 product precision/unit schema](https://docs.novita.ai/api-reference/gpus-v2-list-products.md), and [separate account-balance unit schema](https://docs.novita.ai/api-reference/basic-get-user-balance.md). Public data and code inspection only; no rendered marketplace or authenticated billing observation.
+- **Historical price comparisons:** Verda $4.382/hour is the October 21 guide observation; RunPod Flex $4.79/hour and Lambda PCIe $3.29/hour are October 15 observations from the prior guide. Differences are not provider-announced change dates.
+- **October 15, 2026 — other 13 prices:** direct official citations beside each retained rate, backed by HostFleet's saved source ledger. They are not relabeled November 9 prices. Baseten's retained per-minute input is historical pricing evidence, not a fresh extraction from its JavaScript shell.
 - **Retained lifecycle sources:** [Hyperstack states and billing](https://docs.hyperstack.cloud/docs/billing/states-and-billing/) (Aug. 13); [Koyeb scale-to-zero](https://www.koyeb.com/docs/run-and-scale/scale-to-zero) and [autoscaling](https://www.koyeb.com/docs/run-and-scale/autoscaling) (Aug. 28); [Lambda billing](https://docs.lambda.ai/public-cloud/billing/), [lifecycle](https://docs.lambda.ai/public-cloud/on-demand/creating-managing-instances/) and [filesystems](https://docs.lambda.ai/public-cloud/filesystems/) (Sept. 14); [Verda billing](https://docs.verda.com/welcome-to-verda/pricing-and-billing) and [lifecycle](https://docs.verda.com/cpu-and-gpu-instances/shutdown-hibernate-and-delete/) (Sept. 25); [Nebius pricing](https://docs.nebius.com/compute/resources/pricing) and [stop/start](https://docs.nebius.com/compute/virtual-machines/stop-start) (Sept. 10 lifecycle check); [DigitalOcean Droplet billing](https://docs.digitalocean.com/products/droplets/details/pricing/) (Aug. 20). All retained dates are in 2026 and do not inherit today's price-check date.
 
 *Need self-managed H100 capacity? These are labeled affiliate links; source citations above stay direct. <a href="/go/runpod" rel="sponsored nofollow">RunPod signup (affiliate)</a> and <a href="/go/digitalocean-gpu" rel="sponsored nofollow">DigitalOcean GPU signup (affiliate)</a> support HostFleet at no extra cost to you. Recheck the exact card, region, account quote, retained storage and release behavior before purchasing.*
