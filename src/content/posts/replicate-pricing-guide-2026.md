@@ -1,26 +1,28 @@
 ---
-title: "Replicate pricing 2026: GPU rates, idle costs and teardown rules"
-description: "Replicate GPU rates checked November 2026, with all 17 configurations, idle costs, cancellation limits, deletion prerequisites and prepaid-credit risks."
+title: "Replicate pricing 2026: GPU rates, idle costs and saving paid results"
+description: "Compare dated Replicate GPU rates, idle billing and shutdown limits. Learn why API results expire and how to save paid outputs without replaying inference."
 pubDate: 2026-07-26
-updatedDate: 2026-11-01
+updatedDate: 2026-11-15
 category: ai-hosting
 author: Alex Harmon
 draft: false
 ---
 
-**Source-backed pricing guide; estimates are labeled.** Replicate's official pricing, billing, Deployment and API documentation were checked on **November 1, 2026**. HostFleet did not create a paid Deployment or measure cold starts, idle eviction, shutdown propagation, throughput or settled charges. See the [HostFleet methodology](https://hostfleet.net/about/) for the evidence boundary.
+**Source-backed pricing guide; calculated costs are estimates, not measured invoices.** On **November 15, 2026**, HostFleet rechecked four single-GPU rates and the official result-retention, webhook and output-file documentation. The other 13 configuration prices and billing/teardown rules retain their **November 1** checks. No paid Deployment, prediction, cold start, idle eviction, shutdown propagation or settled charge was measured. The limited offline test evidence below uses synthetic fixtures, not Replicate traffic. See the [HostFleet methodology](https://hostfleet.net/about/) for the evidence boundary.
 
-> **Replicate rates and documentation verified:** November 1, 2026<br>
+> **Four single-GPU prices and result-capture documentation checked:** November 15, 2026<br>
+> **Other 13 configuration prices and billing/teardown documentation:** November 1, 2026; not newly verified<br>
+> **Full GPU dataset baseline:** September 24, 2026; a targeted check does not advance it<br>
 > **Currency:** public USD list rates before credits, tax or negotiated terms<br>
-> **Evidence:** sourced behavior and rate arithmetic, not a billing benchmark
+> **Evidence:** official sources, derived cost arithmetic and explicitly scoped synthetic local tests; no provider benchmark
 
-# Replicate pricing 2026: GPU rates, idle costs and teardown rules
+# Replicate pricing 2026: GPU rates, idle costs and saving paid results
 
 Replicate's hardware prices are easy to read. Its billing stop is harder to establish. A private Deployment pays for every second its instances are online, including setup, prediction work and idle waiting. A completed or canceled prediction does not establish that its instance is offline.
 
 The important teardown rule is explicit: **you can delete a Deployment only after it has been offline and unused for at least 15 minutes**. Deletion is cleanup after shutdown eligibility, not an emergency way to shut down an online GPU. That 15-minute rule is also **not** a published idle timeout or an extra 15 minutes of billable online time.
 
-At the November 1 rates, a single T4 costs **$0.0135 per online minute** and an H100 costs **$0.0915**. The rate card remains unchanged from our previous check. This refresh adds the distinction between prediction cancellation, autoscaling settings, offline status and deletion—four events that should not share one “stop” button in a cost forecast.
+At the November 1 rates, a single T4 costs **$0.0135 per online minute** and an H100 costs **$0.0915**. The rate card remains unchanged from our previous check. The November 1 refresh separated prediction cancellation, autoscaling settings, offline status and deletion. This November 15 extension adds another buying constraint: API results expire, and webhook delivery retries end much sooner. Paying for a successful prediction does not give you permanent result storage.
 
 For other providers, start with the [live GPU pricing table](https://hostfleet.net/gpu-pricing/) and [serverless GPU pricing matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/). For Replicate's broader product fit, read [Replicate for AI inference APIs and jobs](https://hostfleet.net/replicate-for-ai-inference-apis-and-jobs/).
 
@@ -38,7 +40,7 @@ These boundaries come from [Replicate pricing](https://replicate.com/pricing) an
 
 ## Four single-GPU rates in HostFleet's live dataset
 
-HostFleet's shared GPU dataset retains its **September 24, 2026 dataset-wide date**. Its four Replicate cells match the official rate card rechecked **November 1, 2026**; that is not a fresh verification of every other provider.
+HostFleet's shared GPU dataset retains its **September 24, 2026 dataset-wide date**. Its four Replicate cells match the official rate card rechecked **November 15, 2026**; that is not a fresh verification of every other provider.
 
 The following rows use those live-dataset inputs and the native per-second rates on [Replicate pricing](https://replicate.com/pricing).
 
@@ -49,13 +51,13 @@ The following rows use those live-dataset inputs and the native per-second rates
 | A100 | 80 GB | $0.001400/sec | $5.04/hr | $0.0840 | $3,679.20 |
 | H100 | 80 GB | $0.001525/sec | $5.49/hr | $0.0915 | $4,007.70 |
 
-**Estimate assumptions:** one named instance online throughout each interval; November 1 public rate; 730 hours is a comparison month, not a fixed billing month. The minute and monthly columns are derived arithmetic, excluding extra instances, credits, tax, contract changes and downstream-model charges. They are not invoices or performance comparisons.
+**Estimate assumptions:** one named instance online throughout each interval; November 15 public rate; 730 hours is a comparison month, not a fixed billing month. The minute and monthly columns are derived arithmetic, excluding extra instances, credits, tax, contract changes and downstream-model charges. They are not invoices or performance comparisons.
 
 The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) can help vary duration. For Replicate Deployments, enter **online time**, including setup and idle time, rather than just successful prediction runtime.
 
-## All 17 published GPU configurations
+## All 17 GPU configurations from the November 1 check
 
-The [November 1 pricing page](https://replicate.com/pricing) lists six GPU configurations in its primary hardware list and 11 additional configurations with committed-spend qualifications. The whole-configuration rates and monthly arithmetic are below.
+The [November 1 pricing page](https://replicate.com/pricing) lists six GPU configurations in its primary hardware list and 11 additional configurations with committed-spend qualifications. The whole-configuration rates and monthly arithmetic are below. Only the one-GPU T4, L40S, A100 80 GB and H100 rows were rechecked November 15; the other 13 retain November 1 verification. No broader refresh is implied.
 
 | Published configuration | Public rate | Hourly equivalent | 730-hour online estimate | Access note |
 |---|---:|---:|---:|---|
@@ -182,12 +184,56 @@ That estimate assumes one instance, no overlapping replacement, no downstream ca
 
 HostFleet has not run this test. We are not treating the $1 target as a cap: a paid trial first needs a supported bounded-stop procedure and attributable settled usage. The useful result today is a transparent cost equation, not an invented idle cutoff.
 
+## Paid inference does not include permanent result storage
+
+**Official result-retention and webhook documents checked November 15, 2026.** Replicate's [data-retention policy](https://replicate.com/docs/topics/predictions/data-retention) says API prediction inputs, output values, output files and logs are automatically removed after **one hour by default**. The [output-file guide](https://replicate.com/docs/topics/predictions/output-files.md) separately warns that hosted file URLs expire after an hour. Save your own copy promptly. A database containing only the temporary URL is not an archive.
+
+The web interface has a different policy: its prediction data is kept indefinitely unless manually deleted. Do not apply that policy to an API-backed product. Nor should you turn the API policy into a guaranteed recovery deadline of exactly `completed_at + 3600 seconds`: the cited pages do not establish one precise clock anchor for every artifact.
+
+For a buyer, there are two distinct questions: how long the GPU is billed, and whether the paid result will still exist when the application needs it. Neither a finished prediction nor a saved output URL answers both.
+
+### The webhook retry window is much shorter than retention
+
+The [webhook delivery guide](https://replicate.com/docs/topics/webhooks/receive-webhook.md) says terminal callbacks cover succeeded, failed and canceled predictions. Failed delivery is retried with exponential backoff, with the final retry **about one minute after completion**. Intermediate-state callbacks are not retried. Duplicates and out-of-order events are possible.
+
+Those are documented behaviors, not delivery measurements. A receiver outage can outlast retries while the prediction data still exists. Waiting for another callback is therefore not a complete recovery strategy.
+
+| Event | What it proves | What the application still needs |
+|---|---|---|
+| Prediction succeeds | Inference completed | Durable metadata and the actual output bytes |
+| Receiver returns 2xx | The receiver acknowledged delivery | A committed journal/queue entry before acknowledgment |
+| Output URL is recorded | A temporary address is known | A verified copy in owned storage |
+| Callback is missed | The receiver lacks an event | A bounded GET recovery path using the known prediction ID |
+| Data is already removed | Result capture failed | An explicit capture-failed record, not an invented model failure |
+
+### A practical capture path, separate from the GPU stop path
+
+The following is an **implementation recommendation**, not a provider guarantee or a production-tested collector:
+
+1. **Persist identity before and after submission.** Save a local run ID and immutable input/model configuration; persist the returned prediction ID immediately. If creation is ambiguous and no ID is known, do not blindly resubmit: a second prediction may duplicate paid work.
+2. **Verify before processing.** Follow [Replicate's signature specification](https://replicate.com/docs/topics/webhooks/verify-webhook.md): validate the raw body together with `webhook-id` and `webhook-timestamp`, using the correct user/organization signing key and an explicit local timestamp tolerance. Parsing and reserializing JSON changes the signed bytes.
+3. **Journal, enqueue, then acknowledge.** The delivery guide asks for 2xx within a few seconds. Commit verified event data and an idempotent capture job before responding; copy large files outside the callback request. Deduplicate delivery by webhook ID and reconcile state by prediction ID. A late processing event must not regress a terminal record.
+4. **Copy bytes, not just links.** The version-1 client libraries expose `FileOutput` objects. Stream/read file contents into owned storage and retain metadata, byte counts and a locally computed checksum. That checksum detects changes in your stored artifact; it does not prove agreement with a vendor checksum unless one is actually provided. Use temporary files and finalize only after successful capture. Handle text-only output separately rather than fabricating a file.
+5. **Recover by known ID.** An independent observer can fetch unresolved predictions through the [HTTP API](https://replicate.com/docs/reference/http). Bound retries and rate-limit backoff; do not recover a missed webhook by replaying prediction creation. An expired expected file is a capture failure even when inference succeeded. Failed/canceled predictions still need diagnostic records, not successful-result labels.
+6. **Keep cleanup independent.** Result downloads must not postpone the confirmed resource-stop procedure. Queue capture and teardown independently, then reconcile owned artifacts and settled usage separately. Polling and file copying are not evidence that online GPU billing ended.
+
+Budget owned storage, transfer and collector operation separately. This article has no verified all-in tariff for that pipeline and does not invent one. The [GPU cloud cost calculator](https://hostfleet.net/gpu-cloud-cost-calculator-2026/) remains a compute/lifecycle planning aid, not a quote for durable result storage.
+
+### What HostFleet has actually tested
+
+HostFleet's November 15 offline prototype report records **seven passing synthetic cases**: duplicate callbacks; terminal-state regression prevention; orderly close/reopen after durable enqueue; tampered/stale signature rejection; expired/null expected-file output; truncated or wrong-checksum files; and failed/canceled diagnostic capture. These are deterministic local fixtures with no network calls, provider credentials or paid prediction.
+
+That does **not** establish webhook reliability, actual expiry timing, GPU speed, a production receiver, real crash/power-loss durability or complete SDK output support. The expected checksums and lengths came from fixtures, not Replicate-provided metadata. Three recovery cases remain unimplemented/unrun: missed-webhook known-ID polling, bounded rate-limit handling, and ambiguous creation without a known ID. There is also no integrated stop/watchdog or owned-retention test. This prototype is not offered as ready-to-deploy code.
+
+**Next step:** implement those recovery paths and test interrupted writes and owned-store persistence before connecting paid inference. The earlier account, attribution and bounded-stop requirements remain unresolved. Passing an offline collector test is not permission to describe a dollar target as an enforced spending cap.
+
 ## Replicate pricing verdict
 
-Replicate still publishes **17 GPU configurations** at the rates above, with H200 and larger additional configurations subject to committed-spend terms. The buying decision is less about multiplying GPU seconds and more about deciding which seconds the product makes you pay for.
+The November 1 rate card lists **17 GPU configurations** at the rates above; four one-GPU rates were reconfirmed November 15, with H200 and larger additional configurations subject to committed-spend terms. The buying decision is less about multiplying GPU seconds and more about deciding which seconds the product makes you pay for.
 
 - Use the runtime-priced public-model path when it fits and paying only for active processing matters more than owning the queue.
 - Budget a Deployment across all online setup, active and idle time. Treat nonzero minimums as warm floors and maximums as concurrency limits.
+- Save paid results promptly. API output URLs are temporary; durably capture bytes and metadata rather than replaying inference after losing a file.
 - Plan the shutdown evidence before launch. Prediction cancellation, zero minimum and deletion are not interchangeable billing stops.
 - Treat credits and small budget targets as financial controls with documented limitations, not guaranteed exact caps.
 
@@ -195,7 +241,7 @@ For alternative billing boundaries, compare the [RunPod pricing guide](https://h
 
 ## Sources and verification scope
 
-Official sources below were fetched **November 1, 2026**. They document provider behavior, not HostFleet account results.
+The original billing/teardown sources below retain their **November 1, 2026** checks. The pricing page and result-capture documents listed separately were fetched **November 15**. They document provider behavior, not HostFleet account results.
 
 - [Replicate pricing](https://replicate.com/pricing) — all 17 GPU configurations, native per-second rates, hourly equivalents and committed-spend qualifications.
 - [Billing](https://replicate.com/docs/topics/billing) — public/private/Deployment billing, online states, idle retention and failed/canceled run qualifications.
@@ -206,4 +252,7 @@ Official sources below were fetched **November 1, 2026**. They document provider
 - [Prepaid credit](https://replicate.com/docs/topics/billing/prepaid-credit) — reload limits, immediate reload behavior, zero-balance shutdown, overruns, expiry and refunds.
 - [Official models](https://replicate.com/docs/topics/models/official-models) — distinct product and billing boundary; no model-specific price comparison is made here.
 
-**HostFleet data note:** four Replicate cells from the shared GPU dataset, whose dataset-wide date remains September 24, were independently rechecked November 1. The two rate tables use the current official Replicate rate card. No full-market refresh, paid invoice reconciliation or measured shutdown result is claimed.
+**HostFleet data note:** four Replicate cells from the shared GPU dataset, whose dataset-wide date remains September 24, were independently rechecked November 15. The four-row table uses those inputs; the 17-configuration table retains November 1 verification for its other 13 rows. No full-market refresh, paid invoice reconciliation or measured shutdown result is claimed.
+
+
+**November 15 result-capture sources:** [data retention](https://replicate.com/docs/topics/predictions/data-retention), [receiving webhooks](https://replicate.com/docs/topics/webhooks/receive-webhook.md), [signature verification](https://replicate.com/docs/topics/webhooks/verify-webhook.md), [output files](https://replicate.com/docs/topics/predictions/output-files.md) and [HTTP API reference](https://replicate.com/docs/reference/http). Only their result-capture contracts were newly audited; the retained teardown interpretation above keeps its November 1 date. Local test scope comes from HostFleet's archived November 15 offline-results report and prototype audit; those synthetic results are not provider measurements.
