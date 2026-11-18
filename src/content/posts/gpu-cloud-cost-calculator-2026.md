@@ -1,8 +1,8 @@
 ---
-title: "GPU cloud cost calculator: idle time and shutdown limits"
-description: "Calculate dated GPU costs, idle time and retained storage. Updated A100 inputs and Paperspace timer limits show why a shutdown setting is not a spending cap."
+title: "GPU cloud cost calculator: updated A100 inputs and idle costs"
+description: "Estimate useful GPU work, idle time and storage using dated A100 rates. Updated RunPod and Verda inputs show why regional quotes and cleanup matter."
 pubDate: 2026-08-09
-updatedDate: 2026-11-11
+updatedDate: 2026-11-18
 category: "ai-hosting"
 author: Alex Harmon
 draft: false
@@ -10,9 +10,10 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission through the labeled signup links on this page. That does not change our analysis. See our [methodology and affiliate policy](https://hostfleet.net/about/).*
 
-**Source-backed prices and billing rules; calculated costs are estimates, not measured invoices.** This refresh checks eight selected A100 80 GB rates and public resource bundles on **November 11, 2026**, and adds a Paperspace shutdown-control example from official documentation checked the same day. No GPU was rented, timer tested, account stock confirmed, or invoice measured. Substitute your launch-time quote and expected billable duration into the formulas below.
+**Source-backed prices and billing rules; calculated costs are estimates, not measured invoices.** This November 18, 2026 refresh rechecks **two selected A100 80 GB inputs: RunPod Secure PCIe Pods and Verda’s `1A100.22V` VM**. The other six A100 inputs retain November 11 checks. Paperspace shutdown-control documentation also retains its November 11 check. No GPU was rented, timer tested, account stock confirmed, or invoice measured. Substitute your launch-time quote and expected billable duration into the formulas below.
 
-> **Eight selected A100 rates and catalog bundles checked:** November 11, 2026<br>
+> **RunPod Secure A100 PCIe and Verda A100 80 GB headline/regional inputs checked:** November 18, 2026<br>
+> **Other six selected A100 rates and bundles retained:** November 11, 2026; not rechecked here<br>
 > **Paperspace Machines prices, timer and cleanup documentation checked:** November 11, 2026<br>
 > **Thunder snapshot prices and lifecycle docs retained:** October 24, 2026; not rechecked here<br>
 > **Nebius L40S components, presets and billing rules retained:** October 20, 2026; not rechecked here<br>
@@ -34,13 +35,15 @@ Then calculate credits, discounts and taxes separately. Use the provider's nativ
 
 The Nebius worked example shows why the **GPU component is not the VM price**. Nebius lists its L40S GPU component at **$1.35/GPU-hour**, but required CPU and RAM bring its smallest Intel preset to **$1.5484/VM-hour**, before storage. Its smallest AMD preset is a different shape at **$1.8172/VM-hour**. These October 20 inputs are explained and sourced below; neither is a performance-equivalent replacement for an 80 GB A100.
 
-The A100 refresh catches a moving input: Verda's selected on-demand VM now lists **$2.316/hour**, versus this calculator's October 24 observation of $2.128. That adds **$135.36 over 720 hours**. The other seven selected A100 hourly inputs are unchanged in the November 11 check. Vultr's exact plan now lists `ewr` instead of an empty location list; that is catalog visibility, not proof of live stock. Paperspace adds a different issue: an auto-shutdown setting is not a verified spending cap.
+Two calculator inputs have risen since their November 11 checks. **RunPod Secure A100 PCIe is now $2.09/hour**, up from $1.79; **Verda’s A100 80 GB headline VM rate is $2.410/hour**, up from $2.316. At 720 billable hours, those differences add **$216.00** and **$67.68**, respectively. Verda’s API separately lists **$2.386/hour** for FIN-01, FIN-02 and FIN-03, so a headline input is not a regional quote. Sources and date: [RunPod pricing](https://www.runpod.io/pricing), [Verda pricing](https://verda.com/pricing), and [Verda instance types](https://api.verda.com/v1/instance-types), November 18, 2026. These are differences between saved observations, not vendor-announced effective dates.
+
+The other six A100 inputs remain historical November 11 observations. Vultr’s exact plan then listed `ewr`; that was catalog visibility, not proof of live stock. Paperspace adds a different issue: an auto-shutdown setting is not a verified spending cap.
 
 Storage remains a separate trap: DigitalOcean lists boot disks in **GiB**, but bills Droplet snapshots in **GB-month**. That example retains its October 16 source checks, rather than implying every resource on this page was reverified today.
 
 ## Eight dated A100 80 GB calculator inputs
 
-These are selected entries from the same baseline as our [GPU pricing table](https://hostfleet.net/gpu-pricing/), reconciled against official sources on **November 11, 2026**. The selected native rates agree with the maintained dataset; use their exact values, not rounded display cells, for calculations. The table is a dated snapshot, not a promise of launchable capacity or equal performance.
+These configurations come from the baseline used by our [GPU pricing table](https://hostfleet.net/gpu-pricing/). RunPod and Verda below use **November 18 official-source overrides**; the other six retain **November 11** checks. The dataset-wide verification date remains September 24: do not assume every live table cell has these newer inputs. Use the exact, dated native rates below and substitute your account quote before launch. This table is not a promise of stock or equal performance.
 
 | Selected product | Hourly input | Included resources / boundary | 720-hour estimate | Official source / checked |
 |---|---:|---|---:|---|
@@ -48,18 +51,20 @@ These are selected entries from the same baseline as our [GPU pricing table](htt
 | **Hyperstack A100 PCIe VM** | **$1.35/hr** | One GPU; 28 CPU and 120 GB RAM; local storage included | **$972.00** | [Official source](https://www.hyperstack.cloud/gpu-pricing), Nov. 11, 2026 |
 | **Jarvis Labs A100 instance** | **$1.49/hr** | One-GPU on-demand row; 16 vCPU and 112 GB RAM | **$1,072.80** | [Official source](https://jarvislabs.ai/pricing), Nov. 11, 2026 |
 | **Koyeb A100 Instance** | **$1.60/hr** | 15 vCPU, 180 GB RAM, 320 GB disk; not the separate A100 SXM tier | **$1,152.00** | [Official source](https://www.koyeb.com/pricing), Nov. 11, 2026 |
-| **RunPod Secure A100 PCIe Pod** | **$1.79/hr** | Selected Secure Cloud allocation; disks billed separately | **$1,288.80** | [Official source](https://www.runpod.io/pricing), Nov. 11, 2026 |
-| **Verda A100 SXM4 80 GB VM** | **$2.316/hr** | Exact 1A100.22V shape: 22 CPU, 120 GB RAM; storage extra | **$1,667.52** | [Official source](https://verda.com/pricing), Nov. 11, 2026 |
+| **RunPod Secure A100 PCIe Pod** | **$2.09/hr** | Selected Secure Cloud allocation; disks billed separately | **$1,504.80** | [Official source](https://www.runpod.io/pricing), Nov. 18, 2026 |
+| **Verda A100 SXM4 80 GB VM** | **$2.410/hr** | Headline 1A100.22V: 22 CPU, 120 GB RAM; storage extra; regional input below | **$1,735.20** | [Official source](https://verda.com/pricing), Nov. 18, 2026 |
 | **Vultr A100 plan** | **$2.397/hr** | Exact API plan; 12 vCPU and 120 GB RAM; catalog location `ewr`; not confirmed stock | **$1,725.84** | [Official source](https://api.vultr.com/v2/plans?per_page=500), Nov. 11, 2026 |
 | **Paperspace A100-80G Machine** | **$3.18/hr** | Machine compute; storage, IPs and add-ons extra | **$2,289.60** | [Official source](https://docs.digitalocean.com/products/paperspace/pricing/), Nov. 11, 2026 |
 
-**All rates above checked November 11, 2026.** The 720-hour column is simply the exact hourly input multiplied by 720, rounded at the end. It excludes separately billed storage, IPs, transfer, additional resources, minimums and billing rounding, taxes, discounts, and any mandatory account-plan charge. For Vultr, the public API also lists a monthly price; the rate-times-hours column is not a reconstruction of its invoice rules. Koyeb is an application Instance, RunPod is a Pod, and the others are VM-like or dedicated products with different bundles. Paperspace's figure is Machine compute, not a complete deployment bill.
+**RunPod and Verda checked November 18; the other six rows retain November 11 checks.** The 720-hour column is simply the exact hourly input multiplied by 720, rounded at the end. It excludes separately billed storage, IPs, transfer, additional resources, minimums and billing rounding, taxes, discounts, and any mandatory account-plan charge. For Vultr, the public API also lists a monthly price; the rate-times-hours column is not a reconstruction of its invoice rules. Koyeb is an application Instance, RunPod is a Pod, and the others are VM-like or dedicated products with different bundles. Paperspace's figure is Machine compute, not a complete deployment bill.
 
 Thunder's [pricing page](https://www.thundercompute.com/pricing), checked November 11, includes eight vCPUs, 64 GB RAM and the first 100 GB disk per A100 at the **$1.09/hour** Instance base price. Its separate Sandbox rate is not this product. Do not add extra CPU charges for resources already included in the selected bundle.
 
-For Verda, the [pricing page](https://verda.com/pricing)'s visible row and embedded on-demand offer agree with the [instance-types API](https://api.verda.com/v1/instance-types)'s `1A100.22V` row at **$2.316/hour**, checked November 11. Do not substitute its separate Spot or Serverless price. Compared with this calculator's October 24 observation of $2.128, that adds **$135.36 over 720 hours**: `(2.316 − 2.128) × 720`. This is a difference between dated observations, not an announced effective-date claim.
+For Verda, the [pricing page](https://verda.com/pricing)’s visible on-demand row and structured offer agree with the [instance-types API](https://api.verda.com/v1/instance-types)’s headline `price_per_hour` for `1A100.22V`: **$2.410/hour**, checked November 18. The same API’s `location_prices` lists **$2.386/hour** in FIN-01, FIN-02 and FIN-03. The headline is therefore not a region-specific purchase quote. At the regional input, 720 hours would be **$1,717.92**, which is **$17.28 less** than the headline scenario. Neither field proves stock or establishes which quote your account will receive. Do not substitute Spot or Serverless rates.
 
-The [RunPod pricing page](https://www.runpod.io/pricing)'s visible Secure Cloud A100 PCIe row and structured Secure Cloud offer both show **$1.79/hour**, checked November 11. Confirm the exact tier, card, region and storage in your account before launching.
+Compared with this calculator’s November 11 headline $2.316/hour observation, the current headline adds **$67.68 over 720 hours**: `(2.410 − 2.316) × 720`. Keep three decimals in the input rather than rounding each duration calculation.
+
+The [RunPod pricing page](https://www.runpod.io/pricing)’s visible Secure Cloud A100 PCIe row and structured Secure Cloud offer both show **$2.09/hour**, checked November 18. This is not Community Cloud, A100 SXM, or Serverless Flex. At 720 hours, the increase from the November 11 $1.79/hour input adds **$216.00**. Confirm the exact tier, card, region and storage in your account before launching.
 
 Vultr's [public plans API](https://api.vultr.com/v2/plans?per_page=500), checked November 11, returns **$2.397/hour** for `vcg-a100-12c-120g-80vram`. Its `locations` list now contains `ewr`, and `deploy_ondemand` is true. These catalog fields do not establish account quota or currently launchable stock. The plan also lists 1,400 GB local disk; save the exact account quote before treating the listed resources as an all-in deployment budget. Keep exact native rates; do not calculate the table from rounded display cells.
 
@@ -79,12 +84,12 @@ Assume one named configuration performs eight useful hours, but remains billable
 | Hyperstack A100 PCIe VM | $10.80 | $226.80 | $216.00 | $32.40 |
 | Jarvis Labs A100 instance | $11.92 | $250.32 | $238.40 | $35.76 |
 | Koyeb A100 Instance | $12.80 | $268.80 | $256.00 | $38.40 |
-| RunPod Secure A100 PCIe Pod | $14.32 | $300.72 | $286.40 | $42.96 |
-| Verda A100 SXM4 80 GB VM | $18.53 | $389.09 | $370.56 | $55.58 |
+| RunPod Secure A100 PCIe Pod | $16.72 | $351.12 | $334.40 | $50.16 |
+| Verda A100 SXM4 80 GB VM | $19.28 | $404.88 | $385.60 | $57.84 |
 | Vultr A100 plan | $19.18 | $402.70 | $383.52 | $57.53 |
 | Paperspace A100-80G Machine | $25.44 | $534.24 | $508.80 | $76.32 |
 
-These are compute-only sensitivities from the November 11 inputs, not forecasts that each provider will remain allocated by default. They assume the release action fails or is never performed, one configuration stays billable throughout, and the rate does not change. Startup, add-ons, tax, unit rounding and refunds are excluded.
+These are compute-only sensitivities from the November 18 RunPod/Verda inputs and November 11 inputs for the other six rows, not forecasts that each provider will remain allocated by default. They assume the release action fails or is never performed, one configuration stays billable throughout, and the rate does not change. Startup, add-ons, tax, unit rounding and refunds are excluded.
 
 The useful-work range is **$8.72 to $25.44**. The week-long exposure is **$183.12 to $534.24**. In every row, the extra 160 hours cost twenty times the eight useful hours. A cleanup policy can matter much more than a small hourly discount.
 
@@ -168,27 +173,27 @@ Paperspace's row was checked **November 11, 2026**; Thunder's row retains its **
 
 For a Koyeb A100, one nominal five-minute default idle tail is `1.60 × 5/60 = $0.1333`, before useful work, startup, additional Instances or other costs. It is not a per-request fee or a measured cold-start result. Use the [serverless GPU matrix](https://hostfleet.net/serverless-gpu-pricing-matrix-2026/) when request wake-up and warm minimums determine the architecture.
 
-Verda's [billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing), checked October 16, describes prepaid **10-minute increments**, with an unused terminated portion refunded within the next billing period. Using the **November 11 $2.316/hour** input with that older billing rule, one nominal block is **$0.3860**. That is cash-flow arithmetic, not a nonrefundable minimum-charge claim. Shutting down instead of deleting leaves another **$370.56** of estimated compute in the 160-hour failure case.
+Verda's [billing documentation](https://docs.verda.com/welcome-to-verda/pricing-and-billing), checked October 16, describes prepaid **10-minute increments**, with an unused terminated portion refunded within the next billing period. Using the **November 18 headline $2.410/hour** input with that older billing rule, one nominal block is **$0.401667** (rounded to six decimals). That is cash-flow arithmetic, not a nonrefundable minimum-charge claim. Shutting down instead of deleting leaves another **$385.60** of estimated compute in the 160-hour failure case.
 
 ## RunPod: keep storage separate from the resolved GPU price
 
 RunPod's [Pod pricing](https://docs.runpod.io/pods/pricing) and [storage documentation](https://docs.runpod.io/pods/storage/types), checked October 16, list local volume disk at **$0.10/GB-month running** and **$0.20/GB-month stopped**. A separate standard network volume below 1 TB lists **$0.07/GB-month**. Container disk is another charge while running; it is erased on stop.
 
-Using the **November 11 GPU rate** and **October 16 storage rates**, for **100 GB** kept through eight running hours and 160 stopped hours, with **720 hours only as a planning divisor**:
+Using the **November 18 GPU rate** and **October 16 storage rates**, for **100 GB** kept through eight running hours and 160 stopped hours, with **720 hours only as a planning divisor**:
 
-    eight-hour GPU estimate = $1.79 × 8 = $14.32
+    eight-hour GPU estimate = $2.09 × 8 = $16.72
     local volume = 100 × ($0.10 × 8 + $0.20 × 160) / 720
                  = $4.5556
-    GPU plus local volume ≈ $18.88
+    GPU plus local volume ≈ $21.28
 
 A standard 100 GB network volume kept for all 168 hours gives:
 
     network storage = 100 × $0.07 × 168 / 720 = $1.6333
-    GPU plus network volume ≈ $15.95
+    GPU plus network volume ≈ $18.35
 
 These scoped totals exclude required container-disk charges, transfer, other add-ons, tax and native-unit rounding. Pod-local storage bills per second; network volumes bill hourly. The lower network-storage number does not prove equivalent I/O or placement. Termination deletes local volume data, so verify any separate durable copy first. RunPod also warns that restarting a stopped Pod can return **zero GPUs** if capacity changed. Storage retention is not capacity reservation.
 
-The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains the product split. For this example, use the November 11 GPU input above, not an older number in another article.
+The [RunPod pricing guide](https://hostfleet.net/runpod-pricing-guide-2026/) explains the product split. For this example, use the November 18 GPU input above, not an older number in another article.
 
 ## Thunder Compute: price the snapshot as well as the GPU
 
@@ -347,7 +352,7 @@ Compare those records with individual-resource charges. Month-to-date figures re
 5. **Specify release and recovery.** Identify the correct stop/delete action, data-loss boundary and retained-resource deadline.
 6. **Reconcile actual usage.** Preserve resource mappings and timestamps, then compare attributable invoice lines with the estimate. Leave unmeasured cutoffs unmeasured.
 
-For the November 11 selected A100 set, eight useful hours cost an estimated **$8.72–$25.44 in compute**, while a week without release costs **$183.12–$534.24**. Those ranges are useful planning inputs, not all-in buyer rankings. Nebius adds a second input check: multiply the complete preset price by duration, rather than treating the GPU component as the VM total. Thunder adds a third check: use the exact storage meter, prove the billable-size assumption and price both source and replacement lifetimes. The separately dated DigitalOcean example shows why disk-unit and proration assumptions also belong in the budget.
+For this mixed-date selected A100 set (RunPod/Verda November 18; other six November 11), eight useful hours cost an estimated **$8.72–$25.44 in compute**, while a week without release costs **$183.12–$534.24**. Those ranges are useful planning inputs, not all-in buyer rankings. Nebius adds a second input check: multiply the complete preset price by duration, rather than treating the GPU component as the VM total. Thunder adds a third check: use the exact storage meter, prove the billable-size assumption and price both source and replacement lifetimes. The separately dated DigitalOcean example shows why disk-unit and proration assumptions also belong in the budget.
 
 ## Continue the deployment decision
 
@@ -357,7 +362,7 @@ For the November 11 selected A100 set, eight useful hours cost an estimated **$8
 
 ## Source notes
 
-Eight selected A100 rates and their public resource bundles were rechecked on **November 11, 2026** against the official links in that table and the current Verda and Vultr API rows. All six Nebius L40S PAYG component rates, 12 presets, region/platform identities, headline floors and cited Nebius billing rules were checked on **October 20, 2026** against its [price overview](https://nebius.com/prices), [compute pricing](https://docs.nebius.com/compute/resources/pricing) and [VM types](https://docs.nebius.com/compute/virtual-machines/types). Nebius's live dataset cell matches the exact Intel minimum-preset formula.
+**Two selected A100 inputs rechecked November 18, 2026:** RunPod Secure PCIe’s public visible row and structured offer, plus Verda `1A100.22V` headline and regional API prices and public offer. The six other selected A100 rates, their bundles and the Vultr API observation retain **November 11, 2026** checks; they were not rechecked today. These are public-source checks, not authenticated quotes or rendered account-console evidence. All six Nebius L40S PAYG component rates, 12 presets, region/platform identities, headline floors and cited Nebius billing rules were checked on **October 20, 2026** against its [price overview](https://nebius.com/prices), [compute pricing](https://docs.nebius.com/compute/resources/pricing) and [VM types](https://docs.nebius.com/compute/virtual-machines/types). Nebius's live dataset cell matches the exact Intel minimum-preset formula.
 
 **Thunder's four one-GPU rates and included resources, snapshot pricing and cited lifecycle/billing contracts retain October 24, 2026 checks; only its selected A100 base rate and bundle were rechecked November 11.** The [visible pricing table](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing) and [current specs API](https://api.thundercompute.com:8443/v2/specs) agree on the selected base shapes. The four GPU prices match the Thunder entries in HostFleet's dataset. New integrations should use current mode-less specs; Thunder's [create-instance contract](https://www.thundercompute.com/docs/api-reference/instances/create-instance.md) says the legacy `mode` field does not select execution mode. Snapshot-size billing, restoring-state compute, partial-minute rounding and exact meter timestamps remain unresolved in the checked public contracts.
 
