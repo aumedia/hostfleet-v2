@@ -1,8 +1,8 @@
 ---
-title: "GPU cloud cost calculator: updated A100 inputs and idle costs"
-description: "Estimate useful GPU work, idle time and storage using dated A100 rates. Updated RunPod and Verda inputs show why regional quotes and cleanup matter."
+title: "GPU cloud cost calculator: allocation, minimums and idle costs"
+description: "Estimate GPU allocation, idle time and storage. DigitalOcean’s conflicting minimums show why short-run costs must be calculated per creation."
 pubDate: 2026-08-09
-updatedDate: 2026-11-18
+updatedDate: 2026-11-21
 category: "ai-hosting"
 author: Alex Harmon
 draft: false
@@ -10,14 +10,15 @@ draft: false
 
 *Affiliate disclosure: HostFleet may earn a commission through the labeled signup links on this page. That does not change our analysis. See our [methodology and affiliate policy](https://hostfleet.net/about/).*
 
-**Source-backed prices and billing rules; calculated costs are estimates, not measured invoices.** This November 18, 2026 refresh rechecks **two selected A100 80 GB inputs: RunPod Secure PCIe Pods and Verda’s `1A100.22V` VM**. The other six A100 inputs retain November 11 checks. Paperspace shutdown-control documentation also retains its November 11 check. No GPU was rented, timer tested, account stock confirmed, or invoice measured. Substitute your launch-time quote and expected billable duration into the formulas below.
+**Source-backed prices and billing rules; calculated costs are estimates, not measured invoices.** This November 21, 2026 refresh checks **DigitalOcean’s RTX 4000 Ada and H100 on-demand rates and two contradictory minimum-billing statements**. It adds per-creation estimates rather than choosing one rule as confirmed. The two selected A100 inputs—RunPod Secure PCIe Pods and Verda’s `1A100.22V` VM—retain November 18 checks; the other six A100 inputs retain November 11 checks. Paperspace shutdown-control documentation also retains its November 11 check. No GPU was rented, timer tested, account stock confirmed, or invoice measured. Substitute your launch-time quote and expected billable duration into the formulas below.
 
+> **DigitalOcean RTX 4000 Ada/H100 on-demand rates and GPU billing conflict checked:** November 21, 2026<br>
 > **RunPod Secure A100 PCIe and Verda A100 80 GB headline/regional inputs checked:** November 18, 2026<br>
 > **Other six selected A100 rates and bundles retained:** November 11, 2026; not rechecked here<br>
 > **Paperspace Machines prices, timer and cleanup documentation checked:** November 11, 2026<br>
 > **Thunder snapshot prices and lifecycle docs retained:** October 24, 2026; not rechecked here<br>
 > **Nebius L40S components, presets and billing rules retained:** October 20, 2026; not rechecked here<br>
-> **Other cited release, storage and billing rules retained:** October 16, 2026; not rechecked here<br>
+> **Other cited release, storage and billing rules retained:** October 16, 2026; except DigitalOcean GPU compute billing rechecked November 21<br>
 > **Dataset-wide verification baseline:** September 24, 2026; this targeted refresh does not advance that date<br>
 > **Currency:** public USD list prices before tax; Nebius USD prices apply outside its Israeli-company pricing scope<br>
 > **Planning conventions:** eight useful hours, a 168-hour week, and a 720-hour sensitivity case—not provider monthly billing promises
@@ -35,11 +36,11 @@ Then calculate credits, discounts and taxes separately. Use the provider's nativ
 
 The Nebius worked example shows why the **GPU component is not the VM price**. Nebius lists its L40S GPU component at **$1.35/GPU-hour**, but required CPU and RAM bring its smallest Intel preset to **$1.5484/VM-hour**, before storage. Its smallest AMD preset is a different shape at **$1.8172/VM-hour**. These October 20 inputs are explained and sourced below; neither is a performance-equivalent replacement for an 80 GB A100.
 
-Two calculator inputs have risen since their November 11 checks. **RunPod Secure A100 PCIe is now $2.09/hour**, up from $1.79; **Verda’s A100 80 GB headline VM rate is $2.410/hour**, up from $2.316. At 720 billable hours, those differences add **$216.00** and **$67.68**, respectively. Verda’s API separately lists **$2.386/hour** for FIN-01, FIN-02 and FIN-03, so a headline input is not a regional quote. Sources and date: [RunPod pricing](https://www.runpod.io/pricing), [Verda pricing](https://verda.com/pricing), and [Verda instance types](https://api.verda.com/v1/instance-types), November 18, 2026. These are differences between saved observations, not vendor-announced effective dates.
+The last A100 input refresh found two increases between November 11 and November 18. **RunPod Secure A100 PCIe is now $2.09/hour**, up from $1.79; **Verda’s A100 80 GB headline VM rate is $2.410/hour**, up from $2.316. At 720 billable hours, those differences add **$216.00** and **$67.68**, respectively. Verda’s API separately lists **$2.386/hour** for FIN-01, FIN-02 and FIN-03, so a headline input is not a regional quote. Sources and date: [RunPod pricing](https://www.runpod.io/pricing), [Verda pricing](https://verda.com/pricing), and [Verda instance types](https://api.verda.com/v1/instance-types), November 18, 2026. These are differences between saved observations, not vendor-announced effective dates.
 
 The other six A100 inputs remain historical November 11 observations. Vultr’s exact plan then listed `ewr`; that was catalog visibility, not proof of live stock. Paperspace adds a different issue: an auto-shutdown setting is not a verified spending cap.
 
-Storage remains a separate trap: DigitalOcean lists boot disks in **GiB**, but bills Droplet snapshots in **GB-month**. That example retains its October 16 source checks, rather than implying every resource on this page was reverified today.
+Short runs have another trap: DigitalOcean’s marketing FAQ says **five minutes minimum**, while its product billing docs say **60 seconds or $0.01, whichever is higher**. Both statements were still published November 21. Calculate each creation separately under both hypotheses; neither is a verified invoice rule for your account. Storage remains separate: DigitalOcean lists boot disks in **GiB**, but bills Droplet snapshots in **GB-month**. The storage example retains October 16 checks; it was not reverified today.
 
 ## Eight dated A100 80 GB calculator inputs
 
@@ -291,18 +292,46 @@ For a later test, keep an independent control-plane cleanup path outside the gue
 
 ## DigitalOcean: a snapshot can break a small GPU-test budget
 
-DigitalOcean's [GPU pricing page](https://www.digitalocean.com/pricing/gpu-droplets), checked October 16, lists the **one-GPU RTX 4000 Ada at $0.76/hour**, with eight vCPUs, 32 GiB RAM and a **500 GiB boot disk**. The catalog shows no scratch allocation for that SKU. This is a separate small-GPU retention example, not an A100 substitute or a recommendation that 20 GB VRAM fits your workload.
+DigitalOcean's [GPU pricing page](https://www.digitalocean.com/pricing/gpu-droplets) and [Droplet billing documentation](https://docs.digitalocean.com/products/droplets/details/pricing/), checked **November 21, 2026**, both list the selected one-GPU **RTX 4000 Ada at $0.76/hour** and **H100 at $4.41/hour on demand**. These are whole selected Droplet compute rates, not a GPU component to which mandatory CPU and RAM must be added again. They are not reserved or Spot rates. The RTX 4000 Ada card lists eight vCPUs, 32 GiB RAM and a **500 GiB boot disk**, with no scratch allocation shown. This is a separate small-GPU retention example, not an A100 substitute or a claim that 20 GB VRAM fits your workload. The H100 is included below only to show how the minimum scales with the native rate; the two GPUs are not equal-throughput alternatives.
 
-The official [Droplet billing documentation](https://docs.digitalocean.com/products/droplets/details/pricing/) says on-demand GPU compute bills from creation until destruction, including while powered off. Snapshotting and powering off therefore do not themselves end that compute bill.
+The billing docs say on-demand GPU billing begins at creation and ends at destruction, **including time powered off**. Snapshotting and powering off therefore do not themselves end compute billing. Count the potentially billable lifetime, not just seconds of useful work inside the guest.
 
-There is still a source conflict about short-lived GPU minimums, checked October 16:
+### Calculate each creation under both published minimums
 
-| Official source | Published on-demand GPU minimum | RTX 4000 Ada arithmetic per created Droplet |
-|---|---|---:|
-| GPU marketing pricing FAQ | Five minutes | `$0.76 × 5/60 ≈ $0.0633` |
-| Droplet product billing docs | 60 seconds or $0.01, whichever is higher | `max($0.76/60, $0.01) ≈ $0.0127` |
+**Source conflict, rechecked November 21, 2026:**
 
-Neither is silently selected as universal. Two sequential creations mean two minimum considerations, not one. The figures are unrounded rate arithmetic, not observed invoice rounding or proof of an exact cutoff. Confirm account terms and retain a conservative allowance until the contradiction is resolved.
+| Official source | Published on-demand GPU minimum | Formula for one created Droplet |
+|---|---|---|
+| [GPU marketing FAQ](https://www.digitalocean.com/pricing/gpu-droplets) | Five minutes | `rate × max(lifetime_seconds, 300) / 3600` |
+| [Droplet product billing docs](https://docs.digitalocean.com/products/droplets/details/pricing/) | 60 seconds or $0.01, whichever is higher | `max(rate × max(lifetime_seconds, 60) / 3600, 0.01)` |
+
+These are **two public-source hypotheses**, not the low and high ends of a promised invoice range. Neither is silently selected as universal. Confirm the applicable terms before using a very short test as a budget commitment. The formulas concern on-demand GPU Droplets only, not CPU Droplets, Spot, or contractual reserved capacity.
+
+The calculator must apply the minimum **per creation**, then sum:
+
+    compute scenario = sum(minimum-adjusted cost of each created Droplet)
+
+A retry that creates a replacement gets its own minimum. Reusing a still-allocated Droplet avoids a new creation, but the entire allocation, including idle time, keeps charging. It is not a free warm pool.
+
+| One-GPU configuration | Sequential creations, each with 60-second billable lifetime | Product-docs hypothesis | Marketing-FAQ hypothesis |
+|---|---:|---:|---:|
+| RTX 4000 Ada, $0.76/hour | 1 | $0.012667 | $0.063334 |
+| RTX 4000 Ada, $0.76/hour | 2 | $0.025334 | $0.126667 |
+| RTX 4000 Ada, $0.76/hour | 10 | $0.126667 | $0.633334 |
+| H100, $4.41/hour | 1 | $0.073500 | $0.367500 |
+| H100, $4.41/hour | 2 | $0.147000 | $0.735000 |
+| H100, $4.41/hour | 10 | $0.735000 | $3.675000 |
+
+**Rates and minimum statements: official pages above, November 21, 2026. Calculated, not measured.** Assume one GPU per Droplet, sequential non-overlapping creations, each lasting exactly 60 seconds from creation to destruction; no other resources, tax, discounts, snapshot storage, outbound overage or add-ons. All table totals are rounded **up to six decimal places for display only**, after summing unrounded costs. This is not an assertion about DigitalOcean's invoice rounding or proof that a real deployment can be destroyed within 60 seconds.
+
+Compare **ten one-minute creations** with **one ten-minute allocation** at the same native rate:
+
+- **RTX 4000 Ada:** one 600-second allocation is approximately **$0.126667** under either hypothesis. Ten 60-second creations are approximately **$0.126667** under the product-docs hypothesis, or **$0.633334** under the FAQ hypothesis.
+- **H100:** one 600-second allocation is **$0.735** under either hypothesis. Ten 60-second creations are **$0.735** under the product-docs hypothesis, or **$3.675** under the FAQ hypothesis.
+
+These use the same **November 21 rate inputs** and upward six-decimal display rule. The comparison holds total billable lifetime at 600 seconds; it is not a same-work performance experiment. Under the FAQ hypothesis, ten short creations cost five times a single ten-minute allocation. Under the product-docs hypothesis, the modeled compute is equal because each creation already lasts 60 seconds and neither selected rate hits the separate one-cent floor. Startup, failed provisioning, deletion delays or extra idle time can make the real billable lifetime longer than the scenario.
+
+For a disposable test, record creation count and exact IDs, save the account quote, and keep create/destroy request and inventory observations. Reconcile attributable usage before calling a minimum verified. Until the contradictory sources are resolved for the account, use the larger modeled minimum as a **planning allowance only**, plus teardown and add-on reserves—not as a spending cap.
 
 ### Convert disk units, then state the storage assumption
 
@@ -314,7 +343,7 @@ The 500 GiB boot allocation converts to decimal GB like this:
 
 That conversion does **not** prove the billed snapshot will be 536.870912 GB. Actual snapshot size, its relationship to allocated boot capacity, and the provider's proration convention need account-visible confirmation.
 
-For an illustrative sensitivity only, assume billed snapshot size equals that converted full-disk allocation, storage is prorated over **730 hours**, one snapshot is retained for **24 hours**, and the source and replacement together incur **two billable compute hours**, without overlapping:
+For an illustrative sensitivity only, combine the **November 21 $0.76/hour compute input** with the **October 16 storage input**. Assume billed snapshot size equals that converted full-disk allocation, storage is prorated over **730 hours**, one snapshot is retained for **24 hours**, and the source and replacement together incur **two billable compute hours**, without overlapping:
 
     compute = 2 × $0.76 = $1.52
     snapshot = 536.870912 × $0.06 × 24/730 ≈ $1.0590
@@ -347,12 +376,12 @@ Compare those records with individual-resource charges. Month-to-date figures re
 
 1. **Choose a configuration that fits.** Record GPU model, memory, variant, count, CPU/RAM and region. Do not compare a GPU component with an all-in VM.
 2. **Save the native quote and date.** Include required add-ons and account access conditions. Recompute from exact rates, not rounded table cells.
-3. **Count billable allocation, not just useful execution.** Add startup, idle windows, retries and teardown time where charged.
+3. **Count billable allocation, not just useful execution.** Add startup, idle windows, retries and teardown time where charged. Apply minimums to each creation before summing; model conflicting public rules separately until confirmed.
 4. **Model missed cleanup.** Price one day and one week of continued compute, then enumerate storage, IPs and snapshots separately.
 5. **Specify release and recovery.** Identify the correct stop/delete action, data-loss boundary and retained-resource deadline.
 6. **Reconcile actual usage.** Preserve resource mappings and timestamps, then compare attributable invoice lines with the estimate. Leave unmeasured cutoffs unmeasured.
 
-For this mixed-date selected A100 set (RunPod/Verda November 18; other six November 11), eight useful hours cost an estimated **$8.72–$25.44 in compute**, while a week without release costs **$183.12–$534.24**. Those ranges are useful planning inputs, not all-in buyer rankings. Nebius adds a second input check: multiply the complete preset price by duration, rather than treating the GPU component as the VM total. Thunder adds a third check: use the exact storage meter, prove the billable-size assumption and price both source and replacement lifetimes. The separately dated DigitalOcean example shows why disk-unit and proration assumptions also belong in the budget.
+For this mixed-date selected A100 set (RunPod/Verda November 18; other six November 11), eight useful hours cost an estimated **$8.72–$25.44 in compute**, while a week without release costs **$183.12–$534.24**. Those ranges are useful planning inputs, not all-in buyer rankings. Nebius adds a second input check: multiply the complete preset price by duration, rather than treating the GPU component as the VM total. Thunder adds a third check: use the exact storage meter, prove the billable-size assumption and price both source and replacement lifetimes. The DigitalOcean examples add two separate checks: short-run minimums apply per creation, while disk-unit and storage-proration assumptions have their own dates and meters.
 
 ## Continue the deployment decision
 
@@ -362,10 +391,12 @@ For this mixed-date selected A100 set (RunPod/Verda November 18; other six Novem
 
 ## Source notes
 
+**DigitalOcean targeted check, November 21, 2026:** the [GPU pricing page](https://www.digitalocean.com/pricing/gpu-droplets) and [Droplet billing docs](https://docs.digitalocean.com/products/droplets/details/pricing/) agree on the selected RTX 4000 Ada $0.76/hour and H100 $4.41/hour on-demand rates. They still disagree on the minimum. Both pages say powered-off GPU Droplets remain billed until destruction. Fresh public HTML captures were checked alongside HostFleet’s November 21 cost-floor evidence; no authenticated quote, launch, cleanup test or invoice was obtained. Other DigitalOcean storage, snapshot, alert and invoice claims retain October 16 checks.
+
 **Two selected A100 inputs rechecked November 18, 2026:** RunPod Secure PCIe’s public visible row and structured offer, plus Verda `1A100.22V` headline and regional API prices and public offer. The six other selected A100 rates, their bundles and the Vultr API observation retain **November 11, 2026** checks; they were not rechecked today. These are public-source checks, not authenticated quotes or rendered account-console evidence. All six Nebius L40S PAYG component rates, 12 presets, region/platform identities, headline floors and cited Nebius billing rules were checked on **October 20, 2026** against its [price overview](https://nebius.com/prices), [compute pricing](https://docs.nebius.com/compute/resources/pricing) and [VM types](https://docs.nebius.com/compute/virtual-machines/types). Nebius's live dataset cell matches the exact Intel minimum-preset formula.
 
 **Thunder's four one-GPU rates and included resources, snapshot pricing and cited lifecycle/billing contracts retain October 24, 2026 checks; only its selected A100 base rate and bundle were rechecked November 11.** The [visible pricing table](https://www.thundercompute.com/pricing), [pricing API](https://api.thundercompute.com:8443/v1/pricing) and [current specs API](https://api.thundercompute.com:8443/v2/specs) agree on the selected base shapes. The four GPU prices match the Thunder entries in HostFleet's dataset. New integrations should use current mode-less specs; Thunder's [create-instance contract](https://www.thundercompute.com/docs/api-reference/instances/create-instance.md) says the legacy `mode` field does not select execution mode. Snapshot-size billing, restoring-state compute, partial-minute rounding and exact meter timestamps remain unresolved in the checked public contracts.
 
-**The Paperspace Machines pricing, auto-shutdown, states, deactivation, public-IP and Machine API sources were checked November 11, 2026. The timer-update contract remains contradictory and no timer or paid test was run. All remaining release, storage, snapshot, spending-alert and invoice-attribution rules retain October 16 checks and were not rechecked in this refresh.** Their prices and examples remain explicitly dated. A newer check date on this article does not make those older inputs current purchase quotes. The wider HostFleet dataset retains its **September 24** full-table baseline. Conversions and scenarios are derived under the assumptions beside each example. No authenticated billing export, paid experiment, second-level meter cutoff, restoration success rate, workload performance or live inventory was measured.
+**The Paperspace Machines pricing, auto-shutdown, states, deactivation, public-IP and Machine API sources were checked November 11, 2026. The timer-update contract remains contradictory and no timer or paid test was run. Apart from DigitalOcean GPU compute billing rechecked November 21, all remaining release, storage, snapshot, spending-alert and invoice-attribution rules retain October 16 checks and were not rechecked in this refresh.** Their prices and examples remain explicitly dated. A newer check date on this article does not make those older inputs current purchase quotes. The wider HostFleet dataset retains its **September 24** full-table baseline. Conversions and scenarios are derived under the assumptions beside each example. No authenticated billing export, paid experiment, second-level meter cutoff, restoration success rate, workload performance or live inventory was measured.
 
 *Comparing an allocated Pod with a GPU Droplet? These are labeled affiliate links: <a href="/go/runpod" rel="sponsored nofollow">RunPod signup (affiliate)</a> and <a href="/go/digitalocean-gpu" rel="sponsored nofollow">DigitalOcean GPU signup (affiliate)</a>. HostFleet may earn a commission at no extra cost to you. Check the launch-time card, region, quote, storage and cleanup behavior before buying; every evidence citation above remains direct.*
